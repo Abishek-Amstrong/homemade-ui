@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "homemade-ui"
+  "defaultProject": "homemade-ui",
+  "cli": {
+    "analytics": false
+  }
 }

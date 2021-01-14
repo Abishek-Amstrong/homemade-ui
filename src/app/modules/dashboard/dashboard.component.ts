@@ -62,7 +62,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
 
     const currentIndex = data.startPosition;
-    console.log(data);
     if (currentIndex === 0) {
       this.slide1.forEach((element) => {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');

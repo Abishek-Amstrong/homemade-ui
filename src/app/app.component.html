@@ -89,6 +89,24 @@
             <input type="text" class="form-control" placeholder="Search for anything...">
             <button type="submit"><i class="icon_search"></i></button>
           </div>
+          <div class="menuList">
+            <ul>
+              <li><a [routerLink]=""><img src="../assets/images/location.svg" alt="location"></a></li>
+              <li class="dropdownMenu">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  <img src="../assets/images/user.svg" alt="user">
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a routerLink="/Profile">Profile</a></li>
+                  <li><a routerLink="/Profile/Orders">My Orders</a></li>
+                  <li><a href="#">Favourites</a></li>
+                  <li><a href="#">Sign Out</a></li>
+                </ul>
+              </li>
+              <li><a routerLink="/cart" class="cart_bt"><img src="../assets/images/cart.svg" alt="cart"><span
+                    class="cart-badge">5</span></a></li>
+            </ul>
+          </div>
         </div>
       </div>
       <!-- /row -->

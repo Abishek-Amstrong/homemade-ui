@@ -20,6 +20,11 @@ const routes: Routes = [
         (m) => m.DashboardModule
       ),
   },
+  {
+    path: 'cart',
+    loadChildren: () =>
+      import('./modules/cart/cart.module').then((m) => m.CartModule),
+  },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

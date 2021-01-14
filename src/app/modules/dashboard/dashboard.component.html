@@ -1,1 +1,67 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+    <div id="carousel-home">
+        <owl-carousel-o [options]="customOptions" (translated)="onSlideTransition($event)"
+            (initialized)="onCarouselInitialized($event)">
+            <ng-template carouselSlide class="slide" id="img1">
+                <div class="owl-slide cover" style="background-image: url(assets/images/slides/slide_home_1.jpg);">
+                    <!-- /Would probably better not use LazyLoad fo the first item -->
+                    <div class="opacity-mask d-flex align-items-center" style="background-color: rgba(0, 0, 0, 0.5)">
+                        <div class="container">
+                            <div class="row justify-content-center justify-content-md-end">
+                                <div class="col-lg-6 static">
+                                    <div class="slide-text text-right white" #slideText>
+                                        <h2 class="owl-slide-animated owl-slide-title" #owlAnimated #owlAnimated1>
+                                            Enjoy<br>unique food
+                                        </h2>
+                                        <p class="owl-slide-animated owl-slide-subtitle" #owlAnimated #owlAnimated1>
+                                            Huge variery of food at the best price
+                                        </p>
+                                        <div class="owl-slide-animated owl-slide-cta" #owlAnimated #owlAnimated1><a
+                                                class="btn_1" href="grid-listing-filterscol.html" role="button">Read
+                                                more</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template carouselSlide class="slide" id="img2">
+                <div class="owl-slide cover" style="background-image: url(assets/images/slides/slide_home_2.jpg);">
+                    <!-- /Would probably better not use LazyLoad fo the first item -->
+                    <div class="opacity-mask d-flex align-items-center" style="background-color: rgba(0, 0, 0, 0.5)">
+                        <div class="container">
+                            <div class="row justify-content-center justify-content-md-start">
+                                <div class="col-lg-6 static">
+                                    <div class="slide-text white" #slideText>
+                                        <h2 class="owl-slide-animated owl-slide-title" #owlAnimated #owlAnimated2>
+                                            Enjoy<br>unique food
+                                        </h2>
+                                        <p class="owl-slide-animated owl-slide-subtitle" #owlAnimated #owlAnimated2>
+                                            Huge variery of food at the best price
+                                        </p>
+                                        <div class="owl-slide-animated owl-slide-cta" #owlAnimated #owlAnimated2><a
+                                                class="btn_1" href="grid-listing-filterscol.html" role="button">Read
+                                                more</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </owl-carousel-o>
+    </div>
+    <!--/carousel-->
+
+    <div class="container margin_15_45">
+        <div class="main_title center">
+            <h2>Discover unique homemade items</h2>
+        </div>
+        <!-- /main_title -->
+    </div>
+    <!-- /container -->
+</div>

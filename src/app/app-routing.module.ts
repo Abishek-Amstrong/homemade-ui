@@ -8,6 +8,7 @@ const routes: Routes = [
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   { path: 'shared', loadChildren: () => import('./modules/shared/shared.module').then(m => m.SharedModule) },
+  { path: 'home', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
 ];
 
 @NgModule({

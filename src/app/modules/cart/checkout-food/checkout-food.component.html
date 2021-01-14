@@ -1,1 +1,214 @@
-<p>checkout-food works!</p>
+<div class="container margin_detail_2">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pageTitle">
+                <h1>Secure Checkout</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row checkoutBox">
+        <div id="box1" class="col-xl-7 col-lg-8">
+            <div class="locationBox">
+                <h3>Your Location</h3>
+                <div class="form-group changeLocation">
+                    <label>Set Your Delivery Location</label>
+                    <input type="text" class="form-control">
+                    <span><a href="#" title="Change Location">Change</a></span>
+                </div>
+            </div>
+            <!--location-->
+            
+            <div class="main">
+                
+                <form>
+                    
+                    <div class="deliveryTime">
+                        <h3>Schedule your Delivery Date & Time</h3>
+                        <div class="form-group order-type">
+                            <label class="container_radio">Now
+                                <input type="radio" value="now" name="ordertime" checked>
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container_radio">Pre Order
+                                <input type="radio" value="preoder" name="ordertime">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <!--order type-->
+                        <div class="dropdown day">
+                            <a href="#" data-toggle="dropdown" aria-expanded="false">Day <span id="selected_day">Tomorrow</span></a>
+                            <div class="dropdown-menu" style="">
+                                <div class="dropdown-menu-content">
+                                    <h4>Which day delivered?</h4>
+                                    <div class="radio_select chose_day">
+                                        <ul>
+                                            <li>
+                                                <input type="radio" id="day_1" name="day" value="Today">
+                                                <label for="day_1">Today<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="day_2" name="day" value="Tomorrow">
+                                                <label for="day_2">Tomorrow<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="day_1" name="day" value="Today">
+                                                <label for="day_1">Today<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="day_2" name="day" value="Tomorrow">
+                                                <label for="day_2">Tomorrow<em>-40%</em></label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- /people_select -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown time">
+                            <a href="#" data-toggle="dropdown" aria-expanded="false">Time <span id="selected_time">09.00pm</span></a>
+                            <div class="dropdown-menu">
+                                <div class="dropdown-menu-content">
+                                    <h4>Lunch</h4>
+                                    <div class="radio_select add_bottom_15">
+                                        <ul>
+                                            <li>
+                                                <input type="radio" id="time_1" name="time" value="12.00am">
+                                                <label for="time_1">12.00<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="time_2" name="time" value="08.30pm">
+                                                <label for="time_2">12.30<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="time_3" name="time" value="09.00pm">
+                                                <label for="time_3">1.00<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="time_4" name="time" value="09.30pm">
+                                                <label for="time_4">1.30<em>-40%</em></label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- /time_select -->
+                                    <h4>Dinner</h4>
+                                    <div class="radio_select">
+                                        <ul>
+                                            <li>
+                                                <input type="radio" id="time_5" name="time" value="08.00pm">
+                                                <label for="time_1">20.00<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="time_6" name="time" value="08.30pm">
+                                                <label for="time_2">20.30<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="time_7" name="time" value="09.00pm">
+                                                <label for="time_3">21.00<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="time_8" name="time" value="09.30pm">
+                                                <label for="time_4">21.30<em>-40%</em></label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- /time_select -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--schedule-->
+                    <!--main-form-->
+                    <h3>Delivery/Shipping Address</h3>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="custom_select clearfix">
+                                    <label>State</label>
+                                    <select class="nice-select wide form-control" tabindex="0">
+                                        <option class="option" selected>Select state</option>
+                                        <option class="option">Sikkim</option>
+                                        <option class="option">Manipur</option>
+                                        <option class="option">Ladhak</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Pincode</label>
+                                <input class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn_1 gradient" value="">Contine to Payment</button>
+                </form>
+                
+            </div>
+        </div>
+        <!-- /col -->
+        <div id="box2" class="col-xl-5 col-lg-4">
+            
+            <div class="box_order">
+                <div class="box-mobile dHide">
+                    <div class="summary-link"><a (click)="expandOrderSummary()">View Order Summary</a></div>
+                    <div class="price">&#8377; 650</div>
+                </div>
+                <div class="main" [ngClass]="{full : displayOrderSummary}">
+                    <ul>
+                        <li>Date<span>Today 23/11/2019</span></li>
+                        <li>Time<span>08.30pm</span></li>
+                    </ul>
+                    <hr>
+                    <ul class="clearfix">
+                        <table class="food-summary-cart">
+                            <tbody>
+                                <tr>
+                                    <td>Sabudana Samosa With Chutny</td>
+                                    <td>
+                                        <div class="numbers-row">
+                                            <input type="text" value="1" id="qty_1" class="qty2 form-control" name="quantity">
+                                            <div class="inc button_inc">+</div><div class="dec button_inc">-</div>
+                                        </div>
+                                    </td>
+                                    <td>100</td>
+                                </tr><!--./-->
+                                <tr>
+                                    <td>Pizza with extra cheese</td>
+                                    <td>
+                                        <div class="numbers-row">
+                                            <input type="text" value="1" id="qty_1" class="qty2 form-control" name="quantity">
+                                            <div class="inc button_inc">+</div><div class="dec button_inc">-</div>
+                                        </div>
+                                    </td>
+                                    <td>500</td>
+                                </tr><!--./-->
+                            </tbody>
+                        </table>
+                    </ul>
+                    <hr>
+                    <ul class="clearfix">
+                        <li>Subtotal<span>600</span></li>
+                        <li>Delivery/Shipping Charge<span>80</span></li>
+                        <li class="total">Total<span>680</span></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /box_booking -->
+        </div>
+
+    </div>
+    <!-- /row -->
+</div>
+<!-- /container -->

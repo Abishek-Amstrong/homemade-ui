@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./checkout-food.component.scss']
 })
 export class CheckoutFoodComponent implements OnInit {
+  displayOrderSummary : boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  expandOrderSummary()
+  {
+    this.displayOrderSummary = this.displayOrderSummary == false ? true : false;
   }
 
 }

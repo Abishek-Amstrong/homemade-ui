@@ -1,0 +1,103 @@
+<div class="container margin_detail_2">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="pageTitle">
+                <h1>Shopping Cart</h1>
+            </div>
+            <div class="basketBox">
+                <div class="basketLabel">
+                    <ul>
+                        <li class="item item-heading">Item</li>
+                        <li class="item-name">Product Name</li>
+                        <li class="quantity">Quantity</li>
+                        <li class="subtotal">Total Price</li>
+                    </ul>
+                </div>
+                <div class="basketProduct" *ngFor = "let prod of userCart">
+                    <div class="item">
+                        <div class="product-image">
+                            <img [src]="prod.ProductImage" alt="Product Image" class="">
+                        </div>
+                    </div>
+                    <div class="product-detail">
+                        <div class="product-name">
+                            <h3>{{prod.ProductName}}</h3>
+                        </div>
+                        <div class="quantity">
+                            <div class="numbers-row">
+                                <input type="text" [value]="prod.Quantity" id="qty_1" class="qty2 form-control" name="quantity">
+                                <div class="inc button_inc" (click)="prod.Quantity = prod.Quantity+1">+</div>
+                                <div class="dec button_inc" (click)="prod.Quantity = prod.Quantity-1">-</div>
+                            </div>
+                        </div>
+                        <div class="prod-footer">
+                            <div class="subtotal">{{prod.Quantity * prod.Price}}</div>
+                            <div class="remove">
+                                <a href="#">Remove</a>
+                            </div>
+                        </div>
+                        
+                    </div> 
+                </div>
+                <!--./-->
+                <!-- <div class="basketProduct">
+                    <div class="item">
+                        <div class="product-image">
+                            <img src="../../../../assets/images/thumb_detail_1.jpg" alt="Product Image" class="">
+                        </div>
+                    </div>
+                    <div class="product-detail">
+                        <div class="product-name">
+                            <h3>Product Name Product  </h3>
+                        </div>
+                        <div class="quantity">
+                            <div class="numbers-row">
+                                <input type="text" value="1" id="qty_1" class="qty2 form-control" name="quantity">
+                            <div class="inc button_inc">+</div><div class="dec button_inc">-</div></div>
+                        </div>
+                        <div class="prod-footer">
+                            <div class="subtotal">180.00</div>
+                            <div class="remove">
+                                <a href="#">Remove</a>
+                            </div>
+                        </div>
+                        
+                    </div> 
+                </div> -->
+                <!--./-->
+            </div>
+            <div class="subtotal-hero">
+                <div class="subTotal">
+                    <table>
+                        <tr>
+                            <td>Item Total:</td>
+                            <td>200.00</td>
+                        </tr>
+                        <tr>
+                            <td>Discount:</td>
+                            <td>20.00</td>
+                        </tr>
+                        <tr>
+                            <td><span>Subtotal:</span></td>
+                            <td>180.00</td>
+                        </tr>
+                        <tr>
+                            <td>Shipping:</td>
+                            <td>50.00</td>
+                        </tr>
+                        <tr>
+                            <td class="totalValue"><span>Total:</span></td>
+                            <td class="totalValue"><span>230.00</span></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="buttonBox">
+                    <a routerLink="/Home" class="btn_1 outline type3">Keep Shopping</a>
+                    <a routerLink="/cart/checkout" class="btn_1 gradient type4">Checkout</a>
+                </div>
+            </div>
+        </div>
+        <!--./-->
+    </div><!--row ends-->
+</div>
+<!-- /container -->

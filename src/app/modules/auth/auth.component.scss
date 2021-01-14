@@ -1,5 +1,5 @@
-@import "./../../../scss/mixin";
-@import "./../../../scss/variables";
+@import "./../../../assets/stylesheets/scss/mixin";
+@import "./../../../assets/stylesheets/scss/variables";
 
 #register_bg {
   background: #ccc url(../../../assets/images/access_bg.jpg) center center
@@ -104,7 +104,6 @@
 a.social_bt {
   @include border-radius(3px);
   text-align: center;
-  color: #fff;
   min-width: 200px;
   margin-bottom: 5px;
   display: block;

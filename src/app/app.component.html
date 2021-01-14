@@ -1,96 +1,101 @@
-<header class="header_in clearfix">
-    <div class="container">
-      <!-- /top_menu -->
-      <div class="topBar">
-        <!-- /Logo -->
-        <div class="leftBox" id="logo">
-          <a routerLink="/Home">
-            <img src="../assets/images/logo.svg" width="160" height="55" alt="">
-          </a>
+<header class="header_in clearfix" *ngIf="user">
+  <div class="container">
+    <!-- /top_menu -->
+    <div class="topBar">
+      <!-- /Logo -->
+      <div class="leftBox" id="logo">
+        <a routerLink="/Home">
+          <img src="../assets/images/logo.svg" width="160" height="55" alt="">
+        </a>
+      </div>
+      <!-- /Search Box, Location ,Profile Cart -->
+      <div class="rightBox">
+        <div class="search_bar_list">
+          <input type="text" class="form-control" placeholder="Search for anything...">
+          <button type="submit"><i class="icon_search"></i></button>
         </div>
-        <!-- /Search Box, Location ,Profile Cart -->
-        <div class="rightBox">
+        <div class="menuList">
+          <ul>
+            <li><a [routerLink]=""><img src="../assets/images/location.svg" alt="location"></a></li>
+            <li class="dropdownMenu">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <img src="../assets/images/user.svg" alt="user">
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a routerLink="/Profile">Profile</a></li>
+                <li><a routerLink="/Profile/Orders">My Orders</a></li>
+                <li><a href="#">Favourites</a></li>
+                <li><a href="#">Sign Out</a></li>
+              </ul>
+            </li>
+            <li><a routerLink="/Cart" class="cart_bt"><img src="../assets/images/cart.svg" alt="cart"><span
+                  class="cart-badge">5</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a [routerLink]="" (click)="enableSandwichMenu()" class="open_close">
+      <i class="icon_menu"></i><span>Menu</span>
+    </a>
+    <!-- /Site Navigation -->
+    <nav class="main-menu" [ngClass]="{show : isShow}">
+      <div id="header_menu">
+        <a [routerLink]="" (click)="enableSandwichMenu()" class="open_close">
+          <i class="icon_close"></i><span>Menu</span>
+        </a>
+        <a routerLink="/Home">
+          <img src="../assets/images/logo.svg" width="162" height="35" alt="">
+        </a>
+      </div>
+      <ul>
+        <li class="submenu">
+          <a routerLink="/Food" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Food</a>
+          <ul [ngClass]="{show_normal : is_show_normal}">
+            <li><a routerLink="/Food/Breakfast" class="show-submenu">Beakfast</a></li>
+            <li><a routerLink="/Food/NorthIndian" class="show-submenu">North Indian</a></li>
+            <li><a routerLink="/Food/SouthIndian" class="show-submenu">South Indian</a></li>
+            <li><a routerLink="/Food/Continental" class="show-submenu">Continental</a></li>
+            <li><a routerLink="/Food/Oriental" class="show-submenu">Oriental</a></li>
+          </ul>
+        </li>
+        <!--./-->
+        <li class="submenu">
+          <a routerLink="/Sweets" class="show-submenu">Sugar & Spices</a>
+        </li>
+        <!--./-->
+        <li class="submenu">
+          <a routerLink="/HomeDecor" class="show-submenu">Home Decor</a>
+        </li>
+        <!--./-->
+        <li class="submenu">
+          <a routerLink="/Fashion" class="show-submenu">Fashion</a>
+        </li>
+        <!--./-->
+        <li class="submenu">
+          <a routerLink="/Plants" class="show-submenu">Plants & Planters</a>
+        </li>
+        <!--./-->
+      </ul>
+    </nav>
+  </div>
+</header>
+<main>
+  <!--Full width Search Box in Mobile versions-->
+  <div class="page_header element_to_stick dHide" *ngIf="user">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
           <div class="search_bar_list">
             <input type="text" class="form-control" placeholder="Search for anything...">
             <button type="submit"><i class="icon_search"></i></button>
           </div>
-          <div class="menuList">
-            <ul>
-              <li><a [routerLink]=""><img src="../assets/images/location.svg" alt="location"></a></li>
-              <li class="dropdownMenu">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  <img src="../assets/images/user.svg" alt="user">
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a routerLink="/Profile">Profile</a></li>
-                  <li><a routerLink="/Profile/Orders">My Orders</a></li>
-                  <li><a href="#">Favourites</a></li>
-                  <li><a href="#">Sign Out</a></li>
-                </ul>
-              </li>
-              <li><a routerLink="/Cart" class="cart_bt"><img src="../assets/images/cart.svg" alt="cart"><span class="cart-badge">5</span></a></li>
-            </ul>
-          </div>
         </div>
       </div>
-      <a [routerLink]="" (click)="enableSandwichMenu()" class="open_close">
-        <i class="icon_menu"></i><span>Menu</span>
-      </a>
-      <!-- /Site Navigation -->
-      <nav class="main-menu" [ngClass]="{show : isShow}">
-        <div id="header_menu">
-          <a [routerLink]="" (click)="enableSandwichMenu()" class="open_close">
-            <i class="icon_close"></i><span>Menu</span>
-           </a>
-           <a routerLink="/Home">
-            <img src="../assets/images/logo.svg" width="162" height="35" alt="">
-          </a>
-        </div>
-        <ul>
-          <li class="submenu">
-            <a routerLink="/Food" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Food</a>
-              <ul [ngClass]="{show_normal : is_show_normal}">
-                <li><a routerLink="/Food/Breakfast" class="show-submenu">Beakfast</a></li>
-                <li><a routerLink="/Food/NorthIndian" class="show-submenu">North Indian</a></li>
-                <li><a routerLink="/Food/SouthIndian" class="show-submenu">South Indian</a></li>
-                <li><a routerLink="/Food/Continental" class="show-submenu">Continental</a></li>
-                <li><a routerLink="/Food/Oriental" class="show-submenu">Oriental</a></li>
-              </ul>
-          </li><!--./-->
-          <li class="submenu">
-            <a routerLink="/Sweets" class="show-submenu">Sugar & Spices</a>
-          </li><!--./-->
-          <li class="submenu">
-            <a routerLink="/HomeDecor" class="show-submenu">Home Decor</a>
-          </li><!--./-->
-          <li class="submenu">
-            <a routerLink="/Fashion" class="show-submenu">Fashion</a>
-          </li><!--./-->
-          <li class="submenu">
-            <a routerLink="/Plants" class="show-submenu">Plants & Planters</a>
-          </li><!--./-->
-        </ul>
-      </nav>
+      <!-- /row -->
     </div>
-  </header>
-  <main>
-    <!--Full width Search Box in Mobile versions-->
-    <div class="page_header element_to_stick dHide">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="search_bar_list">
-            <input type="text" class="form-control" placeholder="Search for anything...">
-            <button type="submit"><i class="icon_search"></i></button>
-          </div>
-          </div>
-        </div>
-        <!-- /row -->		       
-      </div>
-    </div>
-    <router-outlet></router-outlet>
-  </main>
-  <footer>
-  
-  </footer>
-  
+  </div>
+  <router-outlet></router-outlet>
+</main>
+<footer *ngIf="user">
+
+</footer>

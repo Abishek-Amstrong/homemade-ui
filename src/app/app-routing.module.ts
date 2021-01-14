@@ -9,6 +9,7 @@ const routes: Routes = [
   },
   { path: 'shared', loadChildren: () => import('./modules/shared/shared.module').then(m => m.SharedModule) },
   { path: 'home', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
+  { path: 'forgot', loadChildren: () => import('./modules/auth/forgot/forgot.module').then(m => m.ForgotModule) },
 ];
 
 @NgModule({

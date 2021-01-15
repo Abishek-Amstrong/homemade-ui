@@ -7485,3 +7485,12 @@ table {
     }
   }
 }
+
+.error-msg {
+  color: #eb555c; //#cc0033
+  font-weight: bold;
+  line-height: 12px;
+  position: relative;
+  padding: 7px 11px 4px;
+  margin-bottom: 4px;
+} // .error-tip

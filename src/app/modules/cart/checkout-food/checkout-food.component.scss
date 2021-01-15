@@ -337,3 +337,11 @@
         right: 0;
     }
 }
+
+.disabled
+{
+    text-decoration:none;
+    cursor:default;
+    color:grey;
+    pointer-events:none;
+}

@@ -7,56 +7,55 @@
         </div>
     </div>
     <div class="row checkoutBox">
-        <div id="box1" class="col-xl-7 col-lg-8">
-            <div class="locationBox">
-                <h3>Your Location</h3>
-                <div class="form-group changeLocation">
-                    <label>Set Your Delivery Location</label>
-                    <input type="text" class="form-control">
-                    <span><a href="#" title="Change Location">Change</a></span>
-                </div>
-            </div>
-            <!--location-->
-            
-            <div class="main">
-                
-                <form>
-                    
+        <div id="box1" class="col-xl-7 col-lg-8">         
+            <div class="main">               
+                <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">    
+                    <div class="locationBox">
+                        <h3>Your Location</h3>
+                        <div class="form-group changeLocation">
+                            <label>Set Your Delivery Location</label>
+                            <p *ngIf="deliveryLocation!.invalid  && (deliveryLocation!.touched || deliveryLocation!.dirty)" class="error-msg">Please select a location for delivery!!</p>
+                            <input type="text" class="form-control" formControlName="deliveryLocation">
+                            <span><a href="#" title="Change Location">Change</a></span>
+                        </div>
+                    </div>                
+                    <!--location-->               
                     <div class="deliveryTime">
                         <h3>Schedule your Delivery Date & Time</h3>
                         <div class="form-group order-type">
                             <label class="container_radio">Now
-                                <input type="radio" value="now" name="ordertime" checked>
+                                <input type="radio" value="now" name="deliveryType" formControlName="deliveryType">
                                 <span class="checkmark"></span>
                             </label>
                             <label class="container_radio">Pre Order
-                                <input type="radio" value="preoder" name="ordertime">
+                                <input type="radio" value="preoder" name="deliveryType" formControlName="deliveryType">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
                         <!--order type-->
-                        <div class="dropdown day">
-                            <a href="#" data-toggle="dropdown" aria-expanded="false">Day <span id="selected_day">Tomorrow</span></a>
+                        <p *ngIf="deliveryDay!.invalid  && (deliveryDay!.touched || deliveryDay!.dirty)" class="error-msg">Please select day for delivery!!</p>
+                        <div class="dropdown day">                           
+                            <a href="#" data-toggle="dropdown" aria-expanded="false" [ngClass]="{disabled : disableDateTime}">Day <span id="selected_day">{{selectedDay}}</span></a>
                             <div class="dropdown-menu" style="">
                                 <div class="dropdown-menu-content">
                                     <h4>Which day delivered?</h4>
                                     <div class="radio_select chose_day">
                                         <ul>
                                             <li>
-                                                <input type="radio" id="day_1" name="day" value="Today">
+                                                <input type="radio" id="day_1" name="deliveryDay" value="Today" formControlName="deliveryDay" checked>
                                                 <label for="day_1">Today<em>-40%</em></label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="day_2" name="day" value="Tomorrow">
+                                                <input type="radio" id="day_2" name="deliveryDay" value="Tomorrow" formControlName="deliveryDay">
                                                 <label for="day_2">Tomorrow<em>-40%</em></label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="day_1" name="day" value="Today">
-                                                <label for="day_1">Today<em>-40%</em></label>
+                                                <input type="radio" id="day_3" name="deliveryDay" value="AfterTomorrow" formControlName="deliveryDay">
+                                                <label for="day_3">Day After Tomorrow<em>-40%</em></label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="day_2" name="day" value="Tomorrow">
-                                                <label for="day_2">Tomorrow<em>-40%</em></label>
+                                                <input type="radio" id="day_4" name="deliveryDay" value="Overmorrow" formControlName="deliveryDay">
+                                                <label for="day_4">Overmorrow<em>-40%</em></label>
                                             </li>
                                         </ul>
                                     </div>
@@ -64,28 +63,50 @@
                                 </div>
                             </div>
                         </div>
+                        <p *ngIf="deliveryTime!.invalid  && (deliveryTime!.touched || deliveryTime!.dirty)" class="error-msg">Please select day for delivery!!</p>
                         <div class="dropdown time">
-                            <a href="#" data-toggle="dropdown" aria-expanded="false">Time <span id="selected_time">09.00pm</span></a>
+                            <a href="#" data-toggle="dropdown" aria-expanded="false" [ngClass]="{disabled : disableDateTime}">Time <span id="selected_time">{{selectedTime}}</span></a>
                             <div class="dropdown-menu">
                                 <div class="dropdown-menu-content">
+                                    <h4>Breakfast</h4>
+                                    <div class="radio_select add_bottom_15">
+                                        <ul>
+                                            <li>
+                                                <input type="radio" id="time_1" name="deliveryTime" formControlName="deliveryTime" value="08.00">
+                                                <label for="time_1">08.00<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="time_2" name="deliveryTime" formControlName="deliveryTime" value="08.30">
+                                                <label for="time_2">08.30<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="time_3" name="deliveryTime" formControlName="deliveryTime" value="09.00">
+                                                <label for="time_3">09.00<em>-40%</em></label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="time_4" name="deliveryTime" formControlName="deliveryTime" value="09.30">
+                                                <label for="time_4">09.30<em>-40%</em></label>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <h4>Lunch</h4>
                                     <div class="radio_select add_bottom_15">
                                         <ul>
                                             <li>
-                                                <input type="radio" id="time_1" name="time" value="12.00am">
-                                                <label for="time_1">12.00<em>-40%</em></label>
+                                                <input type="radio" id="time_5" name="deliveryTime" formControlName="deliveryTime" value="12.00">
+                                                <label for="time_5">12.00<em>-40%</em></label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="time_2" name="time" value="08.30pm">
-                                                <label for="time_2">12.30<em>-40%</em></label>
+                                                <input type="radio" id="time_6" name="deliveryTime" formControlName="deliveryTime" value="12.30">
+                                                <label for="time_6">12.30<em>-40%</em></label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="time_3" name="time" value="09.00pm">
-                                                <label for="time_3">1.00<em>-40%</em></label>
+                                                <input type="radio" id="time_7" name="deliveryTime" formControlName="deliveryTime" value="13.00">
+                                                <label for="time_7">13.00<em>-40%</em></label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="time_4" name="time" value="09.30pm">
-                                                <label for="time_4">1.30<em>-40%</em></label>
+                                                <input type="radio" id="time_8" name="deliveryTime" formControlName="deliveryTime" value="13.30">
+                                                <label for="time_8">13.30<em>-40%</em></label>
                                             </li>
                                         </ul>
                                     </div>
@@ -94,20 +115,20 @@
                                     <div class="radio_select">
                                         <ul>
                                             <li>
-                                                <input type="radio" id="time_5" name="time" value="08.00pm">
-                                                <label for="time_1">20.00<em>-40%</em></label>
+                                                <input type="radio" id="time_9" name="deliveryTime" formControlName="deliveryTime" value="20.00">
+                                                <label for="time_9">20.00<em>-40%</em></label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="time_6" name="time" value="08.30pm">
-                                                <label for="time_2">20.30<em>-40%</em></label>
+                                                <input type="radio" id="time_10" name="deliveryTime" formControlName="deliveryTime" value="20.30">
+                                                <label for="time_10">20.30<em>-40%</em></label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="time_7" name="time" value="09.00pm">
-                                                <label for="time_3">21.00<em>-40%</em></label>
+                                                <input type="radio" id="time_11" name="deliveryTime" formControlName="deliveryTime" value="21.00">
+                                                <label for="time_11">21.00<em>-40%</em></label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="time_8" name="time" value="09.30pm">
-                                                <label for="time_4">21.30<em>-40%</em></label>
+                                                <input type="radio" id="time_12" name="deliveryTime" formControlName="deliveryTime" value="21.30">
+                                                <label for="time_12">21.30<em>-40%</em></label>
                                             </li>
                                         </ul>
                                     </div>
@@ -121,22 +142,28 @@
                     <h3>Delivery/Shipping Address</h3>
                     <div class="form-group">
                         <label>Full Name</label>
-                        <input type="text" class="form-control">
+                        <p *ngIf="fullName!.invalid  && (fullName!.touched || fullName!.dirty)" class="error-msg">
+                            Please enter name for delivery!!</p>
+                        <input type="text" class="form-control" formControlName="fullName">
                     </div>
                     <div class="form-group">
                         <label>Address</label>
-                        <input type="text" class="form-control">
+                        <p *ngIf="address!.invalid  && (address!.touched || address!.dirty)" class="error-msg">
+                            Please enter address for delivery!!</p>
+                        <input type="text" class="form-control" formControlName="address">
                     </div>
                     <div class="form-group">
                         <label>City</label>
-                        <input type="text" class="form-control">
+                        <p *ngIf="city!.invalid  && (city!.touched || city!.dirty)" class="error-msg">Please enter your city for delivery!!</p>
+                        <input type="text" class="form-control" formControlName="city">
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="custom_select clearfix">
                                     <label>State</label>
-                                    <select class="nice-select wide form-control" tabindex="0">
+                                    <p *ngIf="state!.invalid  && (state!.touched || state!.dirty)" class="error-msg">Please select the state for delivery!!</p>
+                                    <select class="nice-select wide form-control" tabindex="0" formControlName="state">
                                         <option class="option" selected>Select state</option>
                                         <option class="option">Sikkim</option>
                                         <option class="option">Manipur</option>
@@ -148,11 +175,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Pincode</label>
-                                <input class="form-control">
+                                <p *ngIf="pinCode!.invalid  && (pinCode!.touched || pinCode!.dirty)" class="error-msg">
+                                    Please enter pincode for delivery!!</p>
+                                <input class="form-control" formControlName="pinCode">
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn_1 gradient" value="">Contine to Payment</button>
+                    <button type="submit" class="btn_1 gradient">Contine to Payment</button>
                 </form>
                 
             </div>

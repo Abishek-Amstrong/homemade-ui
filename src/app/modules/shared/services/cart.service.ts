@@ -15,15 +15,15 @@ export class CartService {
   {
     let sampelObservable = new Observable((observer) => {
         let cartData = [{
-          productId : 101,
+          ProductId : 101,
           ProductImage :  '../../../../assets/images/thumb_detail_1.jpg',
-          ProductName : 'Product Name Product Name Product Name Product Name',
+          ProductName : 'Sabudana Samosa With Chutny',
           Price : 60,
           Quantity : 5
         },{
-          productId : 102,
+          ProductId : 102,
           ProductImage :  '../../../../assets/images/thumb_detail_1.jpg',
-          ProductName : 'Product Name Product',
+          ProductName : 'Pizza with extra cheese',
           Price : 20,
           Quantity : 2
         }
@@ -34,10 +34,46 @@ export class CartService {
     return sampelObservable;
   }
 
-  postDeliveryAddress(deliveryData : any) //: Observable<any>
+  UpdateProductsInUserCart(userCart : any){
+    //const options  = new HttpHeaders({'Content-Type':'application/json'});
+    // return this.http.post(`${environment.apiUrl}/Cart/UpdateProductsInCart`,userCart,{headers : options}).pipe(
+    //   catchError(this.handleError)
+    // )
+  }
+
+  deleteProductInCart(productId : any)
+  {
+    // return this.http.delete(`${environment.apiUrl}/Cart/DeleteProduct/${productId}`).pipe(
+    //   catchError(this.handleError));
+  }
+
+  orderProdutcsInCart(userCart : any)
   {
       // const options  = new HttpHeaders({'Content-Type':'application/json'});
-      // return this.http.post(`${environment.apiUrl}/Cart/DelievryAddress`,deliveryData,{headers : options}).pipe(
+      // return this.http.post(`${environment.apiUrl}/Cart/Order`,userCart,{headers : options}).pipe(
+      //   catchError(this.handleError)
+      // )
+
+      //sample JSON
+      // [{Price: 60
+      // ProductId: 101
+      // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
+      // ProductName: "Sabudana Samosa With Chutny"
+      // Quantity: 5
+      // },
+      // {
+      // Price: 20
+      // ProductId: 102
+      // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
+      // ProductName: "Pizza with extra cheese"
+      // Quantity: 2
+      // }]
+  }
+
+  addDeliveryAddress(deliveryData : any) //: Observable<any>
+  {
+      // const options  = new HttpHeaders({'Content-Type':'application/json'});
+      // return this.http.post(`${environment.apiUrl}/Cart/DeliveryAddress`,deliveryData,{headers : options}).pipe(
       //   catchError(this.handleError)
       // )
 

@@ -30,6 +30,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/profile/profile.module').then((m) => m.ProfileModule),
   },
+  { path: 'foods', loadChildren: () => import('./modules/foods/foods.module').then(m => m.FoodsModule) },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

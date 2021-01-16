@@ -7,11 +7,13 @@ import {
   Renderer2,
   ViewChildren,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { SlidesOutputData, OwlOptions } from 'ngx-owl-carousel-o';
 
 export interface Menu {
   imgUrl: string;
   label: string;
+  path: string;
 }
 
 export interface Food {
@@ -31,7 +33,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChildren('owlAnimated2') slide2!: QueryList<ElementRef>;
 
   menus: Menu[];
-  recentlyViewed: Menu[];
+  recentlyViewed: any[];
   foods: Food[];
 
   customOptions: OwlOptions = {
@@ -102,18 +104,32 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     },
   };
 
-  constructor(private renderer: Renderer2) {
+  constructor(private renderer: Renderer2, private router: Router) {
     this.menus = [
-      { imgUrl: 'assets/images/home_cat_food.jpg', label: 'Food' },
+      {
+        imgUrl: 'assets/images/home_cat_food.jpg',
+        label: 'Food',
+        path: 'foods',
+      },
       {
         imgUrl: 'assets/images/home_cat_sugar&spice.jpg',
         label: 'Sugar & Spices',
+        path: 'sugar-spice',
       },
-      { imgUrl: 'assets/images/home_cat_homedecor.jpg', label: 'Home Decor' },
-      { imgUrl: 'assets/images/home_cat_fashion.jpg', label: 'Fashion' },
+      {
+        imgUrl: 'assets/images/home_cat_homedecor.jpg',
+        label: 'Home Decor',
+        path: 'home-decor',
+      },
+      {
+        imgUrl: 'assets/images/home_cat_fashion.jpg',
+        label: 'Fashion',
+        path: 'fashion',
+      },
       {
         imgUrl: 'assets/images/home_cat_bath&beauty.jpg',
         label: 'Plants & Planters',
+        path: 'plants',
       },
     ];
 
@@ -195,5 +211,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
       });
     }, 200);
+  }
+
+  navigateToComponent(path: string) {
+    this.router.navigate(['/', 'foods']);
   }
 }

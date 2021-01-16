@@ -68,7 +68,7 @@
                 <ng-container *ngFor="let menu of menus; let i = index;">
                     <ng-template carouselSlide class="slide" [id]="'image' + i">
                         <div class="item_version_2">
-                            <a href="javascript:void(0)">
+                            <a href="javascript:void(0)" (click)="navigateToComponent(menu.path)">
                                 <figure>
                                     <img [src]="menu.imgUrl" alt="" class="owl-lazy">
                                     <div class="info">

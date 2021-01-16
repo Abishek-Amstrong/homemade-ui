@@ -10,28 +10,31 @@
                 <a href="#0" class="social_bt google">Register with Google</a>
             </div>
             <div class="divider"><span>Or</span></div>
-            <form id="regForm" name="regForm">
+            <form id="regForm" name="regForm" [formGroup]="form">
                 <div class="form-group">
-                    <input class="form-control" type="text" name="name" placeholder="Your Name" required>
+                    <input class="form-control" type="text" name="name" placeholder="Your Name" required
+                        formControlName="name">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="email" name="email" placeholder="Email" required>
+                    <input class="form-control" type="email" name="email" placeholder="Email" required
+                        formControlName="email">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="text" name="mobile" placeholder="Mobile Number" required
-                        pattern="[6-9]{1}[0-9]{9}" minlength="10" maxlength="10">
+                        pattern="[6-9]{1}[0-9]{9}" minlength="10" maxlength="10" formControlName="mobile">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="password" id="password1" name="password" placeholder="Password"
-                        required>
+                        required formControlName="password">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="password" id="password2" name="password"
-                        placeholder="Confirm Password" required>
+                        placeholder="Confirm Password" required formControlName="confirmPassword">
                 </div>
                 <div id="pass-info" class="clearfix"></div>
-                <button type="submit" value="Register Now" class="btn_1 gradient">Register Now</button>
-                <!-- <button type="submit class="btn_1 outline full-width">Register Now!</button> -->
+                <button type="submit" value="Register Now" class="btn_1 gradient" (click)="onSubmit()">Register
+                    Now</button>
+
                 <div class="text-center mt-2"><small>Already have an acccount? <strong><a href="javascript:void(0)"
                                 [routerLink]="['/auth']">Sign In</a></strong></small>
                 </div>

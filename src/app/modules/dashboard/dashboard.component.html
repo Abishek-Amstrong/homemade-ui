@@ -62,6 +62,100 @@
             <h2>Discover unique homemade items</h2>
         </div>
         <!-- /main_title -->
+
+        <div class="categories_carousel">
+            <owl-carousel-o [options]="customOptionsTwo">
+                <ng-container *ngFor="let menu of menus; let i = index;">
+                    <ng-template carouselSlide class="slide" [id]="'image' + i">
+                        <div class="item_version_2">
+                            <a href="javascript:void(0)" (click)="navigateToComponent(menu.path)">
+                                <figure>
+                                    <img [src]="menu.imgUrl" alt="" class="owl-lazy">
+                                    <div class="info">
+                                        <h3>{{menu.label}}</h3>
+                                    </div>
+                                </figure>
+                            </a>
+                        </div>
+                    </ng-template>
+                </ng-container>
+            </owl-carousel-o>
+        </div>
     </div>
     <!-- /container -->
+
+    <div class="bg_gray categoriesBox margin_15_15">
+        <div class="container">
+            <div class="main_title">
+
+                <h2>Recent Viewed</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2" *ngFor="let recent of recentlyViewed">
+                    <div class="strip">
+                        <figure>
+                            <a href="product-detail.html"><img [src]="recent.imgUrl" class="img-fluid lazy" alt=""></a>
+                        </figure>
+                        <a href="product-detail.html" class="strip_info">
+                            <div class="item_title">
+                                <h3>{{recent.label}}</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- /strip grid -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card type3" id="section1">
+            <div class="main_title">
+                <h2>Food</h2>
+                <a href="food.html">View All</a>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-3" *ngFor="let food of foods">
+                    <div class="cardbody">
+                        <a href="non-food-product-detail.html">
+                            <div class="imgBox">
+                                <figure>
+                                    <img [src]="food.imgUrl" alt="" class="lazy loaded img-fluid"
+                                        data-was-processed="true">
+                                </figure>
+                            </div>
+                            <div class="contentBox">
+                                <div class="pro_detials">
+                                    <h3>{{food.label}}</h3>
+                                    <p class="price">Rs.{{food.price}}</p>
+                                </div>
+                                <div class="prod_cta">
+                                    <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Order Now</a>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--./-->
+            </div>
+        </div>
+
+        <div class="banner lazy" data-bg="url(img/banner_bg_desktop.jpg)" data-was-processed="true"
+            style="background-image: url(&quot;assets/images/banner_bg_desktop.jpg&quot;);">
+            <div class="container">
+                <div class="wrapper d-flex align-items-center opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.3)"
+                    style="background-color: rgba(0, 0, 0, 0.3);">
+                    <div>
+                        <small>FooYes Delivery</small>
+                        <h3>We Deliver to your Office</h3>
+                        <p>Enjoy a tasty food in minutes!</p>
+                        <a href="grid-listing-filterscol.html" class="btn_1 gradient">Start Now!</a>
+                    </div>
+                </div>
+                <!-- /wrapper -->
+            </div>
+        </div>
+        <!-- /banner -->
+    </div>
 </div>

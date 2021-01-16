@@ -1,0 +1,374 @@
+<div class="foods">
+    <div class="bg_gray bg_white">
+        <div class="container margin_detail_2">
+            <div class="row">
+                <div class="col-12">
+                    <div class="categories_carousel_in listing">
+                        <owl-carousel-o [options]="customOptions">
+                            <ng-container *ngFor="let category of categories; let i = index;">
+                                <ng-template carouselSlide class="slide" [id]="'image' + i">
+                                    <div class="item">
+                                        <figure>
+                                            <img [src]="category.imgUrl" alt="" class="owl-lazy">
+                                            <a href="breakfast.html">
+                                                <h3>{{category.label}}</h3>
+                                            </a>
+                                        </figure>
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+                        </owl-carousel-o>
+                    </div>
+
+                    <div class="promo">
+                        <h3>Free Delivery for your first 14 days!</h3>
+                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                        <i class="icon-food_icon_delivery"></i>
+                    </div>
+                    <!-- /promo -->
+
+                    <nav class="secondary_nav sticky_horizontal">
+                        <div class="container">
+                            <div class="row">
+                                <ul id="secondary_nav">
+                                    <li><a class="list-group-item list-group-item-action" href="#section1">Breakfast</a>
+                                    </li>
+                                    <li><a class="list-group-item list-group-item-action" href="#section2">North
+                                            Indian</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="#section3">South
+                                            Indian</a></li>
+                                    <li><a class="list-group-item list-group-item-action"
+                                            href="#section4">Continental</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="#section5">Oriental</a>
+                                    </li>
+                                    <li><a class="list-group-item list-group-item-action" href="#section6">Desserts</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <span></span> -->
+                    </nav>
+                    <!-- /secondary_nav -->
+
+                    <div class="card type3" id="section1">
+                        <div class="main_title">
+                            <h2>Breakfast</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.breakfast">
+                                <div class="cardbody">
+                                    <a href="food-product-detail.html">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                    data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{menu.label}}</h3>
+                                                <p class="price">Rs.{{menu.price}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                    Order</a>
+                                            </div>
+                                            <p class="availablity">{{menu.availability}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+
+                    <div class="card type3" id="section2">
+                        <div class="main_title">
+                            <h2>Norht Indian</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.northIndian">
+                                <div class="cardbody">
+                                    <a href="food-product-detail.html">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                    data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{menu.label}}</h3>
+                                                <p class="price">Rs.{{menu.price}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                    Order</a>
+                                            </div>
+                                            <p class="availablity">{{menu.availability}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+
+                    <div class="card type3" id="section3">
+                        <div class="main_title">
+                            <h2>South Indian</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.southIndian">
+                                <div class="cardbody">
+                                    <a href="food-product-detail.html">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                    data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{menu.label}}</h3>
+                                                <p class="price">Rs.{{menu.price}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                    Order</a>
+                                            </div>
+                                            <p class="availablity">{{menu.availability}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+
+                    <div class="card type3" id="section4">
+                        <div class="main_title">
+                            <h2>Continental</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.continental">
+                                <div class="cardbody">
+                                    <a href="food-product-detail.html">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                    data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{menu.label}}</h3>
+                                                <p class="price">Rs.{{menu.price}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                    Order</a>
+                                            </div>
+                                            <p class="availablity">{{menu.availability}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+
+                    <div class="card type3" id="section4">
+                        <div class="main_title">
+                            <h2>Oriental</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.oriental">
+                                <div class="cardbody">
+                                    <a href="food-product-detail.html">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                    data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{menu.label}}</h3>
+                                                <p class="price">Rs.{{menu.price}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                    Order</a>
+                                            </div>
+                                            <p class="availablity">{{menu.availability}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+
+                    <div class="card type3" id="section5">
+                        <div class="main_title">
+                            <h2>Desserts</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.desserts">
+                                <div class="cardbody">
+                                    <a href="food-product-detail.html">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                    data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{menu.label}}</h3>
+                                                <p class="price">Rs.{{menu.price}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                    Order</a>
+                                            </div>
+                                            <p class="availablity">{{menu.availability}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+
+                    <div class="card type3" id="section6">
+                        <div class="main_title">
+                            <h2>Regional</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.regional">
+                                <div class="cardbody">
+                                    <a href="food-product-detail.html">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                    data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{menu.label}}</h3>
+                                                <p class="price">Rs.{{menu.price}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                    Order</a>
+                                            </div>
+                                            <p class="availablity">{{menu.availability}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+
+                    <div class="card type3" id="section7">
+                        <div class="main_title">
+                            <h2>Healty</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.healty">
+                                <div class="cardbody">
+                                    <a href="food-product-detail.html">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                    data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{menu.label}}</h3>
+                                                <p class="price">Rs.{{menu.price}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                    Order</a>
+                                            </div>
+                                            <p class="availablity">{{menu.availability}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container margin_30_40">
+            <!--best chefs-->
+            <div class="row">
+                <div class="col-12 main_title">
+                    <h2>Chefs near you</h2>
+                </div>
+
+                <div class="chef_carousel">
+                    <owl-carousel-o [options]="customOptionsTwo">
+                        <ng-container *ngFor="let chef of chefs; let i = index;">
+                            <ng-template carouselSlide class="slide" [id]="'image' + i">
+                                <div class="item">
+                                    <div class="chefBox">
+                                        <figure>
+                                            <a href="#"><img [src]="chef.imgUrl" class="img-fluid lazy" alt=""></a>
+                                        </figure>
+                                        <div class="cardDetails">
+                                            <h3>{{chef.name}}</h3>
+                                            <div class="score"><strong>{{chef.rating}}</strong></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--./-->
+                            </ng-template>
+                        </ng-container>
+                    </owl-carousel-o>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--container-->
+    <div class="container margin_30_40">
+        <!--best chefs-->
+        <div class="row">
+            <div class="col-12 main_title">
+                <h2>Popular cuisine near you</h2>
+            </div>
+
+            <div class="chef_carousel">
+                <owl-carousel-o [options]="customOptionsTwo">
+                    <ng-container *ngFor="let cuisine of cuisines; let i = index;">
+                        <ng-template carouselSlide class="slide" [id]="'image' + i">
+                            <div class="item">
+                                <div class="chefBox">
+                                    <figure>
+                                        <a href="#"><img [src]="cuisine.imgUrl" class="img-fluid lazy" alt=""></a>
+                                    </figure>
+                                    <div class="cardDetails">
+                                        <h3>{{cuisine.name}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--./-->
+                        </ng-template>
+                    </ng-container>
+                </owl-carousel-o>
+            </div>
+        </div>
+    </div>
+</div>

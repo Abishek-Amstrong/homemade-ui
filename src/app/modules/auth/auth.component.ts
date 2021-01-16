@@ -11,6 +11,8 @@ import { AuthService } from '../shared/services/auth.service';
 export class AuthComponent implements OnInit {
   form: FormGroup;
   submitted: boolean;
+  uname: string | null;
+  pwd: string | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,7 +27,18 @@ export class AuthComponent implements OnInit {
         [Validators.required, Validators.pattern('\\S+@\\S+\\.\\S+')],
       ],
       password: ['', Validators.required],
+      rememberMe: [''],
     });
+
+    this.uname = localStorage.getItem('username');
+    this.pwd = localStorage.getItem('password');
+
+    if (this.uname && this.pwd) {
+      this.form.patchValue({
+        email: this.uname,
+        password: this.pwd,
+      });
+    }
   }
 
   ngOnInit(): void {}
@@ -44,16 +57,44 @@ export class AuthComponent implements OnInit {
       return;
     }
 
-    this.authService.login(this.f.email.value, this.f.password.value).subscribe(
-      (response: any) => {
-        // this.toasterService.success('Login is successful');
-        // get return url from query parameters or default to home page
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigateByUrl(returnUrl);
-      },
-      (error: any) => {
-        // this.toasterService.error(handleError(error));
-      }
-    );
+    if (!this.uname && !this.pwd) {
+      this.authService
+        .login(this.f.email.value, this.f.password.value)
+        .subscribe(
+          (response: any) => {
+            if (this.f.rememberMe.value) {
+              localStorage.setItem('username', this.f.email.value);
+              localStorage.setItem('password', this.f.password.value);
+            }
+
+            // this.toasterService.success('Login is successful');
+            // get return url from query parameters or default to home page
+            const returnUrl =
+              this.route.snapshot.queryParams['returnUrl'] || '/';
+            this.router.navigateByUrl(returnUrl);
+          },
+          (error: any) => {
+            // this.toasterService.error(handleError(error));
+          }
+        );
+    } else {
+      this.authService
+        .login(
+          this.f.email.value || this.uname,
+          this.f.password.value || this.pwd
+        )
+        .subscribe(
+          (response: any) => {
+            // this.toasterService.success('Login is successful');
+            // get return url from query parameters or default to home page
+            const returnUrl =
+              this.route.snapshot.queryParams['returnUrl'] || '/';
+            this.router.navigateByUrl(returnUrl);
+          },
+          (error: any) => {
+            // this.toasterService.error(handleError(error));
+          }
+        );
+    }
   }
 }

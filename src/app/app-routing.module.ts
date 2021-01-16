@@ -25,6 +25,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/cart/cart.module').then((m) => m.CartModule),
   },
+  { path: 'foods', loadChildren: () => import('./modules/foods/foods.module').then(m => m.FoodsModule) },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

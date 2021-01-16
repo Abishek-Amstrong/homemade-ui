@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 import { User } from './../models/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Tokens } from './../models/tokens';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -49,9 +50,9 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    // return this.http
-    //   .post<User>(`${environment.apiUrl}/Auth/login`, { email, password })
-    //   .pipe(tap((token: any) => this.doLoginUser(email, token)));
+    return this.http
+      .post<User>(`${environment.apiUrl}/Auth/login`, { email, password })
+      .pipe(tap((token: any) => this.doLoginUser(email, token)));
   }
 
   logout() {

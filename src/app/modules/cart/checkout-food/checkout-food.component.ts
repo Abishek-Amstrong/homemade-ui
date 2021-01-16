@@ -19,6 +19,7 @@ export class CheckoutFoodComponent implements OnInit {
   discount : number;
   total : number;
   deliveryCost : number;
+  
   constructor(private formBuilder : FormBuilder,private cartService : CartService) { 
     this.deliveryForm = new FormGroup({});
     this.selectedDay = '';

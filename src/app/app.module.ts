@@ -8,6 +8,8 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ValidatorService } from 'src/app/modules/shared/services/validator.service';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -18,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CarouselModule,
     CommonModule,
   ],
-  providers: [],
+  providers: [ValidatorService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

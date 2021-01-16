@@ -32,13 +32,32 @@ export class CartService {
       observer.complete();
     });
     return sampelObservable;
+
+    //return this.http.get(`${environment.apiUrl}/Cart/getProductsInCart`).pipe(
+    //   catchError(this.handleError)
+    // )
   }
 
   UpdateProductsInUserCart(userCart : any){
     //const options  = new HttpHeaders({'Content-Type':'application/json'});
-    // return this.http.post(`${environment.apiUrl}/Cart/UpdateProductsInCart`,userCart,{headers : options}).pipe(
+    // return this.http.put(`${environment.apiUrl}/Cart/UpdateProductsInCart`,userCart,{headers : options}).pipe(
     //   catchError(this.handleError)
     // )
+
+    //sample JSON
+    // [{Price: 60
+    // ProductId: 101
+    // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
+    // ProductName: "Sabudana Samosa With Chutny"
+    // Quantity: 5
+    // },
+    // {
+    // Price: 20
+    // ProductId: 102
+    // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
+    // ProductName: "Pizza with extra cheese"
+    // Quantity: 2
+    // }]
   }
 
   deleteProductInCart(productId : any)

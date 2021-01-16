@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       600: {
         nav: false,
         dots: false,
-        items: 2,
+        items: 4,
         margin: 10,
       },
       768: {

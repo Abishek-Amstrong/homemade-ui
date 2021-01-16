@@ -178,7 +178,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section5">
+                    <div class="card type3" id="section4">
                         <div class="main_title">
                             <h2>Oriental</h2>
                         </div>
@@ -210,7 +210,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section6">
+                    <div class="card type3" id="section5">
                         <div class="main_title">
                             <h2>Desserts</h2>
                         </div>
@@ -242,7 +242,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section7">
+                    <div class="card type3" id="section6">
                         <div class="main_title">
                             <h2>Regional</h2>
                         </div>
@@ -305,7 +305,69 @@
                         </div>
                     </div>
                     <!--./card ends-->
+
+
                 </div>
+            </div>
+        </div>
+
+        <div class="container margin_30_40">
+            <!--best chefs-->
+            <div class="row">
+                <div class="col-12 main_title">
+                    <h2>Chefs near you</h2>
+                </div>
+
+                <div class="chef_carousel">
+                    <owl-carousel-o [options]="customOptionsTwo">
+                        <ng-container *ngFor="let chef of chefs; let i = index;">
+                            <ng-template carouselSlide class="slide" [id]="'image' + i">
+                                <div class="item">
+                                    <div class="chefBox">
+                                        <figure>
+                                            <a href="#"><img [src]="chef.imgUrl" class="img-fluid lazy" alt=""></a>
+                                        </figure>
+                                        <div class="cardDetails">
+                                            <h3>{{chef.name}}</h3>
+                                            <div class="score"><strong>{{chef.rating}}</strong></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--./-->
+                            </ng-template>
+                        </ng-container>
+                    </owl-carousel-o>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--container-->
+    <div class="container margin_30_40">
+        <!--best chefs-->
+        <div class="row">
+            <div class="col-12 main_title">
+                <h2>Popular cuisine near you</h2>
+            </div>
+
+            <div class="chef_carousel">
+                <owl-carousel-o [options]="customOptionsTwo">
+                    <ng-container *ngFor="let cuisine of cuisines; let i = index;">
+                        <ng-template carouselSlide class="slide" [id]="'image' + i">
+                            <div class="item">
+                                <div class="chefBox">
+                                    <figure>
+                                        <a href="#"><img [src]="cuisine.imgUrl" class="img-fluid lazy" alt=""></a>
+                                    </figure>
+                                    <div class="cardDetails">
+                                        <h3>{{cuisine.name}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--./-->
+                        </ng-template>
+                    </ng-container>
+                </owl-carousel-o>
             </div>
         </div>
     </div>

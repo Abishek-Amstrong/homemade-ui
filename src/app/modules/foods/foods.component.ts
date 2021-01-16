@@ -7,6 +7,12 @@ export interface Category {
   availability?: string;
 }
 
+export interface Chef {
+  imgUrl: string;
+  name: string;
+  rating?: number;
+}
+
 @Component({
   selector: 'app-foods',
   templateUrl: './foods.component.html',
@@ -15,6 +21,9 @@ export interface Category {
 export class FoodsComponent implements OnInit {
   categories: Category[];
   menus: any;
+  chefs: Chef[];
+  cuisines: Chef[];
+
   customOptions: OwlOptions = {
     center: false,
     stagePadding: 50,
@@ -50,6 +59,53 @@ export class FoodsComponent implements OnInit {
         nav: true,
         dots: false,
         items: 5,
+      },
+    },
+  };
+
+  customOptionsTwo: OwlOptions = {
+    center: false,
+    stagePadding: 0,
+    items: 1,
+    loop: false,
+    margin: 30,
+    dots: false,
+    nav: true,
+    lazyLoad: true,
+    navText: ["<i class='arrow_left'></i>", "<i class='arrow_right'></i>"],
+    responsive: {
+      0: {
+        nav: false,
+        dots: false,
+        items: 2,
+        stagePadding: 50,
+        margin: 15,
+      },
+      600: {
+        nav: false,
+        dots: false,
+        items: 4,
+        margin: 10,
+      },
+      768: {
+        nav: false,
+        dots: false,
+        items: 4,
+      },
+      1024: {
+        nav: true,
+        dots: false,
+        items: 4,
+      },
+      1281: {
+        nav: true,
+        dots: false,
+        items: 6,
+      },
+      1340: {
+        nav: true,
+        dots: false,
+        items: 6,
       },
     },
   };
@@ -292,6 +348,66 @@ export class FoodsComponent implements OnInit {
         },
       ],
     };
+
+    this.chefs = [
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+        rating: 9.5,
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+        rating: 9.5,
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+        rating: 9.5,
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+        rating: 9.5,
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+        rating: 9.5,
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+        rating: 9.5,
+      },
+    ];
+
+    this.cuisines = [
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+      },
+      {
+        imgUrl: 'assets/images/lazy-placeholder.png',
+        name: 'John Doe',
+      },
+    ];
   }
 
   ngOnInit(): void {}

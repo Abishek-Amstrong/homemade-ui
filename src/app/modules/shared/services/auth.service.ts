@@ -75,8 +75,8 @@ export class AuthService {
     return localStorage.getItem(this.JWT_TOKEN);
   }
 
-  register(user: User) {
-    // return this.http.post(`${environment.apiUrl}/Auth/register`, user);
+  register(user: any) {
+    return this.http.post(`${environment.apiUrl}/Auth/register`, user);
   }
 
   handleError(errorObj: any) {

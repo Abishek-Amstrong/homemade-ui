@@ -49,7 +49,6 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form);
     this.submitted = true;
 
     // stop here if form is invalid

@@ -1,5 +1,6 @@
 @import "~ngx-owl-carousel-o/lib/styles/scss/owl.carousel";
 @import "~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 /*
 [Table of contents] 
@@ -6935,6 +6936,7 @@ button {
           .prod-details {
             padding-left: 15px;
             position: relative;
+            width: 70%;
             p {
               font-size: 13px;
               margin-bottom: 2px;
@@ -7495,3 +7497,11 @@ table {
   margin-bottom: 4px;
 } // .error-tip
 
+.mat-dialog-container {
+  padding: 0 !important;
+
+  #modal-dialog {
+    margin: 0;
+    min-width: 500px;
+  }
+}

@@ -22,10 +22,10 @@
                 <img src="../assets/images/user.svg" alt="user">
               </a>
               <ul class="dropdown-menu" role="menu">
-                <li><a routerLink="/Profile">Profile</a></li>
-                <li><a routerLink="/Profile/Orders">My Orders</a></li>
-                <li><a href="#">Favourites</a></li>
-                <li><a href="#">Sign Out</a></li>
+                <li><a routerLink="/profile">Profile</a></li>
+                <li><a routerLink="/profile/myorders">My Orders</a></li>
+                <li><a href="/profile/favourites">Favourites</a></li>
+                <li><a href="/profile/signout">Sign Out</a></li>
               </ul>
             </li>
             <li><a routerLink="/cart" class="cart_bt"><img src="../assets/images/cart.svg" alt="cart"><span
@@ -49,13 +49,13 @@
       </div>
       <ul>
         <li class="submenu">
-          <a routerLink="/Food" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Food</a>
+          <a routerLink="/foods" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Food</a>
           <ul [ngClass]="{show_normal : is_show_normal}">
-            <li><a routerLink="/Food/Breakfast" class="show-submenu">Beakfast</a></li>
-            <li><a routerLink="/Food/NorthIndian" class="show-submenu">North Indian</a></li>
-            <li><a routerLink="/Food/SouthIndian" class="show-submenu">South Indian</a></li>
-            <li><a routerLink="/Food/Continental" class="show-submenu">Continental</a></li>
-            <li><a routerLink="/Food/Oriental" class="show-submenu">Oriental</a></li>
+            <li><a routerLink="/foods/breakfast" class="show-submenu">Beakfast</a></li>
+            <li><a routerLink="/foods/northindian" class="show-submenu">North Indian</a></li>
+            <li><a routerLink="/foods/southindian" class="show-submenu">South Indian</a></li>
+            <li><a routerLink="/foods/continental" class="show-submenu">Continental</a></li>
+            <li><a routerLink="/foods/oriental" class="show-submenu">Oriental</a></li>
           </ul>
         </li>
         <!--./-->
@@ -172,14 +172,14 @@
             <h5>Follow Us</h5>
             <ul>
               <li><a href="https://www.linkedin.com/company/fromhomemade/" target="_blank"><img
-                    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                    data-src="img/linkedin.png" alt="" class="lazy"></a></li>
+                    src="assets/images/linkedin.png" data-src="assets/images/linkedin.png" alt="" class="lazy"></a></li>
               <li><a href="https://www.facebook.com/fr0mhomemade/" target="_blank"><img
-                    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                    data-src="img/facebook_icon.svg" alt="" class="lazy"></a></li>
+                    src="assets/images/facebook_icon.svg" data-src="assets/images/facebook_icon.svg" alt=""
+                    class="lazy"></a></li>
               <li><a href="https://www.instagram.com/fromhomemade/" target="_blank"><img
-                    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                    data-src="img/instagram_icon.svg" alt="" class="lazy"></a></li>
+                    src="assets/images/instagram_icon.svg" data-src="assets/images/instagram_icon.svg" alt=""
+                    class="lazy"></a>
+              </li>
             </ul>
           </div>
         </div>

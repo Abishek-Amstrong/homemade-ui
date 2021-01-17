@@ -95,9 +95,10 @@
                 <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2" *ngFor="let recent of recentlyViewed">
                     <div class="strip">
                         <figure>
-                            <a href="product-detail.html"><img [src]="recent.imgUrl" class="img-fluid lazy" alt=""></a>
+                            <a href="javascript:void(0)" routerLink="/foods/detail/1"><img [src]="recent.imgUrl"
+                                    class="img-fluid lazy" alt=""></a>
                         </figure>
-                        <a href="product-detail.html" class="strip_info">
+                        <a href="javascript:void(0)" class="strip_info" routerLink="/foods/detail/1">
                             <div class="item_title">
                                 <h3>{{recent.label}}</h3>
                             </div>
@@ -118,7 +119,7 @@
             <div class="row">
                 <div class="col-sm-6 col-lg-3" *ngFor="let food of foods">
                     <div class="cardbody">
-                        <a href="non-food-product-detail.html">
+                        <a href="javascript:void(0)" routerLink="/foods/detail/1">
                             <div class="imgBox">
                                 <figure>
                                     <img [src]="food.imgUrl" alt="" class="lazy loaded img-fluid"
@@ -131,7 +132,8 @@
                                     <p class="price">Rs.{{food.price}}</p>
                                 </div>
                                 <div class="prod_cta">
-                                    <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Order Now</a>
+                                    <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                        (click)="orderNow($event, food)">Order Now</a>
                                 </div>
                             </div>
                         </a>

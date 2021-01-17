@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PlaceOrderComponent } from '../place-order/place-order.component';
 
 export interface Food {
   imgUrl: string;
@@ -36,7 +38,7 @@ export class FoodDetailComponent implements OnInit {
   reviews: Review[];
   moreFromChef: FoodCard[];
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.foodItem = {
       imgUrl: 'assets/images/slides/slide_home_1.jpg',
       label: 'Sabudana Samosa with Pindi Chole and Mint Chutney',
@@ -104,4 +106,12 @@ export class FoodDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  orderNow(event: any, food: any) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(PlaceOrderComponent, {
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
 }

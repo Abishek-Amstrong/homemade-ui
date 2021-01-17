@@ -57,7 +57,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.breakfast">
                                 <div class="cardbody">
-                                    <a href="food-product-detail.html">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
                                         <div class="imgBox">
                                             <figure>
                                                 <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
@@ -70,7 +70,8 @@
                                                 <p class="price">Rs.{{menu.price}}</p>
                                             </div>
                                             <div class="prod_cta">
-                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, menu)">Pre
                                                     Order</a>
                                             </div>
                                             <p class="availablity">{{menu.availability}}</p>
@@ -89,7 +90,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.northIndian">
                                 <div class="cardbody">
-                                    <a href="food-product-detail.html">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
                                         <div class="imgBox">
                                             <figure>
                                                 <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
@@ -102,7 +103,8 @@
                                                 <p class="price">Rs.{{menu.price}}</p>
                                             </div>
                                             <div class="prod_cta">
-                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, menu)">Pre
                                                     Order</a>
                                             </div>
                                             <p class="availablity">{{menu.availability}}</p>
@@ -121,7 +123,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.southIndian">
                                 <div class="cardbody">
-                                    <a href="food-product-detail.html">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
                                         <div class="imgBox">
                                             <figure>
                                                 <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
@@ -134,7 +136,8 @@
                                                 <p class="price">Rs.{{menu.price}}</p>
                                             </div>
                                             <div class="prod_cta">
-                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, menu)">Pre
                                                     Order</a>
                                             </div>
                                             <p class="availablity">{{menu.availability}}</p>
@@ -153,7 +156,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.continental">
                                 <div class="cardbody">
-                                    <a href="food-product-detail.html">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
                                         <div class="imgBox">
                                             <figure>
                                                 <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
@@ -166,7 +169,8 @@
                                                 <p class="price">Rs.{{menu.price}}</p>
                                             </div>
                                             <div class="prod_cta">
-                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, menu)">Pre
                                                     Order</a>
                                             </div>
                                             <p class="availablity">{{menu.availability}}</p>
@@ -185,7 +189,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.oriental">
                                 <div class="cardbody">
-                                    <a href="food-product-detail.html">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
                                         <div class="imgBox">
                                             <figure>
                                                 <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
@@ -198,7 +202,8 @@
                                                 <p class="price">Rs.{{menu.price}}</p>
                                             </div>
                                             <div class="prod_cta">
-                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, menu)">Pre
                                                     Order</a>
                                             </div>
                                             <p class="availablity">{{menu.availability}}</p>
@@ -217,7 +222,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.desserts">
                                 <div class="cardbody">
-                                    <a href="food-product-detail.html">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
                                         <div class="imgBox">
                                             <figure>
                                                 <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
@@ -230,7 +235,8 @@
                                                 <p class="price">Rs.{{menu.price}}</p>
                                             </div>
                                             <div class="prod_cta">
-                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, menu)">Pre
                                                     Order</a>
                                             </div>
                                             <p class="availablity">{{menu.availability}}</p>
@@ -249,7 +255,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.regional">
                                 <div class="cardbody">
-                                    <a href="food-product-detail.html">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
                                         <div class="imgBox">
                                             <figure>
                                                 <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
@@ -262,7 +268,8 @@
                                                 <p class="price">Rs.{{menu.price}}</p>
                                             </div>
                                             <div class="prod_cta">
-                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, menu)">Pre
                                                     Order</a>
                                             </div>
                                             <p class="availablity">{{menu.availability}}</p>
@@ -281,7 +288,7 @@
                         <div class="row">
                             <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.healty">
                                 <div class="cardbody">
-                                    <a href="food-product-detail.html">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
                                         <div class="imgBox">
                                             <figure>
                                                 <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
@@ -294,7 +301,8 @@
                                                 <p class="price">Rs.{{menu.price}}</p>
                                             </div>
                                             <div class="prod_cta">
-                                                <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Pre
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, menu)">Pre
                                                     Order</a>
                                             </div>
                                             <p class="availablity">{{menu.availability}}</p>
@@ -325,7 +333,8 @@
                                 <div class="item">
                                     <div class="chefBox">
                                         <figure>
-                                            <a href="#"><img [src]="chef.imgUrl" class="img-fluid lazy" alt=""></a>
+                                            <a href="javascript:void(0)" routerLink="/foods/chef/1"><img
+                                                    [src]="chef.imgUrl" class="img-fluid lazy" alt=""></a>
                                         </figure>
                                         <div class="cardDetails">
                                             <h3>{{chef.name}}</h3>
@@ -357,7 +366,8 @@
                             <div class="item">
                                 <div class="chefBox">
                                     <figure>
-                                        <a href="#"><img [src]="cuisine.imgUrl" class="img-fluid lazy" alt=""></a>
+                                        <a href="javascript:void(0)" routerLink="/foods/chef/1"><img
+                                                [src]="cuisine.imgUrl" class="img-fluid lazy" alt=""></a>
                                     </figure>
                                     <div class="cardDetails">
                                         <h3>{{cuisine.name}}</h3>

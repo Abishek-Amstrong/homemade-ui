@@ -19,6 +19,13 @@ const routes: Routes = [
         (m) => m.ChefDetailModule
       ),
   },
+  {
+    path: 'leave-review',
+    loadChildren: () =>
+      import('./leave-review/leave-review.module').then(
+        (m) => m.LeaveReviewModule
+      ),
+  },
 ];
 
 @NgModule({

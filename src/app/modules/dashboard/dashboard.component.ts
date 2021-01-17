@@ -7,8 +7,10 @@ import {
   Renderer2,
   ViewChildren,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SlidesOutputData, OwlOptions } from 'ngx-owl-carousel-o';
+import { PlaceOrderComponent } from '../foods/place-order/place-order.component';
 
 export interface Menu {
   imgUrl: string;
@@ -104,7 +106,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     },
   };
 
-  constructor(private renderer: Renderer2, private router: Router) {
+  constructor(
+    private renderer: Renderer2,
+    private router: Router,
+    private dialog: MatDialog
+  ) {
     this.menus = [
       {
         imgUrl: 'assets/images/home_cat_food.jpg',
@@ -215,5 +221,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   navigateToComponent(path: string) {
     this.router.navigate(['/', 'foods']);
+  }
+
+  orderNow(event: any, food: Food) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(PlaceOrderComponent, {
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

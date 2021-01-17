@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { MatDialog } from '@angular/material/dialog';
+import { PlaceOrderComponent } from './place-order/place-order.component';
 
 export interface Category {
   imgUrl: string;
@@ -110,7 +112,7 @@ export class FoodsComponent implements OnInit {
     },
   };
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.categories = [
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
@@ -411,4 +413,12 @@ export class FoodsComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  orderNow(event: any, food: any) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(PlaceOrderComponent, {
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
 }

@@ -7,6 +7,8 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { PlaceOrderComponent } from './place-order/place-order.component';
 import { AngularMaterialModule } from '../shared/angular-material.module';
 
+import { FoodService } from '../shared/services/food.service';
+
 @NgModule({
   declarations: [FoodsComponent, PlaceOrderComponent],
   imports: [
@@ -15,5 +17,6 @@ import { AngularMaterialModule } from '../shared/angular-material.module';
     CarouselModule,
     AngularMaterialModule,
   ],
+  providers: [FoodService],
 })
 export class FoodsModule {}

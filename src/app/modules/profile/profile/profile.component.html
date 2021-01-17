@@ -1,0 +1,25 @@
+<div class="content-box margin_30_60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="account-pre" [ngClass]="{mhide : isHideMenu}">
+                    <div class="user-title">
+                        <a routerLink="/profile/myaccount"><h2><span>Hi</span> {{userName}}</h2></a>
+                    </div>
+                    <div class="account-menu">
+                        <ul>
+                            <li><a routerLink="/profile/personaldetails">Personal Details</a></li>
+                            <li><a routerLink="/profile/addressbook">Address Book</a></li>
+                            <li><a routerLink="/profile/myorders">My Orders</a></li>
+                            <li><a routerLink="/profile/changepassword">Change Password</a></li>
+                            <li><a routerLink="/profile/signout">Sign Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <router-outlet></router-outlet>
+            </div>
+        </div><!--./-->
+    </div>
+</div>

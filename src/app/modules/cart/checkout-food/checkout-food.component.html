@@ -63,7 +63,8 @@
                                 </div>
                             </div>
                         </div>
-                        <p *ngIf="deliveryTime!.invalid  && (deliveryTime!.touched || deliveryTime!.dirty)" class="error-msg">Please select day for delivery!!</p>
+                        <p *ngIf="deliveryTime!.errors?.required  && (deliveryTime!.touched || deliveryTime!.dirty)" class="error-msg">Please select time for delivery!!</p>
+                        <p *ngIf="deliveryTime!.errors?.PastTime  && deliveryTime!.dirty" class="error-msg">The time is already past!!</p>
                         <div class="dropdown time">
                             <a href="#" data-toggle="dropdown" aria-expanded="false" [ngClass]="{disabled : disableDateTime}">Time <span id="selected_time">{{selectedTime}}</span></a>
                             <div class="dropdown-menu">
@@ -196,24 +197,25 @@
                 </div>
                 <div class="main" [ngClass]="{full : displayOrderSummary}">
                     <ul>
-                        <li>Date<span>Today 23/11/2019</span></li>
-                        <li>Time<span>08.30pm</span></li>
+                        <li>Date<span>Today {{today}}</span></li>
+                        <li>Time<span>{{time}}</span></li>
                     </ul>
                     <hr>
                     <ul class="clearfix">
                         <table class="food-summary-cart">
                             <tbody>
-                                <tr>
-                                    <td>Sabudana Samosa With Chutny</td>
+                                <tr *ngFor = "let prod of userCart; let i = index">
+                                    <td>{{prod.ProductName}}</td>
                                     <td>
                                         <div class="numbers-row">
-                                            <input type="text" value="1" id="qty_1" class="qty2 form-control" name="quantity">
-                                            <div class="inc button_inc">+</div><div class="dec button_inc">-</div>
+                                            <input type="text" value="1" id="qty_{{i}}" [value]="prod.Quantity" class="qty2 form-control" name="quantity">
+                                            <div class="inc button_inc" (click)="incProdQuantity(prod.ProductId)">+</div>
+                                            <div class="dec button_inc" (click)="decProdQuantity(prod.ProductId)">-</div>
                                         </div>
                                     </td>
-                                    <td>100</td>
+                                    <td>{{prod.Quantity * prod.Price}}</td>
                                 </tr><!--./-->
-                                <tr>
+                                <!-- <tr>
                                     <td>Pizza with extra cheese</td>
                                     <td>
                                         <div class="numbers-row">
@@ -222,15 +224,16 @@
                                         </div>
                                     </td>
                                     <td>500</td>
-                                </tr><!--./-->
+                                </tr>./ -->
                             </tbody>
                         </table>
                     </ul>
                     <hr>
                     <ul class="clearfix">
-                        <li>Subtotal<span>600</span></li>
-                        <li>Delivery/Shipping Charge<span>80</span></li>
-                        <li class="total">Total<span>680</span></li>
+                        <li>Subtotal<span>{{subTotal}}</span></li>
+                        <li>Discount<span>{{discount}}</span></li>
+                        <li>Delivery/Shipping Charge<span>{{deliveryCost}}</span></li>
+                        <li class="total">Total<span>{{total}}</span></li>
                     </ul>
                 </div>
             </div>

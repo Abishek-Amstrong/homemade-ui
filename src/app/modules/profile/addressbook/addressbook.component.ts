@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { FormBuilder,FormGroup, Validators} from '@angular/forms';
 
 import { ProfileService } from '../../shared/services/profile.service'
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Component({
   selector: 'app-addressbook',
@@ -110,7 +109,7 @@ export class AddressbookComponent implements OnInit {
     }
     this.displayAdrForm = false;
     this.addressForm.reset();
-    this.router.navigateByUrl('/profile/addressbook');
+    this.loadAddressDetails();
   }
 
   deleteAddress(addresId : number)
@@ -120,7 +119,7 @@ export class AddressbookComponent implements OnInit {
     //   data => { console.log(data)},
     //   error => console.log(error)
     // );
-    this.addressData = this.addressData.filter((val: any)=> val.addressId != addresId);
+    this.loadAddressDetails();
     return false;
   }
 

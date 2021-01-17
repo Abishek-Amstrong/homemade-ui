@@ -110,6 +110,33 @@ export class ProfileService {
       //   catchError(this.handleError));
    }
 
+   getOrderDetails() : Observable<any>{
+    let sampelObservable = new Observable((observer) => {
+      let orderData = [{
+        orderId : 1001,
+        productName : 'Sabudana Samosa With Chutny',
+        productImage : '../../../../assets/images/thumb_detail_1.jpg',
+        productTotPrice : 2928 ,
+        OrderDate : new Date(),
+        deliveredDate : new Date()
+      },
+      {
+        orderId : 1002,
+        productName : 'Pizza with extra cheese',
+        productImage : '../../../../assets/images/thumb_detail_1.jpg',
+        productTotPrice : 315 ,
+        OrderDate : new Date(),
+        deliveredDate : new Date()
+      }];
+    observer.next(orderData);
+    observer.complete();
+    });
+    return sampelObservable;
+    //return this.http.get(`${environment.apiUrl}/User/OrderDetails`).pipe(
+    //   catchError(this.handleError)
+    // );
+   }
+
    handleError(errorObj: HttpErrorResponse) {
     // if (typeof errorObj.error === 'string') {
     //   this.toasterService.error(errorObj.error);

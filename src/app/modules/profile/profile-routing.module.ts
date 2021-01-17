@@ -17,7 +17,7 @@ const routes: Routes = [
     children :[
     { path : 'myaccount',component : MyaccountComponent },
     { path : 'personaldetails',component : PersonaldetailsComponent },
-    { path : 'addressbook',component : AddressbookComponent },
+    { path : 'addressbook',component : AddressbookComponent},
     { path : 'myorders',component : MyordersComponent },
     { path : 'changepassword',component : ChangepasswordComponent },
     { path : 'signout',component : SignoutComponent },

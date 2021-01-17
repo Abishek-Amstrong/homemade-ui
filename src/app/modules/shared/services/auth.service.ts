@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { User } from './../models/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Tokens } from './../models/tokens';
@@ -55,12 +55,24 @@ export class AuthService {
       .pipe(tap((token: any) => this.doLoginUser(email, token)));
   }
 
+  changePassword(currentPassword : string, newPassword : string) //: Observable<any>
+  {
+    // const options  = new HttpHeaders({'Content-Type':'application/json'});
+    // return this.http
+    // .post(`${environment.apiUrl}/Auth/changePassword`, { currentPassword, newPassword }, {headers : options})
+    // .pipe(catchError(this.handleError));
+
+    //sample JSON :-
+    //newPassword: "eastwest"
+    //currentPassword: "westeast"
+  }
+
   logout() {
     // remove user from local storage and set current user to null
     this.currentUser = '';
     this.removeTokens();
     this.userSubject.next(new User('', '', ''));
-    this.router.navigate(['/shared/login']);
+    this.router.navigate(['/auth']);
   }
 
   private removeTokens() {

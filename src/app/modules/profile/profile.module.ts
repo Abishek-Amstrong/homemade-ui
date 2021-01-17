@@ -11,6 +11,7 @@ import { ChangepasswordComponent } from './changepassword/changepassword.compone
 import { SignoutComponent } from './signout/signout.component';
 
 import { ProfileService } from '../shared/services/profile.service'
+import { AuthService } from '../shared/services/auth.service'
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ProfileService } from '../shared/services/profile.service'
     ReactiveFormsModule
   ],
   providers : [
-    ProfileService
+    ProfileService,
+    AuthService
   ]
 })
 export class ProfileModule { }

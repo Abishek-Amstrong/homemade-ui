@@ -25,7 +25,8 @@
                     <div class="availablity">{{foodItem.availability}}</div>
 
                     <div class="btn_1_mobile">
-                        <a href="#modal-dialog" class="btn_1 gradient full-width mb_5 modal_dialog mb32">Order
+                        <a href="javascript:void(0)" (click)="orderNow($event, foodItem)"
+                            class="btn_1 gradient full-width mb_5 modal_dialog mb32">Order
                             Now</a>
                     </div>
 
@@ -170,7 +171,8 @@
 
                             <div class="col-md-5">
                                 <div class="reviewBox">
-                                    <a href="leave-review.html" class="btn_1 outline type_2">Leave a Review</a>
+                                    <a href="javascript:void(0)" class="btn_1 outline type_2"
+                                        routerLink="/foods/leave-review">Leave a Review</a>
                                 </div>
                                 <!-- /row -->
                             </div>
@@ -215,7 +217,7 @@
                         <figure>
                             <span class="ribbon off">{{chef.offer}} off</span>
                             <img [src]="chef.imgUrl" class="img-fluid lazy loaded" alt="" data-was-processed="true">
-                            <a href="detail-restaurant.html" class="strip_info">
+                            <a href="javascript:void(0)" routerLink="/foods/chef/1" class="strip_info">
                                 <div class="item_title">
                                     <h3>{{chef.label}}</h3>
                                     <small>₹ {{chef.price}}</small>
@@ -224,7 +226,8 @@
                         </figure>
                         <div class="cardDetails">
                             <div class="score"><strong>{{chef.rating}}</strong></div>
-                            <a class="btn_1 outline type_3" href="#">Order Now</a>
+                            <a class="btn_1 outline type_3" href="javascript:void(0)"
+                                (click)="orderNow($event, chef)">Order Now</a>
                         </div>
                     </div>
                 </div>

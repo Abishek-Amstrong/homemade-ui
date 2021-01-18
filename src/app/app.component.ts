@@ -32,4 +32,8 @@ export class AppComponent implements OnInit {
   expandCollapseSandwichSubMenu() {
     this.is_show_normal = this.is_show_normal == true ? false : true;
   }
+
+  moveToTop(event : any)
+  {
+  }
 }

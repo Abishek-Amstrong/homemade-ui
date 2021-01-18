@@ -13,8 +13,8 @@ import { ValidatorService } from 'src/app/modules/shared/services/validator.serv
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     CarouselModule,

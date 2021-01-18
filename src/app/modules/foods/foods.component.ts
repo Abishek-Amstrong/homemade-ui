@@ -20,6 +20,7 @@ export interface Chef {
   templateUrl: './foods.component.html',
   styleUrls: ['./foods.component.scss'],
 })
+
 export class FoodsComponent implements OnInit {
   categories: Category[];
   menus: any;

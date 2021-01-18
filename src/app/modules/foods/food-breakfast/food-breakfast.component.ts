@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { MatDialog } from '@angular/material/dialog';
 
 import { FoodService } from '../../shared/services/food.service'
+import { PlaceOrderComponent } from '../place-order/place-order.component';
 
 @Component({
   selector: 'app-food-breakfast',
@@ -98,7 +100,7 @@ export class FoodBreakfastComponent implements OnInit {
     },
   };
 
-  constructor(private foodService : FoodService) { }
+  constructor(private foodService : FoodService,private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadBreakfastDetails();
@@ -125,5 +127,14 @@ export class FoodBreakfastComponent implements OnInit {
     this.foodService.getCuisineNearUserLocation().subscribe(data=>this.cuisineData = data,
       err=>console.log(err)
       );
+  }
+
+  orderNow(event: any, food: any) : boolean {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(PlaceOrderComponent, {
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+    return false;
   }
 }

@@ -35,7 +35,7 @@
                                     <p class="price">{{food.foodPrice}}</p>
                                 </div>
                                 <div class="prod_cta">
-                                    <a class="btn_1 outline type_3 modal_dialog" href="#modal-dialog">Order Now</a>
+                                    <a class="btn_1 outline type_3 modal_dialog" (click)="orderNow($event, food)">Order Now</a>
                                 </div>
                             </div>
                         </a>

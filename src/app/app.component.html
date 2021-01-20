@@ -200,4 +200,4 @@
 </footer>
 <!--/footer-->
 
-<div id="toTop" class="detail_page" (click)="moveToTop($event)"></div><!-- Back to top button -->
+<div id="toTop" class="detail_page" [ngClass]="{ visible : is_navToTop_visible}" (click)="scrollToTop()"></div><!-- Back to top button -->

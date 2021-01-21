@@ -89,6 +89,10 @@ export class AuthService {
 
   register(user: any) {
     return this.http.post(`${environment.apiUrl}/Auth/register`, user);
+    // let sampleObservable = new Observable((observer)=>
+    // observer.complete()
+    // );
+    //return sampleObservable;
   }
 
   handleError(errorObj: any) {

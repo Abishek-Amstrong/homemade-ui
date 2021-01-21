@@ -16,13 +16,13 @@ export class CartService {
     let sampelObservable = new Observable((observer) => {
         let cartData = [{
           ProductId : 101,
-          ProductImage :  '../../../../assets/images/thumb_detail_1.jpg',
+          ProductImage :  'assets/images/thumb_detail_1.jpg',
           ProductName : 'Sabudana Samosa With Chutny',
           Price : 60,
           Quantity : 5
         },{
           ProductId : 102,
-          ProductImage :  '../../../../assets/images/thumb_detail_1.jpg',
+          ProductImage :  'assets/images/thumb_detail_1.jpg',
           ProductName : 'Pizza with extra cheese',
           Price : 20,
           Quantity : 2

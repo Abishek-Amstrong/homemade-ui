@@ -15,42 +15,42 @@ export class FoodService {
       let foodData = [{
         productId : 1001,
         foodName : 'Sabudana Samosa With Chutny',
-        foodImage : '../../../../assets/images/products/product-2.jpg',
+        foodImage : 'assets/images/products/product-2.jpg',
         foodPrice : 2928
       },{
         productId : 1002,
         foodName : 'Pizza with extra cheese',
-        foodImage : '../../../../assets/images/products/product-2.jpg',
+        foodImage : 'assets/images/products/product-2.jpg',
         foodPrice : 1145
       },{
         productId : 1003,
         foodName : 'Sabudana Samosa With Chutny',
-        foodImage : '../../../../assets/images/products/product-2.jpg',
+        foodImage : 'assets/images/products/product-2.jpg',
         foodPrice : 2928
       },{
         productId : 1004,
         foodName : 'Pizza with extra cheese',
-        foodImage : '../../../../assets/images/products/product-2.jpg',
+        foodImage : 'assets/images/products/product-2.jpg',
         foodPrice : 1145
       },{
         productId : 1005,
         foodName : 'Sabudana Samosa With Chutny',
-        foodImage : '../../../../assets/images/products/product-2.jpg',
+        foodImage : 'assets/images/products/product-2.jpg',
         foodPrice : 2928
       },{
         productId : 1006,
         foodName : 'Pizza with extra cheese',
-        foodImage : '../../../../assets/images/products/product-2.jpg',
+        foodImage : 'assets/images/products/product-2.jpg',
         foodPrice : 1145
       },{
         productId : 1007,
         foodName : 'Sabudana Samosa With Chutny',
-        foodImage : '../../../../assets/images/products/product-2.jpg',
+        foodImage : 'assets/images/products/product-2.jpg',
         foodPrice : 2928
       },{
         productId : 1008,
         foodName : 'Pizza with extra cheese',
-        foodImage : '../../../../assets/images/products/product-2.jpg',
+        foodImage : 'assets/images/products/product-2.jpg',
         foodPrice : 1145
       }];
     observer.next(foodData);
@@ -67,32 +67,32 @@ export class FoodService {
       let chefData = [{
         chefId : 1001,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png',
+        imgUrl : 'assets/images/lazy-placeholder.png',
         rating : 9.5
       },{
         chefId : 1002,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png',
+        imgUrl : 'assets/images/lazy-placeholder.png',
         rating : 9.5
       },{
         chefId : 1003,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png',
+        imgUrl : 'assets/images/lazy-placeholder.png',
         rating : 9.5
       },{
         chefId : 1004,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png',
+        imgUrl : 'assets/images/lazy-placeholder.png',
         rating : 9.5
       },{
         chefId : 1005,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png',
+        imgUrl : 'assets/images/lazy-placeholder.png',
         rating : 9.5
       },{
         chefId : 1006,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png',
+        imgUrl : 'assets/images/lazy-placeholder.png',
         rating : 9.5
       }];
     observer.next(chefData);
@@ -109,27 +109,27 @@ export class FoodService {
       let cuisineData = [{
         cuisineId : 1001,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png'
+        imgUrl : 'assets/images/lazy-placeholder.png'
       },{
         cuisineId : 1002,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png'
+        imgUrl : 'assets/images/lazy-placeholder.png'
       },{
         cuisineId : 1003,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png'
+        imgUrl : 'assets/images/lazy-placeholder.png'
       },{
         cuisineId : 1004,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png'
+        imgUrl : 'assets/images/lazy-placeholder.png'
       },{
         cuisineId : 1005,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png'
+        imgUrl : 'assets/images/lazy-placeholder.png'
       },{
         cuisineId : 1006,
         name : 'John Doe',
-        imgUrl : '../../../../assets/images/lazy-placeholder.png'
+        imgUrl : 'assets/images/lazy-placeholder.png'
       }];
     observer.next(cuisineData);
     observer.complete();

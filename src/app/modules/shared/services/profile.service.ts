@@ -115,7 +115,7 @@ export class ProfileService {
       let orderData = [{
         orderId : 1001,
         productName : 'Sabudana Samosa With Chutny',
-        productImage : '../../../../assets/images/thumb_detail_1.jpg',
+        productImage : 'assets/images/thumb_detail_1.jpg',
         productTotPrice : 2928 ,
         OrderDate : new Date(),
         deliveredDate : new Date()
@@ -123,7 +123,7 @@ export class ProfileService {
       {
         orderId : 1002,
         productName : 'Pizza with extra cheese',
-        productImage : '../../../../assets/images/thumb_detail_1.jpg',
+        productImage : 'assets/images/thumb_detail_1.jpg',
         productTotPrice : 315 ,
         OrderDate : new Date(),
         deliveredDate : new Date()

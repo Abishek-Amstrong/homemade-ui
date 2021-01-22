@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.authService.user.subscribe((x) => (this.user = x));
+    //this.authService.user.subscribe((x) => (this.user = x));
   }
 
   @HostListener('window:scroll',[]) onScroll(): void {

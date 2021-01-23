@@ -1,4 +1,4 @@
-<header class="header_in clearfix" *ngIf="user">
+<header class="header_in clearfix" *ngIf="!isHideHeader">
   <div class="container">
     <!-- /top_menu -->
     <div class="topBar">
@@ -16,7 +16,17 @@
         </div>
         <div class="menuList">
           <ul>
-            <li><a [routerLink]=""><img src="assets/images/location.svg" alt="location"></a></li>
+            <li class="dropdownMenu">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" >
+                <img src="assets/images/location.svg" alt="location">
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#" (click)="setLocation()">Mumbai</a></li>
+                <li><a href="#" (click)="setLocation()">Delhi</a></li>
+                <li><a href="#" (click)="setLocation()">NCR</a></li>
+                <li><a href="#" (click)="setLocation()">Pune</a></li>
+              </ul>
+            </li>
             <li class="dropdownMenu">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <img src="assets/images/user.svg" alt="user">

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './../models/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Tokens } from './../models/tokens';
 import { environment } from 'src/environments/environment';
+
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -16,16 +18,30 @@ export class AuthService {
   public user: Observable<User>;
   decodedToken: any;
   currentUser: string;
+  private hideHeader : boolean;
+  hideHeaderStatusChange : Subject<boolean> = new Subject<boolean>();
   jwtHelper = new JwtHelperService();
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private router: Router, private http: HttpClient,private toastr: ToastrService) {
     this.userSubject = new BehaviorSubject<User>(
       this.jwtHelper.decodeToken(localStorage.getItem(this.JWT_TOKEN)!)
     );
     this.user = this.userSubject.asObservable();
     this.currentUser = '';
+    this.hideHeader = false;
+  }
+
+  getHeaderDisplayStatus() : boolean
+  {
+    return this.hideHeader;
+  }
+
+  setHeaderDisplayStatus(isView : boolean)
+  {
+    this.hideHeader = isView;
+    this.hideHeaderStatusChange.next(this.hideHeader);
   }
 
   public get userValue(): User {
@@ -41,7 +57,7 @@ export class AuthService {
     localStorage.setItem(this.JWT_TOKEN, tokens.token);
     const decodedToken = this.jwtHelper.decodeToken(tokens.token);
     this.userSubject.next(decodedToken);
-    const userId = decodedToken.nameid;
+    const userId = decodedToken.user.userId;
     localStorage.setItem('userId', userId);
   }
 
@@ -50,9 +66,17 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
+    let cred = {
+      email_Id : email,
+      password : password
+    };
+    console.log('cred : ' + JSON.stringify(cred));
     return this.http
-      .post<User>(`${environment.apiUrl}/Auth/login`, { email, password })
-      .pipe(tap((token: any) => this.doLoginUser(email, token)));
+      .post<User>(`${environment.apiUrl}/login`, cred)
+      .pipe(
+        tap((data: any) => this.doLoginUser(cred.email_Id, {token : data.token,  refreshToken : data.token})),
+        catchError(err => this.handleError(err))
+      );
   }
 
   changePassword(currentPassword : string, newPassword : string) //: Observable<any>
@@ -88,26 +112,38 @@ export class AuthService {
   }
 
   register(user: any) {
-    return this.http.post(`${environment.apiUrl}/Auth/register`, user);
-    // let sampleObservable = new Observable((observer)=>
-    // observer.complete()
-    // );
-    //return sampleObservable;
+    let newUser = {
+      firstName : user.name,
+      lastname : '',
+      email_Id : user.email,
+      mobileNumber : user.mobile,
+      password : user.password,
+      roles : 'enduser'
+    };
+    return this.http.post(`${environment.apiUrl}/register`, newUser).pipe(
+      catchError(err => this.handleError(err))
+    );
   }
 
-  handleError(errorObj: any) {
-    // if (typeof errorObj.error === 'string') {
-    //   this.toasterService.error(errorObj.error);
-    // } else if (typeof errorObj.error === 'object') {
-    //   if ('errors' in errorObj.error) {
-    //     const key = Object.keys(errorObj.error.errors)[0];
-    //     const errorMsg: any = errorObj.error.errors[key][0];
-    //     this.toasterService.error(errorMsg);
-    //   } else {
-    //     this.toasterService.error(errorObj.error.title);
-    //   }
-    // } else {
-    //   console.log(errorObj);
-    // }
+  handleError(errorObj: HttpErrorResponse) : Observable<any>{
+    console.log(errorObj);
+    let errorMsg : any;
+    if (typeof errorObj.error === 'string') {
+      errorMsg = errorObj.error;
+      this.toastr.error(errorObj.error,'Error');
+    } else if (typeof errorObj.error === 'object') {
+      if ('errors' in errorObj.error) {
+        errorMsg = errorObj.error.errors[0].message;
+        this.toastr.error(errorMsg,'Error');
+      } 
+      else {
+        errorMsg = errorObj.error.name;
+        this.toastr.error(errorObj.error.name,'Error');
+      }
+    } else {
+      errorMsg = errorObj.message;
+      this.toastr.error(errorObj.message,'Error');
+    }
+    return throwError(errorMsg);
   }
 }

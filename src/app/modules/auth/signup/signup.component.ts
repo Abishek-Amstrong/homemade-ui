@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
+import { ValidatorService } from '../../shared/services/validator.service'
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -16,15 +18,17 @@ export class SignupComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private validator : ValidatorService,
+    private toastr: ToastrService
   ) {
     this.submitted = false;
-
+    this.authService.setHeaderDisplayStatus(true);
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       email: [
         '',
-        [Validators.required, Validators.pattern('\\S+@\\S+\\.\\S+')],
+        [Validators.required, this.validator.isValidEmail()],
       ],
       mobile: ['', [Validators.required]],
       password: ['', Validators.required],
@@ -38,19 +42,34 @@ export class SignupComponent implements OnInit {
   get f() {
     return this.form.controls;
   }
+  get name(){ return this.form.get('name');}
+  get email(){ return this.form.get('email');}
+  get mobile(){ return this.form.get('mobile');}
+  get password(){ return this.form.get('password');}
+  get confirmPassword(){ return this.form.get('confirmPassword');}
 
   onSubmit() {
     this.submitted = true;
-
     // stop here if form is invalid
     if (this.form.invalid) {
+      Object.keys(this.form.controls).forEach(key => {
+        this.form.get(key)?.markAsDirty();
+      });
+      return;
+    }
+    console.log('valid');
+    if(this.password!.value != this.confirmPassword!.value)
+    {
+      this.confirmPassword?.setErrors({'incorrect': true});
       return;
     }
 
     this.authService.register(this.form.value).subscribe(
-      (response: any) => {},
+      (response: any) => {
+        this.toastr.success('Registration successful', 'Success!');
+        this.router.navigateByUrl('/auth');
+      },
       (error: any) => {
-        // this.toasterService.error(handleError(error));
       }
     );
   }

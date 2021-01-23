@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SlidesOutputData, OwlOptions } from 'ngx-owl-carousel-o';
 import { PlaceOrderComponent } from '../foods/place-order/place-order.component';
+import { AuthService } from '../shared/services/auth.service';
 
 export interface Menu {
   imgUrl: string;
@@ -109,8 +110,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private renderer: Renderer2,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService : AuthService
   ) {
+    this.authService.setHeaderDisplayStatus(false);
     this.menus = [
       {
         imgUrl: 'assets/images/home_cat_food.jpg',

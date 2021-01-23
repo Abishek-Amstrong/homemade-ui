@@ -12,9 +12,12 @@
             <div class="divider"><span>Or</span></div>
             <form autocomplete="off" [formGroup]="form">
                 <div class="form-group">
+                    <p *ngIf="f.email!.errors?.required  && (f.email!.touched || f.email!.dirty)" class="error-msg">Please enter your email!!</p>
+                    <p *ngIf="f.email!.errors?.InvalidEmail  && (f.email!.touched || f.email!.dirty)" class="error-msg">Please enter valid email!!</p>
                     <input class="form-control" type="email" placeholder="Email" formControlName="email">
                 </div>
                 <div class="form-group">
+                    <p *ngIf="f.password!.errors?.required  && (f.password!.touched || f.password!.dirty)" class="error-msg">Please enter your password!!</p>
                     <input class="form-control" type="password" id="password" placeholder="Password"
                         formControlName="password">
                 </div>
@@ -28,8 +31,8 @@
                     <div class="float-right"><a id="forgot" href="javascript:void(0)"
                             [routerLink]="['/auth/forgot']">Forgot Password?</a></div>
                 </div>
-                <a href="javascript:void(0)" class="btn_1 gradient full-width" (click)="onSubmit()">Login
-                    Now!</a>
+                <button type="submit" value="Login Now" class="btn_1 gradient full-width" (click)="onSubmit()">Login
+                    Now!</button>
                 <div class="text-center mt-2"><small>Don't have an acccount? <strong><a href="javascript:void(0)"
                                 [routerLink]="['/auth/signup']">Sign Up</a></strong></small>
                 </div>

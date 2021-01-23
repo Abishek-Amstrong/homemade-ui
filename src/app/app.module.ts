@@ -7,6 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { ValidatorService } from 'src/app/modules/shared/services/validator.service';
 
@@ -19,6 +20,9 @@ import { ValidatorService } from 'src/app/modules/shared/services/validator.serv
     BrowserAnimationsModule,
     CarouselModule,
     CommonModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    }), // ToastrModule added
   ],
   providers: [ValidatorService],
   bootstrap: [AppComponent],

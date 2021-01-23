@@ -18,15 +18,21 @@ export class AppComponent implements OnInit {
   is_show_normal: boolean = false;
   is_navToTop_visible : boolean = false;
   isLoggedIn: boolean;
+  isHideHeader : boolean;
+  headerSubscription: any;
   user: User;
 
   constructor(@Inject(DOCUMENT) private document: Document,private authService: AuthService) {
     this.isLoggedIn = false;
+    this.isHideHeader = false;
+    this.headerSubscription = this.authService.hideHeaderStatusChange.subscribe((val)=>{
+      this.isHideHeader = val;
+    });
     this.user = new User('', '', '');
   }
 
   ngOnInit() {
-    //this.authService.user.subscribe((x) => (this.user = x));
+    this.authService.user.subscribe((x) => (this.user = x));
   }
 
   @HostListener('window:scroll',[]) onScroll(): void {
@@ -59,5 +65,10 @@ export class AppComponent implements OnInit {
             window.scrollTo(0, currentScroll - (currentScroll / 8));
         }
     })();
+  }
+
+  setLocation()
+  {
+    return false;
   }
 }

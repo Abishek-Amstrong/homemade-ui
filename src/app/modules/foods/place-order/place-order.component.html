@@ -1,23 +1,23 @@
 <div class="order" id="modal-dialog">
     <div class="small-dialog-header">
-        <h3>Cheese Quesadilla</h3>
+        <h3>{{orderData.OrderItemName}}</h3>
     </div>
     <div class="content">
         <h5>Quantity</h5>
         <div class="numbers-row">
-            <input type="text" value="1" id="qty_1" class="qty2 form-control" name="quantity">
-            <div class="inc button_inc">+</div>
-            <div class="dec button_inc">-</div>
+            <input type="text" [(ngModel)]="orderData.OrderQuantity" id="qty_1" class="qty2 form-control" name="quantity">
+            <div class="inc button_inc" (click)="incOrderQuantity()">+</div>
+            <div class="dec button_inc"  (click)="decOrderQuantity()">-</div>
         </div>
         <h5>Size</h5>
         <ul class="clearfix">
-            <li>
-                <label class="container_radio">Medium<span>+ $3.30</span>
-                    <input type="radio" value="option1" name="options_1">
+            <li *ngFor="let size of orderData.OrderSize;let i = index">
+                <label class="container_radio">{{size}}<span>+ $3.30</span>
+                    <input type="radio" [(ngModel)]="selectedSize" [value]="size" name="size">
                     <span class="checkmark"></span>
                 </label>
             </li>
-            <li>
+            <!-- <li>
                 <label class="container_radio">Large<span>+ $5.30</span>
                     <input type="radio" value="option2" name="options_1">
                     <span class="checkmark"></span>
@@ -28,17 +28,17 @@
                     <input type="radio" value="option3" name="options_1">
                     <span class="checkmark"></span>
                 </label>
-            </li>
+            </li> -->
         </ul>
         <h5>Extra Ingredients</h5>
         <ul class="clearfix">
-            <li>
-                <label class="container_check">Extra Tomato<span>+ $4.30</span>
-                    <input type="checkbox">
+            <li *ngFor="let ingre of orderData.OrderIngredients;let i = index">
+                <label class="container_check">{{ingre.value}}<span>+ $4.30</span>
+                    <input type="checkbox" name="ingredients" [value]="ingre.value" [(ngModel)]="ingre.checked">
                     <span class="checkmark"></span>
                 </label>
             </li>
-            <li>
+            <!-- <li>
                 <label class="container_check">Extra Peppers<span>+ $2.50</span>
                     <input type="checkbox">
                     <span class="checkmark"></span>
@@ -49,13 +49,13 @@
                     <input type="checkbox">
                     <span class="checkmark"></span>
                 </label>
-            </li>
+            </li> -->
         </ul>
     </div>
     <div class="footer">
         <div class="row small-gutters">
             <div class="col-md-6">
-                <a href="javascript:void(0)" type="reset" class="btn_1 gradient full-width">Add to cart</a>
+                <a href="javascript:void(0)" type="reset" class="btn_1 gradient full-width" (click)="addToCart()">Add to cart</a>
             </div>
             <div class="col-md-6">
                 <a type="reset" class="btn_1 outline full-width" style="margin-top: 20px;" href="javascript:void(0)"

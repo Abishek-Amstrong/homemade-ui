@@ -52,7 +52,7 @@ export class CartService {
     const options  = new HttpHeaders({'Content-Type':'application/json'});
     return this.http.put(`${environment.apiUrl}/updatecart`,{cartId,quantity},{headers : options}).pipe(
       catchError(err => this.handleError(err))
-    )
+    );
   }
 
   deleteProductInCart(cartId : string) : Observable<any>
@@ -118,6 +118,15 @@ export class CartService {
       // fullName: "Venkat"
       // pinCode: "631745"
       // state: "Sikkim"
+  }
+
+  addItemsTocart(itemId : String, quantity : number) : Observable<any>
+  {
+    const options  = new HttpHeaders({'Content-Type':'application/json'});
+    let userId =this.authService.getUserId();
+    return this.http.post(`${environment.apiUrl}/addtocart`,{itemId,userId,quantity},{headers : options}).pipe(
+      catchError(err => this.handleError(err))
+    );
   }
 
   handleError(errorObj: HttpErrorResponse) : Observable<any> {

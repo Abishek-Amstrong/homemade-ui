@@ -4,6 +4,28 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { FoodService } from '../../shared/services/food.service'
 import { PlaceOrderComponent } from '../place-order/place-order.component';
+import { isNgTemplate } from '@angular/compiler';
+
+export interface Item{
+  ItemImageUrl : string,
+  ItemName : string,
+  ItemUnit : String,
+  ItemQuantity : number,
+  ItemIsVeg : boolean,
+  ItemIngrediants : String[],
+  ItemDesc : String,
+  ItemPrice : number,
+  ItemItemId : String,
+  ItemVendorId : string
+}
+
+export interface chef{
+  chefId : string,
+  firstname : string,
+  lastname : string,
+  chefImage : string,
+  chefRating : number
+}
 
 @Component({
   selector: 'app-food-breakfast',
@@ -11,8 +33,8 @@ import { PlaceOrderComponent } from '../place-order/place-order.component';
   styleUrls: ['./food-breakfast.component.scss']
 })
 export class FoodBreakfastComponent implements OnInit {
-  foodData : any;
-  chefData : any;
+  foodData : Item[];
+  chefData : chef[];
   cuisineData : any;
 
   customOptions: OwlOptions = {
@@ -100,7 +122,11 @@ export class FoodBreakfastComponent implements OnInit {
     },
   };
 
-  constructor(private foodService : FoodService,private dialog: MatDialog) { }
+  constructor(private foodService : FoodService,
+              private dialog: MatDialog) {
+    this.foodData = [];
+    this.chefData = [];
+  }
 
   ngOnInit(): void {
     this.loadBreakfastDetails();
@@ -110,15 +136,47 @@ export class FoodBreakfastComponent implements OnInit {
 
   loadBreakfastDetails()
   {
-    this.foodService.getBreakfastDetails().subscribe(
-      data=>this.foodData = data,
-      err=>console.log(err)
-      );
+    this.foodService.getItemSubCategoryDetails('food','breakfast').subscribe(
+      (resp:any)=>{
+         this.foodService.getItemDetailsInBulk(resp).subscribe(
+           (val : any) => {
+             for(let item of val)
+             {
+                let currItem = {
+                  ItemImageUrl : item.imagePath,
+                  ItemName : item.itemname,
+                  ItemUnit : item.unit,
+                  ItemQuantity : 1,
+                  ItemIsVeg : item.isVeg,
+                  ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
+                  ItemDesc : item.desc,
+                  ItemPrice : item.price,
+                  ItemItemId : item.itemId,
+                  ItemVendorId : item.VendorVendorId
+                };
+                this.foodData.push(currItem);
+             }          
+           }
+         );
+      });
   }
 
   loadChefDetails()
   {
-    this.foodService.getChefsNearUserLocation().subscribe(data=>this.chefData = data,
+    this.foodService.getChefsNearUserLocation().subscribe(
+      (resp : any)=>{
+        for(let chef of resp)
+        {
+          let chefItem = {
+            chefId : resp.vendorId,
+            firstname : resp.firstname,
+            lastname : resp.lastname,
+            chefImage : resp.imagePath,
+            chefRating : 9.3
+          };
+          this.chefData.push(chefItem);
+        }
+      },
       err=>console.log(err)
       );
   }
@@ -133,7 +191,7 @@ export class FoodBreakfastComponent implements OnInit {
   orderNow(event: any, food: any) : boolean {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
-      data: {},
+      data : { component : 'breakfast-component',data : food}
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return false;

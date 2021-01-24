@@ -17,24 +17,24 @@
                 <div class="basketProduct" *ngFor = "let prod of userCart; let i = index">
                     <div class="item">
                         <div class="product-image">
-                            <img [src]="prod.ProductImage" alt="Product Image" class="">
+                            <img [src]="prod.ItemImageUrl" alt="Product Image" class="">
                         </div>
                     </div>
                     <div class="product-detail">
                         <div class="product-name">
-                            <h3>{{prod.ProductName}}</h3>
+                            <h3>{{prod.ItemName}}</h3>
                         </div>
                         <div class="quantity">
                             <div class="numbers-row">
-                                <input type="text" [value]="prod.Quantity" id="qty_{{i}}" class="qty2 form-control" name="quantity">
-                                <div class="inc button_inc" (click)="incProdQuantity(prod.ProductId)">+</div>
-                                <div class="dec button_inc" (click)="decProdQuantity(prod.ProductId)">-</div>
+                                <input type="text" [value]="prod.ItemQuantity" id="qty_{{i}}" class="qty2 form-control" name="quantity">
+                                <div class="inc button_inc" (click)="incProdQuantity(prod.ItemCartId,prod.ItemQuantity)">+</div>
+                                <div class="dec button_inc" (click)="decProdQuantity(prod.ItemCartId,prod.ItemQuantity)">-</div>
                             </div>
                         </div>
                         <div class="prod-footer">
-                            <div class="subtotal">{{prod.Quantity * prod.Price}}</div>
+                            <div class="subtotal">{{prod.ItemQuantity * prod.ItemPrice}}</div>
                             <div class="remove">
-                                <a href="#" (click)="delProductInCart(prod.ProductId)">Remove</a>
+                                <a href="#" (click)="delProductInCart(prod.ItemCartId)">Remove</a>
                             </div>
                         </div>
                         

@@ -57,7 +57,6 @@ export class SignupComponent implements OnInit {
       });
       return;
     }
-    console.log('valid');
     if(this.password!.value != this.confirmPassword!.value)
     {
       this.confirmPassword?.setErrors({'incorrect': true});

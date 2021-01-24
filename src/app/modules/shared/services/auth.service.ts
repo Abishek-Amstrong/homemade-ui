@@ -58,6 +58,7 @@ export class AuthService {
     const decodedToken = this.jwtHelper.decodeToken(tokens.token);
     this.userSubject.next(decodedToken);
     const userId = decodedToken.user.userId;
+    this.currentUser = decodedToken.user.firstname;
     localStorage.setItem('userId', userId);
   }
 
@@ -70,7 +71,6 @@ export class AuthService {
       email_Id : email,
       password : password
     };
-    console.log('cred : ' + JSON.stringify(cred));
     return this.http
       .post<User>(`${environment.apiUrl}/login`, cred)
       .pipe(

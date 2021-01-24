@@ -110,7 +110,8 @@ export class FoodBreakfastComponent implements OnInit {
 
   loadBreakfastDetails()
   {
-    this.foodService.getBreakfastDetails().subscribe(data=>this.foodData = data,
+    this.foodService.getBreakfastDetails().subscribe(
+      data=>this.foodData = data,
       err=>console.log(err)
       );
   }

@@ -1,5 +1,7 @@
 import { Component, OnInit  } from '@angular/core';
 import {Router} from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 import { CartService } from '../../shared/services/cart.service';
 
 @Component({
@@ -15,7 +17,9 @@ export class CartComponent implements OnInit {
   total : number;
   deliveryCost : number;
   error : any;
-  constructor(private cartService : CartService, private router : Router) {
+  constructor(private cartService : CartService, 
+              private router : Router,
+              private toastr: ToastrService) {
     this.subTotal = 0;
     this.subTotalWthDiscount = 0;
     this.discount = 0;
@@ -33,18 +37,31 @@ export class CartComponent implements OnInit {
   loadUserCart()
   {
     this.cartService.getProductsInUserCart().subscribe(
-      data => this.userCart = data,
-      error => this.error = error
-      );
+      data => {
+        if(data == null || data == undefined || data.length == 0)
+        {
+          this.userCart = [];
+          this.toastr.success('Cart is Empty',"Success!!");
+        }
+        else
+        {
+          this.userCart = data;
+        }
+      });
   }
 
-  incProdQuantity(productId : number)
+  incProdQuantity(cartId : string, quantity : number)
   {
+    this.cartService.UpdateCartProductQty(cartId,quantity).subscribe(
+      data =>{
+        
+      }
+    );
     for(let prod of this.userCart)
     {
-      if(prod.ProductId == productId)
+      if(prod.cartId == cartId)
       {
-        prod.Quantity += 1;
+        prod.quantity += 1;
         this.calculateTotal();
       }
     }

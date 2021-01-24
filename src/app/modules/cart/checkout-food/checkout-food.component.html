@@ -156,7 +156,12 @@
                     <div class="form-group">
                         <label>City</label>
                         <p *ngIf="city!.invalid  && (city!.touched || city!.dirty)" class="error-msg">Please enter your city for delivery!!</p>
-                        <input type="text" class="form-control" formControlName="city">
+                        <select class="nice-select wide form-control" tabindex="0" formControlName="city">
+                            <option class="option" disabled>Select city</option>
+                            <option class="option">Delhi</option>
+                            <option class="option">Noida</option>
+                            <option class="option">Ladhak</option>
+                        </select>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -165,7 +170,7 @@
                                     <label>State</label>
                                     <p *ngIf="state!.invalid  && (state!.touched || state!.dirty)" class="error-msg">Please select the state for delivery!!</p>
                                     <select class="nice-select wide form-control" tabindex="0" formControlName="state">
-                                        <option class="option" selected>Select state</option>
+                                        <option class="option" disabled>Select state</option>
                                         <option class="option">Sikkim</option>
                                         <option class="option">Manipur</option>
                                         <option class="option">Ladhak</option>
@@ -205,15 +210,15 @@
                         <table class="food-summary-cart">
                             <tbody>
                                 <tr *ngFor = "let prod of userCart; let i = index">
-                                    <td>{{prod.ProductName}}</td>
+                                    <td>{{prod.ItemName}}</td>
                                     <td>
                                         <div class="numbers-row">
-                                            <input type="text" value="1" id="qty_{{i}}" [value]="prod.Quantity" class="qty2 form-control" name="quantity">
-                                            <div class="inc button_inc" (click)="incProdQuantity(prod.ProductId)">+</div>
-                                            <div class="dec button_inc" (click)="decProdQuantity(prod.ProductId)">-</div>
+                                            <input type="text" value="1" id="qty_{{i}}" [value]="prod.ItemQuantity" class="qty2 form-control" name="quantity">
+                                            <div class="inc button_inc" (click)="incProdQuantity(prod.ItemCartId,prod.ItemQuantity)">+</div>
+                                            <div class="dec button_inc" (click)="decProdQuantity(prod.ItemCartId,prod.ItemQuantity)">-</div>
                                         </div>
                                     </td>
-                                    <td>{{prod.Quantity * prod.Price}}</td>
+                                    <td>{{prod.ItemQuantity * prod.ItemPrice}}</td>
                                 </tr><!--./-->
                                 <!-- <tr>
                                     <td>Pizza with extra cheese</td>

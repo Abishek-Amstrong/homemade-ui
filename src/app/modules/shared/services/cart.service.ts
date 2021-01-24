@@ -1,12 +1,12 @@
 import { stringify } from '@angular/compiler/src/util';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError,tap } from 'rxjs/operators';
+import { forkJoin, Observable, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 
 import { AuthService } from './auth.service';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,51 +20,32 @@ export class CartService {
 
   getProductsInUserCart() : Observable<any>
   {
-    // let sampelObservable = new Observable((observer) => {
-    //     let cartData = [{
-    //       ProductId : 101,
-    //       ProductImage :  'assets/images/thumb_detail_1.jpg',
-    //       ProductName : 'Sabudana Samosa With Chutny',
-    //       Price : 60,
-    //       Quantity : 5
-    //     },{
-    //       ProductId : 102,
-    //       ProductImage :  'assets/images/thumb_detail_1.jpg',
-    //       ProductName : 'Pizza with extra cheese',
-    //       Price : 20,
-    //       Quantity : 2
-    //     }
-    //   ];
-    //   observer.next(cartData);
-    //   observer.complete();
-    // });
-    // return sampelObservable;
     let userId = this.authService.getUserId();
+    let userCartItems : any;
     return this.http.get(`${environment.apiUrl}/usercart/${userId}`).pipe(
       catchError(err => this.handleError(err))
     );
   }
 
-  UpdateProductsInUserCart(userCart : any){
-    const options  = new HttpHeaders({'Content-Type':'application/json'});
-    return this.http.put(`${environment.apiUrl}/Cart/UpdateProductsInCart`,userCart,{headers : options}).pipe(
-      catchError(this.handleError)
-    )
+  getItemDetailsInBulk(cartItems : any) : Observable<any[]>
+  {
+    let obsArr = [];
+    for(let item of cartItems)
+    {
+      if(item.ItemItemId != null)
+      obsArr.push(this.http.get(`${environment.apiUrl}/itemdetails/${item.ItemItemId}`));
+    }
+    return forkJoin(obsArr).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
 
-    //sample JSON
-    // [{Price: 60
-    // ProductId: 101
-    // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
-    // ProductName: "Sabudana Samosa With Chutny"
-    // Quantity: 5
-    // },
-    // {
-    // Price: 20
-    // ProductId: 102
-    // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
-    // ProductName: "Pizza with extra cheese"
-    // Quantity: 2
-    // }]
+  UpdateProductsInUserCart(updatedCartProducts : any) : Observable<any>
+  {
+    const options  = new HttpHeaders({'Content-Type':'application/json'});
+    return this.http.put(`${environment.apiUrl}/updatecart`,updatedCartProducts,{headers : options}).pipe(
+      catchError(err => this.handleError(err))
+    )
   }
 
   UpdateCartProductQty(cartId : string, quantity : number){
@@ -72,57 +53,59 @@ export class CartService {
     return this.http.put(`${environment.apiUrl}/updatecart`,{cartId,quantity},{headers : options}).pipe(
       catchError(err => this.handleError(err))
     )
-
-    //sample JSON
-    // [{Price: 60
-    // ProductId: 101
-    // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
-    // ProductName: "Sabudana Samosa With Chutny"
-    // Quantity: 5
-    // },
-    // {
-    // Price: 20
-    // ProductId: 102
-    // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
-    // ProductName: "Pizza with extra cheese"
-    // Quantity: 2
-    // }]
   }
 
-  deleteProductInCart(productId : any)
+  deleteProductInCart(cartId : string) : Observable<any>
   {
-    // return this.http.delete(`${environment.apiUrl}/Cart/DeleteProduct/${productId}`).pipe(
-    //   catchError(this.handleError));
+    return this.http.delete(`${environment.apiUrl}/usercartdelete/${cartId}`,{responseType: 'text'}).pipe(
+      catchError(err => this.handleError(err))
+      );
   }
 
-  orderProdutcsInCart(userCart : any)
+  placeCustomerOrder(deliveryAddress : any, cartItems : any, totalPrice : number) :Observable<any>
   {
-      // const options  = new HttpHeaders({'Content-Type':'application/json'});
-      // return this.http.post(`${environment.apiUrl}/Cart/Order`,userCart,{headers : options}).pipe(
-      //   catchError(this.handleError)
-      // )
+    let itemList :{ ItemId :  String,ItemCartId : String,Name : String,
+      quantity : Number,Price : Number}[] = [];
 
-      //sample JSON
-      // [{Price: 60
-      // ProductId: 101
-      // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
-      // ProductName: "Sabudana Samosa With Chutny"
-      // Quantity: 5
-      // },
-      // {
-      // Price: 20
-      // ProductId: 102
-      // ProductImage: "../../../../assets/images/thumb_detail_1.jpg"
-      // ProductName: "Pizza with extra cheese"
-      // Quantity: 2
-      // }]
+    let orderData = {
+      userId : this.authService.getUserId(),
+      TotalPrice : totalPrice,
+      itemList : itemList,
+      Address : 
+      {
+        fullName: deliveryAddress.fullName,
+        address : deliveryAddress.address,
+        city : deliveryAddress.city,
+        state : deliveryAddress.state,
+        pinCode : deliveryAddress.pinCode,
+        location : deliveryAddress.deliveryLocation
+      },
+      deliveryType : deliveryAddress.deliveryType,
+      deliveryDay : deliveryAddress.deliveryDay,
+      deliveryTime : deliveryAddress.deliveryTime
+    };
+
+    for(let item of cartItems)
+    {
+      orderData.itemList.push({
+        ItemId : item.ItemItemId,
+        ItemCartId : item.ItemCartId,
+        Name : item.ItemName,
+        quantity : item.ItemQuantity,
+        Price : item.ItemPrice
+      });
+    }
+    const options  = new HttpHeaders({'Content-Type':'application/json'});
+    return this.http.post(`${environment.apiUrl}/customerorder`,orderData,{headers : options}).pipe(
+      catchError(err => this.handleError(err))
+    );
   }
 
   addDeliveryAddress(deliveryData : any) //: Observable<any>
   {
       // const options  = new HttpHeaders({'Content-Type':'application/json'});
       // return this.http.post(`${environment.apiUrl}/Cart/DeliveryAddress`,deliveryData,{headers : options}).pipe(
-      //   catchError(this.handleError)
+      //   catchError(err => this.handleError(err))
       // )
 
       //Sample Json for Post:
@@ -137,7 +120,7 @@ export class CartService {
       // state: "Sikkim"
   }
 
-  handleError(errorObj: HttpErrorResponse) : Observable<any>{
+  handleError(errorObj: HttpErrorResponse) : Observable<any> {
     console.log(errorObj);
     let errorMsg : any;
     if (typeof errorObj.error === 'string') {

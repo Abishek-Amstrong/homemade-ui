@@ -1,26 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,Validators,AbstractControl,ValidatorFn } from '@angular/forms'
+import { ToastrService } from 'ngx-toastr';
+
 import { CartService } from '../../shared/services/cart.service';
+
+export interface cartItem
+{
+  ItemImageUrl : string,
+  ItemName : string,
+  ItemQuantity : number,
+  ItemPrice : number,
+  ItemUpdated : boolean,
+  ItemCartId : string,
+  ItemItemId : String,
+  ItemUserId : string
+}
 
 @Component({
   selector: 'app-checkout-food',
   templateUrl: './checkout-food.component.html',
   styleUrls: ['./checkout-food.component.scss']
 })
+
 export class CheckoutFoodComponent implements OnInit {
   displayOrderSummary : boolean = false;
   selectedDay : String;
   disableDateTime : boolean;
   deliveryForm : FormGroup;
   selectedTime : string;
-  userCart : any;
+  userCart : cartItem[];
   subTotal : number;
   subTotalWthDiscount : number;
   discount : number;
   total : number;
   deliveryCost : number;
   
-  constructor(private formBuilder : FormBuilder,private cartService : CartService) { 
+  constructor(private formBuilder : FormBuilder,
+              private toastr: ToastrService,
+              private cartService : CartService) { 
     this.deliveryForm = new FormGroup({});
     this.selectedDay = '';
     this.disableDateTime = false;
@@ -30,6 +47,7 @@ export class CheckoutFoodComponent implements OnInit {
     this.discount = 0;
     this.total = 0;
     this.deliveryCost = 0;
+    this.userCart= [];
   }
 
   ngOnInit(): void {
@@ -199,13 +217,9 @@ export class CheckoutFoodComponent implements OnInit {
   {
     if(this.deliveryForm.valid)
     {
-      console.log(this.deliveryForm.value)
-      // this.cartService.addDeliveryAddress(this.deliveryForm.value)
-      // .subscribe(
-      //   data => console.log(data),
-      //   error => console.log(error)
-      // );
-      this.orderProducts();
+      this.cartService.placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total).subscribe(
+        data => console.log(data)
+      );
     }
     else
     {
@@ -216,22 +230,60 @@ export class CheckoutFoodComponent implements OnInit {
     }
   }
 
-  //The below methods are common between cart and checkout and can be refactored into a service after we get API
-
   loadUserCart()
   {
     this.cartService.getProductsInUserCart().subscribe(
-      data => this.userCart = data,
-      error => console.log(error)
-      );
+      (response : any) => {
+        if(response == null || response == undefined || response.length == 0)
+        {
+          this.userCart = [];
+          this.toastr.success('Cart is Empty!! Add products before checkout',"Success!!");
+        }
+        else
+        {
+          for(let item of response)
+          {
+            if(item.itemItemId != null && item.itemItemId != '')
+            {
+              let currItem : cartItem = {
+                ItemImageUrl : '',
+                ItemName : '',
+                ItemQuantity : Number(item.quantity),
+                ItemPrice : 0,
+                ItemUpdated : false,
+                ItemCartId : item.cartId,
+                ItemItemId : item.itemItemId,
+                ItemUserId : item.userUserId
+              };
+              this.userCart.push(currItem);
+            }
+          }
+          this.cartService.getItemDetailsInBulk(this.userCart).subscribe((items:any) => {
+            for(let item of this.userCart)
+            {
+              for(let itemDetail of items)
+              {
+                if(item.ItemItemId != null && item.ItemItemId == itemDetail.itemId)
+                {
+                  item.ItemImageUrl = itemDetail.imagePath;
+                  item.ItemName = itemDetail.itemname;
+                  item.ItemPrice = Number(itemDetail.price);
+                }
+              }
+            }
+            this.calculateTotal();
+          });
+        }
+      });
   }
+
 
   calculateTotal()
   {
     this.subTotal = 0;
     for(let prod of this.userCart)
     {
-      this.subTotal += (prod.Quantity * prod.Price)
+      this.subTotal += (prod.ItemQuantity * prod.ItemPrice)
     }
     this.discount = this.checkDiscount();
     this.subTotalWthDiscount = this.subTotal - Math.floor(this.subTotal * (this.discount/100));
@@ -256,7 +308,7 @@ export class CheckoutFoodComponent implements OnInit {
     let totalProd : number = 0;
     for(let prod of this.userCart)
     {
-      totalProd += (prod.Quantity);
+      totalProd += (prod.ItemQuantity);
     }
     if(totalProd > 10)
     {
@@ -268,38 +320,30 @@ export class CheckoutFoodComponent implements OnInit {
     }
   }
 
-  incProdQuantity(productId : number)
+  incProdQuantity(cartId : string, quantity : number)
   {
-    for(let prod of this.userCart)
+    for(let item of this.userCart)
     {
-      if(prod.ProductId == productId)
+      if(item.ItemCartId == cartId)
       {
-        prod.Quantity += 1;
+        item.ItemQuantity += 1;
+        item.ItemUpdated = true;
         this.calculateTotal();
       }
     }
   }
 
-  decProdQuantity(productId : number)
+  decProdQuantity(cartId : string, quantity : number)
   {
-    for(let prod of this.userCart)
+    for(let item of this.userCart)
     {
-      if(prod.ProductId == productId && prod.Quantity > 1)
+      if(item.ItemCartId == cartId && item.ItemQuantity > 1)
       {
-        prod.Quantity -= 1;
+        item.ItemQuantity -= 1;
+        item.ItemUpdated = true;
         this.calculateTotal();
       }
     }
-  }
-
-  orderProducts()
-  {
-    console.log(this.userCart)
-      // this.cartService.orderProdutcsInCart(this.userCart)
-      // .subscribe(
-      //   data => console.log(data),
-      //   error => console.log(error)
-      // );
   }
 
 }

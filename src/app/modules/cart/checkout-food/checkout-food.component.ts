@@ -218,7 +218,7 @@ export class CheckoutFoodComponent implements OnInit {
     if(this.deliveryForm.valid)
     {
       this.cartService.placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total).subscribe(
-        data => console.log(data)
+        data => {}
       );
     }
     else

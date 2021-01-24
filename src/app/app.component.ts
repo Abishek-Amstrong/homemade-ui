@@ -67,8 +67,9 @@ export class AppComponent implements OnInit {
     })();
   }
 
-  setLocation()
+  setLocation(city : String)
   {
+    this.authService.userLocation = city;
     return false;
   }
 }

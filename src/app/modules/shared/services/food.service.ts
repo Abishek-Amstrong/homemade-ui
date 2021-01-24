@@ -1,107 +1,52 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { throwError,Observable, forkJoin } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FoodService {
 
-  constructor() { }
+  constructor(private http: HttpClient,
+    private toastr: ToastrService,
+    private authService : AuthService) { }
+
+  getItemSubCategoryDetails(category : string, subCategory : string) : Observable<any>
+  {
+    return this.http.get(`${environment.apiUrl}/itembysubcategoryName/${subCategory}`).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  getItemDetailsInBulk(items:any) : Observable<any[]>
+  {
+    let obsArr = [];
+    for(let item of items)
+    { 
+      if(item != null)
+      obsArr.push(this.http.get(`${environment.apiUrl}/itemdetails/${item}`));
+    }
+    return forkJoin(obsArr).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
 
   getBreakfastDetails() : Observable<any>
   {
-    let sampelObservable = new Observable((observer) => {
-      let foodData = [{
-        productId : 1001,
-        foodName : 'Sabudana Samosa With Chutny',
-        foodImage : 'assets/images/products/product-2.jpg',
-        foodPrice : 2928
-      },{
-        productId : 1002,
-        foodName : 'Pizza with extra cheese',
-        foodImage : 'assets/images/products/product-2.jpg',
-        foodPrice : 1145
-      },{
-        productId : 1003,
-        foodName : 'Sabudana Samosa With Chutny',
-        foodImage : 'assets/images/products/product-2.jpg',
-        foodPrice : 2928
-      },{
-        productId : 1004,
-        foodName : 'Pizza with extra cheese',
-        foodImage : 'assets/images/products/product-2.jpg',
-        foodPrice : 1145
-      },{
-        productId : 1005,
-        foodName : 'Sabudana Samosa With Chutny',
-        foodImage : 'assets/images/products/product-2.jpg',
-        foodPrice : 2928
-      },{
-        productId : 1006,
-        foodName : 'Pizza with extra cheese',
-        foodImage : 'assets/images/products/product-2.jpg',
-        foodPrice : 1145
-      },{
-        productId : 1007,
-        foodName : 'Sabudana Samosa With Chutny',
-        foodImage : 'assets/images/products/product-2.jpg',
-        foodPrice : 2928
-      },{
-        productId : 1008,
-        foodName : 'Pizza with extra cheese',
-        foodImage : 'assets/images/products/product-2.jpg',
-        foodPrice : 1145
-      }];
-    observer.next(foodData);
-    observer.complete();
-    });
-    return sampelObservable;
-    //return this.http.get(`${environment.apiUrl}/foods/breakfast`).pipe(
-    //   catchError(this.handleError)
-    // );
+    return this.http.get(`${environment.apiUrl}/itembysubcategoryName/Breakfast`).pipe(
+      catchError(err => this.handleError(err))
+    );
   }
 
   getChefsNearUserLocation() : Observable<any>{
-    let sampelObservable = new Observable((observer) => {
-      let chefData = [{
-        chefId : 1001,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png',
-        rating : 9.5
-      },{
-        chefId : 1002,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png',
-        rating : 9.5
-      },{
-        chefId : 1003,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png',
-        rating : 9.5
-      },{
-        chefId : 1004,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png',
-        rating : 9.5
-      },{
-        chefId : 1005,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png',
-        rating : 9.5
-      },{
-        chefId : 1006,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png',
-        rating : 9.5
-      }];
-    observer.next(chefData);
-    observer.complete();
-    });
-    return sampelObservable;
-    //return this.http.get(`${environment.apiUrl}/foods/chefsNearLocation`).pipe(
-    //   catchError(this.handleError)
-    // );
+    let city = this.authService.userLocation;
+    return this.http.get(`${environment.apiUrl}/chefnearyou/${city}`).pipe(
+      catchError(err=>this.handleError(err))
+    );
   }
 
   getCuisineNearUserLocation() : Observable<any>{
@@ -140,19 +85,25 @@ export class FoodService {
     // );
   }
 
-  handleError(errorObj: HttpErrorResponse) {
-    // if (typeof errorObj.error === 'string') {
-    //   this.toasterService.error(errorObj.error);
-    // } else if (typeof errorObj.error === 'object') {
-    //   if ('errors' in errorObj.error) {
-    //     const key = Object.keys(errorObj.error.errors)[0];
-    //     const errorMsg: any = errorObj.error.errors[key][0];
-    //     this.toasterService.error(errorMsg);
-    //   } else {
-    //     this.toasterService.error(errorObj.error.title);
-    //   }
-    // } else {
-    //   console.log(errorObj);
-    // }
+  handleError(errorObj: HttpErrorResponse) : Observable<any> {
+    console.log(errorObj);
+    let errorMsg : any;
+    if (typeof errorObj.error === 'string') {
+      errorMsg = errorObj.error;
+      this.toastr.error(errorObj.error,'Error');
+    } else if (typeof errorObj.error === 'object') {
+      if ('errors' in errorObj.error) {
+        errorMsg = errorObj.error.errors[0].message;
+        this.toastr.error(errorMsg,'Error');
+      } 
+      else {
+        errorMsg = errorObj.error.name;
+        this.toastr.error(errorObj.error.name,'Error');
+      }
+    } else {
+      errorMsg = errorObj.message;
+      this.toastr.error(errorObj.message,'Error');
+    }
+    return throwError(errorMsg);
   }
 }

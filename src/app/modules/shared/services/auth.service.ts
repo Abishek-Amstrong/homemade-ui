@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './../models/user';
@@ -18,14 +22,18 @@ export class AuthService {
   public user: Observable<User>;
   decodedToken: any;
   currentUser: string;
-  currentUserLocation : String;
-  private hideHeader : boolean;
-  hideHeaderStatusChange : Subject<boolean> = new Subject<boolean>();
+  currentUserLocation: String;
+  private hideHeader: boolean;
+  hideHeaderStatusChange: Subject<boolean> = new Subject<boolean>();
   jwtHelper = new JwtHelperService();
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
 
-  constructor(private router: Router, private http: HttpClient,private toastr: ToastrService) {
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private toastr: ToastrService
+  ) {
     this.userSubject = new BehaviorSubject<User>(
       this.jwtHelper.decodeToken(localStorage.getItem(this.JWT_TOKEN)!)
     );
@@ -35,13 +43,11 @@ export class AuthService {
     this.hideHeader = false;
   }
 
-  getHeaderDisplayStatus() : boolean
-  {
+  getHeaderDisplayStatus(): boolean {
     return this.hideHeader;
   }
 
-  setHeaderDisplayStatus(isView : boolean)
-  {
+  setHeaderDisplayStatus(isView: boolean) {
     this.hideHeader = isView;
     this.hideHeaderStatusChange.next(this.hideHeader);
   }
@@ -50,13 +56,11 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-  public get userLocation() : String
-  {
+  public get userLocation(): String {
     return this.currentUserLocation;
   }
 
-  public set userLocation(city : String)
-  {
+  public set userLocation(city: String) {
     this.currentUserLocation = city;
   }
 
@@ -80,27 +84,27 @@ export class AuthService {
 
   login(email: string, password: string) {
     let cred = {
-      email_Id : email,
-      password : password
+      email_Id: email,
+      password: password,
     };
-    return this.http
-      .post<User>(`${environment.apiUrl}/login`, cred)
-      .pipe(
-        tap((data: any) => this.doLoginUser(cred.email_Id, {token : data.token,  refreshToken : data.token})),
-        catchError(err => this.handleError(err))
-      );
+    return this.http.post<User>(`${environment.apiUrl}/login`, cred).pipe(
+      tap((data: any) =>
+        this.doLoginUser(cred.email_Id, {
+          token: data.token,
+          refreshToken: data.token,
+        })
+      ),
+      catchError((err) => this.handleError(err))
+    );
   }
 
-  changePassword(currentPassword : string, newPassword : string) //: Observable<any>
-  {
-    // const options  = new HttpHeaders({'Content-Type':'application/json'});
-    // return this.http
-    // .post(`${environment.apiUrl}/Auth/changePassword`, { currentPassword, newPassword }, {headers : options})
-    // .pipe(catchError(this.handleError));
-
-    //sample JSON :-
-    //newPassword: "eastwest"
-    //currentPassword: "westeast"
+  changePassword(password: string, newpassword: string) {
+    const id = this.getUserId();
+    return this.http.put(`${environment.apiUrl}/changepasword`, {
+      password,
+      newpassword,
+      Id: id,
+    });
   }
 
   logout() {
@@ -125,36 +129,34 @@ export class AuthService {
 
   register(user: any) {
     let newUser = {
-      firstName : user.name,
-      lastname : '',
-      email_Id : user.email,
-      mobileNumber : user.mobile,
-      password : user.password,
-      roles : 'enduser'
+      firstname: user.name,
+      email_Id: user.email,
+      mobileNumber: user.mobile,
+      password: user.password,
+      roles: 'enduser',
     };
-    return this.http.post(`${environment.apiUrl}/register`, newUser).pipe(
-      catchError(err => this.handleError(err))
-    );
+    return this.http
+      .post(`${environment.apiUrl}/register`, newUser)
+      .pipe(catchError((err) => this.handleError(err)));
   }
 
-  handleError(errorObj: HttpErrorResponse) : Observable<any>{
+  handleError(errorObj: HttpErrorResponse): Observable<any> {
     console.log(errorObj);
-    let errorMsg : any;
+    let errorMsg: any;
     if (typeof errorObj.error === 'string') {
       errorMsg = errorObj.error;
-      this.toastr.error(errorObj.error,'Error');
+      this.toastr.error(errorObj.error, 'Error');
     } else if (typeof errorObj.error === 'object') {
       if ('errors' in errorObj.error) {
         errorMsg = errorObj.error.errors[0].message;
-        this.toastr.error(errorMsg,'Error');
-      } 
-      else {
+        this.toastr.error(errorMsg, 'Error');
+      } else {
         errorMsg = errorObj.error.name;
-        this.toastr.error(errorObj.error.name,'Error');
+        this.toastr.error(errorObj.error.name, 'Error');
       }
     } else {
       errorMsg = errorObj.message;
-      this.toastr.error(errorObj.message,'Error');
+      this.toastr.error(errorObj.message, 'Error');
     }
     return throwError(errorMsg);
   }

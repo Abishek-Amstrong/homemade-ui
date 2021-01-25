@@ -23,19 +23,19 @@
             <div class="row">
                 <div class="col-sm-6 col-lg-3" *ngFor="let food of foodData">
                     <div class="cardbody">
-                        <a [routerLink]="['/foods/detail',food.productId]">
+                        <a [routerLink]="['/foods/detail',food.ItemItemId]">
                             <div class="imgBox">
                                 <figure>
-                                    <img [src]="food.foodImage" data-src="{{food.foodImage}}" alt="" class="lazy loaded img-fluid" data-was-processed="true">
+                                    <img [src]="food.ItemImageUrl" data-src="{{food.ItemImageUrl}}" alt="" class="lazy loaded img-fluid" data-was-processed="true">
                                 </figure>
                             </div>
                             <div class="contentBox">
                                 <div class="pro_detials">
-                                    <h3>{{food.foodName}}</h3>
-                                    <p class="price">{{food.foodPrice}}</p>
+                                    <h3>{{food.ItemName}}</h3>
+                                    <p class="price">{{food.ItemPrice}}</p>
                                 </div>
                                 <div class="prod_cta">
-                                    <a class="btn_1 outline type_3 modal_dialog" (click)="orderNow($event, food)">Order Now</a>
+                                    <a class="btn_1 outline type_3 modal_dialog"  (click)="orderNow($event, food)">Order Now</a>
                                 </div>
                             </div>
                         </a>
@@ -57,11 +57,11 @@
                             <div class="item">
                                 <div class="chefBox">
                                     <figure>
-                                        <a [routerLink]="['/foods/chef',chef.chefId]"><img [src]="chef.imgUrl" class="img-fluid lazy" alt=""></a>
+                                        <a [routerLink]="['/foods/chef',chef.chefId]"><img [src]="chef.chefImage" class="img-fluid lazy" alt=""></a>
                                     </figure>
                                     <div class="cardDetails">
-                                        <h3>{{chef.name}}</h3>
-                                        <div class="score"><strong>{{chef.rating}}</strong></div>
+                                        <h3>{{chef.firstname + ' ' + chef.lastname}}</h3>
+                                        <div class="score"><strong>{{chef.chefRating}}</strong></div>
                                     </div>
                                 </div>
                             </div>

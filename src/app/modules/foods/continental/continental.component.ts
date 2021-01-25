@@ -1,9 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 import { FoodService } from '../../shared/services/food.service'
 import { PlaceOrderComponent } from '../place-order/place-order.component';
+
+export interface Item{
+  ItemImageUrl : string,
+  ItemName : string,
+  ItemUnit : String,
+  ItemQuantity : number,
+  ItemIsVeg : boolean,
+  ItemIngrediants : String[],
+  ItemDesc : String,
+  ItemPrice : number,
+  ItemItemId : String,
+  ItemVendorId : string
+}
+
+export interface chef{
+  chefId : string,
+  firstname : string,
+  lastname : string,
+  chefImage : string,
+  chefRating : number
+}
 
 @Component({
   selector: 'app-continental',
@@ -12,8 +34,8 @@ import { PlaceOrderComponent } from '../place-order/place-order.component';
 })
 
 export class ContinentalComponent implements OnInit {
-  foodData : any;
-  chefData : any;
+  foodData : Item[];
+  chefData : chef[];
   cuisineData : any;
 
   customOptions: OwlOptions = {
@@ -101,26 +123,67 @@ export class ContinentalComponent implements OnInit {
     },
   };
 
-  constructor(private foodService : FoodService,private dialog: MatDialog) { }
+  constructor(private foodService : FoodService,
+              private dialog: MatDialog,
+              private toastr: ToastrService) { 
+    this.foodData = [];
+    this.chefData = [];
+  }
 
   ngOnInit(): void {
-    this.loadBreakfastDetails();
+    this.loadfoodDetails();
     this.loadChefDetails();
     this.loadCuisineDetails();
   }
 
-  loadBreakfastDetails()
+  loadfoodDetails()
   {
-    this.foodService.getBreakfastDetails().subscribe(data=>this.foodData = data,
-      err=>console.log(err)
-      );
+    this.foodService.getItemSubCategoryDetails('food','continental').subscribe(
+      (resp:any)=>{
+         this.foodService.getItemDetailsInBulk(resp).subscribe(
+           (val : any) => {
+             for(let item of val)
+             {
+                let currItem = {
+                  ItemImageUrl : item.imagePath,
+                  ItemName : item.itemname,
+                  ItemUnit : item.unit,
+                  ItemQuantity : 1,
+                  ItemIsVeg : item.isVeg,
+                  ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
+                  ItemDesc : item.desc,
+                  ItemPrice : item.price,
+                  ItemItemId : item.itemId,
+                  ItemVendorId : item.VendorVendorId
+                };
+                this.foodData.push(currItem);
+             }  
+             if(this.foodData.length == 0)
+             {
+              this.toastr.success('There are no food items','success!!');
+             }        
+           }
+         );
+      });
   }
 
   loadChefDetails()
   {
-    this.foodService.getChefsNearUserLocation().subscribe(data=>this.chefData = data,
-      err=>console.log(err)
-      );
+    this.foodService.getChefsNearUserLocation().subscribe(
+      (resp : any)=>{
+        console.log(resp);
+        for(let chef of resp)
+        {
+            let chefItem = {
+              chefId : chef.vendorId,
+              firstname : chef.firstname,
+              lastname : chef.lastname,
+              chefImage : chef.imagePath,
+              chefRating : chef.rating
+            };
+            this.chefData.push(chefItem);
+        }
+      });
   }
 
   loadCuisineDetails()
@@ -133,7 +196,7 @@ export class ContinentalComponent implements OnInit {
   orderNow(event: any, food: any) : boolean {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
-      data: {},
+      data : { component : 'continental-component',data : food}
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return false;

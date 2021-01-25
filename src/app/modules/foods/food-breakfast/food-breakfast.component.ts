@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { MatDialog } from '@angular/material/dialog';
-
+import { ToastrService } from 'ngx-toastr';
 import { FoodService } from '../../shared/services/food.service'
 import { PlaceOrderComponent } from '../place-order/place-order.component';
 import { isNgTemplate } from '@angular/compiler';
@@ -123,18 +123,19 @@ export class FoodBreakfastComponent implements OnInit {
   };
 
   constructor(private foodService : FoodService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private toastr: ToastrService) { 
     this.foodData = [];
     this.chefData = [];
   }
 
   ngOnInit(): void {
-    this.loadBreakfastDetails();
+    this.loadfoodDetails();
     this.loadChefDetails();
     this.loadCuisineDetails();
   }
 
-  loadBreakfastDetails()
+  loadfoodDetails()
   {
     this.foodService.getItemSubCategoryDetails('food','breakfast').subscribe(
       (resp:any)=>{
@@ -155,7 +156,11 @@ export class FoodBreakfastComponent implements OnInit {
                   ItemVendorId : item.VendorVendorId
                 };
                 this.foodData.push(currItem);
-             }          
+             }
+             if(this.foodData.length == 0)
+             {
+              this.toastr.success('There are no food items','success!!');
+             }            
            }
          );
       });
@@ -165,20 +170,19 @@ export class FoodBreakfastComponent implements OnInit {
   {
     this.foodService.getChefsNearUserLocation().subscribe(
       (resp : any)=>{
+        console.log(resp);
         for(let chef of resp)
         {
-          let chefItem = {
-            chefId : resp.vendorId,
-            firstname : resp.firstname,
-            lastname : resp.lastname,
-            chefImage : resp.imagePath,
-            chefRating : 9.3
-          };
-          this.chefData.push(chefItem);
+            let chefItem = {
+              chefId : chef.vendorId,
+              firstname : chef.firstname,
+              lastname : chef.lastname,
+              chefImage : chef.imagePath,
+              chefRating : chef.rating
+            };
+            this.chefData.push(chefItem);
         }
-      },
-      err=>console.log(err)
-      );
+      });
   }
 
   loadCuisineDetails()

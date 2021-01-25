@@ -32,6 +32,7 @@ export class CartComponent implements OnInit {
   total : number;
   deliveryCost : number;
   error : any;
+  
   constructor(private cartService : CartService, 
               private router : Router,
               private toastr: ToastrService) {
@@ -141,7 +142,7 @@ export class CartComponent implements OnInit {
       }
       else
       {
-        return 2;
+        return 0;
       }
   }
 
@@ -156,9 +157,13 @@ export class CartComponent implements OnInit {
     {
       return 100;
     }
-    else
+    else if(totalProd > 2)
     {
       return 50;
+    }
+    else
+    {
+      return 0;
     }
   }
 

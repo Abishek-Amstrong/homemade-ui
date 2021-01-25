@@ -9,11 +9,11 @@ import { ToastrService } from 'ngx-toastr';
 export interface Item{
   ItemImageUrl : string,
   ItemName : string,
-  ItemUnit : String,
-  ItemQuantity : number,
-  ItemIsVeg : boolean,
-  ItemIngrediants : String[],
-  ItemDesc : String,
+  // ItemUnit : String,
+  // ItemQuantity : number,
+  // ItemIsVeg : boolean,
+  // ItemIngrediants : String[],
+  // ItemDesc : String,
   ItemPrice : number,
   ItemItemId : String,
   ItemVendorId : string
@@ -138,32 +138,31 @@ export class FoodNorthindianComponent implements OnInit {
 
   loadfoodDetails()
   {
-    this.foodService.getItemSubCategoryDetails('food','northindian').subscribe(
+    this.foodService.getItemSubCategoryDetails('food','North Indian').subscribe(
       (resp:any)=>{
-         this.foodService.getItemDetailsInBulk(resp).subscribe(
-           (val : any) => {
-             for(let item of val)
+        //  this.foodService.getItemDetailsInBulk(resp).subscribe(
+        //    (val : any) => {
+             for(let item of resp)
              {
+               if(item != null && item !=undefined)
+               {
                 let currItem = {
                   ItemImageUrl : item.imagePath,
                   ItemName : item.itemname,
-                  ItemUnit : item.unit,
-                  ItemQuantity : 1,
-                  ItemIsVeg : item.isVeg,
-                  ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
-                  ItemDesc : item.desc,
+                  // ItemUnit : item.unit,
+                  // ItemQuantity : 1,
+                  // ItemIsVeg : item.isVeg,
+                  // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
+                  // ItemDesc : item.desc,
                   ItemPrice : item.price,
                   ItemItemId : item.itemId,
                   ItemVendorId : item.VendorVendorId
                 };
                 this.foodData.push(currItem);
-             }
-             if(this.foodData.length == 0)
-             {
-              this.toastr.success('There are no food items','success!!');
+               }
              }            
-           }
-         );
+        //    }
+        //  );
       });
   }
 
@@ -171,7 +170,6 @@ export class FoodNorthindianComponent implements OnInit {
   {
     this.foodService.getChefsNearUserLocation().subscribe(
       (resp : any)=>{
-        console.log(resp);
         for(let chef of resp)
         {
             let chefItem = {

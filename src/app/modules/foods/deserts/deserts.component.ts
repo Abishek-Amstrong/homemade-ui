@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { MatDialog } from '@angular/material/dialog';
-
+import { ToastrService } from 'ngx-toastr';
 import { FoodService } from '../../shared/services/food.service'
 import { PlaceOrderComponent } from '../place-order/place-order.component';
-import { ToastrService } from 'ngx-toastr';
 
 export interface Item{
   ItemImageUrl : string,
@@ -28,12 +27,12 @@ export interface chef{
 }
 
 @Component({
-  selector: 'app-oriental',
-  templateUrl: './oriental.component.html',
-  styleUrls: ['./oriental.component.scss']
+  selector: 'app-deserts',
+  templateUrl: './deserts.component.html',
+  styleUrls: ['./deserts.component.scss']
 })
+export class DesertsComponent implements OnInit {
 
-export class OrientalComponent implements OnInit {
   foodData : Item[];
   chefData : chef[];
   cuisineData : any;
@@ -124,8 +123,8 @@ export class OrientalComponent implements OnInit {
   };
 
   constructor(private foodService : FoodService,
-    private dialog: MatDialog,
-    private toastr: ToastrService) { 
+              private dialog: MatDialog,
+              private toastr: ToastrService) { 
     this.foodData = [];
     this.chefData = [];
   }
@@ -138,7 +137,7 @@ export class OrientalComponent implements OnInit {
 
   loadfoodDetails()
   {
-    this.foodService.getItemSubCategoryDetails('food','Oriental').subscribe(
+    this.foodService.getItemSubCategoryDetails('food','Desserts').subscribe(
       (resp:any)=>{
         //  this.foodService.getItemDetailsInBulk(resp).subscribe(
         //    (val : any) => {
@@ -170,7 +169,7 @@ export class OrientalComponent implements OnInit {
   {
     this.foodService.getChefsNearUserLocation().subscribe(
       (resp : any)=>{
-        console.log(resp);
+        // console.log(resp);
         for(let chef of resp)
         {
             let chefItem = {
@@ -195,9 +194,10 @@ export class OrientalComponent implements OnInit {
   orderNow(event: any, food: any) : boolean {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
-      data : { component : 'oriental-component',data : food}
+      data : { component : 'breakfast-component',data : food}
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return false;
   }
+
 }

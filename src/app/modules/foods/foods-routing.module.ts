@@ -41,6 +41,34 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'beverages',
+    loadChildren: () =>
+      import('./food-beverages/food-beverages.module').then(
+        (m) => m.FoodBeveragesModule
+      ),
+  },
+  {
+    path: 'meal',
+    loadChildren: () =>
+      import('./meal/meal.module').then(
+        (m) => m.MealModule
+      ),
+  },
+  {
+    path: 'deserts',
+    loadChildren: () =>
+      import('./deserts/deserts.module').then(
+        (m) => m.DesertsModule
+      ),
+  },
+  {
+    path: 'platter',
+    loadChildren: () =>
+      import('./platter/platter.module').then(
+        (m) => m.PlatterModule
+      ),
+  },
+  {
     path: 'detail/:id',
     loadChildren: () =>
       import('./food-detail/food-detail.module').then(

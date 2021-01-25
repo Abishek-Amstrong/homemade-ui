@@ -9,8 +9,8 @@
             <div class="inc button_inc" (click)="incOrderQuantity()">+</div>
             <div class="dec button_inc"  (click)="decOrderQuantity()">-</div>
         </div>
-        <h5>Size</h5>
-        <ul class="clearfix">
+        <h5 *ngIf="orderData.OrderSize != null &&  orderData.OrderSize.length > 0">Size</h5>
+        <ul class="clearfix" *ngIf="orderData.OrderSize != null &&  orderData.OrderSize.length > 0">
             <li *ngFor="let size of orderData.OrderSize;let i = index">
                 <label class="container_radio">{{size}}<span>+ $3.30</span>
                     <input type="radio" [(ngModel)]="selectedSize" [value]="size" name="size">
@@ -30,8 +30,8 @@
                 </label>
             </li> -->
         </ul>
-        <h5>Extra Ingredients</h5>
-        <ul class="clearfix">
+        <h5  *ngIf="orderData.OrderIngredients != null &&  orderData.OrderIngredients.length > 0">Extra Ingredients</h5>
+        <ul class="clearfix"  *ngIf="orderData.OrderIngredients != null &&  orderData.OrderIngredients.length > 0">
             <li *ngFor="let ingre of orderData.OrderIngredients;let i = index">
                 <label class="container_check">{{ingre.value}}<span>+ $4.30</span>
                     <input type="checkbox" name="ingredients" [value]="ingre.value" [(ngModel)]="ingre.checked">

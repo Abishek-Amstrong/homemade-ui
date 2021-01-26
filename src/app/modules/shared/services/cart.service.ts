@@ -27,6 +27,13 @@ export class CartService {
     );
   }
 
+  getItemDetails(itemId : string) : Observable<any>
+  {
+    return this.http.get(`${environment.apiUrl}/itemdetails/${itemId}`).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
+
   getItemDetailsInBulk(cartItems : any) : Observable<any[]>
   {
     let obsArr = [];
@@ -120,11 +127,11 @@ export class CartService {
       // state: "Sikkim"
   }
 
-  addItemsTocart(itemId : String, quantity : number) : Observable<any>
+  addItemsTocart(itemId : String, details : number) : Observable<any>
   {
     const options  = new HttpHeaders({'Content-Type':'application/json'});
     let userId =this.authService.getUserId();
-    return this.http.post(`${environment.apiUrl}/addtocart`,{itemId,userId,quantity},{headers : options}).pipe(
+    return this.http.post(`${environment.apiUrl}/addtocart`,{itemId,userId,details},{headers : options}).pipe(
       catchError(err => this.handleError(err))
     );
   }

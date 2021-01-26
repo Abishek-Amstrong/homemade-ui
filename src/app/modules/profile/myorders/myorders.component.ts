@@ -3,11 +3,16 @@ import { formatDate } from '@angular/common'
 
 import { ProfileService } from '../../shared/services/profile.service'
 
+export interface order{
+  
+}
+
 @Component({
   selector: 'app-myorders',
   templateUrl: './myorders.component.html',
   styleUrls: ['./myorders.component.scss']
 })
+
 export class MyordersComponent implements OnInit {
   orderData: any;
   formatDate : any = formatDate;
@@ -22,7 +27,10 @@ export class MyordersComponent implements OnInit {
 
   loadOrderDetails()
   {
-    this.profileService.getOrderDetails().subscribe(data => this.orderData = data,
+    this.profileService.getOrderDetails().subscribe(
+      (resp:any) => {
+        console.log(resp);
+      },
       err => console.log(err));
   }
 

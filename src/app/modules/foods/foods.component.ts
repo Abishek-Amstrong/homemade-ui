@@ -3,16 +3,28 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 import { MatDialog } from '@angular/material/dialog';
 import { PlaceOrderComponent } from './place-order/place-order.component';
 
-export interface Category {
-  imgUrl: string;
-  label: string;
-  availability?: string;
+import { FoodService } from '../shared/services/food.service'
+import { ToastrService } from 'ngx-toastr';
+
+export interface Item{
+  ItemImageUrl : string,
+  ItemName : string,
+  // ItemUnit : String,
+  // ItemQuantity : number,
+  // ItemIsVeg : boolean,
+  // ItemIngrediants : String[],
+  // ItemDesc : String,
+  ItemPrice : number,
+  ItemItemId : String,
+  ItemVendorId : string
 }
 
-export interface Chef {
-  imgUrl: string;
-  name: string;
-  rating?: number;
+export interface chef{
+  chefId : string,
+  firstname : string,
+  lastname : string,
+  chefImage : string,
+  chefRating : number
 }
 
 @Component({
@@ -22,10 +34,19 @@ export interface Chef {
 })
 
 export class FoodsComponent implements OnInit {
-  categories: Category[];
+  breakfastData: Item[];
+  southIndianData: Item[];
+  northIndianData: Item[];
+  continentalData: Item[];
+  orientalData: Item[];
+  beveragesData : Item[];
+  mealData : Item[];
+  desertsData : Item[];
+  platterData : Item[];
   menus: any;
-  chefs: Chef[];
-  cuisines: Chef[];
+  chefData: chef[];
+  categories: { imgUrl: string; label: string; }[];
+  cuisines: any;
 
   customOptions: OwlOptions = {
     center: false,
@@ -113,7 +134,20 @@ export class FoodsComponent implements OnInit {
     },
   };
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog,
+              private foodService : FoodService,
+              private toastr: ToastrService) {
+
+    this.breakfastData = [];
+    this.southIndianData = [];
+    this.northIndianData = [];
+    this.continentalData = [];
+    this.orientalData = [];
+    this.chefData = [];   
+    this.beveragesData = [];
+    this.mealData = [];
+    this.desertsData = [];
+    this.platterData  = [];       
     this.categories = [
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
@@ -139,252 +173,19 @@ export class FoodsComponent implements OnInit {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'Dessert',
       },
-    ];
-
-    this.menus = {
-      breakfast: [
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: 'Available from tommorow 9am',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: 'Available till 5pm',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-      ],
-      northIndian: [
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-      ],
-      southIndian: [
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-      ],
-      continental: [
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-      ],
-      oriental: [
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-      ],
-      desserts: [
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-      ],
-      regional: [
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-      ],
-      healty: [
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-        {
-          imgUrl: 'assets/images/products/product-2.jpg',
-          label: 'Bathroom Glass made with raw silica and silver',
-          availability: '',
-          price: 600,
-        },
-      ],
-    };
-
-    this.chefs = [
       {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-        rating: 9.5,
+        imgUrl: 'assets/images/cat_listing_1.jpg',
+        label: 'Meal',
       },
       {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-        rating: 9.5,
+        imgUrl: 'assets/images/cat_listing_1.jpg',
+        label: 'Beverages',
       },
       {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-        rating: 9.5,
-      },
-      {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-        rating: 9.5,
-      },
-      {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-        rating: 9.5,
-      },
-      {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-        rating: 9.5,
-      },
-    ];
-
+        imgUrl: 'assets/images/cat_listing_1.jpg',
+        label: 'Platter',
+      }
+    ]; 
     this.cuisines = [
       {
         imgUrl: 'assets/images/lazy-placeholder.png',
@@ -413,12 +214,167 @@ export class FoodsComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadChefDetails();
+    this.foodSubCategoryDetails();
+  }
+
+  foodSubCategoryDetails()
+  {
+    this.foodService.getFoodPageDetails().subscribe(
+      (resp:any)=>{
+       console.log(resp);
+       for(let item of resp.Breakfast)
+       {
+         if(item !=null && item != undefined)
+         {
+          let currItem : Item = {
+            ItemImageUrl : item.imagePath,
+            ItemName : item.itemname,
+            ItemPrice : item.price,
+            ItemItemId : item.itemId,
+            ItemVendorId : item.VendorVendorId
+           };
+           this.breakfastData.push(currItem);
+         }
+       }
+       for(let item of resp.Continental)
+       {
+        if(item !=null && item != undefined)
+        {
+         let currItem : Item = {
+           ItemImageUrl : item.imagePath,
+           ItemName : item.itemname,
+           ItemPrice : item.price,
+           ItemItemId : item.itemId,
+           ItemVendorId : item.VendorVendorId
+          };
+          this.continentalData.push(currItem);
+        }
+       }
+       for(let item of resp.Desserts)
+       {
+        if(item !=null && item != undefined)
+        {
+         let currItem : Item = {
+           ItemImageUrl : item.imagePath,
+           ItemName : item.itemname,
+           ItemPrice : item.price,
+           ItemItemId : item.itemId,
+           ItemVendorId : item.VendorVendorId
+          };
+          this.desertsData.push(currItem);
+        }
+       }
+       for(let item of resp.NorthIndian)
+       {
+        if(item !=null && item != undefined)
+        {
+         let currItem : Item = {
+           ItemImageUrl : item.imagePath,
+           ItemName : item.itemname,
+           ItemPrice : item.price,
+           ItemItemId : item.itemId,
+           ItemVendorId : item.VendorVendorId
+          };
+          this.northIndianData.push(currItem);
+        }
+       }
+       for(let item of resp.SouthIndian)
+       {
+        if(item !=null && item != undefined)
+        {
+         let currItem : Item = {
+           ItemImageUrl : item.imagePath,
+           ItemName : item.itemname,
+           ItemPrice : item.price,
+           ItemItemId : item.itemId,
+           ItemVendorId : item.VendorVendorId
+          };
+          this.southIndianData.push(currItem);
+        }
+       }
+       for(let item of resp.Oriental)
+       {
+        if(item !=null && item != undefined)
+        {
+         let currItem : Item = {
+           ItemImageUrl : item.imagePath,
+           ItemName : item.itemname,
+           ItemPrice : item.price,
+           ItemItemId : item.itemId,
+           ItemVendorId : item.VendorVendorId
+          };
+          this.orientalData.push(currItem);
+        }
+       }
+       for(let item of resp.Platter)
+       {
+        if(item !=null && item != undefined)
+        {
+         let currItem : Item = {
+           ItemImageUrl : item.imagePath,
+           ItemName : item.itemname,
+           ItemPrice : item.price,
+           ItemItemId : item.itemId,
+           ItemVendorId : item.VendorVendorId
+          };
+          this.platterData.push(currItem);
+        }
+       }
+       for(let item of resp.Beverages)
+       {
+        if(item !=null && item != undefined)
+        {
+         let currItem : Item = {
+           ItemImageUrl : item.imagePath,
+           ItemName : item.itemname,
+           ItemPrice : item.price,
+           ItemItemId : item.itemId,
+           ItemVendorId : item.VendorVendorId
+          };
+          this.beveragesData.push(currItem);
+        }
+       }
+       for(let item of resp.Meal)
+       {
+        if(item !=null && item != undefined)
+        {
+         let currItem : Item = {
+           ItemImageUrl : item.imagePath,
+           ItemName : item.itemname,
+           ItemPrice : item.price,
+           ItemItemId : item.itemId,
+           ItemVendorId : item.VendorVendorId
+          };
+          this.mealData.push(currItem);
+        }
+       }
+      });
+  }
+
+  loadChefDetails()
+  {
+    this.foodService.getChefsNearUserLocation().subscribe(
+      (resp : any)=>{
+        for(let chef of resp)
+        {
+            let chefItem = {
+              chefId : chef.vendorId,
+              firstname : chef.firstname,
+              lastname : chef.lastname,
+              chefImage : chef.imagePath,
+              chefRating : chef.rating
+            };
+            this.chefData.push(chefItem);
+        }
+      });
+  }
 
   orderNow(event: any, food: any) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
-      data: {},
+      data : { component : 'foodpage-component',data : food}
     });
     dialogRef.afterClosed().subscribe((result) => {});
   }

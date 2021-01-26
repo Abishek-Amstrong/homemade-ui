@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { MatDialog } from '@angular/material/dialog';
-
+import { ToastrService } from 'ngx-toastr';
 import { FoodService } from '../../shared/services/food.service'
 import { PlaceOrderComponent } from '../place-order/place-order.component';
 import { isNgTemplate } from '@angular/compiler';
@@ -9,11 +9,11 @@ import { isNgTemplate } from '@angular/compiler';
 export interface Item{
   ItemImageUrl : string,
   ItemName : string,
-  ItemUnit : String,
-  ItemQuantity : number,
-  ItemIsVeg : boolean,
-  ItemIngrediants : String[],
-  ItemDesc : String,
+  // ItemUnit : String,
+  // ItemQuantity : number,
+  // ItemIsVeg : boolean,
+  // ItemIngrediants : String[],
+  // ItemDesc : String,
   ItemPrice : number,
   ItemItemId : String,
   ItemVendorId : string
@@ -123,41 +123,45 @@ export class FoodBreakfastComponent implements OnInit {
   };
 
   constructor(private foodService : FoodService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private toastr: ToastrService) { 
     this.foodData = [];
     this.chefData = [];
   }
 
   ngOnInit(): void {
-    this.loadBreakfastDetails();
+    this.loadfoodDetails();
     this.loadChefDetails();
     this.loadCuisineDetails();
   }
 
-  loadBreakfastDetails()
+  loadfoodDetails()
   {
-    this.foodService.getItemSubCategoryDetails('food','breakfast').subscribe(
+    this.foodService.getItemSubCategoryDetails('food','Breakfast').subscribe(
       (resp:any)=>{
-         this.foodService.getItemDetailsInBulk(resp).subscribe(
-           (val : any) => {
-             for(let item of val)
+        //  this.foodService.getItemDetailsInBulk(resp).subscribe(
+        //    (val : any) => {
+             for(let item of resp)
              {
+               if(item != null && item !=undefined)
+               {
                 let currItem = {
                   ItemImageUrl : item.imagePath,
                   ItemName : item.itemname,
-                  ItemUnit : item.unit,
-                  ItemQuantity : 1,
-                  ItemIsVeg : item.isVeg,
-                  ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
-                  ItemDesc : item.desc,
+                  // ItemUnit : item.unit,
+                  // ItemQuantity : 1,
+                  // ItemIsVeg : item.isVeg,
+                  // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
+                  // ItemDesc : item.desc,
                   ItemPrice : item.price,
                   ItemItemId : item.itemId,
                   ItemVendorId : item.VendorVendorId
                 };
                 this.foodData.push(currItem);
-             }          
-           }
-         );
+               }
+             }            
+        //    }
+        //  );
       });
   }
 
@@ -165,20 +169,19 @@ export class FoodBreakfastComponent implements OnInit {
   {
     this.foodService.getChefsNearUserLocation().subscribe(
       (resp : any)=>{
+        // console.log(resp);
         for(let chef of resp)
         {
-          let chefItem = {
-            chefId : resp.vendorId,
-            firstname : resp.firstname,
-            lastname : resp.lastname,
-            chefImage : resp.imagePath,
-            chefRating : 9.3
-          };
-          this.chefData.push(chefItem);
+            let chefItem = {
+              chefId : chef.vendorId,
+              firstname : chef.firstname,
+              lastname : chef.lastname,
+              chefImage : chef.imagePath,
+              chefRating : chef.rating
+            };
+            this.chefData.push(chefItem);
         }
-      },
-      err=>console.log(err)
-      );
+      });
   }
 
   loadCuisineDetails()

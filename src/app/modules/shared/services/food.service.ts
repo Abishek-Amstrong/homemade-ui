@@ -91,8 +91,38 @@ export class FoodService {
     // );
   }
 
+  getFoodItemsForHomePage() : Observable<any>
+  {
+    return this.http.get(`${environment.apiUrl}/food`).pipe(
+      catchError(err=>this.handleError(err))
+    );
+  }
+
+  getItemReviews(itemId : String)
+  {
+    return this.http.get(`${environment.apiUrl}/itemreview/${itemId}`).pipe(
+      catchError(err=>this.handleError(err))
+    );
+  }
+
+  getSimilarProducts(vendorId : String)
+  {
+    return this.http.get(`${environment.apiUrl}/vendorsimilarProducts/${vendorId}`).pipe(
+      catchError(err=>this.handleError(err))
+    );
+  }
+
+  submitItemReview(itemId : String, review : String, reviewTitle : String, rating : number, vendorId : String)
+  {
+    const options  = new HttpHeaders({'Content-Type':'application/json'});
+    let userId =this.authService.getUserId();
+    return this.http.post(`${environment.apiUrl}/itemreview`,{itemId,userId,review,reviewTitle,rating,vendorId},{headers : options}).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
+
   handleError(errorObj: HttpErrorResponse) : Observable<any> {
-    console.log(errorObj);
+    //console.log(errorObj);
     let errorMsg : any;
     if (typeof errorObj.error === 'string') {
       errorMsg = errorObj.error;

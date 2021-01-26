@@ -43,38 +43,14 @@ export class ProfileService {
     return this.http.put(`${environment.apiUrl}/updateuserdetails`, persData);
   }
 
-  getAddressDetails(): Observable<any> {
-    let sampelObservable = new Observable((observer) => {
-      let addressData = [
-        {
-          addressId: 1001,
-          fullName: 'Raja Babu',
-          address: 'Flat Number - 50, Nanavati Colony, NIT-1, Sector-80',
-          city: 'Jaipur',
-          state: 'Rajasthan',
-          pinCode: 100001,
-        },
-      ];
-      observer.next(addressData);
-      observer.complete();
-    });
-    return sampelObservable;
-    //return this.http.get(`${environment.apiUrl}/User/GetAddressDetails`).pipe(
-    //   catchError(this.handleError)
-    // );
+  getAddressDetails() {
+    const id = localStorage.getItem('userId');
+    return this.http.get(`${environment.apiUrl}/useraddress/${id}`);
   }
 
   addProfileAddress(addressData: any) {
-    //const options  = new HttpHeaders({'Content-Type':'application/json'});
-    // return this.http.post(`${environment.apiUrl}/User/AddAddress`,addressData,{headers : options}).pipe(
-    //   catchError(this.handleError)
-    // );
-    // sample JSON
-    // address: "savsav"
-    // city: "asvasv"
-    // fullName: "ssav"
-    // pinCode: "asdaavda"
-    // state: "Sikkim"
+    addressData['userId'] = localStorage.getItem('userId');
+    return this.http.post(`${environment.apiUrl}/addlocation`, addressData);
   }
 
   updateProfileAddress(addressData: any) {

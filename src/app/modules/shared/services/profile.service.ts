@@ -1,7 +1,10 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { catchError,tap } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { throwError,Observable, forkJoin, Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,10 @@ export class ProfileService {
   private hideMenuInMobile : boolean;
   hideMenuStatusChange : Subject<boolean> = new Subject<boolean>();
 
-  constructor() {
+
+  constructor(private http: HttpClient,
+    private toastr: ToastrService,
+    private authService : AuthService) {
     this.hideMenuInMobile = false;
    }
 
@@ -111,45 +117,52 @@ export class ProfileService {
    }
 
    getOrderDetails() : Observable<any>{
-    let sampelObservable = new Observable((observer) => {
-      let orderData = [{
-        orderId : 1001,
-        productName : 'Sabudana Samosa With Chutny',
-        productImage : 'assets/images/thumb_detail_1.jpg',
-        productTotPrice : 2928 ,
-        OrderDate : new Date(),
-        deliveredDate : new Date()
-      },
-      {
-        orderId : 1002,
-        productName : 'Pizza with extra cheese',
-        productImage : 'assets/images/thumb_detail_1.jpg',
-        productTotPrice : 315 ,
-        OrderDate : new Date(),
-        deliveredDate : new Date()
-      }];
-    observer.next(orderData);
-    observer.complete();
-    });
-    return sampelObservable;
-    //return this.http.get(`${environment.apiUrl}/User/OrderDetails`).pipe(
-    //   catchError(this.handleError)
-    // );
+    // let sampelObservable = new Observable((observer) => {
+    //   let orderData = [{
+    //     orderId : 1001,
+    //     productName : 'Sabudana Samosa With Chutny',
+    //     productImage : 'assets/images/thumb_detail_1.jpg',
+    //     productTotPrice : 2928 ,
+    //     OrderDate : new Date(),
+    //     deliveredDate : new Date()
+    //   },
+    //   {
+    //     orderId : 1002,
+    //     productName : 'Pizza with extra cheese',
+    //     productImage : 'assets/images/thumb_detail_1.jpg',
+    //     productTotPrice : 315 ,
+    //     OrderDate : new Date(),
+    //     deliveredDate : new Date()
+    //   }];
+    // observer.next(orderData);
+    // observer.complete();
+    // });
+    //return sampelObservable;
+    let userId = this.authService.getUserId();
+    return this.http.get(`${environment.apiUrl}/userorder/${userId}`).pipe(
+      catchError(err=>this.handleError(err))
+    );
    }
 
-   handleError(errorObj: HttpErrorResponse) {
-    // if (typeof errorObj.error === 'string') {
-    //   this.toasterService.error(errorObj.error);
-    // } else if (typeof errorObj.error === 'object') {
-    //   if ('errors' in errorObj.error) {
-    //     const key = Object.keys(errorObj.error.errors)[0];
-    //     const errorMsg: any = errorObj.error.errors[key][0];
-    //     this.toasterService.error(errorMsg);
-    //   } else {
-    //     this.toasterService.error(errorObj.error.title);
-    //   }
-    // } else {
-    //   console.log(errorObj);
-    // }
+   handleError(errorObj: HttpErrorResponse) : Observable<any> {
+    console.log(errorObj);
+    let errorMsg : any;
+    if (typeof errorObj.error === 'string') {
+      errorMsg = errorObj.error;
+      this.toastr.error(errorObj.error,'Error');
+    } else if (typeof errorObj.error === 'object') {
+      if ('errors' in errorObj.error) {
+        errorMsg = errorObj.error.errors[0].message;
+        this.toastr.error(errorMsg,'Error');
+      } 
+      else {
+        errorMsg = errorObj.error.name;
+        this.toastr.error(errorObj.error.name,'Error');
+      }
+    } else {
+      errorMsg = errorObj.message;
+      this.toastr.error(errorObj.message,'Error');
+    }
+    return throwError(errorMsg);
   }
 }

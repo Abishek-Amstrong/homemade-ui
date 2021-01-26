@@ -10,7 +10,7 @@
                                     <div class="item">
                                         <figure>
                                             <img [src]="category.imgUrl" alt="" class="owl-lazy">
-                                            <a href="breakfast.html">
+                                            <a routerLink="foods/Breakfast">
                                                 <h3>{{category.label}}</h3>
                                             </a>
                                         </figure>
@@ -43,6 +43,12 @@
                                     </li>
                                     <li><a class="list-group-item list-group-item-action" routerLink="/foods" fragment="section6">Desserts</a>
                                     </li>
+                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods" fragment="section7">Beverages</a>
+                                    </li>
+                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods" fragment="section8">Meals</a>
+                                    </li>
+                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods" fragment="section9">Platter</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -55,26 +61,26 @@
                             <h2>Breakfast</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.breakfast">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of breakfastData">
                                 <div class="cardbody">
-                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
                                             <figure>
-                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                <img [src]="item.ItemImageUrl" alt="" class="lazy loaded img-fluid"
                                                     data-was-processed="true">
                                             </figure>
                                         </div>
                                         <div class="contentBox">
                                             <div class="pro_detials">
-                                                <h3>{{menu.label}}</h3>
-                                                <p class="price">Rs.{{menu.price}}</p>
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
                                             </div>
                                             <div class="prod_cta">
                                                 <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                                                    (click)="orderNow($event, menu)">Pre
+                                                    (click)="orderNow($event, item)">Pre
                                                     Order</a>
                                             </div>
-                                            <p class="availablity">{{menu.availability}}</p>
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
                                         </div>
                                     </a>
                                 </div>
@@ -85,29 +91,29 @@
 
                     <div class="card type3" id="section2">
                         <div class="main_title">
-                            <h2>Norht Indian</h2>
+                            <h2>North Indian</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.northIndian">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of northIndianData">
                                 <div class="cardbody">
-                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
                                             <figure>
-                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                <img [src]="item.ItemImageUrl" alt="" class="lazy loaded img-fluid"
                                                     data-was-processed="true">
                                             </figure>
                                         </div>
                                         <div class="contentBox">
                                             <div class="pro_detials">
-                                                <h3>{{menu.label}}</h3>
-                                                <p class="price">Rs.{{menu.price}}</p>
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
                                             </div>
                                             <div class="prod_cta">
                                                 <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                                                    (click)="orderNow($event, menu)">Pre
+                                                    (click)="orderNow($event, item)">Pre
                                                     Order</a>
                                             </div>
-                                            <p class="availablity">{{menu.availability}}</p>
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
                                         </div>
                                     </a>
                                 </div>
@@ -121,26 +127,26 @@
                             <h2>South Indian</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.southIndian">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of southIndianData">
                                 <div class="cardbody">
-                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
                                             <figure>
-                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                <img [src]="item.ItemImageUrl" alt="" class="lazy loaded img-fluid"
                                                     data-was-processed="true">
                                             </figure>
                                         </div>
                                         <div class="contentBox">
                                             <div class="pro_detials">
-                                                <h3>{{menu.label}}</h3>
-                                                <p class="price">Rs.{{menu.price}}</p>
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
                                             </div>
                                             <div class="prod_cta">
                                                 <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                                                    (click)="orderNow($event, menu)">Pre
+                                                    (click)="orderNow($event, item)">Pre
                                                     Order</a>
                                             </div>
-                                            <p class="availablity">{{menu.availability}}</p>
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
                                         </div>
                                     </a>
                                 </div>
@@ -154,26 +160,26 @@
                             <h2>Continental</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.continental">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of continentalData">
                                 <div class="cardbody">
-                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
                                             <figure>
-                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                <img [src]="item.ItemImageUrl" alt="" class="lazy loaded img-fluid"
                                                     data-was-processed="true">
                                             </figure>
                                         </div>
                                         <div class="contentBox">
                                             <div class="pro_detials">
-                                                <h3>{{menu.label}}</h3>
-                                                <p class="price">Rs.{{menu.price}}</p>
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
                                             </div>
                                             <div class="prod_cta">
                                                 <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                                                    (click)="orderNow($event, menu)">Pre
+                                                    (click)="orderNow($event, item)">Pre
                                                     Order</a>
                                             </div>
-                                            <p class="availablity">{{menu.availability}}</p>
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
                                         </div>
                                     </a>
                                 </div>
@@ -187,26 +193,26 @@
                             <h2>Oriental</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.oriental">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of orientalData">
                                 <div class="cardbody">
-                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
                                             <figure>
-                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                <img [src]="item.ItemImageUrl" alt="" class="lazy loaded img-fluid"
                                                     data-was-processed="true">
                                             </figure>
                                         </div>
                                         <div class="contentBox">
                                             <div class="pro_detials">
-                                                <h3>{{menu.label}}</h3>
-                                                <p class="price">Rs.{{menu.price}}</p>
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
                                             </div>
                                             <div class="prod_cta">
                                                 <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                                                    (click)="orderNow($event, menu)">Pre
+                                                    (click)="orderNow($event, item)">Pre
                                                     Order</a>
                                             </div>
-                                            <p class="availablity">{{menu.availability}}</p>
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
                                         </div>
                                     </a>
                                 </div>
@@ -220,26 +226,26 @@
                             <h2>Desserts</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.desserts">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of desertsData">
                                 <div class="cardbody">
-                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
                                             <figure>
-                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                <img [src]="item.ItemImageUrl" alt="" class="lazy loaded img-fluid"
                                                     data-was-processed="true">
                                             </figure>
                                         </div>
                                         <div class="contentBox">
                                             <div class="pro_detials">
-                                                <h3>{{menu.label}}</h3>
-                                                <p class="price">Rs.{{menu.price}}</p>
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
                                             </div>
                                             <div class="prod_cta">
                                                 <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                                                    (click)="orderNow($event, menu)">Pre
+                                                    (click)="orderNow($event, item)">Pre
                                                     Order</a>
                                             </div>
-                                            <p class="availablity">{{menu.availability}}</p>
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
                                         </div>
                                     </a>
                                 </div>
@@ -250,29 +256,29 @@
 
                     <div class="card type3" id="section7">
                         <div class="main_title">
-                            <h2>Regional</h2>
+                            <h2>Beverages</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.regional">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of beveragesData">
                                 <div class="cardbody">
-                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
                                             <figure>
-                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                <img [src]="item.ItemImageUrl" alt="" class="lazy loaded img-fluid"
                                                     data-was-processed="true">
                                             </figure>
                                         </div>
                                         <div class="contentBox">
                                             <div class="pro_detials">
-                                                <h3>{{menu.label}}</h3>
-                                                <p class="price">Rs.{{menu.price}}</p>
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
                                             </div>
                                             <div class="prod_cta">
                                                 <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                                                    (click)="orderNow($event, menu)">Pre
+                                                    (click)="orderNow($event, item)">Pre
                                                     Order</a>
                                             </div>
-                                            <p class="availablity">{{menu.availability}}</p>
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
                                         </div>
                                     </a>
                                 </div>
@@ -283,29 +289,62 @@
 
                     <div class="card type3" id="section8">
                         <div class="main_title">
-                            <h2>Healty</h2>
+                            <h2>Meals</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let menu of menus.healty">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of mealData">
                                 <div class="cardbody">
-                                    <a href="javascript:void(0)" routerLink="/foods/detail/1">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
                                             <figure>
-                                                <img [src]="menu.imgUrl" alt="" class="lazy loaded img-fluid"
+                                                <img [src]="item.ItemImageUrl" alt="" class="lazy loaded img-fluid"
                                                     data-was-processed="true">
                                             </figure>
                                         </div>
                                         <div class="contentBox">
                                             <div class="pro_detials">
-                                                <h3>{{menu.label}}</h3>
-                                                <p class="price">Rs.{{menu.price}}</p>
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
                                             </div>
                                             <div class="prod_cta">
                                                 <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                                                    (click)="orderNow($event, menu)">Pre
+                                                    (click)="orderNow($event, item)">Pre
                                                     Order</a>
                                             </div>
-                                            <p class="availablity">{{menu.availability}}</p>
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+
+                    <div class="card type3" id="section9">
+                        <div class="main_title">
+                            <h2>Platter</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of platterData">
+                                <div class="cardbody">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="item.ItemImageUrl" alt="" class="lazy loaded img-fluid"
+                                                    data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, item)">Pre
+                                                    Order</a>
+                                            </div>
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
                                         </div>
                                     </a>
                                 </div>
@@ -328,17 +367,17 @@
 
                 <div class="chef_carousel">
                     <owl-carousel-o [options]="customOptionsTwo">
-                        <ng-container *ngFor="let chef of chefs; let i = index;">
+                        <ng-container *ngFor="let chef of chefData; let i = index;">
                             <ng-template carouselSlide class="slide" [id]="'image' + i">
                                 <div class="item">
                                     <div class="chefBox">
                                         <figure>
-                                            <a href="javascript:void(0)" routerLink="/foods/chef/1"><img
-                                                    [src]="chef.imgUrl" class="img-fluid lazy" alt=""></a>
+                                            <a href="javascript:void(0)" routerLink="/foods/chef/{{chef.chefId}}"><img
+                                                    [src]="chef.chefImage" class="img-fluid lazy" alt=""></a>
                                         </figure>
                                         <div class="cardDetails">
-                                            <h3>{{chef.name}}</h3>
-                                            <div class="score"><strong>{{chef.rating}}</strong></div>
+                                            <h3>{{chef.firstname + ' ' + chef.lastname}}</h3>
+                                            <div class="score"><strong>{{chef.chefRating}}</strong></div>
                                         </div>
                                     </div>
                                 </div>

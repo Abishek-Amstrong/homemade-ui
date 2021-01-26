@@ -42,6 +42,12 @@ export class FoodService {
     );
   }
 
+  getFoodPageDetails() {
+    return this.http.get(`${environment.apiUrl}/foodpage`).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
+
   getChefsNearUserLocation() : Observable<any>{
     let city = this.authService.userLocation;
     return this.http.get(`${environment.apiUrl}/chefnearyou/${city}`).pipe(

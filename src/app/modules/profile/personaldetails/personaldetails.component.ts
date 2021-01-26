@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from '../../shared/services/profile.service';
 import { ValidatorService } from '../../shared/services/validator.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-personaldetails',
@@ -18,7 +19,8 @@ export class PersonaldetailsComponent implements OnInit {
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
     private validator: ValidatorService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.profileService.setMobileMenuDisplayStatus(true);
     this.persDetailForm = new FormGroup({});
@@ -26,25 +28,26 @@ export class PersonaldetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.persDetailForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      email: ['', [Validators.required, this.validator.isValidEmail()]],
-      mobile: [
+      firstname: ['', Validators.required],
+      email_Id: ['', [Validators.required, this.validator.isValidEmail()]],
+      mobileNumber: [
         '',
         [this.validator.isValidPhoneNo(), this.validator.isNumericPhoneNo()],
       ],
+      desc: [''],
     });
     this.loadPersonalDetails();
   }
 
   get firstName() {
-    return this.persDetailForm.get('firstName');
+    return this.persDetailForm.get('firstname');
   }
 
   get email() {
-    return this.persDetailForm.get('email');
+    return this.persDetailForm.get('email_Id');
   }
   get mobile() {
-    return this.persDetailForm.get('mobile');
+    return this.persDetailForm.get('mobileNumber');
   }
   // get dateOfBirth() {
   //   return this.persDetailForm.get('dateOfBirth');
@@ -55,9 +58,10 @@ export class PersonaldetailsComponent implements OnInit {
     this.profileService.getPersonalDetails(userId).subscribe(
       (data: any) => {
         this.persDetailForm.patchValue({
-          firstName: data.firstname,
-          email: data.email_Id,
-          mobile: data.mobileNumber,
+          firstname: data.firstname,
+          email_Id: data.email_Id,
+          mobileNumber: data.mobileNumber,
+          desc: data.user_desc,
         });
       },
       (err) => console.log(err)
@@ -65,18 +69,23 @@ export class PersonaldetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.persDetailForm.valid) {
-      console.log(this.persDetailForm.value);
-      // this.profileService.updatePersonalDetails(this.persDetailForm.value)
-      // .subscribe(
-      //   data => console.log(data),
-      //   error => console.log(error)
-      // );
-    } else {
+    if (this.persDetailForm.invalid) {
       Object.keys(this.persDetailForm.controls).forEach((key) => {
         this.persDetailForm.get(key)?.markAsDirty();
       });
-      return;
+    } else {
+      this.profileService
+        .updatePersonalDetails(this.persDetailForm.value)
+        .subscribe(
+          (data) => {
+            this.router.navigate(['/', 'profile', 'myaccount']);
+          },
+          (error) => {
+            if (error.status === 200) {
+              this.router.navigate(['/', 'profile', 'myaccount']);
+            }
+          }
+        );
     }
   }
 }

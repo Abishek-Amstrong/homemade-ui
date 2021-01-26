@@ -29,16 +29,8 @@ export class ProfileService {
   }
 
   updatePersonalDetails(persData: any) {
-    //const options  = new HttpHeaders({'Content-Type':'application/json'});
-    // return this.http.put(`${environment.apiUrl}/User/UpdatePersonalDetails`,persData,{headers : options}).pipe(
-    //   catchError(this.handleError)
-    // );
-    //Sample JSON
-    // dateOfBirth: "2021-01-16"
-    // email: "amitShah@gmail.com"
-    // firstName: "Amit"
-    // lastName: "shah"
-    // mobile: 9784561452
+    persData['userId'] = localStorage.getItem('userId');
+    return this.http.put(`${environment.apiUrl}/updateuserdetails`, persData);
   }
 
   getAddressDetails(): Observable<any> {

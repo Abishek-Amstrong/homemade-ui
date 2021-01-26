@@ -69,7 +69,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'detail/:id',
+    path: 'detail',
     loadChildren: () =>
       import('./food-detail/food-detail.module').then(
         (m) => m.FoodDetailModule

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <figure>
-                    <img [src]="foodItem.imgUrl" class="img-fluid" alt="product-img">
+                    <img [src]="foodDetailData.ItemImageUrl" class="img-fluid" alt="product-img">
                 </figure>
             </div>
             <!--./-->
@@ -11,21 +11,28 @@
             <div class="col-lg-4">
                 <div class="productBox">
                     <div class="product-details">
-                        <h3 class="product-title">{{foodItem.label}}</h3>
+                        <h3 class="product-title">{{foodDetailData.ItemName}}</h3>
                     </div>
 
                     <div class="rating">
-                        <p class="score"><strong>{{foodItem.rating}}</strong></p>
+                        <p class="score">
+                            {{ratingAvg}}
+                            <span class="fill" [ngStyle]="{'color':ratingAvg >= 1 ? '#242424' : '#f2f2f2'}"></span>
+                            <span class="fill" [ngStyle]="{'color':ratingAvg >= 2 ? '#242424' : '#f2f2f2'}"></span>
+                            <span class="fill" [ngStyle]="{'color':ratingAvg >= 3 ? '#242424' : '#f2f2f2'}"></span>
+                            <span class="fill" [ngStyle]="{'color':ratingAvg >= 4 ? '#242424' : '#f2f2f2'}"></span>
+                            <span class="fill" [ngStyle]="{'color':ratingAvg >= 5 ? '#242424' : '#f2f2f2'}"></span>
+                        </p>
                     </div>
 
                     <div class="price">
-                        <h3>&#8377; {{foodItem.price}} <span class="quantity">({{foodItem.quantity}})</span></h3>
+                        <h3>&#8377; {{foodDetailData.ItemPrice}} <span class="quantity">({{foodDetailData.ItemUnit}})</span></h3>
                     </div>
 
-                    <div class="availablity">{{foodItem.availability}}</div>
+                    <div class="availablity">{{chefData.chefstatus}}</div>
 
                     <div class="btn_1_mobile">
-                        <a href="javascript:void(0)" (click)="orderNow($event, foodItem)"
+                        <a href="javascript:void(0)" (click)="orderNow($event, foodDetailData)"
                             class="btn_1 gradient full-width mb_5 modal_dialog mb32">Order
                             Now</a>
                     </div>
@@ -43,10 +50,7 @@
                                 <div id="collapseOne" class="collapse" role="tabpanel" data-parent="#accordion_group"
                                     style="">
                                     <div class="card-body">
-                                        <p>A veggie twist on an indian favourite! Relish these spicy deep-fried
-                                            sweet corn tossed in a masala of chilli, mustard seeds,
-                                            curry leaves, coriander leaves and african peri-peri seasoning. This is
-                                            snacky heaven!</p>
+                                        <p>{{foodDetailData.ItemDesc}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -64,11 +68,12 @@
                                     style="">
                                     <div class="card-body">
                                         <div class="chefInfo">
-                                            <img src="assets/images/menu-thumb-1.jpg" class="img-fluid">
+                                            <img [src]="chefData.chefImage" class="img-fluid">
 
                                             <div class="chefTitle">
-                                                <h3 class="chefName">Jiten Kapoor</h3>
-                                                <p>Owner of <a href="#">ABC Kitchen</a></p>
+                                                <h3 class="chefName">{{chefData.firstname + ' ' + chefData.lastname}}</h3>
+                                                <p>{{chefData.chefDesc}}</p> 
+                                                <!-- <p>Owner of <a href="#">ABC Kitchen</a></p> -->
                                             </div>
                                         </div>
                                     </div>
@@ -93,18 +98,18 @@
                     <div class="col-md-3">
                         <div class="ratingAgg">
                             <div id="review_summary">
-                                <strong>5.0</strong>
+                                <strong>{{ratingAvg}}</strong>
                             </div>
                             <div class="starTotal">
                                 <div class="starRating">
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
+                                   <span class="fill" [ngStyle]="{'color':ratingAvg >= 1 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill" [ngStyle]="{'color':ratingAvg >= 2 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill" [ngStyle]="{'color':ratingAvg >= 3 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill" [ngStyle]="{'color':ratingAvg >= 4 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill" [ngStyle]="{'color':ratingAvg >= 5 ? '#242424' : '#f2f2f2'}"></span>
                                 </div>
                                 <div class="ratingsTotal">
-                                    26 ratings
+                                    {{reviewData.length}} ratings
                                 </div>
                             </div>
                         </div>
@@ -117,62 +122,62 @@
                                     <h6>5 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[4].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[4].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[4].count}}</h6>
                                 </div>
 
                                 <div class="d-flex reviewList">
                                     <h6>4 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[3].percent"
+                                            attr.aria-valuenow="{{this.ratingCnt[3].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[3].count}}</h6>
                                 </div>
 
                                 <div class="d-flex reviewList">
                                     <h6>3 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[2].percent"
+                                            attr.aria-valuenow="{{this.ratingCnt[2].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[2].count}}</h6>
                                 </div>
 
                                 <div class="d-flex reviewList">
                                     <h6>2 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[1].percent"
+                                            attr.aria-valuenow="{{this.ratingCnt[1].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[1].count}}</h6>
                                 </div>
 
                                 <div class="d-flex reviewList">
                                     <h6>1 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[0].percent"
+                                            attr.aria-valuenow="{{this.ratingCnt[0].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[0].count}}</h6>
                                 </div>
                             </div>
 
                             <div class="col-md-5">
                                 <div class="reviewBox">
                                     <a href="javascript:void(0)" class="btn_1 outline type_2"
-                                        routerLink="/foods/leave-review">Leave a Review</a>
+                                        routerLink="/foods/leave-review/{{foodDetailData.ItemItemId}}/{{foodDetailData.ItemVendorId}}">Leave a Review</a>
                                 </div>
                                 <!-- /row -->
                             </div>
@@ -183,20 +188,20 @@
                 <!-- /row -->
 
                 <div id="reviews">
-                    <div class="review_card" *ngFor="let review of reviews">
+                    <div class="review_card" *ngFor="let review of reviewData">
                         <div class="row">
                             <div class="col-md-2 user_info">
-                                <figure><img [src]="review.avatar" alt=""></figure>
-                                <h5>{{review.name}}</h5>
+                                <figure><img [src]="review.reviewUserImage" alt=""></figure>
+                                <h5>{{review.reviewUserName}}</h5>
                             </div>
                             <div class="col-md-10 review_content">
                                 <div class="clearfix add_bottom_15">
-                                    <span class="rating">{{review.rating}}<small>/5</small> <strong>Rating
+                                    <span class="rating">{{review.reviewRating}}<small>/5 </small> <strong> Rating
                                             average</strong></span>
-                                    <em>Published {{review.time}} ago</em>
+                                    <em>Published {{review.reviewCreatedTime}}</em>
                                 </div>
-                                <h4>{{review.reviewTitle}}</h4>
-                                <p>{{review.description}}</p>
+                                <h4>{{review.rewviewTitle}}</h4>
+                                <p>{{review.reviewDesc}}</p>
                             </div>
                         </div>
                         <!-- /row -->
@@ -212,22 +217,22 @@
                     <h2>More food of this Chef</h2>
                 </div>
 
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6" *ngFor="let chef of moreFromChef">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6" *ngFor="let item of vendorFoodData">
                     <div class="strip">
                         <figure>
-                            <span class="ribbon off">{{chef.offer}} off</span>
-                            <img [src]="chef.imgUrl" class="img-fluid lazy loaded" alt="" data-was-processed="true">
-                            <a href="javascript:void(0)" routerLink="/foods/chef/1" class="strip_info">
+                            <!-- <span class="ribbon off">{{item.offer}} off</span> -->
+                            <img [src]="item.ItemImageUrl" class="img-fluid lazy loaded" alt="" data-was-processed="true">
+                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}" class="strip_info">
                                 <div class="item_title">
-                                    <h3>{{chef.label}}</h3>
-                                    <small>₹ {{chef.price}}</small>
+                                    <h3>{{item.ItemName}}</h3>
+                                    <small>₹ {{item.ItemPrice}}</small>
                                 </div>
                             </a>
                         </figure>
                         <div class="cardDetails">
-                            <div class="score"><strong>{{chef.rating}}</strong></div>
+                            <!-- <div class="score"><strong>{{item.ItemRating}}</strong></div> -->
                             <a class="btn_1 outline type_3" href="javascript:void(0)"
-                                (click)="orderNow($event, chef)">Order Now</a>
+                                (click)="orderNow($event, item)">Order Now</a>
                         </div>
                     </div>
                 </div>

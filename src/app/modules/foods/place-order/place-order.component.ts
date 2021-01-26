@@ -46,20 +46,23 @@ export class PlaceOrderComponent implements OnInit {
         this.orderData.OrderItemId = resp.itemId;
         this.orderData.OrderItemName = resp.itemname;
         this.orderData.OrderIngredients = [];
-        if(typeof resp.ingredients == 'string')
+        if(resp.ingredients != null && resp.ingredients != undefined)
         {
-          this.orderData.OrderIngredients.push({value : resp.ingredients, checked : false});
-        }
-        else
-        {
-          for(let str of resp.ingredients)
+          if(typeof resp.ingredients == 'string')
           {
-            this.orderData.OrderIngredients.push({value : str, checked : false});
+            this.orderData.OrderIngredients.push({value : resp.ingredients, checked : false});
+          }
+          else
+          {
+            for(let str of resp.ingredients)
+            {
+              this.orderData.OrderIngredients.push({value : str, checked : false});
+            }
           }
         }
         this.orderData.OrderQuantity = 1;
         this.orderData.OrderSize = resp.size;
-        // console.log( this.orderData);
+        console.log( this.orderData);
       }
     );
   }

@@ -136,6 +136,14 @@ export class CartService {
     );
   }
 
+  getRecentOrderedItems() : Observable<any>
+  {
+    let userId = this.authService.getUserId();
+    return this.http.get(`${environment.apiUrl}/recentorderapi/${userId}`).pipe(
+      catchError(err => this.handleError(err))
+    );
+  }
+
   handleError(errorObj: HttpErrorResponse) : Observable<any> {
     console.log(errorObj);
     let errorMsg : any;

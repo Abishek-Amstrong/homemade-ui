@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { SlidesOutputData, OwlOptions } from 'ngx-owl-carousel-o';
 import { PlaceOrderComponent } from '../foods/place-order/place-order.component';
 import { AuthService } from '../shared/services/auth.service';
+import { CartService } from '../shared/services/cart.service';
+import { FoodService } from '../shared/services/food.service'
 
 export interface Menu {
   imgUrl: string;
@@ -19,10 +21,17 @@ export interface Menu {
   path: string;
 }
 
-export interface Food {
-  imgUrl: string;
-  label: string;
-  price: number;
+export interface Item{
+  ItemImageUrl : string,
+  ItemName : string,
+  // ItemUnit : String,
+  // ItemQuantity : number,
+  // ItemIsVeg : boolean,
+  // ItemIngrediants : String[],
+  // ItemDesc : String,
+  ItemPrice : number,
+  ItemItemId : String,
+  ItemVendorId : string
 }
 
 @Component({
@@ -36,8 +45,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChildren('owlAnimated2') slide2!: QueryList<ElementRef>;
 
   menus: Menu[];
-  recentlyViewed: any[];
-  foods: Food[];
+  recentOrderedData: Item[];
+  foodData: Item[];
 
   customOptions: OwlOptions = {
     items: 1,
@@ -111,7 +120,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     private router: Router,
     private dialog: MatDialog,
-    private authService : AuthService
+    private authService : AuthService,
+    private cartService : CartService,
+    private foodService : FoodService
   ) {
     this.authService.setHeaderDisplayStatus(false);
     this.menus = [
@@ -142,58 +153,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       },
     ];
 
-    this.recentlyViewed = [
-      {
-        imgUrl: 'assets/images/Cat_item_1.jpg',
-        label: 'Sabudana Samosa with Pindi Chole and Mint Chutney',
-      },
-      {
-        imgUrl: 'assets/images/Cat_item_1.jpg',
-        label: 'Da Alfredo',
-      },
-      {
-        imgUrl: 'assets/images/Cat_item_1.jpg',
-        label: 'Da Alfredo',
-      },
-      {
-        imgUrl: 'assets/images/Cat_item_1.jpg',
-        label: 'Da Alfredo',
-      },
-      {
-        imgUrl: 'assets/images/Cat_item_1.jpg',
-        label: 'Da Alfredo',
-      },
-      {
-        imgUrl: 'assets/images/Cat_item_1.jpg',
-        label: 'Da Alfredo',
-      },
-    ];
+    this.recentOrderedData = [];
 
-    this.foods = [
-      {
-        imgUrl: 'assets/images/products/product-2.jpg',
-        label: 'Bathroom Glass made with raw silica and silver',
-        price: 600,
-      },
-      {
-        imgUrl: 'assets/images/products/product-2.jpg',
-        label: 'Bathroom Glass made with raw silica and silver',
-        price: 600,
-      },
-      {
-        imgUrl: 'assets/images/products/product-2.jpg',
-        label: 'Bathroom Glass made with raw silica and silver',
-        price: 600,
-      },
-      {
-        imgUrl: 'assets/images/products/product-2.jpg',
-        label: 'Bathroom Glass made with raw silica and silver',
-        price: 600,
-      },
-    ];
+    this.foodData = [];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadRecentOrderedItems();
+    this.loadFoodDetails();
+  }
 
   ngAfterViewInit() {}
 
@@ -226,10 +194,55 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/', 'foods']);
   }
 
-  orderNow(event: any, food: Food) {
+  loadRecentOrderedItems()
+  {
+    this.cartService.getRecentOrderedItems().subscribe(
+      (resp:any)=>{
+        //console.log(resp);
+        for(let item of resp)
+        {
+          if(item != null && item != undefined)
+          {
+            let currItem = {
+              ItemImageUrl : item.imagePath,
+              ItemName : item.itemname,
+              ItemPrice : item.price,
+              ItemItemId : item.itemId,
+              ItemVendorId : item.VendorVendorId
+            };
+            this.recentOrderedData.push(currItem);
+          }
+        }
+      }
+    );
+  }
+
+  loadFoodDetails()
+  {
+    this.foodService.getFoodItemsForHomePage().subscribe(
+      (resp:any)=>{
+        //console.log('food : ' + JSON.stringify(resp));
+             for(let item of resp)
+             {
+               if(item != null && item !=undefined)
+               {
+                let currItem = {
+                  ItemImageUrl : item.imagePath,
+                  ItemName : item.itemname,
+                  ItemPrice : item.price,
+                  ItemItemId : item.itemId,
+                  ItemVendorId : item.VendorVendorId
+                };
+                this.foodData.push(currItem);
+               }
+             }          
+      });
+  }
+
+  orderNow(event: any, food: any) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
-      data: {},
+      data : { component : 'dashboard-component',data : food}
     });
     dialogRef.afterClosed().subscribe((result) => {});
   }

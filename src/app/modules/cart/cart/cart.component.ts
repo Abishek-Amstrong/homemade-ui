@@ -195,7 +195,7 @@ export class CartComponent implements OnInit {
     }
     else
     {
-      this.toastr.error('Cart is Empty',"Success!!");
+      this.router.navigateByUrl('/cart/checkout');
     }
 
     return false;

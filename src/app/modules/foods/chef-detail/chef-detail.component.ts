@@ -90,7 +90,7 @@ export class ChefDetailComponent implements OnInit {
     this.vendor.getVendorDetails(this.vendorId).subscribe(
       (resp:any) =>{
         this.chef.imgUrl = resp.imagePath;
-        this.chef.name = resp.firstname + ' ' + resp.lastname;
+        this.chef.name = resp.firstname;
         this.chef.about = resp.user_desc;
         this.chef.rating = resp.rating == '' || resp.rating == undefined ? 0 : resp.rating;
         this.chef.reviews = this.reviews.length;

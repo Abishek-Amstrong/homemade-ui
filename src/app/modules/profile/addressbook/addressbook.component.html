@@ -9,7 +9,7 @@
     </div>
     <div class="account-form">
         <div class="add-adress" *ngIf="!displayAdrForm">
-            <a href="#" (click)="addInAddrForm()" class="btn_1 gradient full-width">Add new address</a> 
+            <a href="#" (click)="addInAddrForm()" class="btn_1 gradient full-width">Add new address</a>
         </div>
         <div class="addList" *ngIf="!displayAdrForm">
             <ul>
@@ -22,15 +22,15 @@
                                     <li style="max-width: 220px;">{{address.address}}</li>
                                     <li>{{address.city}}</li>
                                     <li>{{address.state}}</li>
-                                    <li>{{address.pinCode}}</li>
+                                    <li>{{address.zip}}</li>
                                 </ul>
                             </div>
                         </div>
                         <!-- /col -->
                         <div class="col-md-4 col-lg-6">
                             <ul class="click">
-                                <li><a href="#" (click)="editAddrForm(address.addressId)">Edit</a></li>
-                                <li><a href="#" (click)="deleteAddress(address.addressId)">Delete</a></li>
+                                <li><a href="javascript:void(0)" (click)="editAddrForm(address.Id)">Edit</a></li>
+                                <li><a href="javascript:void(0)" (click)="deleteAddress(address.Id)">Delete</a></li>
                             </ul>
                         </div>
                         <!-- /col -->
@@ -39,29 +39,28 @@
             </ul>
         </div>
         <form *ngIf="displayAdrForm" [formGroup]="addressForm" (ngSubmit)="addUpdateAddress()">
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label>Full Name</label>
                 <p *ngIf="fullName!.invalid  && (fullName!.touched || fullName!.dirty)" class="error-msg">
                     Please enter full name!!</p>
                 <input type="text" name="fullName" class="form-control" formControlName="fullName">
-            </div>
+            </div> -->
             <div class="form-group">
                 <label>Address</label>
+                <input type="text" name="address" class="form-control" formControlName="address">
                 <p *ngIf="address!.invalid  && (address!.touched || address!.dirty)" class="error-msg">
                     Please enter address!!</p>
-                <input type="text" name="address" class="form-control" formControlName="address">
             </div>
             <div class="form-group">
                 <label>City</label>
-                <p *ngIf="city!.invalid  && (city!.touched || city!.dirty)" class="error-msg">Please enter city!!</p>
                 <input type="text" name="city" class="form-control" formControlName="city">
+                <p *ngIf="city!.invalid  && (city!.touched || city!.dirty)" class="error-msg">Please enter city!!</p>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <div class="custom_select clearfix">
                             <label>State</label>
-                            <p *ngIf="state!.invalid  && (state!.touched || state!.dirty)" class="error-msg">Please select a state!!</p>
                             <select class="nice-select wide form-control" tabindex="0" formControlName="state">
                                 <option selected>Select state</option>
                                 <option>Sikkim</option>
@@ -69,21 +68,24 @@
                                 <option>Ladhak</option>
                                 <option>Rajasthan</option>
                             </select>
+                            <p *ngIf="state!.invalid  && (state!.touched || state!.dirty)" class="error-msg">Please
+                                select a state!!</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Pincode</label>
+                        <input class="form-control" formControlName="zip">
                         <p *ngIf="pinCode!.invalid  && (pinCode!.touched || pinCode!.dirty)" class="error-msg">
                             Please enter pincode!!</p>
-                        <input class="form-control" formControlName="pinCode">
                     </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn_1 gradient full-width type_2">Save Address</button>
-
+            <button type="submit" class="btn_1 gradient full-width type_2">
+                {{isNewAddress ? 'Save Address' : 'Update Address'}}
+            </button>
         </form>
     </div>
 </div>

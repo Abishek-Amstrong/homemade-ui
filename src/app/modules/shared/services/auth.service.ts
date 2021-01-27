@@ -18,8 +18,8 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root',
 })
 export class AuthService {
-  private userSubject: BehaviorSubject<User>;
-  public user: Observable<User>;
+  private userSubject: BehaviorSubject<User | null>;
+  public user: Observable<User | null>;
   decodedToken: any;
   currentUser: string;
   currentUserLocation: String;
@@ -34,7 +34,7 @@ export class AuthService {
     private http: HttpClient,
     private toastr: ToastrService
   ) {
-    this.userSubject = new BehaviorSubject<User>(
+    this.userSubject = new BehaviorSubject<User | null>(
       this.jwtHelper.decodeToken(localStorage.getItem(this.JWT_TOKEN)!)
     );
     this.user = this.userSubject.asObservable();
@@ -52,7 +52,7 @@ export class AuthService {
     this.hideHeaderStatusChange.next(this.hideHeader);
   }
 
-  public get userValue(): User {
+  public get userValue(): User | null {
     return this.userSubject.value;
   }
 
@@ -111,12 +111,14 @@ export class AuthService {
     // remove user from local storage and set current user to null
     this.currentUser = '';
     this.removeTokens();
-    this.userSubject.next(new User('', '', ''));
+    this.userSubject.next(null);
     this.router.navigate(['/auth']);
   }
 
   private removeTokens() {
     localStorage.removeItem(this.JWT_TOKEN);
+    localStorage.removeItem('userId');
+    localStorage.clear();
   }
 
   isLoggedIn() {

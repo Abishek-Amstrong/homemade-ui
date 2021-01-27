@@ -219,7 +219,7 @@ export class FoodDetailComponent implements OnInit {
   {
     this.foodService.getSimilarProducts(vendorId).subscribe(
       (resp:any)=>{
-        console.log(resp);
+        //console.log(resp);
         for(let item of resp)
         {
           let currItem : Item = {

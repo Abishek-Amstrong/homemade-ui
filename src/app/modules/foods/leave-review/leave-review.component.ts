@@ -49,7 +49,7 @@ export class LeaveReviewComponent implements OnInit {
       return false;
     }
     this.foodService.submitItemReview(this.itemId,this.reviewText,this.reviewTitle,this.rating,this.vendorId).subscribe((resp : any) => {
-      console.log(resp);
+      //console.log(resp);
       this.router.navigateByUrl('/foods/detail/' + this.itemId);
     });
     return false;

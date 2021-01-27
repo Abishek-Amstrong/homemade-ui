@@ -235,10 +235,10 @@
                     </ul>
                     <hr>
                     <ul class="clearfix">
-                        <li>Subtotal<span>{{subTotal}}</span></li>
-                        <li>Discount<span>{{discount}}</span></li>
-                        <li>Delivery/Shipping Charge<span>{{deliveryCost}}</span></li>
-                        <li class="total">Total<span>{{total}}</span></li>
+                        <li>Subtotal<span>{{subTotal > 0 ? subTotal : ''}}</span></li>
+                        <li>Discount<span>{{discount > 0 ? discount : ''}}</span></li>
+                        <li>Delivery/Shipping Charge<span>{{deliveryCost > 0 ? deliveryCost : ''}}</span></li>
+                        <li class="total">Total<span>{{total > 0 ? total : ''}}</span></li>
                     </ul>
                 </div>
             </div>

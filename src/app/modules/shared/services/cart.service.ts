@@ -1,17 +1,19 @@
 import { stringify } from '@angular/compiler/src/util';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, throwError } from 'rxjs';
+import { forkJoin, Observable, Subject, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 
 import { AuthService } from './auth.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  cartItemCountChange :Subject<Number> = new Subject<Number>();
+  cartCount :Number = 0;
 
   constructor(private http: HttpClient,
               private toastr: ToastrService,
@@ -47,24 +49,56 @@ export class CartService {
     );
   }
 
+  getCartItemCount()
+  {
+    let userId = this.authService.getUserId();
+    this.http.get(`${environment.apiUrl}/countitemincart/${userId}`).subscribe(
+      (resp :any) => {
+        this.cartCount = Number(resp);
+        this.cartItemCountChange.next(this.cartCount);
+      },
+      (err : any)=>{
+        this.handleError(err);
+      }
+    );
+    return this.cartCount;
+  }
+
   UpdateProductsInUserCart(updatedCartProducts : any) : Observable<any>
   {
     const options  = new HttpHeaders({'Content-Type':'application/json'});
-    return this.http.put(`${environment.apiUrl}/updatecart`,updatedCartProducts,{headers : options}).pipe(
-      catchError(err => this.handleError(err))
-    )
-  }
-
-  UpdateCartProductQty(cartId : string, quantity : number){
-    const options  = new HttpHeaders({'Content-Type':'application/json'});
-    return this.http.put(`${environment.apiUrl}/updatecart`,{cartId,quantity},{headers : options}).pipe(
+    let bodyJson : {cartId : String, details : {itemId : string, Name : String, quantity : Number, Price : Number, imgUrl : String}[]}[] = [];
+    for( let item of updatedCartProducts)
+    {
+      bodyJson.push({
+        cartId : item.ItemCartId,
+        details : [{
+          itemId : item.ItemItemId,
+          Name : item.ItemName,
+          quantity : item.ItemQuantity,
+          Price : item.ItemPrice,
+          imgUrl : item.ItemImageUrl
+        }]
+      });
+    }
+    //console.log(JSON.stringify({'cartdata' : bodyJson}));
+    return this.http.put(`${environment.apiUrl}/updatecart`,{'cartdata' : bodyJson},{headers : options,responseType: 'text'}).pipe(
       catchError(err => this.handleError(err))
     );
   }
 
+  // UpdateCartProductQty(updatedCartItems : any){
+  //   const options  = new HttpHeaders({'Content-Type':'application/json'});
+  //   console.log(JSON.stringify(updatedCartItems));
+  //   return this.http.put(`${environment.apiUrl}/updatecart`,updatedCartItems,{headers : options}).pipe(
+  //     catchError(err => this.handleError(err))
+  //   );
+  // }
+
   deleteProductInCart(cartId : string) : Observable<any>
   {
     return this.http.delete(`${environment.apiUrl}/usercartdelete/${cartId}`,{responseType: 'text'}).pipe(
+      tap(resp => { this.getCartItemCount();}),
       catchError(err => this.handleError(err))
       );
   }
@@ -103,7 +137,9 @@ export class CartService {
       });
     }
     const options  = new HttpHeaders({'Content-Type':'application/json'});
-    return this.http.post(`${environment.apiUrl}/customerorder`,orderData,{headers : options}).pipe(
+    //console.log(JSON.stringify(orderData));
+    return this.http.post(`${environment.apiUrl}/customerorder`,orderData,{headers : options,responseType: 'text'}).pipe(
+      tap(resp => {this.getCartItemCount();}),
       catchError(err => this.handleError(err))
     );
   }
@@ -127,11 +163,16 @@ export class CartService {
       // state: "Sikkim"
   }
 
-  addItemsTocart(itemId : String, details : number) : Observable<any>
+  addItemsTocart(item : any) : Observable<any>
   {
+    let cartItems : {itemId : string,Name : string, quantity : Number, Price : Number, imgUrl : string}[] = [];
+    cartItems.push({'itemId' : item.OrderItemId, 'Name' : item.OrderItemName, 'quantity' : item.OrderQuantity, 'Price' : item.OrderPrice, 'imgUrl' : item.OrderItemImgUrl});
     const options  = new HttpHeaders({'Content-Type':'application/json'});
     let userId =this.authService.getUserId();
-    return this.http.post(`${environment.apiUrl}/addtocart`,{itemId,userId,details},{headers : options}).pipe(
+    let bodyJson = {'details' : cartItems,'userId' : userId};
+    //console.log(bodyJson);
+    return this.http.post(`${environment.apiUrl}/addtocart`,bodyJson,{headers : options}).pipe(
+      tap(resp => {this.getCartItemCount();}),
       catchError(err => this.handleError(err))
     );
   }
@@ -145,7 +186,7 @@ export class CartService {
   }
 
   handleError(errorObj: HttpErrorResponse) : Observable<any> {
-    console.log(errorObj);
+    //console.log(errorObj);
     let errorMsg : any;
     if (typeof errorObj.error === 'string') {
       errorMsg = errorObj.error;

@@ -56,39 +56,9 @@ export class FoodService {
   }
 
   getCuisineNearUserLocation() : Observable<any>{
-    let sampelObservable = new Observable((observer) => {
-      let cuisineData = [{
-        cuisineId : 1001,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png'
-      },{
-        cuisineId : 1002,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png'
-      },{
-        cuisineId : 1003,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png'
-      },{
-        cuisineId : 1004,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png'
-      },{
-        cuisineId : 1005,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png'
-      },{
-        cuisineId : 1006,
-        name : 'John Doe',
-        imgUrl : 'assets/images/lazy-placeholder.png'
-      }];
-    observer.next(cuisineData);
-    observer.complete();
-    });
-    return sampelObservable;
-    //return this.http.get(`${environment.apiUrl}/foods/cuisinesNearLocation`).pipe(
-    //   catchError(this.handleError)
-    // );
+    return this.http.get(`${environment.apiUrl}/itembysubcategoryName/Desserts`).pipe(
+      catchError(err => this.handleError(err))
+    );
   }
 
   getFoodItemsForHomePage() : Observable<any>

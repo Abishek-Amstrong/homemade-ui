@@ -76,7 +76,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'chef/:id',
+    path: 'chef',
     loadChildren: () =>
       import('./chef-detail/chef-detail.module').then(
         (m) => m.ChefDetailModule

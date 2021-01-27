@@ -29,7 +29,7 @@ export class MyordersComponent implements OnInit {
   {
     this.profileService.getOrderDetails().subscribe(
       (resp:any) => {
-        console.log(resp);
+        //console.log(resp);
       },
       err => console.log(err));
   }

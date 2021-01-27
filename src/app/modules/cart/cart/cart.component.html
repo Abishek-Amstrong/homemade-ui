@@ -73,23 +73,23 @@
                     <table>
                         <tr>
                             <td>Item Total:</td>
-                            <td>{{subTotal}}</td>
+                            <td>{{subTotal > 0 ? subTotal : ''}}</td>
                         </tr>
                         <tr>
                             <td>Discount:</td>
-                            <td>{{discount}}</td>
+                            <td>{{discount > 0 ? discount : ''}}</td>
                         </tr>
                         <tr>
                             <td><span>Subtotal:</span></td>
-                            <td>{{subTotalWthDiscount}}</td>
+                            <td>{{subTotalWthDiscount > 0 ? subTotalWthDiscount : ''}}</td>
                         </tr>
                         <tr>
                             <td>Delivery Cost:</td>
-                            <td>{{deliveryCost}}</td>
+                            <td>{{deliveryCost > 0 ? deliveryCost : ''}}</td>
                         </tr>
                         <tr>
                             <td class="totalValue"><span>Total:</span></td>
-                            <td class="totalValue"><span>{{total}}</span></td>
+                            <td class="totalValue"><span>{{total > 0 ? total : ''}}</span></td>
                         </tr>
                     </table>
                 </div>

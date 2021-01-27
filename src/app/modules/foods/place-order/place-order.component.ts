@@ -12,7 +12,9 @@ export interface Order{
     checked :boolean
   }[],
   OrderItemId : String,
-  OrderUserId: String
+  OrderUserId: String,
+  OrderPrice : Number,
+  OrderItemImgUrl : String
 }
 
 @Component({
@@ -35,6 +37,7 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //console.log(this.data.data);
     this.loadOrderForm(this.data.data);
   }
 
@@ -42,7 +45,7 @@ export class PlaceOrderComponent implements OnInit {
   {
     this.cartService.getItemDetails(data.ItemItemId).subscribe(
       (resp:any) =>{
-        // console.log(resp);
+        //console.log(resp);
         this.orderData.OrderItemId = resp.itemId;
         this.orderData.OrderItemName = resp.itemname;
         this.orderData.OrderIngredients = [];
@@ -62,7 +65,9 @@ export class PlaceOrderComponent implements OnInit {
         }
         this.orderData.OrderQuantity = 1;
         this.orderData.OrderSize = resp.size;
-        console.log( this.orderData);
+        this.orderData.OrderPrice = resp.price;
+        this.orderData.OrderItemImgUrl = resp.imagePath;
+      //console.log( this.orderData);
       }
     );
   }
@@ -82,8 +87,9 @@ export class PlaceOrderComponent implements OnInit {
 
   addToCart()
   {
-    this.cartService.addItemsTocart(this.orderData.OrderItemId,this.orderData.OrderQuantity).subscribe(
+    this.cartService.addItemsTocart(this.orderData).subscribe(
       (resp : any) => {
+        //console.log(resp);
         this.toastr.success('Item is added to cart','Success!!');
         this.dialogRef.close()
       }

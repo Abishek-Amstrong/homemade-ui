@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
         this.userName = result.firstname;
       },
       (err) => {
-        console.log(err);
+        //console.log(err);
       }
     );
   }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ProfileService } from '../../shared/services/profile.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-addressbook',
@@ -14,16 +15,19 @@ export class AddressbookComponent implements OnInit {
   addressForm: FormGroup;
   displayAdrForm: boolean;
   isNewAddress: boolean;
+  currentAddresId: string;
 
   constructor(
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private toaster: ToastrService
   ) {
     this.profileService.setMobileMenuDisplayStatus(true);
     this.addressForm = new FormGroup({});
     this.displayAdrForm = false;
     this.isNewAddress = false;
+    this.currentAddresId = '';
   }
 
   ngOnInit(): void {
@@ -65,22 +69,20 @@ export class AddressbookComponent implements OnInit {
     return false;
   }
 
-  editAddrForm(addresId: number) {
+  editAddrForm(addresId: any) {
+    this.currentAddresId = addresId;
     for (let addr of this.addressData) {
-      if (addr.addressId == addresId) {
-        this.addressForm.setValue({
-          fullName: addr.fullName,
+      if (addr.Id == addresId) {
+        this.addressForm.patchValue({
           address: addr.address,
           city: addr.city,
           state: addr.state,
-          zip: addr.pinCode,
+          zip: addr.zip,
         });
-        break;
       }
     }
     this.displayAdrForm = true;
     this.isNewAddress = false;
-    return false;
   }
 
   addUpdateAddress() {
@@ -101,13 +103,22 @@ export class AddressbookComponent implements OnInit {
           }
         );
       } else {
-        // this.profileService.updateProfileAddress(this.addressForm.value)
-        // .subscribe(
-        //   data => console.log(data),
-        //   error => console.log(error)
-        // );
+        const payload = this.addressForm.value;
+        payload['Id'] = this.currentAddresId;
+
+        this.profileService
+          .updateProfileAddress(this.addressForm.value)
+          .subscribe(
+            (data) => {
+              this.resetForm();
+            },
+            (error) => {
+              if (error.status === 200) {
+                this.resetForm();
+              }
+            }
+          );
       }
-      console.log(this.addressForm.value);
     }
   }
 
@@ -115,15 +126,21 @@ export class AddressbookComponent implements OnInit {
     this.displayAdrForm = false;
     this.addressForm.reset();
     this.loadAddressDetails();
+    this.currentAddresId = '';
   }
 
-  deleteAddress(addresId: number) {
-    // this.profileService.deleteProfileAddress(addresId)
-    // .subscribe(
-    //   data => { console.log(data)},
-    //   error => console.log(error)
-    // );
-    this.loadAddressDetails();
-    return false;
+  deleteAddress(addresId: any) {
+    this.profileService.deleteProfileAddress(addresId).subscribe(
+      (data) => {
+        this.resetForm();
+        this.toaster.success('Address deleted successfully');
+      },
+      (error) => {
+        if (error.status === 200) {
+          this.toaster.success('Address deleted successfully');
+          this.resetForm();
+        }
+      }
+    );
   }
 }

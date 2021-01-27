@@ -54,21 +54,12 @@ export class ProfileService {
   }
 
   updateProfileAddress(addressData: any) {
-    //const options  = new HttpHeaders({'Content-Type':'application/json'});
-    // return this.http.put(`${environment.apiUrl}/User/AddAddress`,addressData,{headers : options}).pipe(
-    //   catchError(this.handleError)
-    // );
-    // sample JSON
-    // address: "savsav"
-    // city: "asvasv"
-    // fullName: "ssav"
-    // pinCode: "asdaavda"
-    // state: "Sikkim"
+    addressData['userId'] = localStorage.getItem('userId');
+    return this.http.put(`${environment.apiUrl}/updateaddress`, addressData);
   }
 
-  deleteProfileAddress(addressId: number) {
-    // return this.http.delete(`${environment.apiUrl}/User/DeleteAddress/${addressId}`).pipe(
-    //   catchError(this.handleError));
+  deleteProfileAddress(addressId: any) {
+    return this.http.delete(`${environment.apiUrl}/deleteaddress/${addressId}`);
   }
 
   getOrderDetails(): Observable<any> {

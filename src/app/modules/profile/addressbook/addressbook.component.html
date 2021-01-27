@@ -29,8 +29,8 @@
                         <!-- /col -->
                         <div class="col-md-4 col-lg-6">
                             <ul class="click">
-                                <li><a href="#" (click)="editAddrForm(address.addressId)">Edit</a></li>
-                                <li><a href="#" (click)="deleteAddress(address.addressId)">Delete</a></li>
+                                <li><a href="javascript:void(0)" (click)="editAddrForm(address.Id)">Edit</a></li>
+                                <li><a href="javascript:void(0)" (click)="deleteAddress(address.Id)">Delete</a></li>
                             </ul>
                         </div>
                         <!-- /col -->
@@ -83,8 +83,9 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn_1 gradient full-width type_2">Save Address</button>
-
+            <button type="submit" class="btn_1 gradient full-width type_2">
+                {{isNewAddress ? 'Save Address' : 'Update Address'}}
+            </button>
         </form>
     </div>
 </div>

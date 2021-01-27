@@ -35,7 +35,7 @@ export class DesertsComponent implements OnInit {
 
   foodData : Item[];
   chefData : chef[];
-  cuisineData : any;
+  cuisineData : Item[];
 
   customOptions: OwlOptions = {
     center: false,
@@ -127,6 +127,7 @@ export class DesertsComponent implements OnInit {
               private toastr: ToastrService) { 
     this.foodData = [];
     this.chefData = [];
+    this.cuisineData = [];
   }
 
   ngOnInit(): void {
@@ -186,9 +187,29 @@ export class DesertsComponent implements OnInit {
 
   loadCuisineDetails()
   {
-    this.foodService.getCuisineNearUserLocation().subscribe(data=>this.cuisineData = data,
-      err=>console.log(err)
-      );
+    this.foodService.getCuisineNearUserLocation().subscribe(
+      (resp : any)=>{
+        //console.log(resp);
+        for(let item of resp)
+        {
+          if(item != null && item !=undefined)
+          {
+           let currItem = {
+             ItemImageUrl : item.imagePath,
+             ItemName : item.itemname,
+             // ItemUnit : item.unit,
+             // ItemQuantity : 1,
+             // ItemIsVeg : item.isVeg,
+             // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
+             // ItemDesc : item.desc,
+             ItemPrice : item.price,
+             ItemItemId : item.itemId,
+             ItemVendorId : item.VendorVendorId
+           };
+           this.cuisineData.push(currItem);
+          }
+        }  
+    });
   }
 
   orderNow(event: any, food: any) : boolean {

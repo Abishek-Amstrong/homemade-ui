@@ -1,12 +1,28 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { VendorService } from '../../shared/services/vendor.service';
+import { PlaceOrderComponent } from '../place-order/place-order.component';
 
 export interface Chef {
   imgUrl: string;
-  reviews: string;
+  reviews: number;
   rating: number;
   name: string;
   type: string;
   about: string;
+}
+
+export interface menus{
+  type : string,
+  menu : {
+    id: String,
+    ItemItemId : string,
+    name : string,
+    description : string,
+    price : number,
+    imgUrl :string
+  }[]
 }
 
 export interface Review {
@@ -25,91 +41,16 @@ export interface Review {
 })
 export class ChefDetailComponent implements OnInit {
   chef: Chef;
-  menus: any;
+  menus: menus[];
   reviews: Review[];
+  vendorId : string;
 
-  constructor() {
-    this.chef = {
-      imgUrl: 'assets/images/about_1.svg',
-      reviews: '15',
-      rating: 8.9,
-      name: 'Pankaj Saxena',
-      type: 'Homemade Chef',
-      about: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-      et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-      aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-      sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-    };
+  constructor(private vendor : VendorService,
+              private dialog: MatDialog,
+              private activatedRoute: ActivatedRoute,) {
+    this.chef = {} as Chef;
 
-    this.menus = [
-      {
-        type: 'Starters',
-        menu: [
-          {
-            id: '1',
-            name: 'Mexican Enchiladas',
-            description: 'Fuisset mentitum deleniti sit ea.',
-            price: '9.40',
-            imgUrl: 'assets/images/menu-thumb-placeholder.jpg',
-          },
-          {
-            id: '2',
-            name: 'Fajitas',
-            description: 'Fuisset mentitum deleniti sit ea.',
-            price: '6.80',
-            imgUrl: 'assets/images/menu-thumb-placeholder.jpg',
-          },
-          {
-            id: '3',
-            name: 'Royal Fajitas',
-            description: 'Fuisset mentitum deleniti sit ea.',
-            price: '5.70',
-            imgUrl: 'assets/images/menu-thumb-placeholder.jpg',
-          },
-          {
-            id: '4',
-            name: 'Chicken Enchilada Wrap',
-            description: 'Fuisset mentitum deleniti sit ea.',
-            price: '5.20',
-            imgUrl: 'assets/images/menu-thumb-placeholder.jpg',
-          },
-        ],
-      },
-      {
-        type: 'Main Courses',
-        menu: [
-          {
-            id: '5',
-            name: 'Cheese Quesadilla',
-            description: 'Fuisset mentitum deleniti sit ea.',
-            price: '12.00',
-            imgUrl: 'assets/images/menu-thumb-placeholder.jpg',
-          },
-          {
-            id: '6',
-            name: 'Chorizo & Cheese',
-            description: 'Fuisset mentitum deleniti sit ea.',
-            price: '24.71',
-            imgUrl: 'assets/images/menu-thumb-placeholder.jpg',
-          },
-          {
-            id: '7',
-            name: 'Beef Taco',
-            description: 'Fuisset mentitum deleniti sit ea.',
-            price: '8.70',
-            imgUrl: 'assets/images/menu-thumb-placeholder.jpg',
-          },
-          {
-            id: '4',
-            name: 'Chicken Enchilada Wrap',
-            description: 'Fuisset mentitum deleniti sit ea.',
-            price: '5.20',
-            imgUrl: 'assets/images/menu-thumb-placeholder.jpg',
-          },
-        ],
-      },
-    ];
+    this.menus = [];
 
     this.reviews = [
       {
@@ -135,7 +76,80 @@ export class ChefDetailComponent implements OnInit {
         Viderer petentium cu his. Tollit molestie suscipiantur his et.`,
       },
     ];
+    this.vendorId = '';
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadVendorDetails();
+    this.loadVendorMneuDetails();
+  }
+
+  loadVendorDetails()
+  {
+    this.vendorId = this.activatedRoute.snapshot.paramMap.get("id") || '';
+    this.vendor.getVendorDetails(this.vendorId).subscribe(
+      (resp:any) =>{
+        this.chef.imgUrl = resp.imagePath;
+        this.chef.name = resp.firstname + ' ' + resp.lastname;
+        this.chef.about = resp.user_desc;
+        this.chef.rating = resp.rating == '' || resp.rating == undefined ? 0 : resp.rating;
+        this.chef.reviews = this.reviews.length;
+        this.chef.type =resp.signup_type;
+
+      }
+    );
+  }
+
+  loadVendorMneuDetails()
+  {
+    this.vendor.getVendorMenuItemDetails(this.vendorId).subscribe(
+      (resp:any) =>{
+        let menu : {
+          id : string,
+          ItemItemId : string,
+          name : string,
+          description : string,
+          price : number,
+          imgUrl :string
+        }[] = [];
+        let type ='Starters';
+        for(let i=1;i<=4 && i<resp.length;i++)
+        {
+          menu.push({
+            id: i.toString(),
+            ItemItemId : resp[i].itemId,
+            name: resp[i].itemname,
+            description: resp[i].desc,
+            price: Number(resp[i].price),
+            imgUrl: resp[i].imagePath
+          });
+        }
+        this.menus.push({'type' : type,menu})
+        type ='Main Courses';
+        menu = [];
+        for(let i=5;i<=8 && i<resp.length;i++)
+        {
+          menu.push({
+            id: i.toString(),
+            ItemItemId : resp[i].itemId,
+            name: resp[i].itemname,
+            description: resp[i].desc,
+            price: Number(resp[i].price),
+            imgUrl: resp[i].imagePath
+          });
+        }
+        this.menus.push({'type' : type,menu})
+      }
+    );
+  }
+
+  orderNow(event: any, food: any) {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(PlaceOrderComponent, {
+      data : { component : 'food-detail-component',data : food}
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+    return false;
+  }
+
 }

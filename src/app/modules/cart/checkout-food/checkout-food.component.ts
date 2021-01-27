@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { CartService } from '../../shared/services/cart.service';
 
-export interface cartItem
+export interface Item
 {
   ItemImageUrl : string,
   ItemName : string,
@@ -28,7 +28,7 @@ export class CheckoutFoodComponent implements OnInit {
   disableDateTime : boolean;
   deliveryForm : FormGroup;
   selectedTime : string;
-  userCart : cartItem[];
+  userCart : Item[];
   subTotal : number;
   subTotalWthDiscount : number;
   discount : number;
@@ -218,7 +218,9 @@ export class CheckoutFoodComponent implements OnInit {
     if(this.deliveryForm.valid)
     {
       this.cartService.placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total).subscribe(
-        data => {}
+        (resp : any) => {
+          this.toastr.success('Order is placed',"Success!!");
+        }
       );
     }
     else
@@ -234,49 +236,52 @@ export class CheckoutFoodComponent implements OnInit {
   {
     this.cartService.getProductsInUserCart().subscribe(
       (response : any) => {
+        //console.log(response);
         if(response == null || response == undefined || response.length == 0)
         {
           this.userCart = [];
-          this.toastr.success('Cart is Empty!! Add products before checkout',"Success!!");
+          this.toastr.success('Cart is Empty',"Success!!");
         }
         else
         {
           for(let item of response)
           {
-            if(item.itemItemId != null && item.itemItemId != '')
+            item.details = JSON.parse(item.details);
+            if(item.details[0].itemId != null && item.details[0].itemId != '')
             {
-              let currItem : cartItem = {
-                ItemImageUrl : '',
-                ItemName : '',
-                ItemQuantity : Number(item.quantity),
-                ItemPrice : 0,
+              let currItem : Item = {
+                ItemImageUrl : item.details[0].imgUrl,
+                ItemName : item.details[0].Name,
+                ItemQuantity : Number(item.details[0].quantity),
+                ItemPrice : Number(item.details[0].Price),
                 ItemUpdated : false,
                 ItemCartId : item.cartId,
-                ItemItemId : item.itemItemId,
+                ItemItemId : item.details[0].itemId,
                 ItemUserId : item.userUserId
               };
               this.userCart.push(currItem);
             }
           }
-          this.cartService.getItemDetailsInBulk(this.userCart).subscribe((items:any) => {
-            for(let item of this.userCart)
-            {
-              for(let itemDetail of items)
-              {
-                if(item.ItemItemId != null && item.ItemItemId == itemDetail.itemId)
-                {
-                  item.ItemImageUrl = itemDetail.imagePath;
-                  item.ItemName = itemDetail.itemname;
-                  item.ItemPrice = Number(itemDetail.price);
-                }
-              }
-            }
-            this.calculateTotal();
-          });
+          this.calculateTotal();
+          //console.log(this.userCart);
+          // this.cartService.getItemDetailsInBulk(this.userCart).subscribe((items:any) => {
+          //   for(let item of this.userCart)
+          //   {
+          //     for(let itemDetail of items)
+          //     {
+          //       if(item.ItemItemId != null && item.ItemItemId == itemDetail.itemId)
+          //       {
+          //         item.ItemImageUrl = itemDetail.imagePath;
+          //         item.ItemName = itemDetail.itemname;
+          //         item.ItemPrice = Number(itemDetail.price);
+          //       }
+          //     }
+          //   }
+          //   this.calculateTotal();
+          // });
         }
       });
   }
-
 
   calculateTotal()
   {
@@ -299,24 +304,28 @@ export class CheckoutFoodComponent implements OnInit {
       }
       else
       {
-        return 2;
+        return 0;
       }
   }
 
   checkDeliveryCost() : number
   {
     let totalProd : number = 0;
-    for(let prod of this.userCart)
+    for(let currItem of this.userCart)
     {
-      totalProd += (prod.ItemQuantity);
+      totalProd += (currItem.ItemQuantity);
     }
     if(totalProd > 10)
     {
-      return 100;
+      return 10;
+    }
+    else if(totalProd > 2)
+    {
+      return 5;
     }
     else
     {
-      return 50;
+      return 0;
     }
   }
 

@@ -1,6 +1,6 @@
-<div class="hero_in detail_page background-image" data-background="url('../../../../assets/images/hero_general.jpg')" id="heroId">
-    <div class="wrapper opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.5)">
-        
+<div class="hero_in detail_page background-image hero__breakfast" id="heroId">
+    <div class="wrapper opacity-mask">
+
         <div class="container">
             <div class="main_info">
                 <div class="row">
@@ -26,7 +26,8 @@
                         <a [routerLink]="['/foods/detail',food.ItemItemId]">
                             <div class="imgBox">
                                 <figure>
-                                    <img [src]="food.ItemImageUrl" data-src="{{food.ItemImageUrl}}" alt="" class="lazy loaded img-fluid" data-was-processed="true">
+                                    <img [src]="food.ItemImageUrl" data-src="{{food.ItemImageUrl}}" alt=""
+                                        class="lazy loaded img-fluid" data-was-processed="true">
                                 </figure>
                             </div>
                             <div class="contentBox">
@@ -35,13 +36,16 @@
                                     <p class="price">{{food.ItemPrice}}</p>
                                 </div>
                                 <div class="prod_cta">
-                                    <a class="btn_1 outline type_3 modal_dialog"  (click)="orderNow($event, food)">Order Now</a>
+                                    <a class="btn_1 outline type_3 modal_dialog" (click)="orderNow($event, food)">Order
+                                        Now</a>
                                 </div>
                             </div>
                         </a>
                     </div>
-                </div><!--./-->
-            </div><!--./row ends-->
+                </div>
+                <!--./-->
+            </div>
+            <!--./row ends-->
         </div>
         <!--./card ends-->
     </div>
@@ -49,7 +53,9 @@
     <div class="container margin_30_40">
         <!--best chefs-->
         <div class="row">
-            <div class="col-12 main_title"><h2>Chefs near you</h2></div>
+            <div class="col-12 main_title">
+                <h2>Chefs near you</h2>
+            </div>
             <div class="chef_carousel">
                 <owl-carousel-o [options]="customOptionsTwo">
                     <ng-container *ngFor="let chef of chefData; let i = index;">
@@ -57,10 +63,11 @@
                             <div class="item">
                                 <div class="chefBox">
                                     <figure>
-                                        <a [routerLink]="['/foods/chef',chef.chefId]"><img [src]="chef.chefImage" class="img-fluid lazy" alt=""></a>
+                                        <a [routerLink]="['/foods/chef',chef.chefId]"><img [src]="chef.chefImage"
+                                                class="img-fluid lazy" alt=""></a>
                                     </figure>
                                     <div class="cardDetails">
-                                        <h3>{{chef.firstname + ' ' + chef.lastname}}</h3>
+                                        <h3>{{chef.firstname}} {{chef.lastname}}</h3>
                                         <div class="score"><strong>{{chef.chefRating}}</strong></div>
                                     </div>
                                 </div>
@@ -70,7 +77,7 @@
                     </ng-container>
                 </owl-carousel-o>
             </div>
-                <!-- /carousel -->
+            <!-- /carousel -->
         </div>
         <!--./row-->
     </div>
@@ -78,7 +85,9 @@
     <div class="container margin_30_40">
         <!--best chefs-->
         <div class="row">
-            <div class="col-12 main_title"><h2>Popular cuisine near you</h2></div>
+            <div class="col-12 main_title">
+                <h2>Popular cuisine near you</h2>
+            </div>
             <div class="chef_carousel">
                 <owl-carousel-o [options]="customOptionsTwo">
                     <ng-container *ngFor="let cuisine of cuisineData; let i = index;">
@@ -86,10 +95,11 @@
                             <div class="item">
                                 <div class="chefBox">
                                     <figure>
-                                        <a [routerLink]="['/foods/detail',cuisine.cuisineId]"><img [src]="cuisine.imgUrl" class="img-fluid lazy" alt=""></a>
+                                        <a [routerLink]="['/foods/detail',cuisine.ItemItemId]"><img
+                                                [src]="cuisine.ItemImageUrl" class="img-fluid lazy" alt=""></a>
                                     </figure>
                                     <div class="cardDetails">
-                                        <h3>{{cuisine.name}}</h3>
+                                        <h3>{{cuisine.ItemName}}</h3>
                                     </div>
                                 </div>
                             </div>

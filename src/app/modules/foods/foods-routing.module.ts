@@ -69,14 +69,14 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'detail/:id',
+    path: 'detail',
     loadChildren: () =>
       import('./food-detail/food-detail.module').then(
         (m) => m.FoodDetailModule
       ),
   },
   {
-    path: 'chef/:id',
+    path: 'chef',
     loadChildren: () =>
       import('./chef-detail/chef-detail.module').then(
         (m) => m.ChefDetailModule

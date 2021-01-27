@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../../shared/services/cart.service';
 
 
-export interface cartItem
+export interface Item
 {
   ItemImageUrl : string,
   ItemName : string,
@@ -25,7 +25,7 @@ export interface cartItem
 })
 
 export class CartComponent implements OnInit {
-  userCart : cartItem[];
+  userCart : Item[];
   subTotal : number;
   subTotalWthDiscount : number;
   discount : number;
@@ -52,45 +52,49 @@ export class CartComponent implements OnInit {
   {
     this.cartService.getProductsInUserCart().subscribe(
       (response : any) => {
+        //console.log(response);
         if(response == null || response == undefined || response.length == 0)
         {
           this.userCart = [];
-          this.toastr.success('Cart is Empty',"Success!!");
+          //this.toastr.success('Cart is Empty',"Success!!");
         }
         else
         {
           for(let item of response)
           {
-            if(item.itemItemId != null && item.itemItemId != '')
+            item.details = JSON.parse(item.details);
+            if(item.details[0].itemId != null && item.details[0].itemId != '')
             {
-              let currItem : cartItem = {
-                ItemImageUrl : '',
-                ItemName : '',
-                ItemQuantity : Number(item.quantity),
-                ItemPrice : 0,
+              let currItem : Item = {
+                ItemImageUrl : item.details[0].imgUrl,
+                ItemName : item.details[0].Name,
+                ItemQuantity : Number(item.details[0].quantity),
+                ItemPrice : Number(item.details[0].Price),
                 ItemUpdated : false,
                 ItemCartId : item.cartId,
-                ItemItemId : item.itemItemId,
+                ItemItemId : item.details[0].itemId,
                 ItemUserId : item.userUserId
               };
               this.userCart.push(currItem);
             }
           }
-          this.cartService.getItemDetailsInBulk(this.userCart).subscribe((items:any) => {
-            for(let item of this.userCart)
-            {
-              for(let itemDetail of items)
-              {
-                if(item.ItemItemId != null && item.ItemItemId == itemDetail.itemId)
-                {
-                  item.ItemImageUrl = itemDetail.imagePath;
-                  item.ItemName = itemDetail.itemname;
-                  item.ItemPrice = Number(itemDetail.price);
-                }
-              }
-            }
-            this.calculateTotal();
-          });
+          this.calculateTotal();
+          //console.log(this.userCart);
+          // this.cartService.getItemDetailsInBulk(this.userCart).subscribe((items:any) => {
+          //   for(let item of this.userCart)
+          //   {
+          //     for(let itemDetail of items)
+          //     {
+          //       if(item.ItemItemId != null && item.ItemItemId == itemDetail.itemId)
+          //       {
+          //         item.ItemImageUrl = itemDetail.imagePath;
+          //         item.ItemName = itemDetail.itemname;
+          //         item.ItemPrice = Number(itemDetail.price);
+          //       }
+          //     }
+          //   }
+          //   this.calculateTotal();
+          // });
         }
       });
   }
@@ -155,11 +159,11 @@ export class CartComponent implements OnInit {
     }
     if(totalProd > 10)
     {
-      return 100;
+      return 10;
     }
     else if(totalProd > 2)
     {
-      return 50;
+      return 5;
     }
     else
     {
@@ -169,18 +173,31 @@ export class CartComponent implements OnInit {
 
   updateProductsInCart()
   {
-    let updateProducts : {cartId : String,quantity : Number}[] = [];
+    let updateProducts : Item[] = [];
     for(let item of this.userCart)
     {
       if(item.ItemUpdated)
       {
-        updateProducts.push({cartId : item.ItemCartId,quantity : item.ItemQuantity});
+        updateProducts.push(item);
       }
     }
-    this.cartService.UpdateProductsInUserCart(updateProducts).subscribe(
-      data=>{}
-      );
-    this.router.navigateByUrl('/cart/checkout');
+    if(updateProducts.length > 0)
+    {
+      this.cartService.UpdateProductsInUserCart(updateProducts).subscribe(
+        (resp:any)=>{
+          //console.log(resp);
+          this.toastr.success('Changes are Saved',"Success!!");
+          this.router.navigateByUrl('/cart/checkout');
+        },
+        err =>{
+          //console.log(err);
+        });
+    }
+    else
+    {
+      this.toastr.error('Cart is Empty',"Success!!");
+    }
+
     return false;
   }
 

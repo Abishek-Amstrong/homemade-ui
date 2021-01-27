@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { LeaveReviewComponent } from './leave-review.component';
 
-const routes: Routes = [{ path: '', component: LeaveReviewComponent }];
+const routes: Routes = [{ path: ':itemId/:vendorId', component: LeaveReviewComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

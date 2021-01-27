@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { User } from './modules/shared/models/user';
 
 import { AuthService } from './modules/shared/services/auth.service';
+import { CartService } from './modules/shared/services/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -21,18 +22,25 @@ export class AppComponent implements OnInit {
   isHideHeader : boolean;
   headerSubscription: any;
   user: User;
+  cartItemCount : Number;
 
-  constructor(@Inject(DOCUMENT) private document: Document,private authService: AuthService) {
+  constructor(@Inject(DOCUMENT) private document: Document,
+              private cartService : CartService,
+              private authService: AuthService) {
     this.isLoggedIn = false;
     this.isHideHeader = false;
     this.headerSubscription = this.authService.hideHeaderStatusChange.subscribe((val)=>{
       this.isHideHeader = val;
     });
     this.user = new User('', '', '');
+    this.cartItemCount =  this.cartService.getCartItemCount();
   }
 
   ngOnInit() {
     this.authService.user.subscribe((x) => (this.user = x));
+    this.cartService.cartItemCountChange.subscribe((val)=>{
+      this.cartItemCount = val;
+    });
   }
 
   @HostListener('window:scroll',[]) onScroll(): void {

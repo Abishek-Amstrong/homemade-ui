@@ -10,7 +10,7 @@
                                     <div class="item">
                                         <figure>
                                             <img [src]="category.imgUrl" alt="" class="owl-lazy">
-                                            <a routerLink="foods/Breakfast">
+                                            <a routerLink="{{category.component}}">
                                                 <h3>{{category.label}}</h3>
                                             </a>
                                         </figure>
@@ -400,16 +400,16 @@
 
             <div class="chef_carousel">
                 <owl-carousel-o [options]="customOptionsTwo">
-                    <ng-container *ngFor="let cuisine of cuisines; let i = index;">
+                    <ng-container *ngFor="let cuisine of cuisineData; let i = index;">
                         <ng-template carouselSlide class="slide" [id]="'image' + i">
                             <div class="item">
                                 <div class="chefBox">
                                     <figure>
-                                        <a href="javascript:void(0)" routerLink="/foods/chef/1"><img
-                                                [src]="cuisine.imgUrl" class="img-fluid lazy" alt=""></a>
+                                        <a href="javascript:void(0)" routerLink="/foods/detail/{{cuisine.ItemItemId}}"><img
+                                                [src]="cuisine.ItemImageUrl" class="img-fluid lazy" alt=""></a>
                                     </figure>
                                     <div class="cardDetails">
-                                        <h3>{{cuisine.name}}</h3>
+                                        <h3>{{cuisine.ItemName}}</h3>
                                     </div>
                                 </div>
                             </div>

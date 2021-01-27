@@ -24,8 +24,15 @@ export class VendorService {
       );
     }
 
+    getVendorMenuItemDetails(vendorId : String) : Observable<any>
+    {
+      return this.http.get(`${environment.apiUrl}/vendormenuitem/${vendorId}`).pipe(
+        catchError(err => this.handleError(err))
+      );
+    }
+
     handleError(errorObj: HttpErrorResponse) : Observable<any> {
-      console.log(errorObj);
+      //console.log(errorObj);
       let errorMsg : any;
       if (typeof errorObj.error === 'string') {
         errorMsg = errorObj.error;

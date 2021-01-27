@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ChefDetailComponent } from './chef-detail.component';
 
-const routes: Routes = [{ path: '', component: ChefDetailComponent }];
+const routes: Routes = [{ path: ':id', component: ChefDetailComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

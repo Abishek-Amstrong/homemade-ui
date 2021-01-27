@@ -141,7 +141,7 @@ export class AuthService {
   }
 
   handleError(errorObj: HttpErrorResponse): Observable<any> {
-    console.log(errorObj);
+    //console.log(errorObj);
     let errorMsg: any;
     if (typeof errorObj.error === 'string') {
       errorMsg = errorObj.error;

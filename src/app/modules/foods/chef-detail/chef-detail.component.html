@@ -77,10 +77,10 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <strong>${{dish.price}}</strong>
+                                            <strong>₹{{dish.price}}</strong>
                                         </td>
                                         <td class="options">
-                                            <a href="#modal-dialog" class="modal_dialog"><i
+                                            <a href="#" (click)="orderNow($event, dish)" class="modal_dialog"><i
                                                     class="icon_plus_alt2"></i></a>
                                         </td>
                                     </tr>

@@ -45,8 +45,8 @@ export class FoodsComponent implements OnInit {
   platterData : Item[];
   menus: any;
   chefData: chef[];
-  categories: { imgUrl: string; label: string; }[];
-  cuisines: any;
+  categories: { imgUrl: string; label: string;component :string }[];
+  cuisineData: Item[];
 
   customOptions: OwlOptions = {
     center: false,
@@ -152,78 +152,63 @@ export class FoodsComponent implements OnInit {
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'Breakfast',
+        component : 'Breakfast'
       },
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'North Indian',
+        component : 'northindian'
       },
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'South Indian',
+        component : 'southindian'
       },
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'Oriental',
+        component : 'oriental'
       },
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'Continental',
+        component : 'continental'
       },
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'Dessert',
+        component : 'deserts'
       },
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'Meal',
+        component : 'meal'
       },
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'Beverages',
+        component : 'beverages'
       },
       {
         imgUrl: 'assets/images/cat_listing_1.jpg',
         label: 'Platter',
+        component : 'platter'
       }
     ]; 
-    this.cuisines = [
-      {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-      },
-      {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-      },
-      {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-      },
-      {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-      },
-      {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-      },
-      {
-        imgUrl: 'assets/images/lazy-placeholder.png',
-        name: 'John Doe',
-      },
-    ];
+    this.cuisineData = [];
   }
 
   ngOnInit(): void {
     this.loadChefDetails();
     this.foodSubCategoryDetails();
+    this.loadCuisineDetails();
   }
 
   foodSubCategoryDetails()
   {
     this.foodService.getFoodPageDetails().subscribe(
       (resp:any)=>{
-       console.log(resp);
+       //console.log(resp);
        for(let item of resp.Breakfast)
        {
          if(item !=null && item != undefined)
@@ -369,6 +354,33 @@ export class FoodsComponent implements OnInit {
             this.chefData.push(chefItem);
         }
       });
+  }
+
+  loadCuisineDetails()
+  {
+    this.foodService.getCuisineNearUserLocation().subscribe(
+      (resp : any)=>{
+        //console.log(resp);
+        for(let item of resp)
+        {
+          if(item != null && item !=undefined)
+          {
+           let currItem = {
+             ItemImageUrl : item.imagePath,
+             ItemName : item.itemname,
+             // ItemUnit : item.unit,
+             // ItemQuantity : 1,
+             // ItemIsVeg : item.isVeg,
+             // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
+             // ItemDesc : item.desc,
+             ItemPrice : item.price,
+             ItemItemId : item.itemId,
+             ItemVendorId : item.VendorVendorId
+           };
+           this.cuisineData.push(currItem);
+          }
+        }  
+    });
   }
 
   orderNow(event: any, food: any) {

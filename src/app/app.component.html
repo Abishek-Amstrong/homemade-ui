@@ -1,4 +1,4 @@
-<header class="header_in clearfix" *ngIf="!isHideHeader">
+<header class="header_in clearfix" *ngIf="user">
   <div class="container">
     <!-- /top_menu -->
     <div class="topBar">
@@ -17,7 +17,7 @@
         <div class="menuList">
           <ul>
             <li class="dropdownMenu">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#" >
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <img src="assets/images/location.svg" alt="location">
               </a>
               <ul class="dropdown-menu" role="menu">
@@ -214,4 +214,5 @@
 </footer>
 <!--/footer-->
 
-<div id="toTop" class="detail_page" [ngClass]="{ visible : is_navToTop_visible}" (click)="scrollToTop()"></div><!-- Back to top button -->
+<div id="toTop" class="detail_page" [ngClass]="{ visible : is_navToTop_visible}" (click)="scrollToTop()"></div>
+<!-- Back to top button -->

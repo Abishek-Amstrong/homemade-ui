@@ -40,7 +40,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.authService.user.subscribe((x) => {
       this.user = x;
-      this.cartItemCount = this.cartService.getCartItemCount();
+      if (x) {
+        this.cartItemCount = this.cartService.getCartItemCount();
+      }
     });
 
     this.cartService.cartItemCountChange.subscribe((val) => {

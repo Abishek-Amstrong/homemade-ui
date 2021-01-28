@@ -45,15 +45,15 @@
                                                 <input type="radio" id="day_1" name="deliveryDay" value="Today" formControlName="deliveryDay" checked>
                                                 <label for="day_1">Today<em>-40%</em></label>
                                             </li>
-                                            <li>
+                                            <li *ngIf="!isScheduleNowSelected">
                                                 <input type="radio" id="day_2" name="deliveryDay" value="Tomorrow" formControlName="deliveryDay">
                                                 <label for="day_2">Tomorrow<em>-40%</em></label>
                                             </li>
-                                            <li>
+                                            <li *ngIf="!isScheduleNowSelected">
                                                 <input type="radio" id="day_3" name="deliveryDay" value="AfterTomorrow" formControlName="deliveryDay">
                                                 <label for="day_3">Day After Tomorrow<em>-40%</em></label>
                                             </li>
-                                            <li>
+                                            <li *ngIf="!isScheduleNowSelected">
                                                 <input type="radio" id="day_4" name="deliveryDay" value="Overmorrow" formControlName="deliveryDay">
                                                 <label for="day_4">Overmorrow<em>-40%</em></label>
                                             </li>
@@ -156,12 +156,13 @@
                     <div class="form-group">
                         <label>City</label>
                         <p *ngIf="city!.invalid  && (city!.touched || city!.dirty)" class="error-msg">Please enter your city for delivery!!</p>
-                        <select class="nice-select wide form-control" tabindex="0" formControlName="city">
+                        <!-- <select class="nice-select wide form-control" tabindex="0" formControlName="city">
                             <option class="option" disabled>Select city</option>
                             <option class="option">Delhi</option>
                             <option class="option">Noida</option>
                             <option class="option">Ladhak</option>
-                        </select>
+                        </select> -->
+                        <input type="text" class="form-control" formControlName="city">
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -171,9 +172,10 @@
                                     <p *ngIf="state!.invalid  && (state!.touched || state!.dirty)" class="error-msg">Please select the state for delivery!!</p>
                                     <select class="nice-select wide form-control" tabindex="0" formControlName="state">
                                         <option class="option" disabled>Select state</option>
-                                        <option class="option">Sikkim</option>
-                                        <option class="option">Manipur</option>
-                                        <option class="option">Ladhak</option>
+                                        <option class="option" value="Sikkim">Sikkim</option>
+                                        <option class="option" value="Manipur">Manipur</option>
+                                        <option class="option" value="Ladhak">Ladhak</option>
+                                        <option class="option" value="Rajasthan">Rajasthan</option>
                                     </select>
                                 </div>
                             </div>
@@ -218,7 +220,7 @@
                                             <div class="dec button_inc" (click)="decProdQuantity(prod.ItemCartId,prod.ItemQuantity)">-</div>
                                         </div>
                                     </td>
-                                    <td>{{prod.ItemQuantity * prod.ItemPrice}}</td>
+                                    <td>{{(prod.ItemQuantity * prod.ItemPrice) | currency:'INR'}}</td>
                                 </tr><!--./-->
                                 <!-- <tr>
                                     <td>Pizza with extra cheese</td>
@@ -235,10 +237,10 @@
                     </ul>
                     <hr>
                     <ul class="clearfix">
-                        <li>Subtotal<span>{{subTotal > 0 ? subTotal : ''}}</span></li>
-                        <li>Discount<span>{{discount > 0 ? discount : ''}}</span></li>
-                        <li>Delivery/Shipping Charge<span>{{deliveryCost > 0 ? deliveryCost : ''}}</span></li>
-                        <li class="total">Total<span>{{total > 0 ? total : ''}}</span></li>
+                        <li>Subtotal<span>{{subTotal > 0 ? (subTotal | currency:'INR') : ''}}</span></li>
+                        <!-- <li>Discount<span>{{discount > 0 ? (discount | percent) : ''}}</span></li> -->
+                        <li>Delivery/Shipping Charge<span>{{deliveryCost > 0 ? (deliveryCost | currency:'INR') : ''}}</span></li>
+                        <li class="total">Total<span>{{total > 0 ? (total | currency:'INR') : ''}}</span></li>
                     </ul>
                 </div>
             </div>

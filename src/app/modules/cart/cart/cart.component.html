@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="prod-footer">
-                            <div class="subtotal">{{prod.ItemQuantity * prod.ItemPrice}}</div>
+                            <div class="subtotal">{{(prod.ItemQuantity * prod.ItemPrice) | currency:'INR'}}</div>
                             <div class="remove">
                                 <a href="#" (click)="delProductInCart(prod.ItemCartId)">Remove</a>
                             </div>
@@ -73,23 +73,23 @@
                     <table>
                         <tr>
                             <td>Item Total:</td>
-                            <td>{{subTotal > 0 ? subTotal : ''}}</td>
+                            <td>{{subTotal > 0 ? (subTotal | currency:'INR') : ''}}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>Discount:</td>
                             <td>{{discount > 0 ? discount : ''}}</td>
-                        </tr>
+                        </tr> -->
                         <tr>
                             <td><span>Subtotal:</span></td>
-                            <td>{{subTotalWthDiscount > 0 ? subTotalWthDiscount : ''}}</td>
+                            <td>{{subTotalWthDiscount > 0 ? (subTotalWthDiscount | currency:'INR') : ''}}</td>
                         </tr>
                         <tr>
                             <td>Delivery Cost:</td>
-                            <td>{{deliveryCost > 0 ? deliveryCost : ''}}</td>
+                            <td>{{deliveryCost > 0 ? (deliveryCost | currency:'INR') : ''}}</td>
                         </tr>
                         <tr>
                             <td class="totalValue"><span>Total:</span></td>
-                            <td class="totalValue"><span>{{total > 0 ? total : ''}}</span></td>
+                            <td class="totalValue"><span>{{total > 0 ? (total | currency:'INR') : ''}}</span></td>
                         </tr>
                     </table>
                 </div>

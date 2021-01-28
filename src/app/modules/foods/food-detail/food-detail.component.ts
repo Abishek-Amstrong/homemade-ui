@@ -179,6 +179,9 @@ export class FoodDetailComponent implements OnInit {
           }
         }
         this.calculateRating();
+      },
+      (err)=>{
+          
       }
     );
   }

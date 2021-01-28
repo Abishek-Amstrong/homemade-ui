@@ -40,13 +40,14 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.authService.user.subscribe((x) => {
       this.user = x;
-      if (x) {
-        this.cartItemCount = this.cartService.getCartItemCount();
+      if(x)
+      {
+        this.cartService.getCartItemCount().subscribe((val) => {
+          //console.log('Inside subscription : ' + val);
+          this.cartItemCount = val;
+        });
+        this.cartService.getCartCountAPIResp();
       }
-    });
-
-    this.cartService.cartItemCountChange.subscribe((val) => {
-      this.cartItemCount = val;
     });
   }
 

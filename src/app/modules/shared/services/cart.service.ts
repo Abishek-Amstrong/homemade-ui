@@ -5,7 +5,7 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, Subject, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 
@@ -16,7 +16,7 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CartService {
-  cartItemCountChange: Subject<Number> = new Subject<Number>();
+  cartItemCountChange : BehaviorSubject<Number> = new BehaviorSubject<Number>(0);
   cartCount: Number = 0;
 
   constructor(
@@ -50,22 +50,24 @@ export class CartService {
     return forkJoin(obsArr).pipe(catchError((err) => this.handleError(err)));
   }
 
-  getCartItemCount() {
+  getCartItemCount() : Observable<Number>{
+    return this.cartItemCountChange.asObservable();
+  }
+
+  getCartCountAPIResp()
+  {
     let userId = this.authService.getUserId();
-    if (userId) {
-      this.http
-        .get(`${environment.apiUrl}/countitemincart/${userId}`)
-        .subscribe(
-          (resp: any) => {
-            this.cartCount = Number(resp);
-            this.cartItemCountChange.next(this.cartCount);
-          },
-          (err: any) => {
-            this.handleError(err);
-          }
-        );
-    }
-    return this.cartCount ? this.cartCount : 0;
+    this.http
+    .get(`${environment.apiUrl}/countitemincart/${userId}`)
+    .subscribe(
+      (resp: any) => {
+        //console.log('Resp from service : ' + resp);
+        this.cartItemCountChange.next(Number(resp));
+      },
+      (err: any) => {
+        this.handleError(err);
+      }
+    );
   }
 
   UpdateProductsInUserCart(updatedCartProducts: any): Observable<any> {
@@ -114,13 +116,8 @@ export class CartService {
 
   deleteProductInCart(cartId: string): Observable<any> {
     return this.http
-      .delete(`${environment.apiUrl}/usercartdelete/${cartId}`, {
-        responseType: 'text',
-      })
+      .delete(`${environment.apiUrl}/usercartdelete/${cartId}`, {responseType: 'text'})
       .pipe(
-        tap((resp) => {
-          this.getCartItemCount();
-        }),
         catchError((err) => this.handleError(err))
       );
   }
@@ -221,7 +218,7 @@ export class CartService {
       .post(`${environment.apiUrl}/addtocart`, bodyJson, { headers: options })
       .pipe(
         tap((resp) => {
-          this.getCartItemCount();
+          this.getCartCountAPIResp();
         }),
         catchError((err) => this.handleError(err))
       );
@@ -229,13 +226,12 @@ export class CartService {
 
   getRecentOrderedItems(): Observable<any> {
     let userId = this.authService.getUserId();
-    return this.http
-      .get(`${environment.apiUrl}/recentorderapi/${userId}`)
+    return this.http.get(`${environment.apiUrl}/recentorderapi/${userId}`)
       .pipe(catchError((err) => this.handleError(err)));
   }
 
   handleError(errorObj: HttpErrorResponse): Observable<any> {
-    //console.log(errorObj);
+    console.log(errorObj);
     let errorMsg: any;
     if (typeof errorObj.error === 'string') {
       errorMsg = errorObj.error;

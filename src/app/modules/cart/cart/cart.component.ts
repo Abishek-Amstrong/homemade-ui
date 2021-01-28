@@ -132,7 +132,7 @@ export class CartComponent implements OnInit {
     {
       this.subTotal += (currItem.ItemQuantity * currItem.ItemPrice)
     }
-    this.discount = this.checkDiscount();
+    this.discount =0;//this.checkDiscount();
     this.subTotalWthDiscount = this.subTotal - Math.floor(this.subTotal * (this.discount/100));
     this.deliveryCost = this.checkDeliveryCost();
     this.total =  this.subTotalWthDiscount + this.deliveryCost;
@@ -193,6 +193,10 @@ export class CartComponent implements OnInit {
           //console.log(err);
         });
     }
+    else if(this.userCart.length == 0)
+    {
+      this.toastr.error('Cart is Empty',"Error!!");
+    }
     else
     {
       this.router.navigateByUrl('/cart/checkout');
@@ -206,6 +210,7 @@ export class CartComponent implements OnInit {
       this.cartService.deleteProductInCart(cartId).subscribe(
         data=>{
           this.toastr.success('Item removed from cart',"Success!!");
+          this.cartService.getCartCountAPIResp();
           this.userCart = this.userCart.filter((item: any) => item.ItemCartId != cartId);
           this.calculateTotal();
         }

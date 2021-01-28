@@ -3,6 +3,7 @@ import { FormBuilder,FormGroup,Validators,AbstractControl,ValidatorFn } from '@a
 import { ToastrService } from 'ngx-toastr';
 
 import { CartService } from '../../shared/services/cart.service';
+import { ProfileService } from '../../shared/services/profile.service';
 
 export interface Item
 {
@@ -34,9 +35,11 @@ export class CheckoutFoodComponent implements OnInit {
   discount : number;
   total : number;
   deliveryCost : number;
+  isScheduleNowSelected : boolean;
   
   constructor(private formBuilder : FormBuilder,
               private toastr: ToastrService,
+              private profileService: ProfileService,
               private cartService : CartService) { 
     this.deliveryForm = new FormGroup({});
     this.selectedDay = '';
@@ -48,6 +51,7 @@ export class CheckoutFoodComponent implements OnInit {
     this.total = 0;
     this.deliveryCost = 0;
     this.userCart= [];
+    this.isScheduleNowSelected = true;
   }
 
   ngOnInit(): void {
@@ -63,8 +67,9 @@ export class CheckoutFoodComponent implements OnInit {
       pinCode : ['',Validators.required]
     });
     this.onDeliveryFormValueChanges();
-    this.deliveryType?.setValue('now');
+    //this.deliveryType?.setValue('now');
     this.loadUserCart();
+    this.loadAddressDetails();
     this.calculateTotal();
    }
 
@@ -97,19 +102,20 @@ export class CheckoutFoodComponent implements OnInit {
   {
     this.deliveryDay!.valueChanges.subscribe(value => {
       this.selectedDay = value;
-      this.deliveryTime!.updateValueAndValidity();
-    });
-    this.deliveryType!.valueChanges.subscribe(value => {
-      this.disableDateTime = value == 'now' ? true : false;
-      if(this.disableDateTime)
-      {
-        this.deliveryDay!.setValue('Today');
-        let currHour : string = this.getCurrHour();
-        this.deliveryTime!.setValue(currHour);
-      }
+      // console.log('Value changes : ' + this.selectedDay);
+      this.deliveryTime?.updateValueAndValidity();
     });
     this.deliveryTime!.valueChanges.subscribe(value => {
       this.selectedTime = value;
+    });
+    this.deliveryType!.valueChanges.subscribe(value => {
+      this.isScheduleNowSelected = value == 'now' ? true : false;
+      if(this.isScheduleNowSelected)
+      {
+        this.deliveryDay?.setValue('Today');
+        // let currHour : string = this.getCurrHour();
+        // this.deliveryTime?.setValue(currHour);
+      }
     });
   }
 
@@ -283,6 +289,23 @@ export class CheckoutFoodComponent implements OnInit {
       });
   }
 
+  loadAddressDetails() {
+    this.profileService.getAddressDetails().subscribe(
+      (resp : any) => {
+        // /console.log(resp);
+        this.deliveryForm.patchValue({
+          deliveryType : 'now',
+          address : resp[0].address,
+          city : resp[0].city,
+          state : resp[0].state,
+          pinCode : resp[0].zip
+        });
+      },
+      (err) => console.log(err)
+    );
+  }
+
+
   calculateTotal()
   {
     this.subTotal = 0;
@@ -291,7 +314,7 @@ export class CheckoutFoodComponent implements OnInit {
       this.subTotal += (prod.ItemQuantity * prod.ItemPrice)
     }
     this.discount = this.checkDiscount();
-    this.subTotalWthDiscount = this.subTotal - Math.floor(this.subTotal * (this.discount/100));
+    this.subTotalWthDiscount = this.subTotal - Math.floor(this.subTotal * (this.discount));
     this.deliveryCost = this.checkDeliveryCost();
     this.total =  this.subTotalWthDiscount + this.deliveryCost;
   }
@@ -300,7 +323,7 @@ export class CheckoutFoodComponent implements OnInit {
   {
       if(this.subTotal > 200)
       {
-        return 20;
+        return 0;
       }
       else
       {

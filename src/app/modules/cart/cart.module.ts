@@ -14,7 +14,6 @@ import { CartService } from '../shared/services/cart.service';
     CommonModule,
     CartRoutingModule,
     ReactiveFormsModule
-  ],
-  providers : [CartService]
+  ]
 })
 export class CartModule { }

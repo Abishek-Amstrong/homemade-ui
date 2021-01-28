@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
       if(x)
       {
         this.cartService.getCartItemCount().subscribe((val) => {
-          console.log('Inside subscription : ' + val);
+          //console.log('Inside subscription : ' + val);
           this.cartItemCount = val;
         });
         this.cartService.getCartCountAPIResp();

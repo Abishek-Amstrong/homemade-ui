@@ -61,7 +61,7 @@ export class CartService {
     .get(`${environment.apiUrl}/countitemincart/${userId}`)
     .subscribe(
       (resp: any) => {
-        console.log('Resp from service : ' + resp);
+        //console.log('Resp from service : ' + resp);
         this.cartItemCountChange.next(Number(resp));
       },
       (err: any) => {

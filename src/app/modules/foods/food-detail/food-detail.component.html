@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <figure>
-                    <img [src]="foodDetailData.ItemImageUrl" class="img-fluid" alt="product-img">
+                    <img [src]="foodDetailData.ItemImageUrl" class="img-fluid food-img" alt="product-img">
                 </figure>
             </div>
             <!--./-->
@@ -26,7 +26,8 @@
                     </div>
 
                     <div class="price">
-                        <h3>&#8377; {{foodDetailData.ItemPrice}} <span class="quantity">({{foodDetailData.ItemUnit}})</span></h3>
+                        <h3>&#8377; {{foodDetailData.ItemPrice}} <span
+                                class="quantity">({{foodDetailData.ItemUnit}})</span></h3>
                     </div>
 
                     <div class="availablity">{{chefData.chefstatus}}</div>
@@ -71,9 +72,11 @@
                                             <img [src]="chefData.chefImage" class="img-fluid">
 
                                             <div class="chefTitle">
-                                                <h3 class="chefName">{{chefData.firstname + ' ' + chefData.lastname}}</h3>
-                                                <p>{{chefData.chefDesc}}</p> 
-                                                <p>Owner of <a [routerLink]="['/foods/chef',chefData.chefId]">ABC Kitchen</a></p>
+                                                <h3 class="chefName">{{chefData.firstname + ' ' + chefData.lastname}}
+                                                </h3>
+                                                <p>{{chefData.chefDesc}}</p>
+                                                <p>Owner of <a [routerLink]="['/foods/chef',chefData.chefId]">ABC
+                                                        Kitchen</a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -102,11 +105,16 @@
                             </div>
                             <div class="starTotal">
                                 <div class="starRating">
-                                   <span class="fill" [ngStyle]="{'color':ratingAvg >= 1 ? '#242424' : '#f2f2f2'}"></span>
-                                    <span class="fill" [ngStyle]="{'color':ratingAvg >= 2 ? '#242424' : '#f2f2f2'}"></span>
-                                    <span class="fill" [ngStyle]="{'color':ratingAvg >= 3 ? '#242424' : '#f2f2f2'}"></span>
-                                    <span class="fill" [ngStyle]="{'color':ratingAvg >= 4 ? '#242424' : '#f2f2f2'}"></span>
-                                    <span class="fill" [ngStyle]="{'color':ratingAvg >= 5 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill"
+                                        [ngStyle]="{'color':ratingAvg >= 1 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill"
+                                        [ngStyle]="{'color':ratingAvg >= 2 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill"
+                                        [ngStyle]="{'color':ratingAvg >= 3 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill"
+                                        [ngStyle]="{'color':ratingAvg >= 4 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill"
+                                        [ngStyle]="{'color':ratingAvg >= 5 ? '#242424' : '#f2f2f2'}"></span>
                                 </div>
                                 <div class="ratingsTotal">
                                     {{reviewData.length}} ratings
@@ -122,8 +130,10 @@
                                     <h6>5 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[4].percent"
-                                                attr.aria-valuenow="{{this.ratingCnt[4].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[4].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[4].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                     <h6>{{this.ratingCnt[4].count}}</h6>
@@ -133,8 +143,10 @@
                                     <h6>4 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[3].percent"
-                                            attr.aria-valuenow="{{this.ratingCnt[3].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[3].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[3].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                     <h6>{{this.ratingCnt[3].count}}</h6>
@@ -144,8 +156,10 @@
                                     <h6>3 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[2].percent"
-                                            attr.aria-valuenow="{{this.ratingCnt[2].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[2].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[2].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                     <h6>{{this.ratingCnt[2].count}}</h6>
@@ -155,8 +169,10 @@
                                     <h6>2 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[1].percent"
-                                            attr.aria-valuenow="{{this.ratingCnt[1].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[1].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[1].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                     <h6>{{this.ratingCnt[1].count}}</h6>
@@ -166,8 +182,10 @@
                                     <h6>1 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[0].percent"
-                                            attr.aria-valuenow="{{this.ratingCnt[0].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[0].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[0].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
                                     <h6>{{this.ratingCnt[0].count}}</h6>
@@ -177,7 +195,8 @@
                             <div class="col-md-5">
                                 <div class="reviewBox">
                                     <a href="javascript:void(0)" class="btn_1 outline type_2"
-                                        routerLink="/foods/leave-review/{{foodDetailData.ItemItemId}}/{{foodDetailData.ItemVendorId}}">Leave a Review</a>
+                                        routerLink="/foods/leave-review/{{foodDetailData.ItemItemId}}/{{foodDetailData.ItemVendorId}}">Leave
+                                        a Review</a>
                                 </div>
                                 <!-- /row -->
                             </div>
@@ -221,8 +240,10 @@
                     <div class="strip">
                         <figure>
                             <!-- <span class="ribbon off">{{item.offer}} off</span> -->
-                            <img [src]="item.ItemImageUrl" class="img-fluid lazy loaded" alt="" data-was-processed="true">
-                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}" class="strip_info">
+                            <img [src]="item.ItemImageUrl" class="img-fluid lazy loaded" alt=""
+                                data-was-processed="true">
+                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"
+                                class="strip_info">
                                 <div class="item_title">
                                     <h3>{{item.ItemName}}</h3>
                                     <small>₹ {{item.ItemPrice}}</small>

@@ -1074,3 +1074,41 @@ a.menu_item {
   font-size: 13px;
   margin: 2px 3px 0 4px;
 }
+
+.food-img {
+  max-height: 50vh;
+  width: 100%;
+  object-fit: cover;
+  filter: brightness(0.9);
+  border-radius: 4px;
+}
+
+@media only screen and (min-width: 1320) {
+  .food-img {
+    max-height: 50vh;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .food-img {
+    max-height: 45vh;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .food-img {
+    max-height: 40vh;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .food-img {
+    max-height: 40vh;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .food-img {
+    max-height: 25vh;
+  }
+}

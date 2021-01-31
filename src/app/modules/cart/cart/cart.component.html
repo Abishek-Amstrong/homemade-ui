@@ -29,10 +29,10 @@
                             <div class="numbers-row mb-0">
                                 <input type="text" [value]="prod.ItemQuantity" id="qty_{{i}}" class="qty2 form-control"
                                     name="quantity">
-                                <div class="inc button_inc"
-                                    (click)="incProdQuantity(prod.ItemCartId,prod.ItemQuantity)">+</div>
-                                <div class="dec button_inc"
-                                    (click)="decProdQuantity(prod.ItemCartId,prod.ItemQuantity)">-</div>
+                                <div class="inc button_inc" (click)="incProdQuantity(prod.ItemCartId,prod.ItemItemId)">+
+                                </div>
+                                <div class="dec button_inc" (click)="decProdQuantity(prod.ItemCartId,prod.ItemItemId)">-
+                                </div>
                             </div>
                         </div>
                         <div class="prod-footer d-flex align-items-center">

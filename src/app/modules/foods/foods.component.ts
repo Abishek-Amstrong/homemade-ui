@@ -152,57 +152,57 @@ export class FoodsComponent implements OnInit {
     this.platterData = [];
     this.categories = [
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/breakfast.jpg',
         label: 'Breakfast',
         component: 'Breakfast',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/northIndian.jpg',
         label: 'North Indian',
         component: 'North Indian',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/southIndian.jpg',
         label: 'South Indian',
         component: 'South Indian',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/oriental.jpg',
         label: 'Oriental',
         component: 'Oriental',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/continental.jpg',
         label: 'Continental',
         component: 'Continental',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/desserts.jpg',
         label: 'Desserts',
         component: 'Dessert',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/beverages.jpg',
         label: 'Beverages',
         component: 'Beverages',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/platters.jpg',
         label: 'Platter',
         component: 'Platter',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/healthy.jpg',
         label: 'Healthy',
         component: 'Healthy',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/regional.jpg',
         label: 'Regional',
         component: 'Regional',
       },
       {
-        imgUrl: 'assets/images/cat_listing_1.jpg',
+        imgUrl: 'assets/images/biscuits.jpg',
         label: 'Biscuits',
         component: 'Biscuits',
       },

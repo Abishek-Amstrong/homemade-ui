@@ -7504,5 +7504,17 @@ table {
   #modal-dialog {
     margin: 0;
     min-width: 500px;
+
+    @include tablet {
+      min-width: 450px;
+    }
+
+    @include mobile {
+      min-width: 400px;
+    }
+
+    @include extra-small-mobile {
+      min-width: 350px;
+    }
   }
 }

@@ -13,7 +13,6 @@ const routes: Routes = [
     path: 'shared',
     loadChildren: () =>
       import('./modules/shared/shared.module').then((m) => m.SharedModule),
-    canActivate: [AuthGaurdService],
   },
   {
     path: 'home',
@@ -21,25 +20,21 @@ const routes: Routes = [
       import('./modules/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
-    canActivate: [AuthGaurdService],
   },
   {
     path: 'cart',
     loadChildren: () =>
       import('./modules/cart/cart.module').then((m) => m.CartModule),
-    canActivate: [AuthGaurdService],
   },
   {
     path: 'profile',
     loadChildren: () =>
       import('./modules/profile/profile.module').then((m) => m.ProfileModule),
-    canActivate: [AuthGaurdService],
   },
   {
     path: 'foods',
     loadChildren: () =>
       import('./modules/foods/foods.module').then((m) => m.FoodsModule),
-    canActivate: [AuthGaurdService],
   },
   {
     path: 'terms-condition',
@@ -48,7 +43,13 @@ const routes: Routes = [
         (m) => m.TermsAndConditionModule
       ),
   },
-  { path: 'privacy-policy', loadChildren: () => import('./modules/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
+  {
+    path: 'privacy-policy',
+    loadChildren: () =>
+      import('./modules/privacy-policy/privacy-policy.module').then(
+        (m) => m.PrivacyPolicyModule
+      ),
+  },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

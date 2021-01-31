@@ -5,7 +5,13 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, Subject, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  forkJoin,
+  Observable,
+  Subject,
+  throwError,
+} from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 
@@ -16,7 +22,7 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CartService {
-  cartItemCountChange : BehaviorSubject<Number> = new BehaviorSubject<Number>(0);
+  cartItemCountChange: BehaviorSubject<Number> = new BehaviorSubject<Number>(0);
   cartCount: Number = 0;
 
   constructor(
@@ -50,16 +56,13 @@ export class CartService {
     return forkJoin(obsArr).pipe(catchError((err) => this.handleError(err)));
   }
 
-  getCartItemCount() : Observable<Number>{
+  getCartItemCount(): Observable<Number> {
     return this.cartItemCountChange.asObservable();
   }
 
-  getCartCountAPIResp()
-  {
+  getCartCountAPIResp() {
     let userId = this.authService.getUserId();
-    this.http
-    .get(`${environment.apiUrl}/countitemincart/${userId}`)
-    .subscribe(
+    this.http.get(`${environment.apiUrl}/countitemincart/${userId}`).subscribe(
       (resp: any) => {
         //console.log('Resp from service : ' + resp);
         this.cartItemCountChange.next(Number(resp));
@@ -116,10 +119,10 @@ export class CartService {
 
   deleteProductInCart(cartId: string): Observable<any> {
     return this.http
-      .delete(`${environment.apiUrl}/usercartdelete/${cartId}`, {responseType: 'text'})
-      .pipe(
-        catchError((err) => this.handleError(err))
-      );
+      .delete(`${environment.apiUrl}/usercartdelete/${cartId}`, {
+        responseType: 'text',
+      })
+      .pipe(catchError((err) => this.handleError(err)));
   }
 
   placeCustomerOrder(
@@ -226,7 +229,8 @@ export class CartService {
 
   getRecentOrderedItems(): Observable<any> {
     let userId = this.authService.getUserId();
-    return this.http.get(`${environment.apiUrl}/recentorderapi/${userId}`)
+    return this.http
+      .get(`${environment.apiUrl}/recentorderapi/${userId}`)
       .pipe(catchError((err) => this.handleError(err)));
   }
 

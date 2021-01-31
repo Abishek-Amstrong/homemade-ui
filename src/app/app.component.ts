@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   isHideHeader: boolean;
   headerSubscription: any;
   user: any;
-  cartItemCount = 0;
+  cartItemCount: any = 0;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -41,16 +41,19 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cartService.getCartItemCount().subscribe((val) => {
+      //console.log('Inside subscription : ' + val);
+      this.cartItemCount = val;
+    });
+    this.cartService.getCartCountAPIResp();
+
     this.authService.user.subscribe((x) => {
       this.user = x;
-      if (x) {
-        this.cartService.getCartItemCount().subscribe((val) => {
-          //console.log('Inside subscription : ' + val);
-          this.cartItemCount = val;
-        });
-        this.cartService.getCartCountAPIResp();
-      }
     });
+
+    if (!sessionStorage.getItem('cartData')) {
+      sessionStorage.setItem('cartData', JSON.stringify([]));
+    }
   }
 
   navigateToCategory(category: string) {

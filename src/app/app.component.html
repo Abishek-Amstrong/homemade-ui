@@ -1,4 +1,4 @@
-<header class="header_in clearfix" *ngIf="user">
+<header class="header_in clearfix">
   <div class="container">
     <!-- /top_menu -->
     <div class="topBar">
@@ -103,7 +103,7 @@
 </header>
 <main>
   <!--Full width Search Box in Mobile versions-->
-  <div class="page_header element_to_stick dHide" *ngIf="user">
+  <div class="page_header element_to_stick dHide">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -119,7 +119,7 @@
   <router-outlet></router-outlet>
 </main>
 
-<footer *ngIf="user">
+<footer>
   <div class="wave footer"></div>
   <div class="container margin_30_40 fix_mobile">
     <div class="row">

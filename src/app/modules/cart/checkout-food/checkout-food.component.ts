@@ -51,7 +51,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   mapAutoComplete: any;
   @ViewChild('deliveryLocation') deliveryInput: ElementRef | any;
   submitted: boolean;
-
+  
   constructor(
     private formBuilder: FormBuilder,
     private toastr: ToastrService,

@@ -30,13 +30,19 @@
                 </label>
             </li> -->
         </ul>
-        <h5  *ngIf="orderData.OrderIngredients != null &&  orderData.OrderIngredients.length > 0">Extra Ingredients</h5>
-        <ul class="clearfix"  *ngIf="orderData.OrderIngredients != null &&  orderData.OrderIngredients.length > 0">
-            <li *ngFor="let ingre of orderData.OrderIngredients;let i = index">
-                <label class="container_check">{{ingre.value}}<span>+ $4.30</span>
-                    <input type="checkbox" name="ingredients" [value]="ingre.value" [(ngModel)]="ingre.checked">
+        <h5  *ngIf="orderData.OrderSimilarProducts != null &&  orderData.OrderSimilarProducts.length > 0">Similar Vendor Products</h5>
+        <ul class="clearfix"  *ngIf="orderData.OrderSimilarProducts != null &&  orderData.OrderSimilarProducts.length > 0">
+            <li class ="simProducts" *ngFor="let product of orderData.OrderSimilarProducts;let i = index">
+                <label class="container_check">{{product.ItemName}}
+                    <span>+ {{product.ItemPrice | currency:'INR'}}</span>
+                    <input type="checkbox" name="ingredients" [value]="product.ItemItemId" [(ngModel)]="product.ItemChecked">
                     <span class="checkmark"></span>
                 </label>
+                <span class="numbers-row reduceDimen">
+                    <input type="text" [value]="product.ItemQuantity" [(ngModel)]="product.ItemQuantity" id="qty_{{i+2}}" class="qty2 form-control" name="quantity">
+                    <div class="inc button_inc" (click)="incSimProdQuantity(product.ItemItemId)">+</div>
+                    <div class="dec button_inc"  (click)="decSimProdQuantity(product.ItemItemId)">-</div>
+                </span>
             </li>
             <!-- <li>
                 <label class="container_check">Extra Peppers<span>+ $2.50</span>

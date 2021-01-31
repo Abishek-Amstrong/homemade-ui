@@ -9,11 +9,15 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 import { SlidesOutputData, OwlOptions } from 'ngx-owl-carousel-o';
 import { PlaceOrderComponent } from '../foods/place-order/place-order.component';
 import { AuthService } from '../shared/services/auth.service';
 import { CartService } from '../shared/services/cart.service';
-import { FoodService } from '../shared/services/food.service'
+import { FoodService } from '../shared/services/food.service';
+import { OfferService } from '../shared/services/offer.service'
+import { handleError } from '../shared/helpers/error-handler';
 
 export interface Menu {
   imgUrl: string;
@@ -34,6 +38,17 @@ export interface Item{
   ItemVendorId : string
 }
 
+export interface Banner{
+  bannerId : string,
+  bannerImage : string,
+  bannerTitle : string,
+  bannerSubText : string,
+  bannerDetPageUrl : string,
+  bannerType : string,
+  bannerTypeName : string,
+  bannerTypeId : string
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -41,12 +56,15 @@ export interface Item{
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChildren('owlAnimated') owlElements!: QueryList<ElementRef>;
-  @ViewChildren('owlAnimated1') slide1!: QueryList<ElementRef>;
-  @ViewChildren('owlAnimated2') slide2!: QueryList<ElementRef>;
+  // @ViewChildren('owlAnimated1') slide1!: QueryList<ElementRef>;
+  // @ViewChildren('owlAnimated2') slide2!: QueryList<ElementRef>;
+  @ViewChildren('owlAnimatedBottom') owlElementsBottom!: QueryList<ElementRef>;
 
   menus: Menu[];
   recentOrderedData: Item[];
   foodData: Item[];
+  topBanner : Banner[];
+  bottomBanner : Banner[];
 
   customOptions: OwlOptions = {
     items: 1,
@@ -120,9 +138,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     private router: Router,
     private dialog: MatDialog,
+    private toastrService : ToastrService,
     private authService : AuthService,
     private cartService : CartService,
-    private foodService : FoodService
+    private foodService : FoodService,
+    private offerService : OfferService
   ) {
     this.authService.setHeaderDisplayStatus(false);
     this.menus = [
@@ -156,39 +176,88 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.recentOrderedData = [];
 
     this.foodData = [];
+
+    this.topBanner = [];
+
+    this.bottomBanner = [];
   }
 
   ngOnInit(): void {
     this.loadRecentOrderedItems();
     this.loadFoodDetails();
+    this.loadTopBannerData();
+    this.loadBottomBannerData();
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit(): void {
+  }
 
   onSlideTransition(data: SlidesOutputData) {
-    this.owlElements.forEach((element) => {
-      this.renderer.removeClass(element.nativeElement, 'is-transitioned');
-    });
-
     const currentIndex = data.startPosition;
-    if (currentIndex === 0) {
-      this.slide1.forEach((element) => {
+    this.owlElements.forEach((element :any) => {
+      this.renderer.removeClass(element.nativeElement, 'is-transitioned');
+      if(currentIndex === 0 && element.nativeElement.id == "owlAnimated1")
+      { 
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
-      });
-    } else {
-      this.slide2.forEach((element) => {
+      }
+      else if(currentIndex === 1 && element.nativeElement.id == "owlAnimated2")
+      {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
-      });
-    }
+      }
+      else if(currentIndex === 2 && element.nativeElement.id == "owlAnimated3")
+      {
+        this.renderer.addClass(element.nativeElement, 'is-transitioned');
+      }
+      else if(currentIndex === 3 && element.nativeElement.id == "owlAnimated4")
+      {
+        this.renderer.addClass(element.nativeElement, 'is-transitioned');
+      }
+    });
   }
 
   onCarouselInitialized(data: SlidesOutputData) {
     setTimeout(() => {
-      this.slide1.forEach((element) => {
-        this.renderer.addClass(element.nativeElement, 'is-transitioned');
+      this.owlElements.forEach((element :any) => {
+        if(element.nativeElement.id == "owlAnimated1")
+        {
+          this.renderer.addClass(element.nativeElement, 'is-transitioned');
+          // console.log(element);
+        }
       });
     }, 200);
   }
+
+  
+  onSlideTransitionInBottom(data: SlidesOutputData)
+  {
+    const currentIndex = data.startPosition;
+    this.owlElementsBottom.forEach((element :any) => {
+      this.renderer.removeClass(element.nativeElement, 'is-transitioned');
+      if(currentIndex === 0 && element.nativeElement.id == "owlAnimated1")
+      { 
+        this.renderer.addClass(element.nativeElement, 'is-transitioned');
+      }
+      else if(currentIndex === 1 && element.nativeElement.id == "owlAnimated2")
+      {
+        this.renderer.addClass(element.nativeElement, 'is-transitioned');
+      }
+    });
+  }
+
+  onCarouselInitializedInBottom(data: SlidesOutputData)
+  {
+    setTimeout(() => {
+      this.owlElementsBottom.forEach((element :any) => {
+        if(element.nativeElement.id == "owlAnimated1")
+        {
+          this.renderer.addClass(element.nativeElement, 'is-transitioned');
+          // console.log(element);
+        }
+      });
+    }, 200);
+  }
+
+
 
   navigateToComponent(path: string) {
     this.router.navigate(['/', 'foods']);
@@ -237,6 +306,74 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                }
              }          
       });
+  }
+
+  loadTopBannerData()
+  {
+    this.offerService.getTopBannerDetails().subscribe((resp:any)=>{
+      // console.log(resp);
+      if(resp && resp.length)
+      {
+        resp.forEach((element : any) => {
+          let bannerItem = {
+            bannerId : '',
+            bannerImage : element.bannerurl,
+            bannerTitle : element.bannerTitle,
+            bannerSubText : element.bannerDesc,
+            bannerDetPageUrl : '',
+            bannerType : element.bannerCategory,
+            bannerTypeName : element.bannerDetCategoryname,
+            bannerTypeId : element.bannerDetCategoryId
+          };
+          if(bannerItem.bannerType == 'cuisine' && bannerItem.bannerTypeId)
+          {
+            bannerItem.bannerDetPageUrl = '/cuisine/detail/' + bannerItem.bannerTypeId;
+          }
+          else if(bannerItem.bannerType == 'subcategory' && bannerItem.bannerTypeName)
+          {
+            bannerItem.bannerDetPageUrl = '/foods/' + bannerItem.bannerTypeName;
+          }
+          this.topBanner.push(bannerItem);
+        });
+        // console.log( this.topBanner);
+      }
+    },(error:any)=>{
+      this.toastrService.error(handleError(error));
+    });
+  }
+
+  loadBottomBannerData()
+  {
+    this.offerService.getBottomBannerDetails().subscribe((resp:any)=>{
+      // console.log(resp);
+      if(resp && resp.length)
+      {
+        resp.forEach((element : any) => {
+          let bannerItem = {
+            bannerId : '',
+            bannerImage : element.bannerurl,
+            bannerTitle : element.bannerTitle,
+            bannerSubText : element.bannerDesc,
+            bannerDetPageUrl : '',
+            bannerType : element.bannerCategory,
+            bannerTypeName : element.bannerDetCategoryname,
+            bannerTypeId : element.bannerDetCategoryId
+          };
+          if(bannerItem.bannerType == 'cuisine' && bannerItem.bannerTypeId)
+          {
+            bannerItem.bannerDetPageUrl = '/cuisine/detail/' + bannerItem.bannerTypeId;
+          }
+          else if(bannerItem.bannerType == 'subcategory' && bannerItem.bannerTypeName)
+          {
+            bannerItem.bannerDetPageUrl = '/foods/' + bannerItem.bannerTypeName;
+          }
+          this.bottomBanner.push(bannerItem);
+        });
+        // console.log( this.topBanner);
+      }
+    },(error:any)=>{
+      this.toastrService.error(handleError(error));
+    });
   }
 
   orderNow(event: any, food: any) {

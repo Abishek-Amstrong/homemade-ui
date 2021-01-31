@@ -106,7 +106,7 @@ export class FoodDetailComponent implements OnInit {
   {
     this.cartService.getItemDetails(this.itemId).subscribe(
       (resp:any) =>{
-        //console.log(resp);
+        console.log(resp);
         this.foodDetailData.ItemItemId = resp.itemId;
         this.foodDetailData.ItemVendorId = resp.VendorVendorId;
         this.foodDetailData.ItemDesc = resp.desc;
@@ -115,6 +115,7 @@ export class FoodDetailComponent implements OnInit {
         this.foodDetailData.ItemIsVeg = resp.isVeg;
         this.foodDetailData.Itemkeywords = resp.keyword;
         this.foodDetailData.ItemPrice = resp.price;
+        this.foodDetailData.ItemQuantity = resp.quantity;
         this.foodDetailData.ItemUnit = resp.unit;
         this.foodDetailData.ItemSIze = resp.size;
         this.foodDetailData.ItemIngrediants = [];

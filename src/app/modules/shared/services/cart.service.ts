@@ -73,39 +73,42 @@ export class CartService {
     );
   }
 
-  UpdateProductsInUserCart(updatedCartProducts: any): Observable<any> {
+  UpdateProductsInUserCart(cartProducts: any, updatedCarts : Map<string,number>): Observable<any> {
+
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
-    let bodyJson: {
-      cartId: String;
-      details: {
-        itemId: string;
-        Name: String;
-        quantity: Number;
-        Price: Number;
-        imgUrl: String;
-      }[];
-    }[] = [];
-    for (let item of updatedCartProducts) {
-      bodyJson.push({
-        cartId: item.ItemCartId,
-        details: [
-          {
-            itemId: item.ItemItemId,
-            Name: item.ItemName,
-            quantity: item.ItemQuantity,
-            Price: item.ItemPrice,
-            imgUrl: item.ItemImageUrl,
-          },
-        ],
-      });
+    let updatedProd : Map<string,{ itemId: string,Name: string,quantity: number,Price: number,imgUrl: string}[]>  =  new Map();
+
+    for (let item of cartProducts) 
+    {
+      if(updatedCarts.has(item.ItemCartId))
+      {
+        let val : { itemId: string,Name: string,quantity: number,Price: number,imgUrl: string}[] = [];
+        if(updatedProd.has(item.ItemCartId))
+        {
+          val = updatedProd.get(item.ItemCartId)!;
+
+        }
+        val?.push({
+          itemId: item.ItemItemId,
+          Name: item.ItemName,
+          quantity: item.ItemQuantity,
+          Price: item.ItemPrice,
+          imgUrl: item.ItemImageUrl,
+        });
+        updatedProd.set(item.ItemCartId,val);
+      }
     }
-    //console.log(JSON.stringify({'cartdata' : bodyJson}));
-    return this.http
-      .put(
-        `${environment.apiUrl}/updatecart`,
-        { cartdata: bodyJson },
-        { headers: options, responseType: 'text' }
-      )
+
+    let bodyJson: { cartId: String, details: { itemId: string, Name: String, quantity: Number, Price: Number, imgUrl: String }[] }[] = [];
+
+    updatedProd.forEach((value, key) => {  
+      bodyJson.push({
+        cartId : key,
+        details : value
+      });
+    }); 
+    // console.log(JSON.stringify(bodyJson));
+    return this.http.put(`${environment.apiUrl}/updatecart`, { cartdata : bodyJson },{ headers: options, responseType: 'text' })
       .pipe(catchError((err) => this.handleError(err)));
   }
 
@@ -138,6 +141,29 @@ export class CartService {
       Price: Number;
     }[] = [];
 
+    let deliverydate = new Date();
+    let deliveryTime = deliveryAddress.deliveryTime + ':00';
+
+    // console.log('dt : ' + deliveryTime);
+
+    if(deliveryAddress.deliveryDay == 'Tomorrow')
+    {
+      deliverydate.setDate(deliverydate.getDate() + 1);
+    }
+    else if(deliveryAddress.deliveryDay == 'AfterTomorrow')
+    {
+      deliverydate.setDate(deliverydate.getDate() + 2);
+    }
+    else if(deliveryAddress.deliveryDay == 'Overmorrow')
+    {
+      deliverydate.setDate(deliverydate.getDate() + 3);
+    }
+
+    let year = deliverydate.getFullYear();
+    let month = deliverydate.getMonth() + 1; // Jan is 0, dec is 11
+    let day = deliverydate.getDate();
+    let dateString = '' + year + '-' + ('00' + month).slice(-2) + '-' + ('00' + day).slice(-2);
+
     let orderData = {
       userId: this.authService.getUserId(),
       TotalPrice: totalPrice,
@@ -151,6 +177,7 @@ export class CartService {
         location: deliveryAddress.deliveryLocation,
       },
       deliveryType: deliveryAddress.deliveryType,
+      deliveryDate : dateString + 'T' + deliveryTime,
       deliveryDay: deliveryAddress.deliveryDay,
       deliveryTime: deliveryAddress.deliveryTime,
     };
@@ -165,7 +192,7 @@ export class CartService {
       });
     }
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
-    //console.log(JSON.stringify(orderData));
+    console.log(JSON.stringify(orderData));
     return this.http
       .post(`${environment.apiUrl}/customerorder`, orderData, {
         headers: options,
@@ -199,6 +226,7 @@ export class CartService {
   }
 
   addItemsTocart(item: any): Observable<any> {
+
     let cartItems: {
       itemId: string;
       Name: string;
@@ -206,6 +234,8 @@ export class CartService {
       Price: Number;
       imgUrl: string;
     }[] = [];
+
+    //push the initial ordered item into array
     cartItems.push({
       itemId: item.OrderItemId,
       Name: item.OrderItemName,
@@ -213,10 +243,30 @@ export class CartService {
       Price: item.OrderPrice,
       imgUrl: item.OrderItemImgUrl,
     });
+
+    //push the other similar items selected into array
+    if(item.OrderSimilarProducts && item.OrderSimilarProducts.length > 0)
+    {
+      for (let product of item.OrderSimilarProducts)
+      {
+        if(product.ItemChecked)
+        {
+          cartItems.push({
+            itemId: product.ItemItemId,
+            Name: product.ItemName,
+            quantity: product.ItemQuantity,
+            Price: product.ItemPrice,
+            imgUrl: product.ItemImageUrl,
+          });
+        }
+      }
+    }
+
+    //do a put api request to add the items to cart
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
     let userId = this.authService.getUserId();
     let bodyJson = { details: cartItems, userId: userId };
-    //console.log(bodyJson);
+    console.log(JSON.stringify(bodyJson));
     return this.http
       .post(`${environment.apiUrl}/addtocart`, bodyJson, { headers: options })
       .pipe(

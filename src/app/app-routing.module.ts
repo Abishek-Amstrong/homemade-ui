@@ -41,6 +41,14 @@ const routes: Routes = [
       import('./modules/foods/foods.module').then((m) => m.FoodsModule),
     canActivate: [AuthGaurdService],
   },
+  {
+    path: 'terms-condition',
+    loadChildren: () =>
+      import('./modules/terms-and-condition/terms-and-condition.module').then(
+        (m) => m.TermsAndConditionModule
+      ),
+  },
+  { path: 'privacy-policy', loadChildren: () => import('./modules/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyModule) },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

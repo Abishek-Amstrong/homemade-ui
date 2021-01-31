@@ -14,31 +14,35 @@
                         <li class="subtotal">Total Price</li>
                     </ul>
                 </div>
-                <div class="basketProduct" *ngFor = "let prod of userCart; let i = index">
+                <div class="basketProduct d-flex align-items-center" *ngFor="let prod of userCart; let i = index">
                     <div class="item">
                         <div class="product-image">
                             <img [src]="prod.ItemImageUrl" alt="Product Image" class="">
                         </div>
                     </div>
-                    <div class="product-detail">
-                        <div class="product-name">
-                            <h3>{{prod.ItemName}}</h3>
+                    <div class="product-detail d-flex align-items-center">
+                        <div class="product-name d-flex align-items-center">
+                            <h3 class="mb-0">{{prod.ItemName}}</h3>
                         </div>
-                        <div class="quantity">
-                            <div class="numbers-row">
-                                <input type="text" [value]="prod.ItemQuantity" id="qty_{{i}}" class="qty2 form-control" name="quantity">
-                                <div class="inc button_inc" (click)="incProdQuantity(prod.ItemCartId,prod.ItemItemId,prod.ItemQuantity)">+</div>
-                                <div class="dec button_inc" (click)="decProdQuantity(prod.ItemCartId,prod.ItemItemId,prod.ItemQuantity)">-</div>
+
+                        <div class="quantity d-flex align-items-center">
+                            <div class="numbers-row mb-0">
+                                <input type="text" [value]="prod.ItemQuantity" id="qty_{{i}}" class="qty2 form-control"
+                                    name="quantity">
+                                <div class="inc button_inc"
+                                    (click)="incProdQuantity(prod.ItemCartId,prod.ItemQuantity)">+</div>
+                                <div class="dec button_inc"
+                                    (click)="decProdQuantity(prod.ItemCartId,prod.ItemQuantity)">-</div>
                             </div>
                         </div>
-                        <div class="prod-footer">
+                        <div class="prod-footer d-flex align-items-center">
                             <div class="subtotal">{{(prod.ItemQuantity * prod.ItemPrice) | currency:'INR'}}</div>
                             <div class="remove">
                                 <a href="#" (click)="delProductInCart(prod.ItemCartId)">Remove</a>
                             </div>
                         </div>
-                        
-                    </div> 
+
+                    </div>
                 </div>
                 <!--./-->
                 <!-- <div class="basketProduct">
@@ -93,7 +97,7 @@
                         </tr>
                     </table>
                 </div>
-                
+
                 <div class="buttonBox">
                     <a routerLink="/Home" class="btn_1 outline type3">Keep Shopping</a>
                     <a href="#" class="btn_1 gradient type4" (click)="updateProductsInCart()">Checkout</a>
@@ -102,6 +106,7 @@
 
         </div>
         <!--./-->
-    </div><!--row ends-->
+    </div>
+    <!--row ends-->
 </div>
 <!-- /container -->

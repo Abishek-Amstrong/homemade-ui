@@ -5,6 +5,7 @@ import { User } from './modules/shared/models/user';
 
 import { AuthService } from './modules/shared/services/auth.service';
 import { CartService } from './modules/shared/services/cart.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -21,12 +22,14 @@ export class AppComponent implements OnInit {
   isHideHeader: boolean;
   headerSubscription: any;
   user: any;
-  cartItemCount: Number = 0;
+  cartItemCount = 0;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.isLoggedIn = false;
     this.isHideHeader = false;
@@ -40,8 +43,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.authService.user.subscribe((x) => {
       this.user = x;
-      if(x)
-      {
+      if (x) {
         this.cartService.getCartItemCount().subscribe((val) => {
           //console.log('Inside subscription : ' + val);
           this.cartItemCount = val;
@@ -49,6 +51,12 @@ export class AppComponent implements OnInit {
         this.cartService.getCartCountAPIResp();
       }
     });
+  }
+
+  navigateToCategory(category: string) {
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigate(['/', 'foods', 'category', category]));
   }
 
   @HostListener('window:scroll', []) onScroll(): void {

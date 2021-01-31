@@ -19,7 +19,42 @@
 
 <div class="bg_gray bg_white">
     <div class="container margin_detail_2">
+        <div class="card type3" id="section1">
+            <div class="main_title">
+                <h2>Newly Added</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-3" *ngFor="let item of newlyAdded">
+                    <div class="strip">
+                        <figure>
+                            <img [src]="item.ItemImageUrl" class="img-fluid lazy loaded" alt=""
+                                data-was-processed="true">
+                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"
+                                class="strip_info">
+                                <div class="item_title">
+                                    <h3>{{item.ItemName | titlecase}}</h3>
+                                    <small>{{item.ItemPrice | currency: 'INR'}}</small>
+                                </div>
+                            </a>
+                        </figure>
+                        <div class="cardDetails">
+                            <!-- <div class="score"><strong>{{item.ItemRating}}</strong></div> -->
+                            <a class="btn_1 outline type_3" href="javascript:void(0)"
+                                (click)="orderNow($event, item)">Pre
+                                Order</a>
+                        </div>
+                        <!-- <p class="availablity">{{item.availability}}</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--./card ends-->
+
         <div class="card type3">
+            <div class="main_title">
+                <h2>Order South Indian Foods Online</h2>
+            </div>
+
             <div class="row">
                 <div class="col-sm-6 col-lg-3 mb-3" *ngFor="let food of foodData">
                     <div class="strip">
@@ -45,6 +80,69 @@
                 <!--./-->
             </div>
             <!--./row ends-->
+        </div>
+        <!--./card ends-->
+
+        <div class="card type3" id="section1">
+            <div class="main_title">
+                <h2>Best Sellers</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-3" *ngFor="let item of bestSellers">
+                    <div class="strip">
+                        <figure>
+                            <img [src]="item.ItemImageUrl" class="img-fluid lazy loaded" alt=""
+                                data-was-processed="true">
+                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"
+                                class="strip_info">
+                                <div class="item_title">
+                                    <h3>{{item.ItemName | titlecase}}</h3>
+                                    <small>{{item.ItemPrice | currency: 'INR'}}</small>
+                                </div>
+                            </a>
+                        </figure>
+                        <div class="cardDetails">
+                            <!-- <div class="score"><strong>{{item.ItemRating}}</strong></div> -->
+                            <a class="btn_1 outline type_3" href="javascript:void(0)"
+                                (click)="orderNow($event, item)">Pre
+                                Order</a>
+                        </div>
+                        <!-- <p class="availablity">{{item.availability}}</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--./card ends-->
+
+        <div class="card type3" id="section1">
+            <div class="main_title">
+                <h2>Recommendation</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-lg-3" *ngFor="let item of recommendations">
+                    <div class="strip">
+                        <figure>
+                            <img [src]="item.ItemImageUrl" class="img-fluid lazy loaded" alt=""
+                                data-was-processed="true">
+                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"
+                                class="strip_info">
+                                <div class="item_title">
+                                    <h3>{{item.ItemName | titlecase}}</h3>
+                                    <small>{{item.ItemPrice | currency: 'INR'}}</small>
+                                </div>
+                            </a>
+                        </figure>
+                        <div class="cardDetails">
+                            <!-- <div class="score"><strong>{{item.ItemRating}}</strong></div> -->
+                            <a class="btn_1 outline type_3" href="javascript:void(0)"
+                                (click)="orderNow($event, item)">Pre
+                                Order</a>
+                        </div>
+                        <!-- <p class="availablity">{{item.availability}}</p> -->
+                    </div>
+                </div>
+            </div>
         </div>
         <!--./card ends-->
     </div>

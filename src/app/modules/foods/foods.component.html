@@ -10,7 +10,7 @@
                                     <div class="item">
                                         <figure>
                                             <img [src]="category.imgUrl" alt="" class="owl-lazy">
-                                            <a routerLink="{{category.component}}">
+                                            <a (click)="navigateToCategory(category.component)">
                                                 <h3>{{category.label}}</h3>
                                             </a>
                                         </figure>
@@ -22,7 +22,7 @@
 
                     <div class="promo">
                         <h3>Free Delivery for your first 14 days!</h3>
-                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                        <p>We deliver the best fresh and healthy foods in the market.</p>
                         <i class="icon-food_icon_delivery"></i>
                     </div>
                     <!-- /promo -->
@@ -31,31 +31,46 @@
                         <div class="container">
                             <div class="row">
                                 <ul id="secondary_nav">
-                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods"
-                                            fragment="section1">Breakfast</a>
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Breakfast')"
+                                            class="show-submenu" fragment="section1">Beakfast</a>
                                     </li>
-                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods"
-                                            fragment="section2">North
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('North Indian')"
+                                            class="show-submenu" fragment="section2">North
                                             Indian</a></li>
-                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods"
-                                            fragment="section3">South
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('South Indian')"
+                                            class="show-submenu" fragment="section3">South
                                             Indian</a></li>
-                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods"
-                                            fragment="section4">Continental</a></li>
-                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods"
-                                            fragment="section5">Oriental</a>
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Continental')"
+                                            class="show-submenu" fragment="section4">Continental</a></li>
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Oriental')"
+                                            class="show-submenu" fragment="section5">Oriental</a>
                                     </li>
-                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods"
-                                            fragment="section6">Desserts</a>
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Deserts')"
+                                            class="show-submenu" fragment="section6">Desserts</a>
                                     </li>
-                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods"
-                                            fragment="section7">Beverages</a>
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Beverages')"
+                                            class="show-submenu" fragment="section7">Beverages</a></li>
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')"
+                                            class="show-submenu" fragment="section8">Platter</a>
                                     </li>
-                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods"
-                                            fragment="section8">Meals</a>
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')"
+                                            class="show-submenu" fragment="section9">Healthy</a>
                                     </li>
-                                    <li><a class="list-group-item list-group-item-action" routerLink="/foods"
-                                            fragment="section9">Platter</a>
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')"
+                                            class="show-submenu" fragment="section10">Regional</a>
+                                    </li>
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')"
+                                            class="show-submenu" fragment="section11">Biscuits</a>
                                     </li>
                                 </ul>
                             </div>
@@ -283,37 +298,6 @@
 
                     <div class="card type3" id="section8">
                         <div class="main_title">
-                            <h2>Meals</h2>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of mealData">
-                                <div class="strip">
-                                    <figure>
-                                        <img [src]="item.ItemImageUrl" class="img-fluid lazy loaded" alt=""
-                                            data-was-processed="true">
-                                        <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"
-                                            class="strip_info">
-                                            <div class="item_title">
-                                                <h3>{{item.ItemName | titlecase}}</h3>
-                                                <small>{{item.ItemPrice | currency: 'INR'}}</small>
-                                            </div>
-                                        </a>
-                                    </figure>
-                                    <div class="cardDetails">
-                                        <!-- <div class="score"><strong>{{item.ItemRating}}</strong></div> -->
-                                        <a class="btn_1 outline type_3" href="javascript:void(0)"
-                                            (click)="orderNow($event, item)">Pre
-                                            Order</a>
-                                    </div>
-                                    <!-- <p class="availablity">{{item.availability}}</p> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--./card ends-->
-
-                    <div class="card type3" id="section9">
-                        <div class="main_title">
                             <h2>Platter</h2>
                         </div>
                         <div class="row">
@@ -342,8 +326,6 @@
                         </div>
                     </div>
                     <!--./card ends-->
-
-
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@ import { FoodsComponent } from './foods.component';
 const routes: Routes = [
   { path: '', component: FoodsComponent },
   {
-    path: 'breakfast',
+    path: 'category/:id',
     loadChildren: () =>
       import('./food-breakfast/food-breakfast.module').then(
         (m) => m.FoodBreakfastModule
@@ -36,9 +36,7 @@ const routes: Routes = [
   {
     path: 'oriental',
     loadChildren: () =>
-      import('./oriental/oriental.module').then(
-        (m) => m.OrientalModule
-      ),
+      import('./oriental/oriental.module').then((m) => m.OrientalModule),
   },
   {
     path: 'beverages',
@@ -49,24 +47,17 @@ const routes: Routes = [
   },
   {
     path: 'meal',
-    loadChildren: () =>
-      import('./meal/meal.module').then(
-        (m) => m.MealModule
-      ),
+    loadChildren: () => import('./meal/meal.module').then((m) => m.MealModule),
   },
   {
     path: 'deserts',
     loadChildren: () =>
-      import('./deserts/deserts.module').then(
-        (m) => m.DesertsModule
-      ),
+      import('./deserts/deserts.module').then((m) => m.DesertsModule),
   },
   {
     path: 'platter',
     loadChildren: () =>
-      import('./platter/platter.module').then(
-        (m) => m.PlatterModule
-      ),
+      import('./platter/platter.module').then((m) => m.PlatterModule),
   },
   {
     path: 'detail',

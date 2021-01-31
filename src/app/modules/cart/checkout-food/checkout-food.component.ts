@@ -13,7 +13,7 @@ export interface Item
   ItemPrice : number,
   ItemUpdated : boolean,
   ItemCartId : string,
-  ItemItemId : String,
+  ItemItemId : string,
   ItemUserId : string
 }
 
@@ -25,7 +25,7 @@ export interface Item
 
 export class CheckoutFoodComponent implements OnInit {
   displayOrderSummary : boolean = false;
-  selectedDay : String;
+  selectedDay : string;
   disableDateTime : boolean;
   deliveryForm : FormGroup;
   selectedTime : string;
@@ -121,7 +121,7 @@ export class CheckoutFoodComponent implements OnInit {
 
   isTimeValid() : ValidatorFn {
       return (control : AbstractControl) : {[Key: string] : string} | null=> {
-          let selectedTime = control.value.split('.');
+          let selectedTime = control.value.split(':');
           let hr = Number(selectedTime[0]);
           let min = Number(selectedTime[1]);
           let currHr = new Date().getHours();
@@ -242,30 +242,33 @@ export class CheckoutFoodComponent implements OnInit {
   {
     this.cartService.getProductsInUserCart().subscribe(
       (response : any) => {
-        //console.log(response);
+        console.log(JSON.stringify(response));
         if(response == null || response == undefined || response.length == 0)
         {
           this.userCart = [];
-          this.toastr.success('Cart is Empty',"Success!!");
+          //this.toastr.success('Cart is Empty',"Success!!");
         }
         else
         {
           for(let item of response)
           {
             item.details = JSON.parse(item.details);
-            if(item.details[0].itemId != null && item.details[0].itemId != '')
+            if(item.details && item.details.length > 0)
             {
-              let currItem : Item = {
-                ItemImageUrl : item.details[0].imgUrl,
-                ItemName : item.details[0].Name,
-                ItemQuantity : Number(item.details[0].quantity),
-                ItemPrice : Number(item.details[0].Price),
-                ItemUpdated : false,
-                ItemCartId : item.cartId,
-                ItemItemId : item.details[0].itemId,
-                ItemUserId : item.userUserId
-              };
-              this.userCart.push(currItem);
+              for(let product of item.details)
+              {
+                let currItem : Item = {
+                  ItemImageUrl : product.imgUrl,
+                  ItemName : product.Name,
+                  ItemQuantity : Number(product.quantity),
+                  ItemPrice : Number(product.Price),
+                  ItemUpdated : false,
+                  ItemCartId : item.cartId,
+                  ItemItemId : product.itemId,
+                  ItemUserId : item.userUserId
+                };
+                this.userCart.push(currItem);
+              }
             }
           }
           this.calculateTotal();
@@ -352,11 +355,11 @@ export class CheckoutFoodComponent implements OnInit {
     }
   }
 
-  incProdQuantity(cartId : string, quantity : number)
+  incProdQuantity(cartId : string, itemId : string, quantity : number)
   {
     for(let item of this.userCart)
     {
-      if(item.ItemCartId == cartId)
+      if(item.ItemCartId == cartId && item.ItemItemId == itemId)
       {
         item.ItemQuantity += 1;
         item.ItemUpdated = true;
@@ -365,11 +368,11 @@ export class CheckoutFoodComponent implements OnInit {
     }
   }
 
-  decProdQuantity(cartId : string, quantity : number)
+  decProdQuantity(cartId : string, itemId : string, quantity : number)
   {
     for(let item of this.userCart)
     {
-      if(item.ItemCartId == cartId && item.ItemQuantity > 1)
+      if(item.ItemCartId == cartId && item.ItemItemId == itemId && item.ItemQuantity > 1)
       {
         item.ItemQuantity -= 1;
         item.ItemUpdated = true;

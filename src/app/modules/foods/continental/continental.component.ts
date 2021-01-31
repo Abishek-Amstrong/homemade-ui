@@ -3,40 +3,42 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 
-import { FoodService } from '../../shared/services/food.service'
+import { FoodService } from '../../shared/services/food.service';
 import { PlaceOrderComponent } from '../place-order/place-order.component';
 
-export interface Item{
-  ItemImageUrl : string,
-  ItemName : string,
+export interface Item {
+  ItemImageUrl: string;
+  ItemName: string;
   // ItemUnit : String,
   // ItemQuantity : number,
   // ItemIsVeg : boolean,
   // ItemIngrediants : String[],
   // ItemDesc : String,
-  ItemPrice : number,
-  ItemItemId : String,
-  ItemVendorId : string
+  ItemPrice: number;
+  ItemItemId: String;
+  ItemVendorId: string;
 }
 
-export interface chef{
-  chefId : string,
-  firstname : string,
-  lastname : string,
-  chefImage : string,
-  chefRating : number
+export interface chef {
+  chefId: string;
+  firstname: string;
+  lastname: string;
+  chefImage: string;
+  chefRating: number;
 }
 
 @Component({
   selector: 'app-continental',
   templateUrl: './continental.component.html',
-  styleUrls: ['./continental.component.scss']
+  styleUrls: ['./continental.component.scss'],
 })
-
 export class ContinentalComponent implements OnInit {
-  foodData : Item[];
-  chefData : chef[];
-  cuisineData : Item[];
+  foodData: Item[];
+  chefData: chef[];
+  cuisineData: Item[];
+  newlyAdded: Item[];
+  bestSellers: Item[];
+  recommendations: Item[];
 
   customOptions: OwlOptions = {
     center: false,
@@ -123,12 +125,17 @@ export class ContinentalComponent implements OnInit {
     },
   };
 
-  constructor(private foodService : FoodService,
-              private dialog: MatDialog,
-              private toastr: ToastrService) { 
+  constructor(
+    private foodService: FoodService,
+    private dialog: MatDialog,
+    private toastr: ToastrService
+  ) {
     this.foodData = [];
     this.chefData = [];
     this.cuisineData = [];
+    this.bestSellers = [];
+    this.newlyAdded = [];
+    this.recommendations = [];
   }
 
   ngOnInit(): void {
@@ -137,86 +144,77 @@ export class ContinentalComponent implements OnInit {
     this.loadCuisineDetails();
   }
 
-  loadfoodDetails()
-  {
-    this.foodService.getItemSubCategoryDetails('food','Continental').subscribe(
-      (resp:any)=>{
+  loadfoodDetails() {
+    this.foodService
+      .getItemSubCategoryDetails('food', 'Continental')
+      .subscribe((resp: any) => {
         //  this.foodService.getItemDetailsInBulk(resp).subscribe(
         //    (val : any) => {
-             for(let item of resp)
-             {
-               if(item != null && item !=undefined)
-               {
-                let currItem = {
-                  ItemImageUrl : item.imagePath,
-                  ItemName : item.itemname,
-                  // ItemUnit : item.unit,
-                  // ItemQuantity : 1,
-                  // ItemIsVeg : item.isVeg,
-                  // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
-                  // ItemDesc : item.desc,
-                  ItemPrice : item.price,
-                  ItemItemId : item.itemId,
-                  ItemVendorId : item.VendorVendorId
-                };
-                this.foodData.push(currItem);
-               }
-             }            
+        for (let item of resp) {
+          if (item != null && item != undefined) {
+            let currItem = {
+              ItemImageUrl: item.imagePath,
+              ItemName: item.itemname,
+              // ItemUnit : item.unit,
+              // ItemQuantity : 1,
+              // ItemIsVeg : item.isVeg,
+              // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
+              // ItemDesc : item.desc,
+              ItemPrice: item.price,
+              ItemItemId: item.itemId,
+              ItemVendorId: item.VendorVendorId,
+            };
+            this.foodData.push(currItem);
+          }
+        }
         //    }
         //  );
       });
   }
 
-  loadChefDetails()
-  {
-    this.foodService.getChefsNearUserLocation().subscribe(
-      (resp : any)=>{
-        //console.log(resp);
-        for(let chef of resp)
-        {
-            let chefItem = {
-              chefId : chef.vendorId,
-              firstname : chef.firstname,
-              lastname : chef.lastname,
-              chefImage : chef.imagePath,
-              chefRating : chef.rating
-            };
-            this.chefData.push(chefItem);
-        }
-      });
-  }
-
-  loadCuisineDetails()
-  {
-    this.foodService.getCuisineNearUserLocation().subscribe(
-      (resp : any)=>{
-        //console.log(resp);
-        for(let item of resp)
-        {
-          if(item != null && item !=undefined)
-          {
-           let currItem = {
-             ItemImageUrl : item.imagePath,
-             ItemName : item.itemname,
-             // ItemUnit : item.unit,
-             // ItemQuantity : 1,
-             // ItemIsVeg : item.isVeg,
-             // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
-             // ItemDesc : item.desc,
-             ItemPrice : item.price,
-             ItemItemId : item.itemId,
-             ItemVendorId : item.VendorVendorId
-           };
-           this.cuisineData.push(currItem);
-          }
-        }  
+  loadChefDetails() {
+    this.foodService.getChefsNearUserLocation().subscribe((resp: any) => {
+      //console.log(resp);
+      for (let chef of resp) {
+        let chefItem = {
+          chefId: chef.vendorId,
+          firstname: chef.firstname,
+          lastname: chef.lastname,
+          chefImage: chef.imagePath,
+          chefRating: chef.rating,
+        };
+        this.chefData.push(chefItem);
+      }
     });
   }
 
-  orderNow(event: any, food: any) : boolean {
+  loadCuisineDetails() {
+    this.foodService.getCuisineNearUserLocation().subscribe((resp: any) => {
+      //console.log(resp);
+      for (let item of resp) {
+        if (item != null && item != undefined) {
+          let currItem = {
+            ItemImageUrl: item.imagePath,
+            ItemName: item.itemname,
+            // ItemUnit : item.unit,
+            // ItemQuantity : 1,
+            // ItemIsVeg : item.isVeg,
+            // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
+            // ItemDesc : item.desc,
+            ItemPrice: item.price,
+            ItemItemId: item.itemId,
+            ItemVendorId: item.VendorVendorId,
+          };
+          this.cuisineData.push(currItem);
+        }
+      }
+    });
+  }
+
+  orderNow(event: any, food: any): boolean {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
-      data : { component : 'continental-component',data : food}
+      data: { component: 'continental-component', data: food },
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return false;

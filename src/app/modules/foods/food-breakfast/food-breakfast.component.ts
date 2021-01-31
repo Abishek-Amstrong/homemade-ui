@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FoodService } from '../../shared/services/food.service';
 import { PlaceOrderComponent } from '../place-order/place-order.component';
 import { isNgTemplate } from '@angular/compiler';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export interface Item {
   ItemImageUrl: string;
@@ -39,6 +40,7 @@ export class FoodBreakfastComponent implements OnInit {
   newlyAdded: Item[];
   bestSellers: Item[];
   recommendations: Item[];
+  category: any;
 
   customOptions: OwlOptions = {
     center: false,
@@ -128,7 +130,9 @@ export class FoodBreakfastComponent implements OnInit {
   constructor(
     private foodService: FoodService,
     private dialog: MatDialog,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.foodData = [];
     this.chefData = [];
@@ -136,9 +140,11 @@ export class FoodBreakfastComponent implements OnInit {
     this.bestSellers = [];
     this.newlyAdded = [];
     this.recommendations = [];
+    this.category = '';
   }
 
   ngOnInit(): void {
+    this.category = this.route.snapshot.paramMap.get('id');
     this.loadfoodDetails();
     this.loadChefDetails();
     this.loadCuisineDetails();
@@ -146,7 +152,7 @@ export class FoodBreakfastComponent implements OnInit {
 
   loadfoodDetails() {
     this.foodService
-      .getItemSubCategoryDetails('food', 'Breakfast')
+      .getItemSubCategoryDetails('food', this.category)
       .subscribe((resp: any) => {
         console.log(resp);
         //  this.foodService.getItemDetailsInBulk(resp).subscribe(

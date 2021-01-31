@@ -148,18 +148,11 @@ export class OrientalComponent implements OnInit {
     this.foodService
       .getItemSubCategoryDetails('food', 'Oriental')
       .subscribe((resp: any) => {
-        //  this.foodService.getItemDetailsInBulk(resp).subscribe(
-        //    (val : any) => {
         for (let item of resp) {
-          if (item != null && item != undefined) {
+          if (item && 'imagePath' in item && item.imagePath) {
             let currItem = {
               ItemImageUrl: item.imagePath,
               ItemName: item.itemname,
-              // ItemUnit : item.unit,
-              // ItemQuantity : 1,
-              // ItemIsVeg : item.isVeg,
-              // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
-              // ItemDesc : item.desc,
               ItemPrice: item.price,
               ItemItemId: item.itemId,
               ItemVendorId: item.VendorVendorId,
@@ -167,8 +160,6 @@ export class OrientalComponent implements OnInit {
             this.foodData.push(currItem);
           }
         }
-        //    }
-        //  );
       });
   }
 

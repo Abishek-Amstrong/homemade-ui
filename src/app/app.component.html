@@ -39,7 +39,7 @@
               </ul>
             </li>
             <li><a routerLink="/cart" class="cart_bt"><img src="assets/images/cart.svg" alt="cart"><span
-                  class="cart-badge" *ngIf="cartItemCount>0">{{cartItemCount}}</span></a></li>
+                  class="cart-badge" *ngIf="cartItemCount > 0">{{cartItemCount}}</span></a></li>
           </ul>
         </div>
       </div>
@@ -61,15 +61,23 @@
         <li class="submenu">
           <a routerLink="/foods" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Food</a>
           <ul [ngClass]="{show_normal : is_show_normal}">
-            <li><a routerLink="/foods/breakfast" class="show-submenu">Beakfast</a></li>
-            <li><a routerLink="/foods/northindian" class="show-submenu">North Indian</a></li>
-            <li><a routerLink="/foods/southindian" class="show-submenu">South Indian</a></li>
-            <li><a routerLink="/foods/continental" class="show-submenu">Continental</a></li>
-            <li><a routerLink="/foods/oriental" class="show-submenu">Oriental</a></li>
-            <li><a routerLink="/foods/beverages" class="show-submenu">Beverages</a></li>
-            <li><a routerLink="/foods/deserts" class="show-submenu">Desserts</a></li>
-            <li><a routerLink="/foods/meal" class="show-submenu">Meal</a></li>
-            <li><a routerLink="/foods/platter" class="show-submenu">Platter</a></li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Breakfast')" class="show-submenu">Beakfast</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('North Indian')" class="show-submenu">North
+                Indian</a></li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('South Indian')" class="show-submenu">South
+                Indian</a></li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Continental')"
+                class="show-submenu">Continental</a></li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Oriental')" class="show-submenu">Oriental</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Beverages')"
+                class="show-submenu">Beverages</a></li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Deserts')" class="show-submenu">Desserts</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Meal')" class="show-submenu">Meal</a></li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')" class="show-submenu">Platter</a>
+            </li>
           </ul>
         </li>
         <!--./-->
@@ -103,24 +111,6 @@
             <input type="text" class="form-control" placeholder="Search for anything...">
             <button type="submit"><i class="icon_search"></i></button>
           </div>
-          <!-- <div class="menuList">
-            <ul>
-              <li><a [routerLink]=""><img src="assets/images/location.svg" alt="location"></a></li>
-              <li class="dropdownMenu">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                  <img src="assets/images/user.svg" alt="user">
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a routerLink="/Profile">Profile</a></li>
-                  <li><a routerLink="/Profile/Orders">My Orders</a></li>
-                  <li><a href="#">Favourites</a></li>
-                  <li><a href="#">Sign Out</a></li>
-                </ul>
-              </li>
-              <li><a routerLink="/cart" class="cart_bt"><img src="assets/images/cart.svg" alt="cart">
-                <span class="cart-badge" *ngIf="cartItemCount>0">{{cartItemCount}}</span></a></li>
-            </ul>
-          </div> -->
         </div>
       </div>
       <!-- /row -->

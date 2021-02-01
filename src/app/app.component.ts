@@ -101,9 +101,8 @@ export class AppComponent implements OnInit {
   setLocation() {
     const addDialogRef = this.dialog.open(LocationComponent, {
       width: this.getBrowserWidth(),
-      data: {
-        id: null,
-      },
+      disableClose: true,
+      maxWidth: '90vw',
     });
     addDialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -117,13 +116,15 @@ export class AppComponent implements OnInit {
     const innerWidth = window.innerWidth > 0 ? window.innerWidth : screen.width;
     if (innerWidth) {
       if (innerWidth < 340) {
-        return Math.round((innerWidth * 90) / 100) + 'px';
+        return Math.round((innerWidth * 95) / 100) + 'px';
       } else if (innerWidth < 640) {
-        return Math.round((innerWidth * 85) / 100) + 'px';
+        return Math.round((innerWidth * 95) / 100) + 'px';
+      } else if (innerWidth < 768) {
+        return Math.round((innerWidth * 80) / 100) + 'px';
       } else if (innerWidth < 1024) {
-        return Math.round((innerWidth * 40) / 100) + 'px';
+        return Math.round((innerWidth * 70) / 100) + 'px';
       } else if (innerWidth >= 1024) {
-        return Math.round((innerWidth * 35) / 100) + 'px';
+        return Math.round((innerWidth * 45) / 100) + 'px';
       }
     }
     return '80%';

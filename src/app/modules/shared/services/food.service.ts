@@ -42,7 +42,8 @@ export class FoodService {
   getBreakfastDetails(): Observable<any> {
     return this.http
       .get(`${environment.apiUrl}/itembysubcategoryName/Breakfast/1`)
-      .pipe(catchError((err) => this.handleError(err)));
+      .pipe(map((resp : any)=>resp.rows),
+            catchError((err) => this.handleError(err)));
   }
 
   getFoodPageDetails() {
@@ -61,7 +62,8 @@ export class FoodService {
   getCuisineNearUserLocation(): Observable<any> {
     return this.http
       .get(`${environment.apiUrl}/itembysubcategoryName/Desserts/1`)
-      .pipe(catchError((err) => this.handleError(err)));
+      .pipe(map((resp : any)=>resp.rows),
+            catchError((err) => this.handleError(err)));
   }
 
   getFoodItemsForHomePage(): Observable<any> {

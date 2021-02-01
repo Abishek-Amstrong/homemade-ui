@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 import { VendorService } from '../../shared/services/vendor.service';
 import { PlaceOrderComponent } from '../place-order/place-order.component';
+import { handleError } from '../../shared/helpers/error-handler';
 
 export interface Chef {
   imgUrl: string;
@@ -25,13 +27,15 @@ export interface menus{
   }[]
 }
 
-export interface Review {
-  avatar: string;
-  name: string;
-  rating: number;
-  time: string;
-  reviewTitle: string;
-  description: string;
+export interface Review{
+  reviewId : String,
+  reviewRating : number,
+  reviewDesc : String,
+  rewviewTitle : String,
+  reviewUserImage : String,
+  reviewUserName : String,
+  reviewVendorId : String,
+  reviewCreatedTime : Date
 }
 
 @Component({
@@ -42,46 +46,126 @@ export interface Review {
 export class ChefDetailComponent implements OnInit {
   chef: Chef;
   menus: menus[];
-  reviews: Review[];
+  reviewData: Review[];
+  ratingAvg : number;
+  ratingCnt : {
+    rating : number,
+    count : number,
+    percent : number
+  }[];
   vendorId : string;
+  ratingCmt: string;
 
   constructor(private vendor : VendorService,
               private dialog: MatDialog,
-              private activatedRoute: ActivatedRoute,) {
+              private toastr: ToastrService,
+              private vendorService : VendorService,
+              private activatedRoute: ActivatedRoute) {
     this.chef = {} as Chef;
 
     this.menus = [];
 
-    this.reviews = [
-      {
-        avatar: 'assets/images/avatar4.jpg',
-        name: 'Lukas',
-        rating: 4.5,
-        time: '54 minutes',
-        reviewTitle: '"Great Location!!"',
-        description: `Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod scaevola sea. Et
-        nec tantas accusamus salutatus, sit commodo veritus te, erat legere fabulas has
-        ut. Rebum laudem cum ea, ius essent fuisset ut.
-        Viderer petentium cu his. Tollit molestie suscipiantur his et.`,
-      },
-      {
-        avatar: 'assets/images/avatar4.jpg',
-        name: 'Lukas',
-        rating: 4.5,
-        time: '54 minutes',
-        reviewTitle: '"Great Location!!"',
-        description: `Eos tollit ancillae ea, lorem consulatu qui ne, eu eros eirmod scaevola sea. Et
-        nec tantas accusamus salutatus, sit commodo veritus te, erat legere fabulas has
-        ut. Rebum laudem cum ea, ius essent fuisset ut.
-        Viderer petentium cu his. Tollit molestie suscipiantur his et.`,
-      },
+    this.reviewData = [];
+    this.ratingAvg = 0;
+    this.ratingCnt = [
+      {rating : 1, count : 0, percent : 0},
+      {rating : 2, count : 0, percent : 0},
+      {rating : 3, count : 0, percent : 0},
+      {rating : 4, count : 0, percent : 0},
+      {rating : 5, count : 0, percent : 0},
     ];
+    this.ratingCmt = '';
     this.vendorId = '';
   }
 
   ngOnInit(): void {
     this.loadVendorDetails();
     this.loadVendorMneuDetails();
+    this.loadReviewData();
+  }
+
+  loadReviewData()
+  {
+    this.vendorService.getChefReviews(this.vendorId).subscribe(
+      (resp:any)=>{
+        //console.log('review : ' + resp);
+        for(let review of resp)
+        {
+          if(review != null && review != undefined)
+          {
+            let currReview : Review = {
+              reviewId : review.notesId,
+              reviewRating : (review.ratingscrore == undefined || review.ratingscrore == '' ) ? 0 : Number(review.ratingscrore),
+              reviewDesc : review.review,
+              rewviewTitle : review.reviewtitle,
+              reviewUserImage : '',
+              reviewUserName : '',
+              reviewVendorId : this.vendorId,
+              reviewCreatedTime : review.updated_at
+            };
+            this.reviewData.push(currReview);
+          }
+        }
+        this.calculateRating();
+      },
+      (err)=>{
+        //console.log(err.status);
+          if(err.status == 404)
+          {
+
+          }
+          else
+          {
+            this.toastr.error(handleError(err));
+          }
+      }
+    );
+  }
+
+  calculateRating()
+  {
+    let sumRating = 0;
+    this.reviewData.forEach((ele)=> {
+      sumRating += ele.reviewRating
+      if(ele.reviewRating >0 && ele.reviewRating <2)
+      {
+        this.ratingCnt[0].count += 1;
+      }
+      else if(ele.reviewRating >=2 && ele.reviewRating <3)
+      {
+        this.ratingCnt[1].count += 1;
+      }
+      else if(ele.reviewRating >=3 && ele.reviewRating <4)
+      {
+        this.ratingCnt[2].count += 1;
+      }
+      else if(ele.reviewRating >=4 && ele.reviewRating <5)
+      {
+        this.ratingCnt[3].count += 1;
+      }
+      else if(ele.reviewRating == 5)
+      {
+        this.ratingCnt[4].count += 1;
+      }
+    });
+    this.ratingCnt.forEach(ele=>{
+      ele.percent = (ele.count/this.reviewData.length) * 100
+    });
+    this.ratingAvg = sumRating / this.reviewData.length;
+    this.ratingAvg = Math.round(this.ratingAvg * 10) / 10
+    if(this.ratingAvg > 4) 
+    { 
+      this.ratingCmt = 'Superb';
+    }
+    else if(this.ratingAvg > 2) 
+    { 
+      this.ratingCmt = 'Good';
+    }
+    else
+    { 
+      this.ratingCmt = '';
+    }
+
   }
 
   loadVendorDetails()
@@ -93,7 +177,7 @@ export class ChefDetailComponent implements OnInit {
         this.chef.name = resp.firstname;
         this.chef.about = resp.user_desc;
         this.chef.rating = resp.rating == '' || resp.rating == undefined ? 0 : resp.rating;
-        this.chef.reviews = this.reviews.length;
+        this.chef.reviews = this.reviewData.length;
         this.chef.type =resp.signup_type;
 
       }

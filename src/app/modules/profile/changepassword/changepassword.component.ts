@@ -47,7 +47,7 @@ export class ChangepasswordComponent implements OnInit {
         this.confirmNewPassword?.setErrors({ incorrect: true });
       }
     } else {
-      console.log(this.passwordForm.value);
+      //console.log(this.passwordForm.value);
       this.authService
         .changePassword(this.currentPassword?.value, this.newPassword?.value)
         .subscribe(

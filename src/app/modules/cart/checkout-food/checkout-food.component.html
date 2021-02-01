@@ -84,23 +84,23 @@
                                         <ul>
                                             <li>
                                                 <input type="radio" id="time_1" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="08.00">
-                                                <label for="time_1">08.00<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="08:00">
+                                                <label for="time_1">08:00<em>-40%</em></label>
                                             </li>
                                             <li>
                                                 <input type="radio" id="time_2" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="08.30">
-                                                <label for="time_2">08.30<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="08:30">
+                                                <label for="time_2">08:30<em>-40%</em></label>
                                             </li>
                                             <li>
                                                 <input type="radio" id="time_3" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="09.00">
-                                                <label for="time_3">09.00<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="09:00">
+                                                <label for="time_3">09:00<em>-40%</em></label>
                                             </li>
                                             <li>
                                                 <input type="radio" id="time_4" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="09.30">
-                                                <label for="time_4">09.30<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="09:30">
+                                                <label for="time_4">09:30<em>-40%</em></label>
                                             </li>
                                         </ul>
                                     </div>
@@ -109,23 +109,23 @@
                                         <ul>
                                             <li>
                                                 <input type="radio" id="time_5" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="12.00">
-                                                <label for="time_5">12.00<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="12:00">
+                                                <label for="time_5">12:00<em>-40%</em></label>
                                             </li>
                                             <li>
                                                 <input type="radio" id="time_6" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="12.30">
-                                                <label for="time_6">12.30<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="12:30">
+                                                <label for="time_6">12:30<em>-40%</em></label>
                                             </li>
                                             <li>
                                                 <input type="radio" id="time_7" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="13.00">
-                                                <label for="time_7">13.00<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="13:00">
+                                                <label for="time_7">13:00<em>-40%</em></label>
                                             </li>
                                             <li>
                                                 <input type="radio" id="time_8" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="13.30">
-                                                <label for="time_8">13.30<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="13:30">
+                                                <label for="time_8">13:30<em>-40%</em></label>
                                             </li>
                                         </ul>
                                     </div>
@@ -135,23 +135,23 @@
                                         <ul>
                                             <li>
                                                 <input type="radio" id="time_9" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="20.00">
-                                                <label for="time_9">20.00<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="20:00">
+                                                <label for="time_9">20:00<em>-40%</em></label>
                                             </li>
                                             <li>
                                                 <input type="radio" id="time_10" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="20.30">
-                                                <label for="time_10">20.30<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="20:30">
+                                                <label for="time_10">20:30<em>-40%</em></label>
                                             </li>
                                             <li>
                                                 <input type="radio" id="time_11" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="21.00">
-                                                <label for="time_11">21.00<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="21:00">
+                                                <label for="time_11">21:00<em>-40%</em></label>
                                             </li>
                                             <li>
                                                 <input type="radio" id="time_12" name="deliveryTime"
-                                                    formControlName="deliveryTime" value="21.30">
-                                                <label for="time_12">21.30<em>-40%</em></label>
+                                                    formControlName="deliveryTime" value="21:30">
+                                                <label for="time_12">21:30<em>-40%</em></label>
                                             </li>
                                         </ul>
                                     </div>
@@ -247,9 +247,9 @@
                                             <input type="text" value="1" id="qty_{{i}}" [value]="prod.ItemQuantity"
                                                 class="qty2 form-control" name="quantity">
                                             <div class="inc button_inc"
-                                                (click)="incProdQuantity(prod.ItemCartId,prod.ItemQuantity)">+</div>
+                                                (click)="incProdQuantity(prod.ItemCartId,prod.ItemItemId,prod.ItemQuantity)">+</div>
                                             <div class="dec button_inc"
-                                                (click)="decProdQuantity(prod.ItemCartId,prod.ItemQuantity)">-</div>
+                                                (click)="decProdQuantity(prod.ItemCartId,prod.ItemItemId,prod.ItemQuantity)">-</div>
                                         </div>
                                     </td>
                                     <td>{{(prod.ItemQuantity * prod.ItemPrice) | currency:'INR'}}</td>
@@ -272,8 +272,7 @@
                     <ul class="clearfix">
                         <li>Subtotal<span>{{subTotal > 0 ? (subTotal | currency:'INR') : ''}}</span></li>
                         <!-- <li>Discount<span>{{discount > 0 ? (discount | percent) : ''}}</span></li> -->
-                        <li>Delivery/Shipping Charge<span>{{deliveryCost > 0 ? (deliveryCost | currency:'INR') :
-                                ''}}</span></li>
+                        <li>Delivery/Shipping Charge<span>{{deliveryCost > 0 ? (deliveryCost | currency:'INR') : ''}}</span></li>
                         <li class="total">Total<span>{{total > 0 ? (total | currency:'INR') : ''}}</span></li>
                     </ul>
                 </div>

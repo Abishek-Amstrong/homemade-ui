@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { VendorService } from '../../shared/services/vendor.service';
 import { FoodService } from '../../shared/services/food.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class LeaveReviewComponent implements OnInit {
               private router : Router,
               private activatedRoute: ActivatedRoute,
               private foodService : FoodService,
+              private vendorService : VendorService,
               private toastr: ToastrService) {
     this.reviewText = '';
     this.reviewTitle = '';
@@ -33,6 +35,7 @@ export class LeaveReviewComponent implements OnInit {
   ngOnInit(): void {
     this.itemId = this.activatedRoute.snapshot.paramMap.get("itemId") || '';
     this.vendorId = this.activatedRoute.snapshot.paramMap.get("vendorId") || '';
+    //console.log(this.itemId);
   }
 
   onSubmit()
@@ -48,10 +51,20 @@ export class LeaveReviewComponent implements OnInit {
       this.toastr.error('Please confirm your acknowledgement','Error!!');
       return false;
     }
-    this.foodService.submitItemReview(this.itemId,this.reviewText,this.reviewTitle,this.rating,this.vendorId).subscribe((resp : any) => {
-      //console.log(resp);
-      this.router.navigateByUrl('/foods/detail/' + this.itemId);
-    });
+    if(this.itemId == 'chef')
+    {
+      this.vendorService.submitChefReview(this.reviewText,this.reviewTitle,this.rating,this.vendorId).subscribe((resp : any) => {
+        //console.log(resp);
+        this.router.navigateByUrl('/foods/chef/' + this.vendorId);
+      });
+    }
+    else
+    {
+      this.foodService.submitItemReview(this.itemId,this.reviewText,this.reviewTitle,this.rating,this.vendorId).subscribe((resp : any) => {
+        //console.log(resp);
+        this.router.navigateByUrl('/foods/detail/' + this.itemId);
+      });
+    }
     return false;
   }
 }

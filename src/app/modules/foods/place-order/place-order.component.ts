@@ -57,7 +57,7 @@ export class PlaceOrderComponent implements OnInit {
 
   loadOrderForm(data: any) {
     this.cartService.getItemDetails(data.ItemItemId).subscribe((resp: any) => {
-      console.log(resp);
+      //console.log(resp);
 
       this.orderData.OrderItemId = resp.itemId;
       this.orderData.OrderItemName = resp.itemname;
@@ -81,6 +81,8 @@ export class PlaceOrderComponent implements OnInit {
       this.orderData.OrderSize = resp.size;
       this.orderData.OrderPrice = resp.price;
       this.orderData.OrderItemImgUrl = resp.imagePath;
+      this.orderData.OrderVendorId = resp.VendorVendorId;
+      this.loadOtherChefProducts(this.orderData.OrderVendorId);
       //console.log( this.orderData);
     });
   }

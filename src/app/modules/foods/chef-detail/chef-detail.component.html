@@ -4,8 +4,10 @@
             <div class="col-lg-8">
                 <div class="detail_page_head clearfix">
                     <div class="rating">
-                        <div class="score"><span>Superb<em>{{chef.reviews}} Reviews</em></span><strong
-                                class="rating">{{chef.rating}}</strong>
+                        <div class="score">
+                            <span>{{ratingCmt}}
+                            <em>{{reviewData.length}} Reviews</em></span><strong
+                                class="rating">{{ratingAvg}}</strong>
                         </div>
                     </div>
                     <div class="title">
@@ -111,18 +113,23 @@
                     <div class="col-md-3">
                         <div class="ratingAgg">
                             <div id="review_summary">
-                                <strong>5.0</strong>
+                                <strong>{{ratingAvg}}</strong>
                             </div>
                             <div class="starTotal">
                                 <div class="starRating">
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
-                                    <span>☆</span>
+                                    <span class="fill" 
+                                        [ngStyle]="{'color':ratingAvg >= 1 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill"
+                                        [ngStyle]="{'color':ratingAvg >= 2 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill"
+                                        [ngStyle]="{'color':ratingAvg >= 3 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill"
+                                        [ngStyle]="{'color':ratingAvg >= 4 ? '#242424' : '#f2f2f2'}"></span>
+                                    <span class="fill"
+                                        [ngStyle]="{'color':ratingAvg >= 5 ? '#242424' : '#f2f2f2'}"></span>
                                 </div>
                                 <div class="ratingsTotal">
-                                    26 ratings
+                                    {{reviewData.length}} ratings
                                 </div>
                             </div>
                         </div>
@@ -135,61 +142,73 @@
                                     <h6>5 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[4].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[4].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[4].count}}</h6>
                                 </div>
 
                                 <div class="d-flex reviewList">
                                     <h6>4 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[3].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[3].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[3].count}}</h6>
                                 </div>
 
                                 <div class="d-flex reviewList">
                                     <h6>3 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[2].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[2].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[2].count}}</h6>
                                 </div>
 
                                 <div class="d-flex reviewList">
                                     <h6>2 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[1].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[1].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[1].count}}</h6>
                                 </div>
 
                                 <div class="d-flex reviewList">
                                     <h6>1 stars</h6>
                                     <div class="col-xl-8 col-lg-9 col-9">
                                         <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 90%"
-                                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar" role="progressbar"
+                                                [style.width.%]="this.ratingCnt[0].percent"
+                                                attr.aria-valuenow="{{this.ratingCnt[0].percent}}" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
                                         </div>
                                     </div>
-                                    <h6>10</h6>
+                                    <h6>{{this.ratingCnt[0].count}}</h6>
                                 </div>
                             </div>
 
                             <div class="col-md-5">
                                 <div class="reviewBox">
-                                    <a href="leave-review.html" class="btn_1 outline type_2">Leave a Review</a>
+                                    <a href="javascript:void(0)" class="btn_1 outline type_2"
+                                        routerLink="/foods/leave-review/{{'chef'}}/{{vendorId}}">Leave
+                                        a Review</a>
                                 </div>
                                 <!-- /row -->
                             </div>
@@ -200,20 +219,20 @@
                 <!-- /row -->
 
                 <div id="reviews">
-                    <div class="review_card" *ngFor="let review of reviews">
+                    <div class="review_card" *ngFor="let review of reviewData">
                         <div class="row">
                             <div class="col-md-2 user_info">
-                                <figure><img [src]="review.avatar" alt=""></figure>
-                                <h5>{{review.name}}</h5>
+                                <figure><img [src]="review.reviewUserImage" alt=""></figure>
+                                <h5>{{review.reviewUserName}}</h5>
                             </div>
                             <div class="col-md-10 review_content">
                                 <div class="clearfix add_bottom_15">
-                                    <span class="rating">{{review.rating}}<small>/5</small> <strong>Rating
+                                    <span class="rating">{{review.reviewRating}}<small>/5 </small> <strong> Rating
                                             average</strong></span>
-                                    <em>Published {{review.time}} ago</em>
+                                    <em>Published {{review.reviewCreatedTime | date : 'medium'}}</em>
                                 </div>
-                                <h4>{{review.reviewTitle}}</h4>
-                                <p>{{review.description}}</p>
+                                <h4>{{review.rewviewTitle}}</h4>
+                                <p>{{review.reviewDesc}}</p>
                             </div>
                         </div>
                         <!-- /row -->

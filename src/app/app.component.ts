@@ -1,11 +1,13 @@
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 
 import { User } from './modules/shared/models/user';
 
 import { AuthService } from './modules/shared/services/auth.service';
 import { CartService } from './modules/shared/services/cart.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LocationComponent } from './modules/shared/modals/location/location.component';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +31,8 @@ export class AppComponent implements OnInit {
     private cartService: CartService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {
     this.isLoggedIn = false;
     this.isHideHeader = false;
@@ -95,8 +98,35 @@ export class AppComponent implements OnInit {
     })();
   }
 
-  setLocation(city: String) {
-    this.authService.userLocation = city;
-    return false;
+  setLocation() {
+    const addDialogRef = this.dialog.open(LocationComponent, {
+      width: this.getBrowserWidth(),
+      disableClose: true,
+      maxWidth: '90vw',
+    });
+    addDialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        let city = 'delhi';
+        this.authService.userLocation = city;
+      }
+    });
+  }
+
+  getBrowserWidth(): string {
+    const innerWidth = window.innerWidth > 0 ? window.innerWidth : screen.width;
+    if (innerWidth) {
+      if (innerWidth < 340) {
+        return Math.round((innerWidth * 95) / 100) + 'px';
+      } else if (innerWidth < 640) {
+        return Math.round((innerWidth * 95) / 100) + 'px';
+      } else if (innerWidth < 768) {
+        return Math.round((innerWidth * 80) / 100) + 'px';
+      } else if (innerWidth < 1024) {
+        return Math.round((innerWidth * 70) / 100) + 'px';
+      } else if (innerWidth >= 1024) {
+        return Math.round((innerWidth * 45) / 100) + 'px';
+      }
+    }
+    return '80%';
   }
 }

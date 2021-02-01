@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
 import { ValidatorService } from 'src/app/modules/shared/services/validator.service';
+import { AngularMaterialModule } from './modules/shared/angular-material.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,10 +19,11 @@ import { ValidatorService } from 'src/app/modules/shared/services/validator.serv
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    AngularMaterialModule,
     CarouselModule,
     CommonModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-bottom-right'
+      positionClass: 'toast-bottom-right',
     }), // ToastrModule added
   ],
   providers: [ValidatorService],

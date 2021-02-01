@@ -1077,3 +1077,10 @@ a.menu_item {
     color: #ffffff;
   }
 }
+
+.fill::after {
+  font-family: "ElegantIcons";
+  content: "";
+  font-size: 13px;
+  margin: 2px 3px 0 4px;
+}

@@ -31,6 +31,30 @@ export class VendorService {
       );
     }
 
+    getChefReviews(vendorId : string) : Observable<any>
+    {
+      return this.http.get(`${environment.apiUrl}/review/${vendorId}`);
+    }
+
+    submitChefReview(
+      review: String,
+      reviewTitle: String,
+      rating: number,
+      vendorId: String
+    ) {
+      const options = new HttpHeaders({ 'Content-Type': 'application/json' });
+      let userId = this.authService.getUserId();
+      //console.log( { userId, review, 'reviewtitle' : reviewTitle,'ratingscrore' : rating, vendorId });
+      return this.http
+        .post(
+          `${environment.apiUrl}/review`,
+          { userId, review, 'reviewtitle' : reviewTitle,'ratingscrore' : rating, vendorId },
+          { headers: options }
+        )
+        .pipe(catchError((err) => this.handleError(err)));
+    }
+  
+
     handleError(errorObj: HttpErrorResponse) : Observable<any> {
       //console.log(errorObj);
       let errorMsg : any;

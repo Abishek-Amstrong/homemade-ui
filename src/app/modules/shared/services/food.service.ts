@@ -71,8 +71,7 @@ export class FoodService {
 
   getItemReviews(itemId: String) {
     return this.http
-      .get(`${environment.apiUrl}/itemreview/${itemId}`)
-      .pipe(catchError((err) => this.handleError(err)));
+      .get(`${environment.apiUrl}/itemreview/${itemId}`);
   }
 
   getSimilarProducts(vendorId: String) {
@@ -93,7 +92,7 @@ export class FoodService {
     return this.http
       .post(
         `${environment.apiUrl}/itemreview`,
-        { itemId, userId, review, reviewTitle, rating, vendorId },
+        { itemId, userId, review, 'reviewtitle' : reviewTitle,'ratingscrore' : rating, vendorId },
         { headers: options }
       )
       .pipe(catchError((err) => this.handleError(err)));

@@ -7,6 +7,7 @@ import { FoodService } from '../../shared/services/food.service';
 import { VendorService } from '../../shared/services/vendor.service';
 import {ActivatedRoute, Params} from '@angular/router';
 import { PlaceOrderComponent } from '../place-order/place-order.component';
+import { handleError } from '../../shared/helpers/error-handler';
 
 export interface Item{
   ItemImageUrl : string,
@@ -106,7 +107,7 @@ export class FoodDetailComponent implements OnInit {
   {
     this.cartService.getItemDetails(this.itemId).subscribe(
       (resp:any) =>{
-        console.log(resp);
+        //console.log(resp);
         this.foodDetailData.ItemItemId = resp.itemId;
         this.foodDetailData.ItemVendorId = resp.VendorVendorId;
         this.foodDetailData.ItemDesc = resp.desc;
@@ -168,9 +169,9 @@ export class FoodDetailComponent implements OnInit {
           {
             let currReview : Review = {
               reviewId : review.notesId,
-              reviewRating : (review.rating == undefined || review.rating == '' ) ? 0 : Number(review.rating),
+              reviewRating : (review.ratingscrore == undefined || review.ratingscrore == '' ) ? 0 : Number(review.ratingscrore),
               reviewDesc : review.review,
-              rewviewTitle : review.reviewTitle,
+              rewviewTitle : review.reviewtitle,
               reviewUserImage : '',
               reviewUserName : '',
               reviewItemId : this.itemId,
@@ -182,7 +183,15 @@ export class FoodDetailComponent implements OnInit {
         this.calculateRating();
       },
       (err)=>{
-          
+        //console.log(err.status);
+          if(err.status == 404)
+          {
+
+          }
+          else
+          {
+            this.toastr.error(handleError(err));
+          }
       }
     );
   }
@@ -217,6 +226,7 @@ export class FoodDetailComponent implements OnInit {
       ele.percent = (ele.count/this.reviewData.length) * 100
     });
     this.ratingAvg = sumRating / this.reviewData.length;
+    this.ratingAvg = Math.round(this.ratingAvg * 10) / 10
   }
 
   loadOtherChefProducts(vendorId : String)

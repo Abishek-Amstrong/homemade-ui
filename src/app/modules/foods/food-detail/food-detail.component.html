@@ -217,7 +217,7 @@
                                 <div class="clearfix add_bottom_15">
                                     <span class="rating">{{review.reviewRating}}<small>/5 </small> <strong> Rating
                                             average</strong></span>
-                                    <em>Published {{review.reviewCreatedTime}}</em>
+                                    <em>Published {{review.reviewCreatedTime | date : 'medium'}}</em>
                                 </div>
                                 <h4>{{review.rewviewTitle}}</h4>
                                 <p>{{review.reviewDesc}}</p>

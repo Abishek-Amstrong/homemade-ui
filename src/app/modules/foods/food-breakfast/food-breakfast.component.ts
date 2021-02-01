@@ -154,7 +154,7 @@ export class FoodBreakfastComponent implements OnInit {
     this.foodService
       .getItemSubCategoryDetails('food', this.category)
       .subscribe((resp: any) => {
-        console.log(resp);
+        //console.log(resp);
         //  this.foodService.getItemDetailsInBulk(resp).subscribe(
         //    (val : any) => {
         for (let item of resp) {

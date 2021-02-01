@@ -101,7 +101,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     mapAutoComplete.setFields(['address_component']);
     mapAutoComplete.addListener('place_changed', () => {
       const place = mapAutoComplete?.getPlace();
-      console.log(place);
+      //console.log(place);
 
       // Get each component of the address from the place details,
       // and then fill-in the corresponding field on the form.
@@ -363,25 +363,27 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
   loadUserCart() {
     this.cartService.getProductsInUserCart().subscribe((response: any) => {
-      //console.log(response);
+      //console.log(JSON.stringify(response));
       if (response == null || response == undefined || response.length == 0) {
         this.userCart = [];
-        this.toastr.success('Cart is Empty', 'Success!!');
+        //this.toastr.success('Cart is Empty',"Success!!");
       } else {
         for (let item of response) {
           item.details = JSON.parse(item.details);
-          if (item.details[0].itemId != null && item.details[0].itemId != '') {
-            let currItem: Item = {
-              ItemImageUrl: item.details[0].imgUrl,
-              ItemName: item.details[0].Name,
-              ItemQuantity: Number(item.details[0].quantity),
-              ItemPrice: Number(item.details[0].Price),
-              ItemUpdated: false,
-              ItemCartId: item.cartId,
-              ItemItemId: item.details[0].itemId,
-              ItemUserId: item.userUserId,
-            };
-            this.userCart.push(currItem);
+          if (item.details && item.details.length > 0) {
+            for (let product of item.details) {
+              let currItem: Item = {
+                ItemImageUrl: product.imgUrl,
+                ItemName: product.Name,
+                ItemQuantity: Number(product.quantity),
+                ItemPrice: Number(product.Price),
+                ItemUpdated: false,
+                ItemCartId: item.cartId,
+                ItemItemId: product.itemId,
+                ItemUserId: item.userUserId,
+              };
+              this.userCart.push(currItem);
+            }
           }
         }
         this.calculateTotal();
@@ -404,6 +406,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
 
   loadAddressDetails() {
     this.profileService.getAddressDetails().subscribe(

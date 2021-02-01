@@ -8,9 +8,10 @@
   padding: 30px;
   padding-top: 0;
   text-align: left;
-  max-width: 550px;
   min-height: 200px;
-  margin: 40px auto;
+  max-width: 100%;
+  overflow: hidden;
+  margin: 0;
   position: relative;
   box-sizing: border-box;
   @include border-radius(4px);
@@ -80,5 +81,41 @@
 
   &.icon_lock_alt {
     top: 35px;
+  }
+}
+
+.modal__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  color: #666;
+  background-color: #e4e4e4;
+  cursor: pointer;
+  text-decoration: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .material-icons {
+    color: #666;
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background-color: #66676b;
+    color: #fff;
+
+    .material-icons {
+      color: #fff;
+    }
+  }
+}
+
+.changeLocation {
+  span {
+    bottom: -70% !important;
   }
 }

@@ -6,7 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { throwError, Observable, forkJoin } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
@@ -25,8 +25,9 @@ export class FoodService {
     subCategory: string
   ): Observable<any> {
     return this.http
-      .get(`${environment.apiUrl}/itembysubcategoryName/${subCategory}`)
-      .pipe(catchError((err) => this.handleError(err)));
+      .get(`${environment.apiUrl}/itembysubcategoryName/${subCategory}/1`)
+      .pipe( map((resp : any)=>resp.rows),
+            catchError((err) => this.handleError(err)));
   }
 
   getItemDetailsInBulk(items: any): Observable<any[]> {
@@ -40,7 +41,7 @@ export class FoodService {
 
   getBreakfastDetails(): Observable<any> {
     return this.http
-      .get(`${environment.apiUrl}/itembysubcategoryName/Breakfast`)
+      .get(`${environment.apiUrl}/itembysubcategoryName/Breakfast/1`)
       .pipe(catchError((err) => this.handleError(err)));
   }
 
@@ -59,7 +60,7 @@ export class FoodService {
 
   getCuisineNearUserLocation(): Observable<any> {
     return this.http
-      .get(`${environment.apiUrl}/itembysubcategoryName/Desserts`)
+      .get(`${environment.apiUrl}/itembysubcategoryName/Desserts/1`)
       .pipe(catchError((err) => this.handleError(err)));
   }
 

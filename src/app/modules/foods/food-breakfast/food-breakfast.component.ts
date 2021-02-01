@@ -151,31 +151,24 @@ export class FoodBreakfastComponent implements OnInit {
   }
 
   loadfoodDetails() {
+    //console.log(this.category);
     this.foodService
       .getItemSubCategoryDetails('food', this.category)
       .subscribe((resp: any) => {
         //console.log(resp);
-        //  this.foodService.getItemDetailsInBulk(resp).subscribe(
-        //    (val : any) => {
-        for (let item of resp) {
-          if (item != null && item != undefined) {
-            let currItem = {
-              ItemImageUrl: item.imagePath,
-              ItemName: item.itemname,
-              // ItemUnit : item.unit,
-              // ItemQuantity : 1,
-              // ItemIsVeg : item.isVeg,
-              // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
-              // ItemDesc : item.desc,
-              ItemPrice: item.price,
-              ItemItemId: item.itemId,
-              ItemVendorId: item.VendorVendorId,
-            };
-            this.foodData.push(currItem);
+          if(resp!= null && resp!=undefined && resp.length>0)
+          {
+            for (let item of resp) {
+              let currItem = {
+                ItemImageUrl: item.imagePath,
+                ItemName: item.itemname,
+                ItemPrice: item.price,
+                ItemItemId: item.itemId,
+                ItemVendorId: item.VendorVendorId,
+              };
+              this.foodData.push(currItem);
+            }
           }
-        }
-        //    }
-        //  );
       });
   }
 

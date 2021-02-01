@@ -25,7 +25,7 @@ export interface Item {
   ItemPrice: number;
   ItemUpdated: boolean;
   ItemCartId: string;
-  ItemItemId: String;
+  ItemItemId: string;
   ItemUserId: string;
 }
 
@@ -269,7 +269,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
   isTimeValid(): ValidatorFn {
     return (control: AbstractControl): { [Key: string]: string } | null => {
-      let selectedTime = control.value.split('.');
+      let selectedTime = control.value.split(':');
       let hr = Number(selectedTime[0]);
       let min = Number(selectedTime[1]);
       let currHr = new Date().getHours();
@@ -460,9 +460,9 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     }
   }
 
-  incProdQuantity(cartId: string, quantity: number) {
+  incProdQuantity(cartId: string,itemId : string, quantity: number) {
     for (let item of this.userCart) {
-      if (item.ItemCartId == cartId) {
+      if (item.ItemCartId == cartId  && item.ItemItemId == itemId) {
         item.ItemQuantity += 1;
         item.ItemUpdated = true;
         this.calculateTotal();
@@ -470,9 +470,9 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     }
   }
 
-  decProdQuantity(cartId: string, quantity: number) {
+  decProdQuantity(cartId: string, itemId : string, quantity: number) {
     for (let item of this.userCart) {
-      if (item.ItemCartId == cartId && item.ItemQuantity > 1) {
+      if (item.ItemCartId == cartId && item.ItemItemId == itemId && item.ItemQuantity > 1) {
         item.ItemQuantity -= 1;
         item.ItemUpdated = true;
         this.calculateTotal();

@@ -33,7 +33,7 @@
         <h5  *ngIf="orderData.OrderSimilarProducts != null &&  orderData.OrderSimilarProducts.length > 0">Similar Vendor Products</h5>
         <ul class="clearfix"  *ngIf="orderData.OrderSimilarProducts != null &&  orderData.OrderSimilarProducts.length > 0">
             <li class ="simProducts" *ngFor="let product of orderData.OrderSimilarProducts;let i = index">
-                <label class="container_check">{{product.ItemName}}
+                <label class="container_check"><p class="prodName">{{product.ItemName}}</p>
                     <span>+ {{product.ItemPrice | currency:'INR'}}</span>
                     <input type="checkbox" name="ingredients" [value]="product.ItemItemId" [(ngModel)]="product.ItemChecked">
                     <span class="checkmark"></span>

@@ -9,6 +9,7 @@ import { AddressbookComponent } from './addressbook/addressbook.component';
 import { MyordersComponent } from './myorders/myorders.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { SignoutComponent } from './signout/signout.component';
+import { AngularMaterialModule } from '../shared/angular-material.module';
 
 import { ProfileService } from '../shared/services/profile.service'
 import { AuthService } from '../shared/services/auth.service'
@@ -19,7 +20,8 @@ import { AuthService } from '../shared/services/auth.service'
   imports: [
     CommonModule,
     ProfileRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularMaterialModule
   ],
   providers : [
     ProfileService,

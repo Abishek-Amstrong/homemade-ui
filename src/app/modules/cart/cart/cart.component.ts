@@ -49,7 +49,7 @@ export class CartComponent implements OnInit {
 
   loadUserCart() {
     this.cartService.getProductsInUserCart().subscribe((response: any) => {
-      //console.log(JSON.stringify(response));
+      console.log(JSON.stringify(response));
       if (response == null || response == undefined || response.length == 0) {
         this.userCart = [];
         //this.toastr.success('Cart is Empty',"Success!!");

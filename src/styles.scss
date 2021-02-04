@@ -3710,6 +3710,9 @@ $arrow_color: $gray_light !default;
       margin: 10px 0 0;
       padding: 0;
       line-height: 1;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
 
@@ -3718,16 +3721,20 @@ $arrow_color: $gray_light !default;
     overflow: hidden;
     position: relative;
     height: 190px;
+    width: 100%;
     @include border-radius(5px);
     background-color: #ededed;
 
     img {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      @include transform(translate(-50%, -50%) scale(1));
-      @include backface-visibility(hidden);
+      // position: absolute;
+      // left: 50%;
+      // top: 50%;
+      // @include transform(translate(-50%, -50%) scale(1));
+      // @include backface-visibility(hidden);
+      // width: 100%;
+      height: 100%;
       width: 100%;
+      object-fit: cover;
       z-index: 1;
       @include transition-default;
     }

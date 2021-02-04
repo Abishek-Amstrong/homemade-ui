@@ -80,6 +80,13 @@ const routes: Routes = [
         (m) => m.LeaveReviewModule
       ),
   },
+  {
+    path: 'category-detail/:id',
+    loadChildren: () =>
+      import('./category-detail/category-detail.module').then(
+        (m) => m.CategoryDetailModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -35,12 +35,13 @@ export class ProfileService {
   }
 
   getPersonalDetails(id: any) {
-    return this.http.get(`${environment.apiUrl}/userdeatils/${id}`);
+    return this.http.get(`${environment.apiUrl}/userdetails/${id}`);
   }
 
   updatePersonalDetails(persData: any) {
     persData['userId'] = localStorage.getItem('userId');
-    return this.http.put(`${environment.apiUrl}/updateuserdetails`, persData);
+    console.log(persData);
+    return this.http.put(`${environment.apiUrl}/updateuserdetails`, persData,{ responseType : 'text' });
   }
 
   getAddressDetails() {
@@ -62,11 +63,11 @@ export class ProfileService {
     return this.http.delete(`${environment.apiUrl}/deleteaddress/${addressId}`);
   }
 
-  getOrderDetails(): Observable<any> {
+  getOrderDetails(pageno : number): Observable<any> {
     let userId = this.authService.getUserId();
     return this.http
-      .get(`${environment.apiUrl}/userorder/${userId}`)
-      .pipe(catchError((err) => this.handleError(err)));
+      .get(`${environment.apiUrl}/userOrderList/${userId}/${pageno}/2`)
+      .pipe( catchError((err) => this.handleError(err)));
   }
 
   handleError(errorObj: HttpErrorResponse): Observable<any> {

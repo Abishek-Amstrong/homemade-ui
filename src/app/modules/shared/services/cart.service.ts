@@ -266,7 +266,7 @@ export class CartService {
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
     let userId = this.authService.getUserId();
     let bodyJson = { details: cartItems, userId: userId };
-    //console.log(JSON.stringify(bodyJson));
+    console.log(JSON.stringify(bodyJson));
     return this.http
       .post(`${environment.apiUrl}/addtocart`, bodyJson, { headers: options })
       .pipe(

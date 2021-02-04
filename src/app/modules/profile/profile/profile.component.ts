@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { handleError } from '../../shared/helpers/error-handler';
 import { AuthService } from '../../shared/services/auth.service';
 
 import { ProfileService } from '../../shared/services/profile.service';
@@ -39,6 +40,7 @@ export class ProfileComponent implements OnInit {
       },
       (err) => {
         //console.log(err);
+        handleError(err);
       }
     );
   }

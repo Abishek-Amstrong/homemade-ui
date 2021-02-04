@@ -172,8 +172,8 @@ export class FoodDetailComponent implements OnInit {
               reviewRating : (review.ratingscrore == undefined || review.ratingscrore == '' ) ? 0 : Number(review.ratingscrore),
               reviewDesc : review.review,
               rewviewTitle : review.reviewtitle,
-              reviewUserImage : '',
-              reviewUserName : '',
+              reviewUserImage : review.user.imagePath,
+              reviewUserName : review.user.firstname,
               reviewItemId : this.itemId,
               reviewCreatedTime : review.updated_at
             };

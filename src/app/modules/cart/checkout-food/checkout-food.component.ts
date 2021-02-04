@@ -13,7 +13,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-
+import { AuthService } from '../../shared/services/auth.service';
 import { CartService } from '../../shared/services/cart.service';
 import { ProfileService } from '../../shared/services/profile.service';
 import {} from 'googlemaps';
@@ -56,7 +56,8 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private profileService: ProfileService,
-    private cartService: CartService
+    private cartService: CartService,
+    private authService : AuthService
   ) {
     this.deliveryForm = new FormGroup({});
     this.selectedDay = '';
@@ -228,6 +229,18 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
   get today() {
     let date: Date = new Date();
+    if(this.selectedDay == 'Tomorrow')
+    {
+      date.setDate(date.getDate() + 1);
+    }
+    else if(this.selectedDay  == 'AfterTomorrow')
+    {
+      date.setDate(date.getDate() + 2);
+    }
+    else if(this.selectedDay == 'Overmorrow')
+    {
+      date.setDate(date.getDate() + 3);
+    }
     return (
       date.getDate() +
       '/' +
@@ -237,15 +250,39 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     );
   }
   get time() {
-    let date: Date = new Date();
-    let hours: number = date.getHours();
-    let minutes: number = date.getMinutes();
-    let ampm: string = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    let strTime: string =
-      hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
+    let strTime: string = '' ,ampm: string = '';
+    let hours: number = 0, minutes: number = 0;
+    if(this.selectedTime == '')
+    {
+      let date: Date = new Date();
+      hours = date.getHours();
+      minutes = date.getMinutes();
+      ampm  = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      strTime = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
+    }
+    else
+    {
+      let arr = this.selectedTime.split(':');
+      ampm = Number(arr[0]) >= 12 ? 'pm' : 'am';
+      minutes = Number(arr[1]);
+      hours = Number(arr[0]) % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      strTime = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
+
+    }
     return strTime;
+  }
+
+  get userName()
+  {
+    if(this.authService.userValue)
+    {
+      let tokenDet : any =  this.authService.userValue;
+      return tokenDet.user.firstname;
+    }
+    return '';
   }
 
   onDeliveryFormValueChanges() {
@@ -415,6 +452,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         if (resp.length) {
           this.deliveryForm.patchValue({
             deliveryType: 'now',
+            fullName : this.userName,
             address: resp[0].address,
             city: resp[0].city,
             state: resp[0].state,

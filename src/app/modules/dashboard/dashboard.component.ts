@@ -16,7 +16,7 @@ import { PlaceOrderComponent } from '../foods/place-order/place-order.component'
 import { AuthService } from '../shared/services/auth.service';
 import { CartService } from '../shared/services/cart.service';
 import { FoodService } from '../shared/services/food.service';
-import { OfferService } from '../shared/services/offer.service'
+import { OfferService } from '../shared/services/offer.service';
 import { handleError } from '../shared/helpers/error-handler';
 
 export interface Menu {
@@ -25,28 +25,28 @@ export interface Menu {
   path: string;
 }
 
-export interface Item{
-  ItemImageUrl : string,
-  ItemName : string,
+export interface Item {
+  ItemImageUrl: string;
+  ItemName: string;
   // ItemUnit : String,
   // ItemQuantity : number,
   // ItemIsVeg : boolean,
   // ItemIngrediants : String[],
   // ItemDesc : String,
-  ItemPrice : number,
-  ItemItemId : String,
-  ItemVendorId : string
+  ItemPrice: number;
+  ItemItemId: String;
+  ItemVendorId: string;
 }
 
-export interface Banner{
-  bannerId : string,
-  bannerImage : string,
-  bannerTitle : string,
-  bannerSubText : string,
-  bannerDetPageUrl : string,
-  bannerType : string,
-  bannerTypeName : string,
-  bannerTypeId : string
+export interface Banner {
+  bannerId: string;
+  bannerImage: string;
+  bannerTitle: string;
+  bannerSubText: string;
+  bannerDetPageUrl: string;
+  bannerType: string;
+  bannerTypeName: string;
+  bannerTypeId: string;
 }
 
 @Component({
@@ -63,8 +63,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   menus: Menu[];
   recentOrderedData: Item[];
   foodData: Item[];
-  topBanner : Banner[];
-  bottomBanner : Banner[];
+  topBanner: Banner[];
+  bottomBanner: Banner[];
 
   customOptions: OwlOptions = {
     items: 1,
@@ -138,11 +138,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     private router: Router,
     private dialog: MatDialog,
-    private toastrService : ToastrService,
-    private authService : AuthService,
-    private cartService : CartService,
-    private foodService : FoodService,
-    private offerService : OfferService
+    private toastrService: ToastrService,
+    private authService: AuthService,
+    private cartService: CartService,
+    private foodService: FoodService,
+    private offerService: OfferService
   ) {
     this.authService.setHeaderDisplayStatus(false);
     this.menus = [
@@ -189,27 +189,28 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.loadBottomBannerData();
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   onSlideTransition(data: SlidesOutputData) {
     const currentIndex = data.startPosition;
-    this.owlElements.forEach((element :any) => {
+    this.owlElements.forEach((element: any) => {
       this.renderer.removeClass(element.nativeElement, 'is-transitioned');
-      if(currentIndex === 0 && element.nativeElement.id == "owlAnimated1")
-      { 
+      if (currentIndex === 0 && element.nativeElement.id == 'owlAnimated1') {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
-      }
-      else if(currentIndex === 1 && element.nativeElement.id == "owlAnimated2")
-      {
+      } else if (
+        currentIndex === 1 &&
+        element.nativeElement.id == 'owlAnimated2'
+      ) {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
-      }
-      else if(currentIndex === 2 && element.nativeElement.id == "owlAnimated3")
-      {
+      } else if (
+        currentIndex === 2 &&
+        element.nativeElement.id == 'owlAnimated3'
+      ) {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
-      }
-      else if(currentIndex === 3 && element.nativeElement.id == "owlAnimated4")
-      {
+      } else if (
+        currentIndex === 3 &&
+        element.nativeElement.id == 'owlAnimated4'
+      ) {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
       }
     });
@@ -217,9 +218,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   onCarouselInitialized(data: SlidesOutputData) {
     setTimeout(() => {
-      this.owlElements.forEach((element :any) => {
-        if(element.nativeElement.id == "owlAnimated1")
-        {
+      this.owlElements.forEach((element: any) => {
+        if (element.nativeElement.id == 'owlAnimated1') {
           this.renderer.addClass(element.nativeElement, 'is-transitioned');
           // console.log(element);
         }
@@ -227,160 +227,164 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }, 200);
   }
 
-  
-  onSlideTransitionInBottom(data: SlidesOutputData)
-  {
+  onSlideTransitionInBottom(data: SlidesOutputData) {
     const currentIndex = data.startPosition;
-    this.owlElementsBottom.forEach((element :any) => {
+    this.owlElementsBottom.forEach((element: any) => {
       this.renderer.removeClass(element.nativeElement, 'is-transitioned');
-      if(currentIndex === 0 && element.nativeElement.id == "owlAnimated1")
-      { 
+      if (currentIndex === 0 && element.nativeElement.id == 'owlAnimated1') {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
-      }
-      else if(currentIndex === 1 && element.nativeElement.id == "owlAnimated2")
-      {
+      } else if (
+        currentIndex === 1 &&
+        element.nativeElement.id == 'owlAnimated2'
+      ) {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
       }
     });
   }
 
-  onCarouselInitializedInBottom(data: SlidesOutputData)
-  {
+  onCarouselInitializedInBottom(data: SlidesOutputData) {
     setTimeout(() => {
-      this.owlElementsBottom.forEach((element :any) => {
-        if(element.nativeElement.id == "owlAnimated1")
-        {
+      this.owlElementsBottom.forEach((element: any) => {
+        if (element.nativeElement.id == 'owlAnimated1') {
           this.renderer.addClass(element.nativeElement, 'is-transitioned');
           // console.log(element);
         }
       });
     }, 200);
   }
-
-
 
   navigateToComponent(path: string) {
     this.router.navigate(['/', 'foods']);
   }
 
-  loadRecentOrderedItems()
-  {
-    this.cartService.getRecentOrderedItems().subscribe(
-      (resp:any)=>{
-        //console.log(resp);
-        for(let item of resp)
-        {
-          if(item != null && item != undefined)
-          {
-            let currItem = {
-              ItemImageUrl : item.imagePath,
-              ItemName : item.itemname,
-              ItemPrice : item.price,
-              ItemItemId : item.itemId,
-              ItemVendorId : item.VendorVendorId
-            };
-            this.recentOrderedData.push(currItem);
-          }
+  loadRecentOrderedItems() {
+    this.cartService.getRecentOrderedItems().subscribe((resp: any) => {
+      //console.log(resp);
+      for (let item of resp) {
+        if (item != null && item != undefined) {
+          let currItem = {
+            ItemImageUrl: item.imagePath,
+            ItemName: item.itemname,
+            ItemPrice: item.price,
+            ItemItemId: item.itemId,
+            ItemVendorId: item.VendorVendorId,
+          };
+          this.recentOrderedData.push(currItem);
         }
+      }
+    });
+  }
+
+  loadFoodDetails() {
+    this.foodService.getFoodItemsForHomePage().subscribe((resp: any) => {
+      //console.log('food : ' + JSON.stringify(resp));
+      for (let item of resp) {
+        if (item != null && item != undefined) {
+          let currItem = {
+            ItemImageUrl: item.imagePath,
+            ItemName: item.itemname,
+            ItemPrice: item.price,
+            ItemItemId: item.itemId,
+            ItemVendorId: item.VendorVendorId,
+          };
+          this.foodData.push(currItem);
+        }
+      }
+    });
+  }
+
+  loadTopBannerData() {
+    this.offerService.getTopBannerDetails().subscribe(
+      (resp: any) => {
+        // console.log(resp);
+        if (resp && resp.length) {
+          resp.forEach((element: any) => {
+            let bannerItem = {
+              bannerId: '',
+              bannerImage: element.bannerurl,
+              bannerTitle: element.bannerTitle,
+              bannerSubText: element.bannerDesc,
+              bannerDetPageUrl: '',
+              bannerType: element.bannerCategory,
+              bannerTypeName: element.bannerDetCategoryname,
+              bannerTypeId: element.bannerDetCategoryId,
+            };
+            if (bannerItem.bannerType == 'cuisine' && bannerItem.bannerTypeId) {
+              bannerItem.bannerDetPageUrl = bannerItem.bannerTypeId;
+            } else if (
+              bannerItem.bannerType == 'subcategory' &&
+              bannerItem.bannerTypeName
+            ) {
+              bannerItem.bannerDetPageUrl = bannerItem.bannerTypeName;
+            }
+            this.topBanner.push(bannerItem);
+          });
+          // console.log( this.topBanner);
+        }
+      },
+      (error: any) => {
+        this.toastrService.error(handleError(error));
       }
     );
   }
 
-  loadFoodDetails()
-  {
-    this.foodService.getFoodItemsForHomePage().subscribe(
-      (resp:any)=>{
-        //console.log('food : ' + JSON.stringify(resp));
-             for(let item of resp)
-             {
-               if(item != null && item !=undefined)
-               {
-                let currItem = {
-                  ItemImageUrl : item.imagePath,
-                  ItemName : item.itemname,
-                  ItemPrice : item.price,
-                  ItemItemId : item.itemId,
-                  ItemVendorId : item.VendorVendorId
-                };
-                this.foodData.push(currItem);
-               }
-             }          
-      });
-  }
-
-  loadTopBannerData()
-  {
-    this.offerService.getTopBannerDetails().subscribe((resp:any)=>{
-      // console.log(resp);
-      if(resp && resp.length)
-      {
-        resp.forEach((element : any) => {
-          let bannerItem = {
-            bannerId : '',
-            bannerImage : element.bannerurl,
-            bannerTitle : element.bannerTitle,
-            bannerSubText : element.bannerDesc,
-            bannerDetPageUrl : '',
-            bannerType : element.bannerCategory,
-            bannerTypeName : element.bannerDetCategoryname,
-            bannerTypeId : element.bannerDetCategoryId
-          };
-          if(bannerItem.bannerType == 'cuisine' && bannerItem.bannerTypeId)
-          {
-            bannerItem.bannerDetPageUrl = '/cuisine/detail/' + bannerItem.bannerTypeId;
-          }
-          else if(bannerItem.bannerType == 'subcategory' && bannerItem.bannerTypeName)
-          {
-            bannerItem.bannerDetPageUrl = '/foods/' + bannerItem.bannerTypeName;
-          }
-          this.topBanner.push(bannerItem);
-        });
-        // console.log( this.topBanner);
+  loadBottomBannerData() {
+    this.offerService.getBottomBannerDetails().subscribe(
+      (resp: any) => {
+        // console.log(resp);
+        if (resp && resp.length) {
+          resp.forEach((element: any) => {
+            let bannerItem = {
+              bannerId: '',
+              bannerImage: element.bannerurl,
+              bannerTitle: element.bannerTitle,
+              bannerSubText: element.bannerDesc,
+              bannerDetPageUrl: '',
+              bannerType: element.bannerCategory,
+              bannerTypeName: element.bannerDetCategoryname,
+              bannerTypeId: element.bannerDetCategoryId,
+            };
+            if (bannerItem.bannerType == 'cuisine' && bannerItem.bannerTypeId) {
+              bannerItem.bannerDetPageUrl =
+                'foods/category-detail/' + bannerItem.bannerTypeId;
+            } else if (
+              bannerItem.bannerType == 'subcategory' &&
+              bannerItem.bannerTypeName
+            ) {
+              bannerItem.bannerDetPageUrl =
+                'foods/category' + bannerItem.bannerTypeName;
+            }
+            this.bottomBanner.push(bannerItem);
+          });
+          // console.log( this.topBanner);
+        }
+      },
+      (error: any) => {
+        this.toastrService.error(handleError(error));
       }
-    },(error:any)=>{
-      this.toastrService.error(handleError(error));
-    });
-  }
-
-  loadBottomBannerData()
-  {
-    this.offerService.getBottomBannerDetails().subscribe((resp:any)=>{
-      // console.log(resp);
-      if(resp && resp.length)
-      {
-        resp.forEach((element : any) => {
-          let bannerItem = {
-            bannerId : '',
-            bannerImage : element.bannerurl,
-            bannerTitle : element.bannerTitle,
-            bannerSubText : element.bannerDesc,
-            bannerDetPageUrl : '',
-            bannerType : element.bannerCategory,
-            bannerTypeName : element.bannerDetCategoryname,
-            bannerTypeId : element.bannerDetCategoryId
-          };
-          if(bannerItem.bannerType == 'cuisine' && bannerItem.bannerTypeId)
-          {
-            bannerItem.bannerDetPageUrl = '/cuisine/detail/' + bannerItem.bannerTypeId;
-          }
-          else if(bannerItem.bannerType == 'subcategory' && bannerItem.bannerTypeName)
-          {
-            bannerItem.bannerDetPageUrl = '/foods/' + bannerItem.bannerTypeName;
-          }
-          this.bottomBanner.push(bannerItem);
-        });
-        // console.log( this.topBanner);
-      }
-    },(error:any)=>{
-      this.toastrService.error(handleError(error));
-    });
+    );
   }
 
   orderNow(event: any, food: any) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
-      data : { component : 'dashboard-component',data : food}
+      data: { component: 'dashboard-component', data: food },
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  navigateToCategory(category: string, type: string) {
+    console.log(category);
+    if (type === 'subcategory') {
+      this.router
+        .navigateByUrl('/', { skipLocationChange: true })
+        .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+    } else if (type === 'cuisine') {
+      this.router
+        .navigateByUrl('/', { skipLocationChange: true })
+        .then(() =>
+          this.router.navigate(['/', 'foods', 'category-detail', category])
+        );
+    }
   }
 }

@@ -52,23 +52,39 @@
         <li class="submenu">
           <a routerLink="/foods" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Food</a>
           <ul [ngClass]="{show_normal : is_show_normal}">
-            <li><a href="javascript:void(0)" (click)="navigateToCategory('Breakfast')" class="show-submenu">Beakfast</a>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Breakfast')"
+                class="show-submenu">Breakfast</a>
             </li>
+
             <li><a href="javascript:void(0)" (click)="navigateToCategory('North Indian')" class="show-submenu">North
                 Indian</a></li>
+
             <li><a href="javascript:void(0)" (click)="navigateToCategory('South Indian')" class="show-submenu">South
                 Indian</a></li>
+
             <li><a href="javascript:void(0)" (click)="navigateToCategory('Continental')"
                 class="show-submenu">Continental</a></li>
+
             <li><a href="javascript:void(0)" (click)="navigateToCategory('Oriental')" class="show-submenu">Oriental</a>
             </li>
-            <li><a href="javascript:void(0)" (click)="navigateToCategory('Beverages')"
-                class="show-submenu">Beverages</a></li>
-            <li><a href="javascript:void(0)" (click)="navigateToCategory('Deserts')" class="show-submenu">Desserts</a>
+
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Regional')" class="show-submenu">Regional</a>
             </li>
-            <li><a href="javascript:void(0)" (click)="navigateToCategory('Meal')" class="show-submenu">Meal</a></li>
+
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Snacks')" class="show-submenu">Snacks</a>
+            </li>
+
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Healthy')" class="show-submenu">Healthy</a>
+            </li>
+
             <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')" class="show-submenu">Platter</a>
             </li>
+
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Deserts')" class="show-submenu">Desserts</a>
+            </li>
+
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Beverages')"
+                class="show-submenu">Beverages</a></li>
           </ul>
         </li>
         <!--./-->

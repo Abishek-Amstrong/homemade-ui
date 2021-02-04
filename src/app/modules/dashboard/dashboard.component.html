@@ -2,7 +2,8 @@
     <div id="carousel-home">
         <owl-carousel-o [options]="customOptions" (translated)="onSlideTransition($event)"
             (initialized)="onCarouselInitialized($event)">
-            <ng-template carouselSlide class="slide" id = "{{ 'img' + (i+1)}}" *ngFor="let bannerItem of topBanner;let i = index">
+            <ng-template carouselSlide class="slide" id="{{ 'img' + (i+1)}}"
+                *ngFor="let bannerItem of topBanner;let i = index">
                 <div class="owl-slide cover" [ngStyle]="{ 'background-image': 'url(' + bannerItem.bannerImage + ')'}">
                     <!-- /Would probably better not use LazyLoad fo the first item -->
                     <div class="opacity-mask d-flex align-items-center" style="background-color: rgba(0, 0, 0, 0.5)">
@@ -10,14 +11,18 @@
                             <div class="row justify-content-center justify-content-md-end">
                                 <div class="col-lg-6 static">
                                     <div class="slide-text text-right white" #slideText>
-                                        <h2 class="owl-slide-animated owl-slide-title" id = "{{ 'owlAnimated' + (i+1)}}" #owlAnimated>
+                                        <h2 class="owl-slide-animated owl-slide-title" id="{{ 'owlAnimated' + (i+1)}}"
+                                            #owlAnimated>
                                             {{bannerItem.bannerTitle}}
                                         </h2>
-                                        <p class="owl-slide-animated owl-slide-subtitle" id = "{{ 'owlAnimated' + (i+1)}}" #owlAnimated>
+                                        <p class="owl-slide-animated owl-slide-subtitle" id="{{ 'owlAnimated' + (i+1)}}"
+                                            #owlAnimated>
                                             {{bannerItem.bannerSubText}}
                                         </p>
-                                        <div class="owl-slide-animated owl-slide-cta" id = "{{ 'owlAnimated' + (i+1)}}" #owlAnimated><a
-                                                class="btn_1" [routerLink]="bannerItem.bannerDetPageUrl" role="button">View
+                                        <div class="owl-slide-animated owl-slide-cta" id="{{ 'owlAnimated' + (i+1)}}"
+                                            #owlAnimated><a class="btn_1"
+                                                (click)="navigateToCategory(bannerItem.bannerDetPageUrl, bannerItem.bannerType)"
+                                                role="button">View
                                                 more</a>
                                         </div>
                                     </div>
@@ -69,8 +74,8 @@
                 <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2" *ngFor="let item of recentOrderedData">
                     <div class="strip">
                         <figure>
-                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"><img [src]="item.ItemImageUrl"
-                                    class="img-fluid lazy" alt=""></a>
+                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"><img
+                                    [src]="item.ItemImageUrl" class="img-fluid lazy" alt=""></a>
                         </figure>
                         <a href="javascript:void(0)" class="strip_info" routerLink="/foods/detail/{{item.ItemItemId}}">
                             <div class="item_title">
@@ -134,36 +139,39 @@
         <!-- /banner -->
         <div id="carousel-home">
             <owl-carousel-o [options]="customOptions" (translated)="onSlideTransitionInBottom($event)"
-            (initialized)="onCarouselInitializedInBottom($event)">
-            <ng-template carouselSlide class="slide" id="{{ 'img' + (i+1)}}"
-                *ngFor="let bannerItem of bottomBanner;let i = index">
-                <div class="owl-slide cover" [ngStyle]="{ 'background-image': 'url(' + bannerItem.bannerImage + ')'}">
-                    <!-- /Would probably better not use LazyLoad fo the first item -->
-                    <div class="opacity-mask d-flex align-items-center" style="background-color: rgba(0, 0, 0, 0.5)">
-                        <div class="container">
-                            <div class="row justify-content-center justify-content-md-end">
-                                <div class="col-lg-6 static">
-                                    <div class="slide-text text-right white" #slideText>
-                                        <h2 class="owl-slide-animated owl-slide-title" id="{{ 'owlAnimated' + (i+1)}}"
-                                            #owlAnimatedBottom>
-                                            {{bannerItem.bannerTitle}}
-                                        </h2>
-                                        <p class="owl-slide-animated owl-slide-subtitle" id="{{ 'owlAnimated' + (i+1)}}"
-                                            #owlAnimatedBottom>
-                                            {{bannerItem.bannerSubText}}
-                                        </p>
-                                        <div class="owl-slide-animated owl-slide-cta" id="{{ 'owlAnimated' + (i+1)}}"
-                                            #owlAnimatedBottom><a class="btn_1" [routerLink]="bannerItem.bannerDetPageUrl"
-                                                role="button">Order Now</a>
+                (initialized)="onCarouselInitializedInBottom($event)">
+                <ng-template carouselSlide class="slide" id="{{ 'img' + (i+1)}}"
+                    *ngFor="let bannerItem of bottomBanner;let i = index">
+                    <div class="owl-slide cover"
+                        [ngStyle]="{ 'background-image': 'url(' + bannerItem.bannerImage + ')'}">
+                        <!-- /Would probably better not use LazyLoad fo the first item -->
+                        <div class="opacity-mask d-flex align-items-center"
+                            style="background-color: rgba(0, 0, 0, 0.5)">
+                            <div class="container">
+                                <div class="row justify-content-center justify-content-md-end">
+                                    <div class="col-lg-6 static">
+                                        <div class="slide-text text-right white" #slideText>
+                                            <h2 class="owl-slide-animated owl-slide-title"
+                                                id="{{ 'owlAnimated' + (i+1)}}" #owlAnimatedBottom>
+                                                {{bannerItem.bannerTitle}}
+                                            </h2>
+                                            <p class="owl-slide-animated owl-slide-subtitle"
+                                                id="{{ 'owlAnimated' + (i+1)}}" #owlAnimatedBottom>
+                                                {{bannerItem.bannerSubText}}
+                                            </p>
+                                            <div class="owl-slide-animated owl-slide-cta"
+                                                id="{{ 'owlAnimated' + (i+1)}}" #owlAnimatedBottom><a class="btn_1"
+                                                    [routerLink]="bannerItem.bannerDetPageUrl" role="button">Order
+                                                    Now</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </ng-template>
-        </owl-carousel-o>
+                </ng-template>
+            </owl-carousel-o>
         </div>
 
     </div>

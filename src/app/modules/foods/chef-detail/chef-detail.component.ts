@@ -88,7 +88,7 @@ export class ChefDetailComponent implements OnInit {
   {
     this.vendorService.getChefReviews(this.vendorId).subscribe(
       (resp:any)=>{
-        //console.log('review : ' + resp);
+        console.log('review : ' + JSON.stringify(resp));
         for(let review of resp)
         {
           if(review != null && review != undefined)
@@ -98,8 +98,8 @@ export class ChefDetailComponent implements OnInit {
               reviewRating : (review.ratingscrore == undefined || review.ratingscrore == '' ) ? 0 : Number(review.ratingscrore),
               reviewDesc : review.review,
               rewviewTitle : review.reviewtitle,
-              reviewUserImage : '',
-              reviewUserName : '',
+              reviewUserImage : review.user.imagePath,
+              reviewUserName : review.user.firstname,
               reviewVendorId : this.vendorId,
               reviewCreatedTime : review.updated_at
             };

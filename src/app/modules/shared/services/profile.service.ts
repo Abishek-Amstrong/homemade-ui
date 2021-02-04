@@ -40,7 +40,8 @@ export class ProfileService {
 
   updatePersonalDetails(persData: any) {
     persData['userId'] = localStorage.getItem('userId');
-    return this.http.put(`${environment.apiUrl}/updateuserdetails`, persData);
+    console.log(persData);
+    return this.http.put(`${environment.apiUrl}/updateuserdetails`, persData,{ responseType : 'text' });
   }
 
   getAddressDetails() {

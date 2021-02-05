@@ -40,13 +40,18 @@ export class ProfileService {
 
   updatePersonalDetails(persData: any) {
     persData['userId'] = localStorage.getItem('userId');
-    console.log(persData);
+    //console.log(persData);
     return this.http.put(`${environment.apiUrl}/updateuserdetails`, persData,{ responseType : 'text' });
   }
 
   getAddressDetails() {
     const id = localStorage.getItem('userId');
     return this.http.get(`${environment.apiUrl}/useraddress/${id}`);
+  }
+
+  getAllStateDetails()
+  {
+    return this.http.get(`${environment.apiUrl}/states`);
   }
 
   addProfileAddress(addressData: any) {

@@ -62,13 +62,14 @@
                         <div class="custom_select clearfix">
                             <label>State</label>
                             <select class="nice-select wide form-control" tabindex="0" formControlName="state">
-                                <option selected>Select state</option>
-                                <option>Sikkim</option>
+                                <option disabled>Select state</option>
+                                <option *ngFor="let state of allStateData" value="{{state}}">{{state}}</option>
+                                <!-- <option>Sikkim</option>
                                 <option>Manipur</option>
                                 <option>Ladhak</option>
-                                <option>Rajasthan</option>
+                                <option>Rajasthan</option> -->
                             </select>
-                            <p *ngIf="state!.invalid  && (state!.touched || state!.dirty)" class="error-msg">Please
+                            <p *ngIf="state!.errors?.required  && (state!.touched || state!.dirty)" class="error-msg">Please
                                 select a state!!</p>
                         </div>
                     </div>

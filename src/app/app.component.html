@@ -89,7 +89,26 @@
         </li>
         <!--./-->
         <li class="submenu">
-          <a routerLink="/Sweets" class="show-submenu">Sugar & Spices</a>
+          <a routerLink="/Sweets" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Sugar & Spices</a>
+          <ul [ngClass]="{show_normal : is_show_normal}">
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Bakery Items')" class="show-submenu">Bakery
+                Items</a>
+            </li>
+
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Chocolates')"
+                class="show-submenu">Chocolates</a></li>
+
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Savories')" class="show-submenu">Savories</a>
+            </li>
+
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Jams & Spreads')" class="show-submenu">Jams &
+                Spreads</a></li>
+
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Spices & Pickles')"
+                class="show-submenu">Spices &
+                Pickles</a>
+            </li>
+          </ul>
         </li>
         <!--./-->
         <li class="submenu">

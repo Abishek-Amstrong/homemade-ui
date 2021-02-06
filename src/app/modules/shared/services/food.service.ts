@@ -60,6 +60,23 @@ export class FoodService {
     return this.http.get(`${environment.apiUrl}/sugarSpicesPage`);
   }
 
+  getItemByName(code: string) {
+    if (code) {
+      return this.http
+        .get(`${environment.apiUrl}/byname/${code}`, {
+          observe: 'response',
+        })
+        .pipe(
+          map((response: any) => response.body.item.map((val: any) => val))
+        );
+    }
+    return this.http
+      .get(`${environment.apiUrl}/byname/${code ? code : 'all'}`, {
+        observe: 'response',
+      })
+      .pipe(map((response: any) => response.body.item.map((val: any) => val)));
+  }
+
   getChefsNearUserLocation(): Observable<any> {
     let city = this.authService.userLocation;
     return this.http

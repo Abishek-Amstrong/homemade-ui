@@ -11,6 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { ValidatorService } from 'src/app/modules/shared/services/validator.service';
 import { AngularMaterialModule } from './modules/shared/angular-material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,8 @@ import { AngularMaterialModule } from './modules/shared/angular-material.module'
     HttpClientModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
     CarouselModule,
     CommonModule,
     ToastrModule.forRoot({

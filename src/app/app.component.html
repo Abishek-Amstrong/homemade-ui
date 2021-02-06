@@ -10,10 +10,24 @@
       </div>
       <!-- /Search Box, Location ,Profile Cart -->
       <div class="rightBox">
-        <div class="search_bar_list">
-          <input type="text" class="form-control" placeholder="Search for anything...">
-          <button type="submit"><i class="icon_search"></i></button>
+        <div class="search-container">
+          <mat-form-field appearance="outline" class="search-box">
+            <mat-label>Search for anything...</mat-label>
+            <input type="text" placeholder="Search for anything..." matInput [matAutocomplete]="autoOne" #searchInput
+              [(ngModel)]="searchVal">
+            <mat-icon matSuffix>search</mat-icon>
+            <mat-autocomplete #autoOne="matAutocomplete">
+              <mat-option *ngFor="let item of filteredOptions | async" [value]="item.itemname"
+                (onSelectionChange)="navigateToDetailPage($event, item)" class="search-box__option">
+                <img class="search-box__img" aria-hidden
+                  [src]="item.imagePath ? item.imagePath : 'assets/images/lazy-placeholder.png'" height="25">
+                <span>{{item.itemname | titlecase}}</span> |
+                <span>Price: {{item.price | currency: 'INR'}}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
+
         <div class="menuList">
           <ul>
             <li><a href="javascript:void(0)" id="sign-in" (click)="setLocation()"><img src="assets/images/location.svg"
@@ -133,10 +147,21 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <div class="search_bar_list">
-            <input type="text" class="form-control" placeholder="Search for anything...">
-            <button type="submit"><i class="icon_search"></i></button>
-          </div>
+          <mat-form-field appearance="outline" class="search-box">
+            <mat-label>Search for anything...</mat-label>
+            <input type="text" placeholder="Search for anything..." matInput [matAutocomplete]="auto" #searchInputOne
+              [(ngModel)]="searchVal">
+            <mat-icon matSuffix>search</mat-icon>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let item of filteredOptionsMobile | async" [value]="item.itemname"
+                (onSelectionChange)="navigateToDetailPage($event, item)" class="search-box__option">
+                <img class="search-box__img" aria-hidden
+                  [src]="item.imagePath ? item.imagePath : 'assets/images/lazy-placeholder.png'" height="25">
+                <span>{{item.itemname | titlecase}}</span> |
+                <span>Price: {{item.price | currency: 'INR'}}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
       </div>
       <!-- /row -->

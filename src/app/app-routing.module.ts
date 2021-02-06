@@ -50,6 +50,11 @@ const routes: Routes = [
         (m) => m.PrivacyPolicyModule
       ),
   },
+  {
+    path: 'sugar-spice',
+    loadChildren: () =>
+      import('./modules/sugar/sugar.module').then((m) => m.SugarModule),
+  },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

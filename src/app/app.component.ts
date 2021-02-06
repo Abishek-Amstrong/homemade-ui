@@ -25,6 +25,10 @@ export class AppComponent implements OnInit {
   headerSubscription: any;
   user: any;
   cartItemCount: any = 0;
+  isCollapse1Show : boolean;
+  isCollapse2Show : boolean;
+  isCollapse3Show : boolean;
+  isCollapse4Show : boolean;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -41,6 +45,10 @@ export class AppComponent implements OnInit {
         this.isHideHeader = val;
       }
     );
+    this.isCollapse1Show = false;
+    this.isCollapse2Show = false;
+    this.isCollapse3Show = false;
+    this.isCollapse4Show = false;
   }
 
   ngOnInit() {

@@ -50,6 +50,27 @@ const routes: Routes = [
         (m) => m.PrivacyPolicyModule
       ),
   },
+  {
+    path: 'about-us',
+    loadChildren: () =>
+      import('./modules/about-us/about-us.module').then(
+        (m) => m.AboutUsModule
+      ),
+  },
+  {
+    path: 'contact-us',
+    loadChildren: () =>
+      import('./modules/contact-us/contact-us.module').then(
+        (m) => m.ContactUsModule
+      ),
+  },
+  {
+    path: 'faq',
+    loadChildren: () =>
+      import('./modules/faq/faq.module').then(
+        (m) => m.FaqModule
+      ),
+  },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

@@ -38,7 +38,7 @@
                         <div class="prod-footer d-flex align-items-center">
                             <div class="subtotal">{{(prod.ItemQuantity * prod.ItemPrice) | currency:'INR'}}</div>
                             <div class="remove">
-                                <a href="#" (click)="delProductInCart(prod.ItemCartId)">Remove</a>
+                                <a href="#" (click)="deleteItemInCart(prod.ItemCartId,prod.ItemItemId)">Remove</a>
                             </div>
                         </div>
 
@@ -100,7 +100,7 @@
 
                 <div class="buttonBox">
                     <a routerLink="/Home" class="btn_1 outline type3">Keep Shopping</a>
-                    <a href="#" class="btn_1 gradient type4" (click)="updateProductsInCart()">Checkout</a>
+                    <a href="#" class="btn_1 gradient type4" (click)="updateProductsInCart(true)">Checkout</a>
                 </div>
             </div>
 

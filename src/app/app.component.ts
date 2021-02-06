@@ -1,4 +1,11 @@
-import { Component, OnInit, HostListener, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  Inject,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -8,13 +15,21 @@ import { AuthService } from './modules/shared/services/auth.service';
 import { CartService } from './modules/shared/services/cart.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocationComponent } from './modules/shared/modals/location/location.component';
+import { concat, from, fromEvent, Observable } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+} from 'rxjs/operators';
+import { FoodService } from './modules/shared/services/food.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'Homemade-UI';
   isShow: boolean = false;
   layer_is_visible: boolean = false;
@@ -25,21 +40,30 @@ export class AppComponent implements OnInit {
   headerSubscription: any;
   user: any;
   cartItemCount: any = 0;
-  isCollapse1Show : boolean;
-  isCollapse2Show : boolean;
-  isCollapse3Show : boolean;
-  isCollapse4Show : boolean;
+  filteredOptions: Observable<any> | null;
+  filteredOptionsMobile: Observable<any> | null;
+  searchVal: string;
+  @ViewChild('searchInput', { static: true }) input: any;
+  @ViewChild('searchInputOne', { static: true }) inputOne: any;
+  isCollapse1Show: boolean;
+  isCollapse2Show: boolean;
+  isCollapse3Show: boolean;
+  isCollapse4Show: boolean;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private cartService: CartService,
     private authService: AuthService,
+    private foodService: FoodService,
     private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {
     this.isLoggedIn = false;
     this.isHideHeader = false;
+    this.filteredOptions = null;
+    this.filteredOptionsMobile = null;
+    this.searchVal = '';
     this.headerSubscription = this.authService.hideHeaderStatusChange.subscribe(
       (val) => {
         this.isHideHeader = val;
@@ -58,8 +82,7 @@ export class AppComponent implements OnInit {
     });
     this.authService.user.subscribe((x) => {
       this.user = x;
-      if(x!=null)
-      {
+      if (x != null) {
         this.cartService.getCartCountAPIResp();
       }
     });
@@ -67,6 +90,44 @@ export class AppComponent implements OnInit {
     if (!sessionStorage.getItem('cartData')) {
       sessionStorage.setItem('cartData', JSON.stringify([]));
     }
+  }
+
+  ngAfterViewInit() {
+    if ('nativeElement' in this.input && this.input.nativeElement) {
+      const searchCodes$ = fromEvent<any>(
+        this.input.nativeElement,
+        'keyup'
+      ).pipe(
+        map((event) => event.target.value),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((search) => this.getItemByName(search))
+      );
+
+      const initialCodes$ = this.getItemByName();
+
+      this.filteredOptions = concat(initialCodes$, searchCodes$);
+    }
+
+    if ('nativeElement' in this.inputOne && this.inputOne.nativeElement) {
+      const searchItem$ = fromEvent<any>(
+        this.inputOne.nativeElement,
+        'keyup'
+      ).pipe(
+        map((event) => event.target.value),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((search) => this.getItemByName(search))
+      );
+
+      const initialItem$ = this.getItemByName();
+
+      this.filteredOptionsMobile = concat(initialItem$, searchItem$);
+    }
+  }
+
+  getItemByName(searchText = '') {
+    return from(this.foodService.getItemByName(searchText));
   }
 
   navigateToCategory(category: string) {
@@ -138,5 +199,15 @@ export class AppComponent implements OnInit {
       }
     }
     return '80%';
+  }
+
+  navigateToDetailPage(event: any, option: any) {
+    if (event.isUserInput) {
+      this.router
+        .navigateByUrl('/', { skipLocationChange: true })
+        .then(() =>
+          this.router.navigate(['/', 'foods', 'detail', option.itemId])
+        );
+    }
   }
 }

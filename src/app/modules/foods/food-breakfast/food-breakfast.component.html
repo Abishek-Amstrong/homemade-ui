@@ -142,7 +142,8 @@
                                     </figure>
                                     <div class="cardDetails">
                                         <h3>{{chef.firstname}}</h3>
-                                        <div class="score"><strong>{{chef.chefRating}}</strong></div>
+                                        <div class="score"><strong>{{chef.chefRating.toString().length > 1 ?
+                                                (chef.chefRating | number : '1.1-1') : chef.chefRating}}</strong></div>
                                     </div>
                                 </div>
                             </div>

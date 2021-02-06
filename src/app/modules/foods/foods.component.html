@@ -62,15 +62,15 @@
                                             class="show-submenu" fragment="section8">Platter</a>
                                     </li>
 
-                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')"
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Healthy')"
                                             class="show-submenu" fragment="section9">Healthy</a>
                                     </li>
 
-                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')"
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Regional')"
                                             class="show-submenu" fragment="section10">Regional</a>
                                     </li>
 
-                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')"
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Biscuits')"
                                             class="show-submenu" fragment="section11">Biscuits</a>
                                     </li>
                                 </ul>
@@ -80,7 +80,7 @@
                     </nav>
                     <!-- /secondary_nav -->
 
-                    <div class="card type3" id="section1">
+                    <div class="card type3" id="section1" #breakfast>
                         <div class="main_title">
                             <h2>Breakfast</h2>
                         </div>
@@ -113,7 +113,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section2">
+                    <div class="card type3" id="section2" #northIndian>
                         <div class="main_title">
                             <h2>North Indian</h2>
                         </div>
@@ -146,7 +146,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section3">
+                    <div class="card type3" id="section3" #southIndian>
                         <div class="main_title">
                             <h2>South Indian</h2>
                         </div>
@@ -179,7 +179,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section4">
+                    <div class="card type3" id="section4" #continental>
                         <div class="main_title">
                             <h2>Continental</h2>
                         </div>
@@ -212,7 +212,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section5">
+                    <div class="card type3" id="section5" #oriental>
                         <div class="main_title">
                             <h2>Oriental</h2>
                         </div>
@@ -245,7 +245,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section6">
+                    <div class="card type3" id="section6" #desserts>
                         <div class="main_title">
                             <h2>Desserts</h2>
                         </div>
@@ -278,7 +278,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section7">
+                    <div class="card type3" id="section7" #beverages>
                         <div class="main_title">
                             <h2>Beverages</h2>
                         </div>
@@ -311,7 +311,7 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section8">
+                    <div class="card type3" id="section8" #platter>
                         <div class="main_title">
                             <h2>Platter</h2>
                         </div>
@@ -367,7 +367,9 @@
                                         </figure>
                                         <div class="cardDetails">
                                             <h3>{{chef.firstname}}</h3>
-                                            <div class="score"><strong>{{chef.chefRating}}</strong></div>
+                                            <div class="score"><strong>{{chef.chefRating.toString().length > 1 ?
+                                                    (chef.chefRating | number : '1.1-1') : chef.chefRating}}</strong>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -6,7 +6,7 @@
                     <div class="rating">
                         <div class="score">
                             <span>{{ratingCmt}}
-                            <em>{{reviewData.length}} Reviews</em></span><strong
+                                <em>{{reviewData.length}} Reviews</em></span><strong
                                 class="rating">{{ratingAvg}}</strong>
                         </div>
                     </div>
@@ -21,7 +21,8 @@
             </div>
             <div class="col-lg-4">
                 <div class="profile-img">
-                    <img [src]="chef.imgUrl" class="img-fluid" alt="">
+                    <img [src]="chef.imgUrl ? chef.imgUrl : 'assets/images/lazy-placeholder.png'" class="img-fluid"
+                        alt="">
                 </div>
             </div>
         </div>
@@ -32,10 +33,12 @@
     <nav class="secondary_nav sticky_horizontal">
         <div class="container">
             <ul id="secondary_nav">
-                <li><a class="list-group-item list-group-item-action" routerLink="/foods/chef/{{vendorId}}"  fragment="section-1">Starters</a></li>
-                <li><a class="list-group-item list-group-item-action" routerLink="/foods/chef/{{vendorId}}"  fragment="section-2">Main Courses</a></li>
-                <li><a class="list-group-item list-group-item-action" routerLink="/foods/chef/{{vendorId}}"  fragment="section-5"><i
-                            class="icon_chat_alt"></i>Reviews</a></li>
+                <li><a class="list-group-item list-group-item-action" routerLink="/foods/chef/{{vendorId}}"
+                        fragment="section-1">Starters</a></li>
+                <li><a class="list-group-item list-group-item-action" routerLink="/foods/chef/{{vendorId}}"
+                        fragment="section-2">Main Courses</a></li>
+                <li><a class="list-group-item list-group-item-action" routerLink="/foods/chef/{{vendorId}}"
+                        fragment="section-5"><i class="icon_chat_alt"></i>Reviews</a></li>
             </ul>
         </div>
         <span></span>
@@ -68,8 +71,9 @@
                                         <td class="d-md-flex align-items-center">
                                             <figure>
                                                 <a href="javascript:void(0)" title="Photo title"
-                                                    data-effect="mfp-zoom-in"><img [src]="dish.imgUrl" alt="thumb"
-                                                        class="lazy"></a>
+                                                    data-effect="mfp-zoom-in"><img
+                                                        [src]="dish.imgUrl ? dish.imgUrl : 'assets/images/lazy-placeholder.png'"
+                                                        alt="thumb" class="lazy"></a>
                                             </figure>
                                             <div class="flex-md-column">
                                                 <h4>{{dish.id}}. {{dish.name}}</h4>
@@ -117,7 +121,7 @@
                             </div>
                             <div class="starTotal">
                                 <div class="starRating">
-                                    <span class="fill" 
+                                    <span class="fill"
                                         [ngStyle]="{'color':ratingAvg >= 1 ? '#242424' : '#f2f2f2'}"></span>
                                     <span class="fill"
                                         [ngStyle]="{'color':ratingAvg >= 2 ? '#242424' : '#f2f2f2'}"></span>
@@ -222,7 +226,9 @@
                     <div class="review_card" *ngFor="let review of reviewData">
                         <div class="row">
                             <div class="col-md-2 user_info">
-                                <figure><img [src]="review.reviewUserImage" alt=""></figure>
+                                <figure><img
+                                        [src]="review.reviewUserImage ? review.reviewUserImage : 'assets/images/lazy-placeholder.png'"
+                                        alt=""></figure>
                                 <h5>{{review.reviewUserName}}</h5>
                             </div>
                             <div class="col-md-10 review_content">

@@ -1,5 +1,5 @@
-@import "../../../../assets/stylesheets//scss/mixin";
-@import "../../../../assets/stylesheets/scss/variables";
+@import "./../../../assets/stylesheets/scss/mixin";
+@import "./../../../assets/stylesheets/scss/variables";
 
 .categories_carousel_in.listing,
 .nfood_carousel.listing,
@@ -71,7 +71,7 @@
 
 a.btn_map {
   display: block;
-  background: #ccc url(../../../../assets/images/map_bt_bg.png) center no-repeat;
+  background: #ccc url(./../../../assets/images/map_bt_bg.png) center no-repeat;
   margin-bottom: 15px;
   height: 100px;
   @include border-radius(3px);
@@ -869,15 +869,4 @@ span.infobox_rate {
 
 .chef_carousel {
   width: 100%;
-}
-
-.hero {
-  &__breakfast {
-    background-position: center;
-    background-size: cover;
-
-    .opacity-mask {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-  }
 }

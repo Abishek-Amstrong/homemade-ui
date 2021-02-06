@@ -26,8 +26,9 @@
                     </div>
 
                     <div class="price">
-                        <h3>&#8377; {{foodDetailData.ItemPrice}} <span
-                                class="quantity">({{ foodDetailData.ItemQuantity + ' ' + foodDetailData.ItemUnit}})</span></h3>
+                        <h3>&#8377; {{foodDetailData.ItemPrice}} <span class="quantity">({{ (foodDetailData.ItemQuantity
+                                ? foodDetailData.ItemQuantity : '')
+                                + ' ' + (foodDetailData.ItemUnit ? foodDetailData.ItemUnit : '')}})</span></h3>
                     </div>
 
                     <div class="availablity">{{chefData.chefstatus}}</div>
@@ -69,7 +70,8 @@
                                     style="">
                                     <div class="card-body">
                                         <div class="chefInfo">
-                                            <img [src]="chefData.chefImage" class="img-fluid">
+                                            <img [src]="chefData.chefImage ? chefData.chefImage : 'assets/images/lazy-placeholder.png'"
+                                                class="img-fluid">
 
                                             <div class="chefTitle">
                                                 <h3 class="chefName">{{chefData.firstname}}
@@ -232,32 +234,39 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-12 main_title">
-                    <h2>More food of this Chef</h2>
-                </div>
 
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6" *ngFor="let item of vendorFoodData">
-                    <div class="strip">
-                        <figure>
-                            <!-- <span class="ribbon off">{{item.offer}} off</span> -->
-                            <img [src]="item.ItemImageUrl" class="img-fluid lazy loaded" alt=""
-                                data-was-processed="true">
-                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"
-                                class="strip_info">
-                                <div class="item_title">
-                                    <h3>{{item.ItemName}}</h3>
-                                    <small>₹ {{item.ItemPrice}}</small>
-                                </div>
-                            </a>
-                        </figure>
-                        <div class="cardDetails">
-                            <!-- <div class="score"><strong>{{item.ItemRating}}</strong></div> -->
-                            <a class="btn_1 outline type_3" href="javascript:void(0)"
-                                (click)="orderNow($event, item)">Order Now</a>
+                <div class="card type3" id="section5">
+                    <div class="main_title">
+                        <h2>More food of this Chef</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3" *ngFor="let item of vendorFoodData">
+                            <div class="cardbody">
+                                <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
+                                    <div class="imgBox">
+                                        <figure>
+                                            <img [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                                                alt="" class="lazy loaded img-fluid" data-was-processed="true">
+                                        </figure>
+                                    </div>
+                                    <div class="contentBox">
+                                        <div class="pro_detials">
+                                            <h3>{{item.ItemName}}</h3>
+                                            <p class="price">Rs.{{item.ItemPrice}}</p>
+                                        </div>
+                                        <div class="prod_cta">
+                                            <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                (click)="orderNow($event, item)">Order Now</a>
+                                        </div>
+
+                                        <!-- <p class="availablity">{{item.availability}}</p> -->
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- /strip grid -->
+                <!--./card ends-->
             </div>
         </div>
     </div>

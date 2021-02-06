@@ -3,7 +3,8 @@
         <div class="row">
             <div class="col-lg-8">
                 <figure>
-                    <img [src]="foodDetailData.ItemImageUrl" class="img-fluid food-img" alt="product-img">
+                    <img [src]="foodDetailData.ItemImageUrl ? foodDetailData.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                        class="img-fluid food-img" alt="product-img">
                 </figure>
             </div>
             <!--./-->
@@ -71,7 +72,7 @@
                                     <div class="card-body">
                                         <div class="chefInfo">
                                             <img [src]="chefData.chefImage ? chefData.chefImage : 'assets/images/lazy-placeholder.png'"
-                                                class="img-fluid">
+                                                class="img-fluid" (click)="navigateToChefDetail(chefData.chefId)">
 
                                             <div class="chefTitle">
                                                 <h3 class="chefName">{{chefData.firstname}}
@@ -212,7 +213,9 @@
                     <div class="review_card" *ngFor="let review of reviewData">
                         <div class="row">
                             <div class="col-md-2 user_info">
-                                <figure><img [src]="review.reviewUserImage" alt=""></figure>
+                                <figure><img
+                                        [src]="review.reviewUserImage ? review.reviewUserImage : 'assets/images/lazy-placeholder.png'"
+                                        alt=""></figure>
                                 <h5>{{review.reviewUserName}}</h5>
                             </div>
                             <div class="col-md-10 review_content">

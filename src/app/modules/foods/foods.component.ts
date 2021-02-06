@@ -346,11 +346,23 @@ export class FoodsComponent implements OnInit {
           firstname: chef.firstname,
           lastname: chef.lastname,
           chefImage: chef.imagePath,
-          chefRating: chef.rating,
+          chefRating: this.calculateRating(chef.reviews),
         };
         this.chefData.push(chefItem);
       }
     });
+  }
+
+  calculateRating(reviews: any[]) {
+    if (reviews && reviews.length) {
+      const rating =
+        reviews
+          .map((review) => Number(review.ratingscrore))
+          .reduce((accumulator, currentValue) => accumulator + currentValue) /
+        reviews.length;
+      return rating;
+    }
+    return 0;
   }
 
   loadCuisineDetails() {

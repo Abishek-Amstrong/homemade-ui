@@ -26,8 +26,10 @@ export class FoodService {
   ): Observable<any> {
     return this.http
       .get(`${environment.apiUrl}/itembysubcategoryName/${subCategory}/1`)
-      .pipe( map((resp : any)=>resp.rows),
-            catchError((err) => this.handleError(err)));
+      .pipe(
+        map((resp: any) => resp.rows),
+        catchError((err) => this.handleError(err))
+      );
   }
 
   getItemDetailsInBulk(items: any): Observable<any[]> {
@@ -42,14 +44,20 @@ export class FoodService {
   getBreakfastDetails(): Observable<any> {
     return this.http
       .get(`${environment.apiUrl}/itembysubcategoryName/Breakfast/1`)
-      .pipe(map((resp : any)=>resp.rows),
-            catchError((err) => this.handleError(err)));
+      .pipe(
+        map((resp: any) => resp.rows),
+        catchError((err) => this.handleError(err))
+      );
   }
 
   getFoodPageDetails() {
     return this.http
       .get(`${environment.apiUrl}/foodpage`)
       .pipe(catchError((err) => this.handleError(err)));
+  }
+
+  getSugarPageDetails() {
+    return this.http.get(`${environment.apiUrl}/sugarSpicesPage`);
   }
 
   getChefsNearUserLocation(): Observable<any> {
@@ -62,8 +70,10 @@ export class FoodService {
   getCuisineNearUserLocation(): Observable<any> {
     return this.http
       .get(`${environment.apiUrl}/itembysubcategoryName/Desserts/1`)
-      .pipe(map((resp : any)=>resp.rows),
-            catchError((err) => this.handleError(err)));
+      .pipe(
+        map((resp: any) => resp.rows),
+        catchError((err) => this.handleError(err))
+      );
   }
 
   getFoodItemsForHomePage(): Observable<any> {
@@ -73,8 +83,7 @@ export class FoodService {
   }
 
   getItemReviews(itemId: String) {
-    return this.http
-      .get(`${environment.apiUrl}/itemreview/${itemId}`);
+    return this.http.get(`${environment.apiUrl}/itemreview/${itemId}`);
   }
 
   getSimilarProducts(vendorId: String) {
@@ -95,7 +104,14 @@ export class FoodService {
     return this.http
       .post(
         `${environment.apiUrl}/itemreview`,
-        { itemId, userId, review, 'reviewtitle' : reviewTitle,'ratingscrore' : rating, vendorId },
+        {
+          itemId,
+          userId,
+          review,
+          reviewtitle: reviewTitle,
+          ratingscrore: rating,
+          vendorId,
+        },
         { headers: options }
       )
       .pipe(catchError((err) => this.handleError(err)));

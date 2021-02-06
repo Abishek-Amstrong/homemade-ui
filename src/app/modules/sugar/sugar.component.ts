@@ -29,15 +29,11 @@ export interface chef {
   styleUrls: ['./sugar.component.scss'],
 })
 export class SugarComponent implements OnInit {
-  breakfastData: Item[];
-  southIndianData: Item[];
-  northIndianData: Item[];
-  continentalData: Item[];
-  orientalData: Item[];
-  beveragesData: Item[];
-  mealData: Item[];
-  desertsData: Item[];
-  platterData: Item[];
+  bakeryData: Item[];
+  chocolateData: Item[];
+  savoriesData: Item[];
+  jamAndSpreadsData: Item[];
+  spicesPicklesData: Item[];
   menus: any;
   chefData: chef[];
   categories: { imgUrl: string; label: string; component: string }[];
@@ -140,16 +136,12 @@ export class SugarComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router
   ) {
-    this.breakfastData = [];
-    this.southIndianData = [];
-    this.northIndianData = [];
-    this.continentalData = [];
-    this.orientalData = [];
+    this.bakeryData = [];
+    this.chocolateData = [];
+    this.savoriesData = [];
+    this.jamAndSpreadsData = [];
+    this.spicesPicklesData = [];
     this.chefData = [];
-    this.beveragesData = [];
-    this.mealData = [];
-    this.desertsData = [];
-    this.platterData = [];
     this.categories = [
       {
         imgUrl: 'assets/images/backeryItems.jpeg',
@@ -187,10 +179,10 @@ export class SugarComponent implements OnInit {
   }
 
   foodSubCategoryDetails() {
-    this.foodService.getFoodPageDetails().subscribe((resp: any) => {
+    this.foodService.getSugarPageDetails().subscribe((resp: any) => {
       //console.log(resp);
-      for (let item of resp.Breakfast) {
-        if (item != null && item != undefined) {
+      for (let item of resp.BakeryItems) {
+        if (item) {
           let currItem: Item = {
             ItemImageUrl: item.imagePath,
             ItemName: item.itemname,
@@ -198,11 +190,11 @@ export class SugarComponent implements OnInit {
             ItemItemId: item.itemId,
             ItemVendorId: item.VendorVendorId,
           };
-          this.breakfastData.push(currItem);
+          this.bakeryData.push(currItem);
         }
       }
-      for (let item of resp.Continental) {
-        if (item != null && item != undefined) {
+      for (let item of resp.Chocolates) {
+        if (item) {
           let currItem: Item = {
             ItemImageUrl: item.imagePath,
             ItemName: item.itemname,
@@ -210,11 +202,11 @@ export class SugarComponent implements OnInit {
             ItemItemId: item.itemId,
             ItemVendorId: item.VendorVendorId,
           };
-          this.continentalData.push(currItem);
+          this.chocolateData.push(currItem);
         }
       }
-      for (let item of resp.Desserts) {
-        if (item != null && item != undefined) {
+      for (let item of resp.Savories) {
+        if (item) {
           let currItem: Item = {
             ItemImageUrl: item.imagePath,
             ItemName: item.itemname,
@@ -222,11 +214,11 @@ export class SugarComponent implements OnInit {
             ItemItemId: item.itemId,
             ItemVendorId: item.VendorVendorId,
           };
-          this.desertsData.push(currItem);
+          this.savoriesData.push(currItem);
         }
       }
-      for (let item of resp.NorthIndian) {
-        if (item != null && item != undefined) {
+      for (let item of resp.JamsSpreads) {
+        if (item) {
           let currItem: Item = {
             ItemImageUrl: item.imagePath,
             ItemName: item.itemname,
@@ -234,11 +226,11 @@ export class SugarComponent implements OnInit {
             ItemItemId: item.itemId,
             ItemVendorId: item.VendorVendorId,
           };
-          this.northIndianData.push(currItem);
+          this.jamAndSpreadsData.push(currItem);
         }
       }
-      for (let item of resp.SouthIndian) {
-        if (item != null && item != undefined) {
+      for (let item of resp.SpicesPickles) {
+        if (item) {
           let currItem: Item = {
             ItemImageUrl: item.imagePath,
             ItemName: item.itemname,
@@ -246,55 +238,7 @@ export class SugarComponent implements OnInit {
             ItemItemId: item.itemId,
             ItemVendorId: item.VendorVendorId,
           };
-          this.southIndianData.push(currItem);
-        }
-      }
-      for (let item of resp.Oriental) {
-        if (item != null && item != undefined) {
-          let currItem: Item = {
-            ItemImageUrl: item.imagePath,
-            ItemName: item.itemname,
-            ItemPrice: item.price,
-            ItemItemId: item.itemId,
-            ItemVendorId: item.VendorVendorId,
-          };
-          this.orientalData.push(currItem);
-        }
-      }
-      for (let item of resp.Platter) {
-        if (item != null && item != undefined) {
-          let currItem: Item = {
-            ItemImageUrl: item.imagePath,
-            ItemName: item.itemname,
-            ItemPrice: item.price,
-            ItemItemId: item.itemId,
-            ItemVendorId: item.VendorVendorId,
-          };
-          this.platterData.push(currItem);
-        }
-      }
-      for (let item of resp.Beverages) {
-        if (item != null && item != undefined) {
-          let currItem: Item = {
-            ItemImageUrl: item.imagePath,
-            ItemName: item.itemname,
-            ItemPrice: item.price,
-            ItemItemId: item.itemId,
-            ItemVendorId: item.VendorVendorId,
-          };
-          this.beveragesData.push(currItem);
-        }
-      }
-      for (let item of resp.Meal) {
-        if (item != null && item != undefined) {
-          let currItem: Item = {
-            ItemImageUrl: item.imagePath,
-            ItemName: item.itemname,
-            ItemPrice: item.price,
-            ItemItemId: item.itemId,
-            ItemVendorId: item.VendorVendorId,
-          };
-          this.mealData.push(currItem);
+          this.spicesPicklesData.push(currItem);
         }
       }
     });
@@ -308,11 +252,23 @@ export class SugarComponent implements OnInit {
           firstname: chef.firstname,
           lastname: chef.lastname,
           chefImage: chef.imagePath,
-          chefRating: chef.rating,
+          chefRating: this.calculateRating(chef.reviews),
         };
         this.chefData.push(chefItem);
       }
     });
+  }
+
+  calculateRating(reviews: any[]) {
+    if (reviews && reviews.length) {
+      const rating =
+        reviews
+          .map((review) => Number(review.ratingscrore))
+          .reduce((accumulator, currentValue) => accumulator + currentValue) /
+        reviews.length;
+      return rating;
+    }
+    return 0;
   }
 
   loadCuisineDetails() {

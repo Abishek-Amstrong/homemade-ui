@@ -156,19 +156,18 @@ export class FoodBreakfastComponent implements OnInit {
       .getItemSubCategoryDetails('food', this.category)
       .subscribe((resp: any) => {
         //console.log(resp);
-          if(resp!= null && resp!=undefined && resp.length>0)
-          {
-            for (let item of resp) {
-              let currItem = {
-                ItemImageUrl: item.imagePath,
-                ItemName: item.itemname,
-                ItemPrice: item.price,
-                ItemItemId: item.itemId,
-                ItemVendorId: item.VendorVendorId,
-              };
-              this.foodData.push(currItem);
-            }
+        if (resp != null && resp != undefined && resp.length > 0) {
+          for (let item of resp) {
+            let currItem = {
+              ItemImageUrl: item.imagePath,
+              ItemName: item.itemname,
+              ItemPrice: item.price,
+              ItemItemId: item.itemId,
+              ItemVendorId: item.VendorVendorId,
+            };
+            this.foodData.push(currItem);
           }
+        }
       });
   }
 
@@ -181,11 +180,23 @@ export class FoodBreakfastComponent implements OnInit {
           firstname: chef.firstname,
           lastname: chef.lastname,
           chefImage: chef.imagePath,
-          chefRating: chef.rating,
+          chefRating: this.calculateRating(chef.reviews),
         };
         this.chefData.push(chefItem);
       }
     });
+  }
+
+  calculateRating(reviews: any[]) {
+    if (reviews && reviews.length) {
+      const rating =
+        reviews
+          .map((review) => Number(review.ratingscrore))
+          .reduce((accumulator, currentValue) => accumulator + currentValue) /
+        reviews.length;
+      return rating;
+    }
+    return 0;
   }
 
   loadCuisineDetails() {

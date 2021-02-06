@@ -60,7 +60,7 @@
                             <h2>Bakery Items</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of breakfastData">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of bakeryData">
                                 <div class="cardbody">
                                     <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
@@ -93,7 +93,7 @@
                             <h2>Chocolates</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of northIndianData">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of chocolateData">
                                 <div class="cardbody">
                                     <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
@@ -126,7 +126,7 @@
                             <h2>Savories</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of southIndianData">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of savoriesData">
                                 <div class="cardbody">
                                     <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
@@ -159,7 +159,7 @@
                             <h2>Jams & Spreads</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of continentalData">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of jamAndSpreadsData">
                                 <div class="cardbody">
                                     <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
@@ -192,7 +192,7 @@
                             <h2>Spices & Pickles</h2>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of orientalData">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of spicesPicklesData">
                                 <div class="cardbody">
                                     <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
@@ -243,7 +243,9 @@
                                         </figure>
                                         <div class="cardDetails">
                                             <h3>{{chef.firstname}}</h3>
-                                            <div class="score"><strong>{{chef.chefRating}}</strong></div>
+                                            <div class="score"><strong>{{chef.chefRating.toString().length > 1 ?
+                                                    (chef.chefRating | number : '1.1-1') : chef.chefRating}}</strong>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

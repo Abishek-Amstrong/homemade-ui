@@ -6377,8 +6377,12 @@ a.box_topic,
         justify-content: flex-start;
         img {
           border-radius: 50%;
-          width: 80px;
+          width: 60px;
+          height: 60px;
+          object-fit: cover;
+          cursor: pointer;
         }
+
         .chefTitle {
           padding-left: 15px;
           .chefName {

@@ -45,6 +45,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   searchVal: string;
   @ViewChild('searchInput', { static: true }) input: any;
   @ViewChild('searchInputOne', { static: true }) inputOne: any;
+  isCollapse1Show: boolean;
+  isCollapse2Show: boolean;
+  isCollapse3Show: boolean;
+  isCollapse4Show: boolean;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -65,6 +69,10 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.isHideHeader = val;
       }
     );
+    this.isCollapse1Show = false;
+    this.isCollapse2Show = false;
+    this.isCollapse3Show = false;
+    this.isCollapse4Show = false;
   }
 
   ngOnInit() {

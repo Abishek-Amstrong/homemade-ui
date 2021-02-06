@@ -51,6 +51,27 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'about-us',
+    loadChildren: () =>
+      import('./modules/about-us/about-us.module').then(
+        (m) => m.AboutUsModule
+      ),
+  },
+  {
+    path: 'contact-us',
+    loadChildren: () =>
+      import('./modules/contact-us/contact-us.module').then(
+        (m) => m.ContactUsModule
+      ),
+  },
+  {
+    path: 'faq',
+    loadChildren: () =>
+      import('./modules/faq/faq.module').then(
+        (m) => m.FaqModule
+      ),
+  },
+  {
     path: 'sugar-spice',
     loadChildren: () =>
       import('./modules/sugar/sugar.module').then((m) => m.SugarModule),

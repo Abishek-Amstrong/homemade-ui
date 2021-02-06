@@ -10,6 +10,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { User } from './../models/user';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Tokens } from './../models/tokens';
+import { CartService } from './cart.service';
 import { environment } from 'src/environments/environment';
 
 import { ToastrService } from 'ngx-toastr';
@@ -32,6 +33,7 @@ export class AuthService {
   constructor(
     private router: Router,
     private http: HttpClient,
+
     private toastr: ToastrService
   ) {
     this.userSubject = new BehaviorSubject<User | null>(

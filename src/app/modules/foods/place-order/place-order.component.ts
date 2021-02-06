@@ -4,8 +4,10 @@ import {
   Inject,
   ɵɵtrustConstantResourceUrl,
 } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../shared/modals/confirmation-dialog/confirmation-dialog.component'
 import { ToastrService } from 'ngx-toastr';
+import { handleError } from '../../shared/helpers/error-handler';
 import { CartService } from '../../shared/services/cart.service';
 import { FoodService } from '../../shared/services/food.service';
 
@@ -42,11 +44,22 @@ export class PlaceOrderComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<PlaceOrderComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private confirmdialog: MatDialog,
     private toastr: ToastrService,
     private foodService: FoodService,
     private cartService: CartService
   ) {
-    this.orderData = data.data;
+    this.orderData = {
+      OrderQuantity: 1,
+      OrderSize: [],
+      OrderItemName: '',
+      OrderSimilarProducts: [],
+      OrderItemId: '',
+      OrderUserId: '',
+      OrderPrice: 0,
+      OrderVendorId: '',
+      OrderItemImgUrl: ''
+    };
     this.selectedSize = '';
   }
 
@@ -61,22 +74,6 @@ export class PlaceOrderComponent implements OnInit {
 
       this.orderData.OrderItemId = resp.itemId;
       this.orderData.OrderItemName = resp.itemname;
-      // this.orderData.OrderIngredients = [];
-      // if(resp.ingredients != null && resp.ingredients != undefined)
-      // {
-      //   if(typeof resp.ingredients == 'string')
-      //   {
-      //     this.orderData.OrderIngredients.push({value : resp.ingredients, checked : false});
-      //   }
-      //   else
-      //   {
-      //     for(let str of resp.ingredients)
-      //     {
-      //       this.orderData.OrderIngredients.push({value : str, checked : false});
-      //     }
-      //   }
-      // }
-
       this.orderData.OrderQuantity = 1;
       this.orderData.OrderSize = resp.size;
       this.orderData.OrderPrice = resp.price;
@@ -133,10 +130,41 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   addToCart() {
-    this.cartService.addItemsTocart(this.orderData).subscribe((resp: any) => {
-      //console.log(resp);
-      this.toastr.success('Item is added to cart', 'Success!!');
-      this.dialogRef.close();
+    //check the items selected already exists in cart
+    //console.log(this.orderData);
+    this.cartService.checkItemExistsInCart(this.orderData).subscribe((resp : any)=>{
+      //console.log(resp.status);
+      //if the item doesn't exists create  a new cart
+      if(resp.status == '204')
+      {
+        //create a new cart with items
+        this.cartService.addItemsTocart(this.orderData).subscribe((resp: any) => {
+        //console.log(resp);
+        this.toastr.success('Item is added to cart', 'Success!!');
+        this.dialogRef.close();
+        },(err : any) =>{
+          handleError(err);
+        });
+      }
+      //if the item exists confirm with user to update the existing cart
+      else if(resp.status == '200')
+      {
+        const confirmdialogRef = this.confirmdialog.open( ConfirmationDialogComponent, {
+          data: { message : 'Item exists in cart!! Do you want to proceed and modify the existing order ?' },
+        });
+        confirmdialogRef.afterClosed().subscribe((result) => {
+          if(result)
+          {
+            //update the existing items in the cart
+            this.cartService.updateAddItemsToExistingCart(this.orderData).subscribe((resp:any)=>{
+              this.toastr.success('cart items are updated/added successfully', 'Success!!');
+            },(err : any) =>{
+              handleError(err);
+            })
+          }
+          this.dialogRef.close();
+        });
+      }
     });
     return false;
   }

@@ -48,12 +48,14 @@ export class AppComponent implements OnInit {
       //console.log('Inside subscription : ' + val);
       this.cartItemCount = val;
     });
-    this.cartService.getCartCountAPIResp();
-
     this.authService.user.subscribe((x) => {
       this.user = x;
+      if(x!=null)
+      {
+        this.cartService.getCartCountAPIResp();
+      }
     });
-
+    // this.cartService.getCartCountAPIResp();
     if (!sessionStorage.getItem('cartData')) {
       sessionStorage.setItem('cartData', JSON.stringify([]));
     }

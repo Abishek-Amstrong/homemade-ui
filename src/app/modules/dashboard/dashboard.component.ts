@@ -145,6 +145,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private offerService: OfferService
   ) {
     this.authService.setHeaderDisplayStatus(false);
+    this.cartService.getCartCountAPIResp();
     this.menus = [
       {
         imgUrl: 'assets/images/home_cat_food.jpg',

@@ -16,6 +16,7 @@ export class AddressbookComponent implements OnInit {
   displayAdrForm: boolean;
   isNewAddress: boolean;
   currentAddresId: string;
+  allStateData : string[];
 
   constructor(
     private profileService: ProfileService,
@@ -28,6 +29,7 @@ export class AddressbookComponent implements OnInit {
     this.displayAdrForm = false;
     this.isNewAddress = false;
     this.currentAddresId = '';
+    this.allStateData = [];
   }
 
   ngOnInit(): void {
@@ -61,6 +63,17 @@ export class AddressbookComponent implements OnInit {
       (data) => (this.addressData = data),
       (err) => console.log(err)
     );
+    this.profileService.getAllStateDetails().subscribe((data : any)=>{
+      if(data!=null && data != undefined)
+      {
+        data.forEach((element : string) => {
+          this.allStateData.push(element);
+        });
+      }
+     
+    })
+    
+    this.allStateData
   }
 
   addInAddrForm() {

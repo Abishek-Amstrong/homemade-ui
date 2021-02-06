@@ -36,7 +36,7 @@ export class CartService {
     let userCartItems: any;
     return this.http
       .get(`${environment.apiUrl}/usercart/${userId}`)
-      .pipe(catchError((err) => this.handleError(err)));
+      .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
   }
 
   getItemDetails(itemId: string): Observable<any> {
@@ -62,27 +62,30 @@ export class CartService {
 
   getCartCountAPIResp() {
     let userId = this.authService.getUserId();
-    this.http.get(`${environment.apiUrl}/countitemincart/${userId}`).subscribe(
-      (resp: any) => {
-        //console.log('Resp from service : ' + resp);
-        this.cartItemCountChange.next(Number(resp));
-      },
-      (err: any) => {
-        this.handleError(err);
-      }
-    );
+    if(userId != null)
+    {
+      this.http.get(`${environment.apiUrl}/countitemincart/${userId}`).subscribe(
+        (resp: any) => {
+          //console.log('Resp from service : ' + resp);
+          this.cartItemCountChange.next(Number(resp));
+        },
+        (err: any) => {
+          this.handleError(err);
+        }
+      );
+    }
   }
 
   UpdateProductsInUserCart(cartProducts: any, updatedCarts : Map<string,number>): Observable<any> {
 
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
-    let updatedProd : Map<string,{ itemId: string,Name: string,quantity: number,Price: number,imgUrl: string}[]>  =  new Map();
-
+    let updatedProd : Map<string,{ itemId: string,Name: string,quantity: number,Price: number,imgUrl: string,vendorId : string}[]>  =  new Map();
+    // console.log('upd prod : ' +JSON.stringify(cartProducts));
     for (let item of cartProducts) 
     {
       if(updatedCarts.has(item.ItemCartId))
       {
-        let val : { itemId: string,Name: string,quantity: number,Price: number,imgUrl: string}[] = [];
+        let val : { itemId: string,Name: string,quantity: number,Price: number,imgUrl: string,vendorId : string}[] = [];
         if(updatedProd.has(item.ItemCartId))
         {
           val = updatedProd.get(item.ItemCartId)!;
@@ -94,12 +97,13 @@ export class CartService {
           quantity: item.ItemQuantity,
           Price: item.ItemPrice,
           imgUrl: item.ItemImageUrl,
+          vendorId : item.ItemVendorId
         });
         updatedProd.set(item.ItemCartId,val);
       }
     }
 
-    let bodyJson: { cartId: String, details: { itemId: string, Name: String, quantity: Number, Price: Number, imgUrl: String }[] }[] = [];
+    let bodyJson: { cartId: String, details: { itemId: string, Name: string, quantity: Number, Price: Number, imgUrl: string,vendorId : string}[] }[] = [];
 
     updatedProd.forEach((value, key) => {  
       bodyJson.push({
@@ -109,7 +113,7 @@ export class CartService {
     }); 
     // console.log(JSON.stringify(bodyJson));
     return this.http.put(`${environment.apiUrl}/updatecart`, { cartdata : bodyJson },{ headers: options, responseType: 'text' })
-      .pipe(catchError((err) => this.handleError(err)));
+    .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
   }
 
   // UpdateCartProductQty(updatedCartItems : any){
@@ -126,6 +130,12 @@ export class CartService {
         responseType: 'text',
       })
       .pipe(catchError((err) => this.handleError(err)));
+  }
+
+  deleteItemInCart(cartId: string, itemId : string): Observable<any> {
+    return this.http
+      .put(`${environment.apiUrl}/removesingleitemfromcart`, {cartId,itemId},{responseType: 'text'})
+      .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
   }
 
   placeCustomerOrder(
@@ -198,12 +208,8 @@ export class CartService {
         headers: options,
         responseType: 'text',
       })
-      .pipe(
-        tap((resp) => {
-          this.getCartItemCount();
-        }),
-        catchError((err) => this.handleError(err))
-      );
+      .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
+
   }
 
   addDeliveryAddress(
@@ -228,11 +234,12 @@ export class CartService {
   addItemsTocart(item: any): Observable<any> {
 
     let cartItems: {
-      itemId: string;
-      Name: string;
-      quantity: Number;
-      Price: Number;
-      imgUrl: string;
+      itemId: string,
+      Name: string,
+      quantity: Number,
+      Price: Number,
+      imgUrl: string,
+      vendorId : string
     }[] = [];
 
     //push the initial ordered item into array
@@ -242,6 +249,7 @@ export class CartService {
       quantity: item.OrderQuantity,
       Price: item.OrderPrice,
       imgUrl: item.OrderItemImgUrl,
+      vendorId : item.OrderVendorId
     });
 
     //push the other similar items selected into array
@@ -257,6 +265,7 @@ export class CartService {
             quantity: product.ItemQuantity,
             Price: product.ItemPrice,
             imgUrl: product.ItemImageUrl,
+            vendorId : item.OrderVendorId
           });
         }
       }
@@ -266,15 +275,38 @@ export class CartService {
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
     let userId = this.authService.getUserId();
     let bodyJson = { details: cartItems, userId: userId };
-    console.log(JSON.stringify(bodyJson));
+    //console.log(JSON.stringify(bodyJson));
     return this.http
       .post(`${environment.apiUrl}/addtocart`, bodyJson, { headers: options })
-      .pipe(
-        tap((resp) => {
-          this.getCartCountAPIResp();
-        }),
-        catchError((err) => this.handleError(err))
-      );
+      .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
+  }
+
+  checkItemExistsInCart(item : any) : Observable<any>{
+    let items : string[] = [];
+    items.push(item.OrderItemId);
+
+    if(item.OrderSimilarProducts && item.OrderSimilarProducts.length > 0)
+    {
+      for (let product of item.OrderSimilarProducts)
+      {
+        if(product.ItemChecked)
+        {
+          items.push(product.ItemItemId);
+        }
+      }
+    }
+
+    const options = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let userId = this.authService.getUserId();
+    let bodyJson = { userId: userId, items: items };
+    //console.log(bodyJson);
+    return this.http
+    .post(`${environment.apiUrl}/usercartcheck`, bodyJson, { headers: options, responseType : 'text', observe: 'response' })
+    .pipe(
+      tap((resp) => {
+        //this.getCartCountAPIResp();
+      })
+    );
   }
 
   getRecentOrderedItems(): Observable<any> {
@@ -282,6 +314,54 @@ export class CartService {
     return this.http
       .get(`${environment.apiUrl}/recentorderapi/${userId}`)
       .pipe(catchError((err) => this.handleError(err)));
+  }
+
+  updateAddItemsToExistingCart(item : any) : Observable<any>{
+
+    let cartItems: {
+      itemId: string,
+      Name: string,
+      quantity: Number,
+      Price: Number,
+      imgUrl: string,
+      vendorId : string
+    }[] = [];
+
+    //push the initial ordered item into array
+    cartItems.push({
+      itemId: item.OrderItemId,
+      Name: item.OrderItemName,
+      quantity: item.OrderQuantity,
+      Price: item.OrderPrice,
+      imgUrl: item.OrderItemImgUrl,
+      vendorId : item.orderVendorId
+    });
+
+    //push the other similar items selected into array
+    if(item.OrderSimilarProducts && item.OrderSimilarProducts.length > 0)
+    {
+      for (let product of item.OrderSimilarProducts)
+      {
+        if(product.ItemChecked)
+        {
+          cartItems.push({
+            itemId: product.ItemItemId,
+            Name: product.ItemName,
+            quantity: product.ItemQuantity,
+            Price: product.ItemPrice,
+            imgUrl: product.ItemImageUrl,
+            vendorId : item.orderVendorId
+          });
+        }
+      }
+    }
+
+    let userId = this.authService.getUserId();
+    let bodyJson = { details: cartItems, userId: userId };
+    const options = new HttpHeaders({ 'Content-Type': 'application/json' });
+    console.log(bodyJson);
+    return this.http.put(`${environment.apiUrl}/updateAddItemsInCart`, bodyJson ,{ headers: options})
+    .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
   }
 
   handleError(errorObj: HttpErrorResponse): Observable<any> {

@@ -88,7 +88,7 @@ export class ChefDetailComponent implements OnInit {
   {
     this.vendorService.getChefReviews(this.vendorId).subscribe(
       (resp:any)=>{
-        console.log('review : ' + JSON.stringify(resp));
+        //console.log('review : ' + JSON.stringify(resp));
         for(let review of resp)
         {
           if(review != null && review != undefined)

@@ -259,10 +259,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   loadRecentOrderedItems() {
+    this.recentOrderedData = [];
     this.cartService.getRecentOrderedItems().subscribe((resp: any) => {
-      //console.log(resp);
       for (let item of resp) {
-        if (item != null && item != undefined) {
+        if (item) {
           let currItem = {
             ItemImageUrl: item.imagePath,
             ItemName: item.itemname,
@@ -272,6 +272,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           };
           this.recentOrderedData.push(currItem);
         }
+
+        this.recentOrderedData = this.recentOrderedData.filter(
+          (obj, index, arr) =>
+            arr.findIndex((data) => data.ItemName === obj.ItemName) === index
+        );
       }
     });
   }

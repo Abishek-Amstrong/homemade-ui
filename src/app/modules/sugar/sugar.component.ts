@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { MatDialog } from '@angular/material/dialog';
 import { PlaceOrderComponent } from './../foods/place-order/place-order.component';
@@ -42,6 +42,11 @@ export class SugarComponent implements OnInit {
   chefData: chef[];
   categories: { imgUrl: string; label: string; component: string }[];
   cuisineData: Item[];
+  @ViewChild('bakeryItems') bakeryItems: any;
+  @ViewChild('chocolates') chocolates: any;
+  @ViewChild('savories') savories: any;
+  @ViewChild('jamAndSpread') jamAndSpread: any;
+  @ViewChild('spiceAndPickle') spiceAndPickle: any;
 
   customOptions: OwlOptions = {
     center: false,
@@ -342,8 +347,28 @@ export class SugarComponent implements OnInit {
   }
 
   navigateToCategory(category: string) {
-    this.router
-      .navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+    switch (category) {
+      case 'Backery Items':
+        this.bakeryItems.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'Chocolates':
+        this.chocolates.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'Savories':
+        this.savories.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'Jams & Spreads':
+        this.jamAndSpread.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'Spices & Pickles':
+        this.spiceAndPickle.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+        });
+        break;
+      default:
+        this.spiceAndPickle.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+        });
+    }
   }
 }

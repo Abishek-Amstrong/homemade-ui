@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { MatDialog } from '@angular/material/dialog';
 import { PlaceOrderComponent } from './place-order/place-order.component';
@@ -47,6 +47,14 @@ export class FoodsComponent implements OnInit {
   chefData: chef[];
   categories: { imgUrl: string; label: string; component: string }[];
   cuisineData: Item[];
+  @ViewChild('breakfast') breakfast: any;
+  @ViewChild('northIndian') northIndian: any;
+  @ViewChild('southIndian') southIndian: any;
+  @ViewChild('continental') continental: any;
+  @ViewChild('oriental') oriental: any;
+  @ViewChild('desserts') desserts: any;
+  @ViewChild('beverages') beverages: any;
+  @ViewChild('platter') platter: any;
 
   customOptions: OwlOptions = {
     center: false,
@@ -377,8 +385,33 @@ export class FoodsComponent implements OnInit {
   }
 
   navigateToCategory(category: string) {
-    this.router
-      .navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+    switch (category) {
+      case 'Breakfast':
+        this.breakfast.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'North Indian':
+        this.northIndian.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'South Indian':
+        this.southIndian.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'Continental':
+        this.continental.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'Oriental':
+        this.oriental.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'Deserts':
+        this.desserts.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'Beverages':
+        this.beverages.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case 'Platter':
+        this.platter.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+      default:
+        this.platter.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

@@ -120,7 +120,7 @@ export class AuthService {
   private removeTokens() {
     localStorage.removeItem(this.JWT_TOKEN);
     localStorage.removeItem('userId');
-    localStorage.clear();
+    // localStorage.clear();
   }
 
   isLoggedIn() {

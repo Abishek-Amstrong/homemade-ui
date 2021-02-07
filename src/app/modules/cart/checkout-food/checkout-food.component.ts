@@ -13,6 +13,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { CartService } from '../../shared/services/cart.service';
 import { ProfileService } from '../../shared/services/profile.service';
@@ -51,10 +52,12 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   mapAutoComplete: any;
   @ViewChild('deliveryLocation') deliveryInput: ElementRef | any;
   submitted: boolean;
+  allStateData : string[];
   
   constructor(
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    private router: Router,
     private profileService: ProfileService,
     private cartService: CartService,
     private authService : AuthService
@@ -72,11 +75,12 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     this.isScheduleNowSelected = true;
     this.googleRef = null;
     this.submitted = false;
+    this.allStateData = [];
   }
 
   ngOnInit(): void {
     this.deliveryForm = this.formBuilder.group({
-      deliveryLocation: ['', Validators.required],
+      deliveryLocation: '',
       deliveryType: ['', Validators.required],
       deliveryDay: ['', Validators.required],
       deliveryTime: ['', [Validators.required, this.isTimeValid()]],
@@ -394,6 +398,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total)
         .subscribe((resp: any) => {
           this.toastr.success('Order is placed', 'Success!!');
+          this.router.navigate(['/', 'cart','confirm']);
         });
     }
   }
@@ -446,6 +451,14 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
 
   loadAddressDetails() {
+    this.profileService.getAllStateDetails().subscribe((data : any)=>{
+      if(data!=null && data != undefined)
+      {
+        data.forEach((element : string) => {
+          this.allStateData.push(element);
+        });
+      }    
+    });
     this.profileService.getAddressDetails().subscribe(
       (resp: any) => {
         // /console.log(resp);

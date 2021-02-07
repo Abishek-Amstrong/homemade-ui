@@ -42,6 +42,7 @@ export class AuthComponent implements OnInit {
       this.form.patchValue({
         email: this.uname,
         password: this.pwd,
+        rememberMe: true
       });
     }
   }

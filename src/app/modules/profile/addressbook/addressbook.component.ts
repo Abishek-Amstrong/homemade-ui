@@ -71,9 +71,7 @@ export class AddressbookComponent implements OnInit {
         });
       }
      
-    })
-    
-    this.allStateData
+    });
   }
 
   addInAddrForm() {

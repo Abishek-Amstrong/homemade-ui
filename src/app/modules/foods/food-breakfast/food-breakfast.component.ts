@@ -251,13 +251,9 @@ export class FoodBreakfastComponent implements OnInit {
       for (let item of resp) {
         if (item != null && item != undefined) {
           let currItem = {
-            ItemImageUrl: item.imagePath,
+            ItemImageUrl:
+              'item' in item && item.item ? item.item.imagePath : '',
             ItemName: item.itemname,
-            // ItemUnit : item.unit,
-            // ItemQuantity : 1,
-            // ItemIsVeg : item.isVeg,
-            // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
-            // ItemDesc : item.desc,
             ItemPrice: item.price,
             ItemItemId: item.itemId,
             ItemVendorId: item.VendorVendorId,

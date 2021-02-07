@@ -6,6 +6,8 @@ import { FoodService } from '../../shared/services/food.service';
 import { PlaceOrderComponent } from '../place-order/place-order.component';
 import { isNgTemplate } from '@angular/compiler';
 import { ActivatedRoute, Router } from '@angular/router';
+import { handleError } from '../../shared/helpers/error-handler';
+import { from, zip } from 'rxjs';
 
 export interface Item {
   ItemImageUrl: string;
@@ -148,6 +150,52 @@ export class CategoryDetailComponent implements OnInit {
     this.loadfoodDetails();
     this.loadChefDetails();
     this.loadCuisineDetails();
+    this.getRecentAndBest();
+  }
+
+  getRecentAndBest() {
+    const recentItems$ = from(
+      this.foodService.getRecentItems(this.category, 1)
+    );
+    const besSellers$ = from(this.foodService.getBestSellerItems());
+
+    const recentAndBest = zip(recentItems$, besSellers$);
+    recentAndBest.subscribe(
+      ([recent, best]) => {
+        this.bestSellers = [];
+        console.log(recent, best);
+        if (best && best.length > 0) {
+          for (let item of best) {
+            let currItem = {
+              ItemImageUrl: item.imagePath,
+              ItemName: item.itemname,
+              ItemPrice: item.price,
+              ItemItemId: item.itemId,
+              ItemVendorId: item.VendorVendorId,
+            };
+            this.bestSellers.push(currItem);
+          }
+        }
+
+        if ('rows' in recent && recent.rows.length) {
+          this.newlyAdded = [];
+          const recentItems = recent.rows.map((val: any) => val.item);
+          for (let item of recentItems) {
+            let currItem = {
+              ItemImageUrl: item.imagePath,
+              ItemName: item.itemname,
+              ItemPrice: item.price,
+              ItemItemId: item.itemId,
+              ItemVendorId: item.VendorVendorId,
+            };
+            this.newlyAdded.push(currItem);
+          }
+        }
+      },
+      (err) => {
+        this.toastr.error(handleError(err));
+      }
+    );
   }
 
   loadfoodDetails() {
@@ -178,20 +226,32 @@ export class CategoryDetailComponent implements OnInit {
           firstname: chef.firstname,
           lastname: chef.lastname,
           chefImage: chef.imagePath,
-          chefRating: chef.rating,
+          chefRating: this.calculateRating(chef.reviews),
         };
         this.chefData.push(chefItem);
       }
     });
   }
 
+  calculateRating(reviews: any[]) {
+    if (reviews && reviews.length) {
+      const rating =
+        reviews
+          .map((review) => Number(review.ratingscrore))
+          .reduce((accumulator, currentValue) => accumulator + currentValue) /
+        reviews.length;
+      return rating;
+    }
+    return 0;
+  }
+
   loadCuisineDetails() {
     this.foodService.getCuisineNearUserLocation().subscribe((resp: any) => {
-      //console.log(resp);
       for (let item of resp) {
         if (item != null && item != undefined) {
           let currItem = {
-            ItemImageUrl: item.imagePath,
+            ItemImageUrl:
+              'item' in item && item.item ? item.item.imagePath : '',
             ItemName: item.itemname,
             ItemPrice: item.price,
             ItemItemId: item.itemId,
@@ -210,5 +270,13 @@ export class CategoryDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return false;
+  }
+
+  navigateToCuisine(name: string) {
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() =>
+        this.router.navigate(['/', 'foods', 'category-detail', name])
+      );
   }
 }

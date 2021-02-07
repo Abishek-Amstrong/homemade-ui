@@ -150,12 +150,10 @@ export class FoodService {
   }
 
   getCuisineNearUserLocation(): Observable<any> {
-    return this.http
-      .get(`${environment.apiUrl}/itembysubcategoryName/Desserts/1`)
-      .pipe(
-        map((resp: any) => resp.rows),
-        catchError((err) => this.handleError(err))
-      );
+    return this.http.get(`${environment.apiUrl}/popularcuisine/1`).pipe(
+      map((resp: any) => resp.rows),
+      catchError((err) => this.handleError(err))
+    );
   }
 
   getFoodItemsForHomePage(): Observable<any> {

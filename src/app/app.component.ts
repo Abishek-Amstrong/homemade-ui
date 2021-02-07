@@ -107,6 +107,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       const initialCodes$ = this.getItemByName();
 
       this.filteredOptions = concat(initialCodes$, searchCodes$);
+
+      this.filteredOptions.subscribe((data) => {
+        console.log(data);
+      });
     }
 
     if ('nativeElement' in this.inputOne && this.inputOne.nativeElement) {
@@ -203,11 +207,30 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   navigateToDetailPage(event: any, option: any) {
     if (event.isUserInput) {
-      this.router
-        .navigateByUrl('/', { skipLocationChange: true })
-        .then(() =>
-          this.router.navigate(['/', 'foods', 'detail', option.itemId])
-        );
+      if (option.type === 'subcategoryname') {
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() =>
+            this.router.navigate([
+              '/',
+              'foods',
+              'category',
+              option.subcategoryName,
+            ])
+          );
+      } else if (option.type === 'vendorname') {
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() =>
+            this.router.navigate(['/', 'foods', 'chef', option.vendorId])
+          );
+      } else if (option.type === 'item') {
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() =>
+            this.router.navigate(['/', 'foods', 'detail', option.itemId])
+          );
+      }
     }
   }
 }

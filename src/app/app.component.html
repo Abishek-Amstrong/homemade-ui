@@ -17,12 +17,15 @@
               [(ngModel)]="searchVal">
             <mat-icon matSuffix>search</mat-icon>
             <mat-autocomplete #autoOne="matAutocomplete">
-              <mat-option *ngFor="let item of filteredOptions | async" [value]="item.itemname"
+              <mat-option *ngFor="let item of filteredOptions | async"
+                [value]="item.type === 'item' ? item.itemname : (item.type === 'vendorname' ? item.firstname : (item.type === 'subcategoryname' ? item.subcategoryName : ''))"
                 (onSelectionChange)="navigateToDetailPage($event, item)" class="search-box__option">
                 <img class="search-box__img" aria-hidden
                   [src]="item.imagePath ? item.imagePath : 'assets/images/lazy-placeholder.png'" height="25">
-                <span>{{item.itemname | titlecase}}</span> |
-                <span>Price: {{item.price | currency: 'INR'}}</span>
+                <span *ngIf="item.type === 'item'">{{item.itemname | titlecase}} | </span>
+                <span *ngIf="item.type === 'vendorname'">{{item.firstname | titlecase}}</span>
+                <span *ngIf="item.type === 'subcategoryname'">{{item.subcategoryName | titlecase}}</span>
+                <span *ngIf="item.type === 'item'">Price: {{item.price | currency: 'INR'}}</span>
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -153,12 +156,15 @@
               [(ngModel)]="searchVal">
             <mat-icon matSuffix>search</mat-icon>
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let item of filteredOptionsMobile | async" [value]="item.itemname"
+              <mat-option *ngFor="let item of filteredOptionsMobile | async"
+                [value]="item.type === 'item' ? item.itemname : (item.type === 'vendorname' ? item.firstname : (item.type === 'subcategoryname' ? item.subcategoryName : ''))"
                 (onSelectionChange)="navigateToDetailPage($event, item)" class="search-box__option">
                 <img class="search-box__img" aria-hidden
                   [src]="item.imagePath ? item.imagePath : 'assets/images/lazy-placeholder.png'" height="25">
-                <span>{{item.itemname | titlecase}}</span> |
-                <span>Price: {{item.price | currency: 'INR'}}</span>
+                <span *ngIf="item.type === 'item'">{{item.itemname | titlecase}} | </span>
+                <span *ngIf="item.type === 'vendorname'">{{item.firstname | titlecase}}</span>
+                <span *ngIf="item.type === 'subcategoryname'">{{item.subcategoryName | titlecase}}</span>
+                <span *ngIf="item.type === 'item'">Price: {{item.price | currency: 'INR'}}</span>
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -175,7 +181,8 @@
   <div class="container margin_30_40 fix_mobile">
     <div class="row">
       <div class="col-lg-3 col-md-6">
-        <h3 (click)="isCollapse1Show = !isCollapse1Show"  data-target="#collapse_1" [ngClass]="{ 'opened' : isCollapse1Show, 'collapsed' : !isCollapse1Show }">Quick Links</h3>
+        <h3 (click)="isCollapse1Show = !isCollapse1Show" data-target="#collapse_1"
+          [ngClass]="{ 'opened' : isCollapse1Show, 'collapsed' : !isCollapse1Show }">Quick Links</h3>
         <div class="collapse dont-collapse-sm links" id="collapse_1" [ngClass]="{ 'show' : isCollapse1Show}">
           <ul>
             <li><a href="javascript:void(0)">Sell with Us</a></li>
@@ -186,7 +193,8 @@
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
-        <h3 data-target="#collapse_2" (click)="isCollapse2Show = !isCollapse2Show" [ngClass]="{ 'opened' : isCollapse2Show, 'collapsed' : !isCollapse2Show }">Categories</h3>
+        <h3 data-target="#collapse_2" (click)="isCollapse2Show = !isCollapse2Show"
+          [ngClass]="{ 'opened' : isCollapse2Show, 'collapsed' : !isCollapse2Show }">Categories</h3>
         <div class="collapse dont-collapse-sm links" id="collapse_2" [ngClass]="{ 'show' : isCollapse2Show}">
           <ul>
             <li><a routerLink="/foods">Food</a></li>
@@ -199,7 +207,8 @@
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
-        <h3 data-target="#collapse_3" (click)="isCollapse3Show = !isCollapse3Show" [ngClass]="{ 'opened' : isCollapse3Show, 'collapsed' : !isCollapse3Show }">Contacts</h3>
+        <h3 data-target="#collapse_3" (click)="isCollapse3Show = !isCollapse3Show"
+          [ngClass]="{ 'opened' : isCollapse3Show, 'collapsed' : !isCollapse3Show }">Contacts</h3>
         <div class="collapse dont-collapse-sm contacts" id="collapse_3" [ngClass]="{ 'show' : isCollapse3Show}">
           <ul>
             <li><i class="icon_house_alt"></i>C-520, I-Thum Towers, Block B.
@@ -211,7 +220,8 @@
         </div>
       </div>
       <div class="col-lg-3 col-md-6">
-        <h3 data-target="#collapse_4" (click)="isCollapse4Show = !isCollapse4Show" [ngClass]="{ 'opened' : isCollapse4Show, 'collapsed' : !isCollapse4Show }">Subscribe for regular updates</h3>
+        <h3 data-target="#collapse_4" (click)="isCollapse4Show = !isCollapse4Show"
+          [ngClass]="{ 'opened' : isCollapse4Show, 'collapsed' : !isCollapse4Show }">Subscribe for regular updates</h3>
         <div class="collapse dont-collapse-sm" id="collapse_4" [ngClass]="{ 'show' : isCollapse4Show}">
           <div id="newsletter">
             <div id="message-newsletter"></div>

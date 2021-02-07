@@ -32,6 +32,16 @@ export class FoodService {
       );
   }
 
+  getRecentItems(category: string, pageNo: any): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/Newlyadded/${category}/${pageNo}`
+    );
+  }
+
+  getBestSellerItems(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/bestseller`);
+  }
+
   getItemDetailsInBulk(items: any): Observable<any[]> {
     let obsArr = [];
     for (let item of items) {
@@ -61,20 +71,75 @@ export class FoodService {
   }
 
   getItemByName(code: string) {
+    const data = [];
     if (code) {
       return this.http
         .get(`${environment.apiUrl}/byname/${code}`, {
           observe: 'response',
         })
         .pipe(
-          map((response: any) => response.body.item.map((val: any) => val))
+          map((response: any) => {
+            return this.refinePayload(response.body);
+          })
         );
     }
     return this.http
       .get(`${environment.apiUrl}/byname/${code ? code : 'all'}`, {
         observe: 'response',
       })
-      .pipe(map((response: any) => response.body.item.map((val: any) => val)));
+      .pipe(
+        map((response: any) => {
+          return this.refinePayload(response.body);
+        })
+      );
+  }
+
+  refinePayload(obj: any) {
+    let data: any = [];
+    Object.keys(obj).forEach((key) => {
+      if (obj[key].length) {
+        obj[key].forEach((item: any) => {
+          data.push({
+            type: key,
+            itemname: item.itemname,
+            imagePath: 'imagePath' in item ? item.imagePath : '',
+            price: 'price' in item ? item.price : '',
+            itemId: 'itemId' in item ? item.itemId : '',
+            firstname: 'firstname' in item ? item.firstname : '',
+            vendorId: 'vendorId' in item ? item.vendorId : '',
+            subcategoryName:
+              'subcategoryName' in item ? item.subcategoryName : '',
+          });
+        });
+      }
+    });
+
+    const subCategories = data
+      .filter((val: any) => val.type === 'subcategoryname')
+      .filter(
+        (itemObj: any, index: number, arr: any[]) =>
+          arr.findIndex(
+            (item: any) => item.subcategoryName === itemObj.subcategoryName
+          ) === index
+      );
+
+    const vendors = data
+      .filter((val: any) => val.type === 'vendorname')
+      .filter(
+        (itemObj: any, index: number, arr: any[]) =>
+          arr.findIndex((item: any) => item.vendorId === itemObj.vendorId) ===
+          index
+      );
+
+    const items = data
+      .filter((val: any) => val.type === 'item')
+      .filter(
+        (itemObj: any, index: number, arr: any[]) =>
+          arr.findIndex((item: any) => item.itemname === itemObj.itemname) ===
+          index
+      );
+
+    return [...subCategories, ...vendors, ...items];
   }
 
   getChefsNearUserLocation(): Observable<any> {
@@ -85,12 +150,10 @@ export class FoodService {
   }
 
   getCuisineNearUserLocation(): Observable<any> {
-    return this.http
-      .get(`${environment.apiUrl}/itembysubcategoryName/Desserts/1`)
-      .pipe(
-        map((resp: any) => resp.rows),
-        catchError((err) => this.handleError(err))
-      );
+    return this.http.get(`${environment.apiUrl}/popularcuisine/1`).pipe(
+      map((resp: any) => resp.rows),
+      catchError((err) => this.handleError(err))
+    );
   }
 
   getFoodItemsForHomePage(): Observable<any> {

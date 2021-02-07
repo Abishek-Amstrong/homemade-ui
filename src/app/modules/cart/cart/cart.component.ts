@@ -179,6 +179,7 @@ export class CartComponent implements OnInit {
     } 
     else if (this.userCart.length == 0 && ischeckout) {
       this.toastr.error('Cart is Empty', 'Error!!');
+      if(ischeckout){ this.router.navigateByUrl('/cart/checkout'); this.isSelfDestroy = true; }
     } 
     else {
       if(ischeckout){ this.router.navigateByUrl('/cart/checkout'); this.isSelfDestroy = true; }

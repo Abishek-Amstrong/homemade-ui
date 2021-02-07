@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGaurdService } from '../shared/services/auth.gaurd.service';
 
 import { CartComponent } from './cart/cart.component';
+import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { CheckoutFoodComponent } from './checkout-food/checkout-food.component';
 
 const routes: Routes = [
@@ -10,6 +11,11 @@ const routes: Routes = [
   {
     path: 'checkout',
     component: CheckoutFoodComponent,
+    canActivate: [AuthGaurdService],
+  },
+  {
+    path: 'confirm',
+    component: OrderConfirmComponent,
     canActivate: [AuthGaurdService],
   },
 ];

@@ -32,6 +32,16 @@ export class FoodService {
       );
   }
 
+  getRecentItems(category: string, pageNo: any): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl}/Newlyadded/${category}/${pageNo}`
+    );
+  }
+
+  getBestSellerItems(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/bestseller`);
+  }
+
   getItemDetailsInBulk(items: any): Observable<any[]> {
     let obsArr = [];
     for (let item of items) {

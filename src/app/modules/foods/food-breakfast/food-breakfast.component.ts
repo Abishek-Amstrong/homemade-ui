@@ -6,6 +6,8 @@ import { FoodService } from '../../shared/services/food.service';
 import { PlaceOrderComponent } from '../place-order/place-order.component';
 import { isNgTemplate } from '@angular/compiler';
 import { ActivatedRoute, Router } from '@angular/router';
+import { concat, from, zip } from 'rxjs';
+import { handleError } from '../../shared/helpers/error-handler';
 
 export interface Item {
   ItemImageUrl: string;
@@ -148,15 +150,59 @@ export class FoodBreakfastComponent implements OnInit {
     this.loadfoodDetails();
     this.loadChefDetails();
     this.loadCuisineDetails();
+    this.getRecentAndBest();
+  }
+
+  getRecentAndBest() {
+    const recentItems$ = from(
+      this.foodService.getRecentItems(this.category, 1)
+    );
+    const besSellers$ = from(this.foodService.getBestSellerItems());
+
+    const recentAndBest = zip(recentItems$, besSellers$);
+    recentAndBest.subscribe(
+      ([recent, best]) => {
+        this.bestSellers = [];
+        console.log(recent, best);
+        if (best && best.length > 0) {
+          for (let item of best) {
+            let currItem = {
+              ItemImageUrl: item.imagePath,
+              ItemName: item.itemname,
+              ItemPrice: item.price,
+              ItemItemId: item.itemId,
+              ItemVendorId: item.VendorVendorId,
+            };
+            this.bestSellers.push(currItem);
+          }
+        }
+
+        if ('rows' in recent && recent.rows.length) {
+          this.newlyAdded = [];
+          const recentItems = recent.rows.map((val: any) => val.item);
+          for (let item of recentItems) {
+            let currItem = {
+              ItemImageUrl: item.imagePath,
+              ItemName: item.itemname,
+              ItemPrice: item.price,
+              ItemItemId: item.itemId,
+              ItemVendorId: item.VendorVendorId,
+            };
+            this.newlyAdded.push(currItem);
+          }
+        }
+      },
+      (err) => {
+        this.toastr.error(handleError(err));
+      }
+    );
   }
 
   loadfoodDetails() {
-    //console.log(this.category);
     this.foodService
       .getItemSubCategoryDetails('food', this.category)
       .subscribe((resp: any) => {
-        //console.log(resp);
-        if (resp != null && resp != undefined && resp.length > 0) {
+        if (resp && resp.length > 0) {
           for (let item of resp) {
             let currItem = {
               ItemImageUrl: item.imagePath,

@@ -199,10 +199,7 @@
                                     <label>State</label>
                                     <select class="nice-select wide form-control" tabindex="0" formControlName="state">
                                         <option class="option" disabled>Select state</option>
-                                        <option class="option" value="Sikkim">Sikkim</option>
-                                        <option class="option" value="Manipur">Manipur</option>
-                                        <option class="option" value="Ladhak">Ladhak</option>
-                                        <option class="option" value="Rajasthan">Rajasthan</option>
+                                        <option class="option" *ngFor="let state of allStateData" value="{{state}}">{{state}}</option>
                                     </select>
                                     <p *ngIf="submitted && f.state.errors && f.state.errors.required" class="error-msg">
                                         Please select the state for delivery!!</p>

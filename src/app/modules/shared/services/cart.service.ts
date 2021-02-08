@@ -202,11 +202,10 @@ export class CartService {
       });
     }
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
-    //console.log(JSON.stringify(orderData));
+    // console.log(JSON.stringify(orderData));
     return this.http
       .post(`${environment.apiUrl}/customerorder`, orderData, {
-        headers: options,
-        responseType: 'text',
+        headers: options
       })
       .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
 
@@ -359,8 +358,65 @@ export class CartService {
     let userId = this.authService.getUserId();
     let bodyJson = { details: cartItems, userId: userId };
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
-    console.log(bodyJson);
+    // console.log(bodyJson);
     return this.http.put(`${environment.apiUrl}/updateAddItemsInCart`, bodyJson ,{ headers: options})
+    .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
+  }
+
+  getRazorPaymentData(cartItems: any, totalPrice: number, rzOrderId : string, OrderId : string) : any{
+    let userVal : any = this.authService.userValue;
+    let rzPayNotes : any = {
+      userName: userVal?.user.firstname,
+      email: userVal?.user.email_Id
+    };
+    // console.log(userVal);
+    for (let item of cartItems) {
+
+      for (let i = 0; i < cartItems.length; i++) {
+        rzPayNotes['item' + i] = `itemName: ${cartItems[i].ItemName},
+        quantity: ${cartItems[i].ItemQuantity},
+        price: ${cartItems[i].ItemQuantity}`;
+      }
+    }
+    // console.log(rzPayNotes);
+    let data = {
+      key: environment.razorPayKeyId,
+      amount: totalPrice * 100, // amount should be in paise format
+      currency: 'INR',
+      name: 'Homemade', // company name or product name
+      description: OrderId,  // product description
+      image: './assets/images/logo.svg', // company logo or product image
+      order_id: rzOrderId, // order_id returned by razorpay
+      modal: {
+        // We should prevent closing of the form when esc key is pressed.
+        escape: false,
+      },
+      notes: rzPayNotes,
+      prefill: {
+        name :  userVal?.user.firstname,
+        email : userVal?.user.email_Id,
+        contact : '91' + userVal?.user.mobileNumber,
+   
+      },
+      theme: {
+        color: '#444'
+      }
+    };
+    return data;
+  }
+
+  verifyAndCapturePayment(rzDetails : any, orderId : string)
+  {
+    const options = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let userId = this.authService.getUserId();
+    let bodyJSON = {
+      rzPayOrderId : rzDetails.razorpay_order_id,
+      orderId: orderId,
+      rzPayPaymentId: rzDetails.razorpay_payment_id,
+      rzsignature: rzDetails.razorpay_signature,
+      userId
+    };
+    return this.http.post(`${environment.apiUrl}/verifypayment`,bodyJSON ,{ headers: options})
     .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
   }
 

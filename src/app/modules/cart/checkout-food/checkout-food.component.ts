@@ -415,11 +415,29 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
           });
           options.modal.ondismiss = (() => {
             // handle the case when user closes the form while transaction is in progress
-            console.log('Transaction cancelled.');
+            // this.cartService.checkCancelledPaymentStatus().subscribe((data:any)=>{
+            //   console.log(data);
+            // })
+            // console.log('Transaction cancelled.');
           });
 
           this.razorPay = new this.windowRef.NativeWindow.Razorpay(options);
           this.razorPay.open();
+
+          this.razorPay.on('payment.failed',(response : any)=>{
+            // console.log(response.error.code);
+            // console.log(response.error.description);
+            // console.log(response.error.source);
+            // console.log(response.error.step);
+            // console.log(response.error.reason);
+            // console.log(response.error.metadata.order_id);
+            // console.log(response.error.metadata.payment_id);
+            this.cartService.logErrorPayment(response.error.metadata.order_id, response.error.metadata.payment_id,
+              resp.data.orderId, response.error).subscribe(
+              (data:any)=>{
+                // console.log('error payment logged');
+            });
+          });
         });
     }
   }

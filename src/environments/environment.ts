@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://homeade.herokuapp.com',
+  apiUrl: 'http://localhost:8000',
   // https://homeade.herokuapp.com
-  razorPayKeyId : 'rzp_test_ab6svNX9AfsNPx'
+  razorPayKeyId : 'rzp_test_jPDSffitEDPt9s'
 };
 
 /*

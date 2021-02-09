@@ -471,7 +471,7 @@ export class CartService {
     return data;
   }
 
-  verifyAndCapturePayment(rzDetails: any, orderId: string) {
+  verifyAndCapturePayment(rzDetails : any, orderId : string) : Observable<any> {
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
     let userId = this.authService.getUserId();
     let bodyJSON = {
@@ -490,6 +490,37 @@ export class CartService {
           this.getCartCountAPIResp();
         })
       );
+  }
+
+  logErrorPayment(rzOrderId : string, rzPaymentId : string, orderId : string, error : any) : Observable<any>
+  {
+    const options = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let userId = this.authService.getUserId();
+    let bodyJSON = {
+      rzPayOrderId : rzOrderId,
+      orderId: orderId,
+      rzPayPaymentId: rzPaymentId,
+      userId,
+      error : {
+        code : error.code,
+        description : error.description,
+        source : error.source,
+        step : error.step,
+        reason : error.reason
+      }
+    };
+    return this.http.post(`${environment.apiUrl}/errorpayment`,bodyJSON,{ headers: options});
+  }
+
+  checkCancelledPaymentStatus()
+  {
+    const options = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let userId = this.authService.getUserId();
+    let bodyJSON = {
+      userId
+    };
+    return this.http.post(`${environment.apiUrl}/checkcancelledpaymentstatus`,bodyJSON ,{ headers: options})
+    .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
   }
 
   handleError(errorObj: HttpErrorResponse): Observable<any> {

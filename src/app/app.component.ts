@@ -109,7 +109,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.filteredOptions = concat(initialCodes$, searchCodes$);
 
       this.filteredOptions.subscribe((data) => {
-        console.log(data);
+        // console.log(data);
       });
     }
 

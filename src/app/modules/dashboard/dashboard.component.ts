@@ -380,7 +380,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   navigateToCategory(category: string, type: string) {
-    console.log(category);
+    //console.log(category);
     if (type === 'subcategory') {
       this.router
         .navigateByUrl('/', { skipLocationChange: true })

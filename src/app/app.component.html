@@ -1,4 +1,4 @@
-<header class="header_in clearfix">
+<header class="header_in clearfix" *ngIf="!isHideHeader">
   <div class="container">
     <!-- /top_menu -->
     <div class="topBar">
@@ -43,11 +43,14 @@
                 <li><a routerLink="/profile">Profile</a></li>
                 <li><a routerLink="/profile/myorders">My Orders</a></li>
                 <li><a href="/profile/favourites">Favourites</a></li>
-                <li><a routerLink="/profile/signout">Sign Out</a></li>
+                <li><a routerLink="/profile/signout" *ngIf="user">Sign Out</a></li>
               </ul>
             </li>
-            <li><a routerLink="/cart" class="cart_bt"><img src="assets/images/cart.svg" alt="cart"><span
+            <li *ngIf="user"><a routerLink="/cart" class="cart_bt"><img src="assets/images/cart.svg" alt="cart"><span
                   class="cart-badge" *ngIf="cartItemCount > 0">{{cartItemCount}}</span></a></li>
+
+            <li *ngIf="!user"><a routerLink="/cart" class="cart_bt"><img src="assets/images/cart.svg" alt="cart"><span
+                  class="cart-badge" *ngIf="guestCartCount > 0">{{guestCartCount}}</span></a></li>
           </ul>
         </div>
       </div>
@@ -146,7 +149,7 @@
 </header>
 <main>
   <!--Full width Search Box in Mobile versions-->
-  <div class="page_header element_to_stick dHide">
+  <div class="page_header element_to_stick dHide" *ngIf="!isHideHeader">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -176,7 +179,7 @@
   <router-outlet></router-outlet>
 </main>
 
-<footer>
+<footer *ngIf="!isHideHeader">
   <div class="wave footer"></div>
   <div class="container margin_30_40 fix_mobile">
     <div class="row">

@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   headerSubscription: any;
   user: any;
   cartItemCount: any = 0;
+  guestCartCount: any = 0;
   filteredOptions: Observable<any> | null;
   filteredOptionsMobile: Observable<any> | null;
   searchVal: string;
@@ -60,15 +61,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog
   ) {
     this.isLoggedIn = false;
-    this.isHideHeader = false;
+    this.isHideHeader = true;
     this.filteredOptions = null;
     this.filteredOptionsMobile = null;
     this.searchVal = '';
-    this.headerSubscription = this.authService.hideHeaderStatusChange.subscribe(
-      (val) => {
-        this.isHideHeader = val;
-      }
-    );
     this.isCollapse1Show = false;
     this.isCollapse2Show = false;
     this.isCollapse3Show = false;
@@ -76,6 +72,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    sessionStorage.setItem('fromSession', JSON.stringify(false));
     this.cartService.getCartItemCount().subscribe((val) => {
       //console.log('Inside subscription : ' + val);
       this.cartItemCount = val;
@@ -90,43 +87,59 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (!sessionStorage.getItem('cartData')) {
       sessionStorage.setItem('cartData', JSON.stringify([]));
     }
+
+    this.cartService.guestData.subscribe((val) => {
+      const cartData = JSON.parse(val);
+      this.guestCartCount = cartData.length;
+    });
+
+    this.headerSubscription = this.authService.hideHeaderStatusChange.subscribe(
+      (val) => {
+        this.isHideHeader = val;
+        console.log(this.isHideHeader);
+      }
+    );
   }
 
   ngAfterViewInit() {
-    if ('nativeElement' in this.input && this.input.nativeElement) {
-      const searchCodes$ = fromEvent<any>(
-        this.input.nativeElement,
-        'keyup'
-      ).pipe(
-        map((event) => event.target.value),
-        debounceTime(400),
-        distinctUntilChanged(),
-        switchMap((search) => this.getItemByName(search))
-      );
+    if (this.input) {
+      if ('nativeElement' in this.input && this.input.nativeElement) {
+        const searchCodes$ = fromEvent<any>(
+          this.input.nativeElement,
+          'keyup'
+        ).pipe(
+          map((event) => event.target.value),
+          debounceTime(400),
+          distinctUntilChanged(),
+          switchMap((search) => this.getItemByName(search))
+        );
 
-      const initialCodes$ = this.getItemByName();
+        const initialCodes$ = this.getItemByName();
 
-      this.filteredOptions = concat(initialCodes$, searchCodes$);
+        this.filteredOptions = concat(initialCodes$, searchCodes$);
 
-      this.filteredOptions.subscribe((data) => {
-        // console.log(data);
-      });
+        this.filteredOptions.subscribe((data) => {
+          console.log(data);
+        });
+      }
     }
 
-    if ('nativeElement' in this.inputOne && this.inputOne.nativeElement) {
-      const searchItem$ = fromEvent<any>(
-        this.inputOne.nativeElement,
-        'keyup'
-      ).pipe(
-        map((event) => event.target.value),
-        debounceTime(400),
-        distinctUntilChanged(),
-        switchMap((search) => this.getItemByName(search))
-      );
+    if (this.inputOne) {
+      if ('nativeElement' in this.inputOne && this.inputOne.nativeElement) {
+        const searchItem$ = fromEvent<any>(
+          this.inputOne.nativeElement,
+          'keyup'
+        ).pipe(
+          map((event) => event.target.value),
+          debounceTime(400),
+          distinctUntilChanged(),
+          switchMap((search) => this.getItemByName(search))
+        );
 
-      const initialItem$ = this.getItemByName();
+        const initialItem$ = this.getItemByName();
 
-      this.filteredOptionsMobile = concat(initialItem$, searchItem$);
+        this.filteredOptionsMobile = concat(initialItem$, searchItem$);
+      }
     }
   }
 

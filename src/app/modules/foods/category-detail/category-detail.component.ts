@@ -163,7 +163,7 @@ export class CategoryDetailComponent implements OnInit {
     recentAndBest.subscribe(
       ([recent, best]) => {
         this.bestSellers = [];
-        console.log(recent, best);
+        // console.log(recent, best);
         if (best && best.length > 0) {
           for (let item of best) {
             let currItem = {

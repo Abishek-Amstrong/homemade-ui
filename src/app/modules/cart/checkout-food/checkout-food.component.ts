@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { CartService } from '../../shared/services/cart.service';
 import { ProfileService } from '../../shared/services/profile.service';
+import { WindowrefService } from '../../shared/services/windowref.service';
 import {} from 'googlemaps';
 
 export interface Item {
@@ -53,6 +54,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   @ViewChild('deliveryLocation') deliveryInput: ElementRef | any;
   submitted: boolean;
   allStateData : string[];
+  razorPay : any;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -60,7 +62,8 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     private router: Router,
     private profileService: ProfileService,
     private cartService: CartService,
-    private authService : AuthService
+    private authService : AuthService,
+    private windowRef :  WindowrefService
   ) {
     this.deliveryForm = new FormGroup({});
     this.selectedDay = '';
@@ -76,6 +79,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     this.googleRef = null;
     this.submitted = false;
     this.allStateData = [];
+    this.razorPay = null;
   }
 
   ngOnInit(): void {
@@ -397,8 +401,25 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       this.cartService
         .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total)
         .subscribe((resp: any) => {
-          this.toastr.success('Order is placed', 'Success!!');
-          this.router.navigate(['/', 'cart','confirm']);
+          //call RazorPay checkout
+          let options = this.cartService.getRazorPaymentData(this.userCart, this.total, resp.data.rzPayOrderId, resp.data.orderId);
+          options.handler = ((response: any, error: any) => {
+            options.response = response;
+            // console.log(response);
+            // console.log(options);
+            // verify payment signature & capture transaction
+            this.cartService.verifyAndCapturePayment(response, resp.data.orderId).subscribe((data:any)=>{
+              this.toastr.success('Order is placed', 'Success!!');
+              this.router.navigate(['/', 'cart', 'confirm']);
+            });
+          });
+          options.modal.ondismiss = (() => {
+            // handle the case when user closes the form while transaction is in progress
+            console.log('Transaction cancelled.');
+          });
+
+          this.razorPay = new this.windowRef.NativeWindow.Razorpay(options);
+          this.razorPay.open();
         });
     }
   }

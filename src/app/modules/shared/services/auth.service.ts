@@ -42,7 +42,7 @@ export class AuthService {
     this.user = this.userSubject.asObservable();
     this.currentUser = '';
     this.currentUserLocation = 'delhi';
-    this.hideHeader = false;
+    this.hideHeader = true;
   }
 
   getHeaderDisplayStatus(): boolean {

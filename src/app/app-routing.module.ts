@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthCheckoutGaurdService } from './modules/shared/services/auth-checkout.gaurd.service';
 import { AuthGaurdService } from './modules/shared/services/auth.gaurd.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
     path: 'auth',
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
+    canActivate: [AuthCheckoutGaurdService],
   },
   {
     path: 'shared',
@@ -53,9 +55,7 @@ const routes: Routes = [
   {
     path: 'about-us',
     loadChildren: () =>
-      import('./modules/about-us/about-us.module').then(
-        (m) => m.AboutUsModule
-      ),
+      import('./modules/about-us/about-us.module').then((m) => m.AboutUsModule),
   },
   {
     path: 'contact-us',
@@ -67,16 +67,14 @@ const routes: Routes = [
   {
     path: 'faq',
     loadChildren: () =>
-      import('./modules/faq/faq.module').then(
-        (m) => m.FaqModule
-      ),
+      import('./modules/faq/faq.module').then((m) => m.FaqModule),
   },
   {
     path: 'sugar-spice',
     loadChildren: () =>
       import('./modules/sugar/sugar.module').then((m) => m.SugarModule),
   },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'auth', pathMatch: 'full' },
 ];
 
 @NgModule({

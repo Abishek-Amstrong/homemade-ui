@@ -41,7 +41,9 @@ export class ProfileService {
   updatePersonalDetails(persData: any) {
     persData['userId'] = localStorage.getItem('userId');
     //console.log(persData);
-    return this.http.put(`${environment.apiUrl}/updateuserdetails`, persData,{ responseType : 'text' });
+    return this.http.put(`${environment.apiUrl}/updateuserdetails`, persData, {
+      responseType: 'text',
+    });
   }
 
   getAddressDetails() {
@@ -49,8 +51,7 @@ export class ProfileService {
     return this.http.get(`${environment.apiUrl}/useraddress/${id}`);
   }
 
-  getAllStateDetails()
-  {
+  getAllStateDetails() {
     return this.http.get(`${environment.apiUrl}/states`);
   }
 
@@ -68,11 +69,11 @@ export class ProfileService {
     return this.http.delete(`${environment.apiUrl}/deleteaddress/${addressId}`);
   }
 
-  getOrderDetails(pageno : number): Observable<any> {
+  getOrderDetails(pageno: number): Observable<any> {
     let userId = this.authService.getUserId();
     return this.http
       .get(`${environment.apiUrl}/userOrderList/${userId}/${pageno}/2`)
-      .pipe( catchError((err) => this.handleError(err)));
+      .pipe(catchError((err) => this.handleError(err)));
   }
 
   handleError(errorObj: HttpErrorResponse): Observable<any> {

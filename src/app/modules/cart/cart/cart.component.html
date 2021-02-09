@@ -17,7 +17,8 @@
                 <div class="basketProduct d-flex align-items-center" *ngFor="let prod of userCart; let i = index">
                     <div class="item">
                         <div class="product-image">
-                            <img [src]="prod.ItemImageUrl" alt="Product Image" class="">
+                            <img [src]="prod.ItemImageUrl ? prod.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                                alt="Product Image" class="">
                         </div>
                     </div>
                     <div class="product-detail d-flex align-items-center">
@@ -38,7 +39,8 @@
                         <div class="prod-footer d-flex align-items-center">
                             <div class="subtotal">{{(prod.ItemQuantity * prod.ItemPrice) | currency:'INR'}}</div>
                             <div class="remove">
-                                <a href="#" (click)="deleteItemInCart(prod.ItemCartId,prod.ItemItemId)">Remove</a>
+                                <a href="javascript:void(0)"
+                                    (click)="deleteItemInCart(prod.ItemCartId,prod.ItemItemId)">Remove</a>
                             </div>
                         </div>
 

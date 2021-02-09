@@ -15,6 +15,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./forgot/forgot.module').then((m) => m.ForgotModule),
   },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

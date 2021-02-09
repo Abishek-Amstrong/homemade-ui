@@ -4,12 +4,17 @@ import {
   Inject,
   ɵɵtrustConstantResourceUrl,
 } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '../../shared/modals/confirmation-dialog/confirmation-dialog.component'
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../shared/modals/confirmation-dialog/confirmation-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { handleError } from '../../shared/helpers/error-handler';
 import { CartService } from '../../shared/services/cart.service';
 import { FoodService } from '../../shared/services/food.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 export interface Item {
   ItemImageUrl: string;
@@ -47,7 +52,8 @@ export class PlaceOrderComponent implements OnInit {
     private confirmdialog: MatDialog,
     private toastr: ToastrService,
     private foodService: FoodService,
-    private cartService: CartService
+    private cartService: CartService,
+    private authService: AuthService
   ) {
     this.orderData = {
       OrderQuantity: 1,
@@ -58,7 +64,7 @@ export class PlaceOrderComponent implements OnInit {
       OrderUserId: '',
       OrderPrice: 0,
       OrderVendorId: '',
-      OrderItemImgUrl: ''
+      OrderItemImgUrl: '',
     };
     this.selectedSize = '';
   }
@@ -131,41 +137,96 @@ export class PlaceOrderComponent implements OnInit {
 
   addToCart() {
     //check the items selected already exists in cart
-    //console.log(this.orderData);
-    this.cartService.checkItemExistsInCart(this.orderData).subscribe((resp : any)=>{
-      //console.log(resp.status);
-      //if the item doesn't exists create  a new cart
-      if(resp.status == '204')
-      {
-        //create a new cart with items
-        this.cartService.addItemsTocart(this.orderData).subscribe((resp: any) => {
-        //console.log(resp);
-        this.toastr.success('Item is added to cart', 'Success!!');
-        this.dialogRef.close();
-        },(err : any) =>{
-          handleError(err);
-        });
-      }
-      //if the item exists confirm with user to update the existing cart
-      else if(resp.status == '200')
-      {
-        const confirmdialogRef = this.confirmdialog.open( ConfirmationDialogComponent, {
-          data: { message : 'Item exists in cart!! Do you want to proceed and modify the existing order ?' },
-        });
-        confirmdialogRef.afterClosed().subscribe((result) => {
-          if(result)
-          {
-            //update the existing items in the cart
-            this.cartService.updateAddItemsToExistingCart(this.orderData).subscribe((resp:any)=>{
-              this.toastr.success('cart items are updated/added successfully', 'Success!!');
-            },(err : any) =>{
-              handleError(err);
-            })
+    console.log(this.orderData);
+    const userId = this.authService.getUserId();
+    console.log(userId);
+    if (userId) {
+      this.cartService
+        .checkItemExistsInCart(this.orderData)
+        .subscribe((resp: any) => {
+          //if the item doesn't exists create  a new cart
+          if (resp.status == '204') {
+            //create a new cart with items
+            this.cartService.addItemsTocart(this.orderData).subscribe(
+              (resp: any) => {
+                this.toastr.success('Item is added to cart', 'Success!!');
+                this.dialogRef.close();
+              },
+              (err: any) => {
+                handleError(err);
+              }
+            );
           }
-          this.dialogRef.close();
+          //if the item exists confirm with user to update the existing cart
+          else if (resp.status == '200') {
+            const confirmdialogRef = this.confirmdialog.open(
+              ConfirmationDialogComponent,
+              {
+                data: {
+                  message:
+                    'Item exists in cart!! Do you want to proceed and modify the existing order ?',
+                },
+              }
+            );
+            confirmdialogRef.afterClosed().subscribe((result) => {
+              if (result) {
+                //update the existing items in the cart
+                this.cartService
+                  .updateAddItemsToExistingCart(this.orderData)
+                  .subscribe(
+                    (resp: any) => {
+                      this.toastr.success(
+                        'cart items are updated/added successfully',
+                        'Success!!'
+                      );
+                    },
+                    (err: any) => {
+                      handleError(err);
+                    }
+                  );
+              }
+              this.dialogRef.close();
+            });
+          }
         });
-      }
-    });
-    return false;
+    } else {
+      const cart: any = sessionStorage.getItem('cartData')
+        ? sessionStorage.getItem('cartData')
+        : '';
+      console.log(cart);
+      const cartData = JSON.parse(cart);
+      cartData.push({
+        itemId: this.orderData.OrderItemId,
+        Name: this.orderData.OrderItemName,
+        quantity: this.orderData.OrderQuantity,
+        Price: this.orderData.OrderPrice,
+        imgUrl: this.orderData.OrderItemImgUrl,
+        vendorId: this.orderData.OrderVendorId,
+      });
+      const selectedSimilar = this.orderData.OrderSimilarProducts.filter(
+        (item) => item.ItemChecked
+      );
+      selectedSimilar.forEach((item: any) => {
+        const index = cartData.findIndex(
+          (cartObj: any) => cartObj.itemId === item.ItemItemId
+        );
+        if (index === -1) {
+          cartData.push({
+            itemId: item.ItemItemId,
+            Name: item.ItemName,
+            quantity: item.ItemQuantity,
+            Price: item.ItemPrice,
+            imgUrl: item.ItemImageUrl,
+            vendorId: this.orderData.OrderVendorId,
+          });
+        } else {
+          cartData[index].quantity += item.ItemQuantity;
+        }
+      });
+      console.log(cartData);
+      sessionStorage.setItem('cartData', JSON.stringify(cartData));
+      this.cartService.updateGuestCart();
+      this.dialogRef.close();
+    }
   }
 }

@@ -5,7 +5,7 @@
                 <div class="account-pre" [ngClass]="{mhide : isHideMenu}">
                     <div class="user-title">
                         <a routerLink="/profile/myaccount">
-                            <h2><span>Hi</span> {{userName | titlecase}}</h2>
+                            <h2><span>Hi</span> {{userName ? userName : 'Guest' | titlecase}}</h2>
                         </a>
                     </div>
                     <div class="account-menu">

@@ -426,4 +426,10 @@ export class FoodsComponent implements OnInit {
         this.platter.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
   }
+
+  navigateToSubCategory(category: string) {
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+  }
 }

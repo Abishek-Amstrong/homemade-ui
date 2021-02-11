@@ -133,8 +133,9 @@ export class CartComponent implements OnInit {
         (item: any) => item.itemId === itemId
       );
       if (indexToInc !== -1) {
-        this.guestCartData[indexToInc].quantity -= 1;
+        this.guestCartData[indexToInc].quantity += 1;
       }
+      sessionStorage.setItem('cartData', JSON.stringify(this.guestCartData));
     }
   }
 
@@ -157,6 +158,7 @@ export class CartComponent implements OnInit {
       if (indexToDec !== -1 && this.guestCartData[indexToDec].quantity > 1) {
         this.guestCartData[indexToDec].quantity -= 1;
       }
+      sessionStorage.setItem('cartData', JSON.stringify(this.guestCartData));
     }
   }
 
@@ -301,9 +303,19 @@ export class CartComponent implements OnInit {
       const indexToDelete = this.userCart.findIndex(
         (cart) => cart.ItemItemId === ItemId
       );
+      const indexInGuest = this.guestCartData.findIndex(
+        (itemObj: any) => itemObj.itemId === ItemId
+      );
       if (indexToDelete !== -1) {
         this.userCart.splice(indexToDelete, 1);
       }
+
+      if (indexInGuest !== -1) {
+        this.guestCartData.splice(indexInGuest, 1);
+      }
+      sessionStorage.setItem('cartData', JSON.stringify(this.guestCartData));
+      this.cartService.updateGuestCart();
+      this.calculateTotal();
     }
   }
 

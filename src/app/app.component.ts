@@ -5,6 +5,8 @@ import {
   Inject,
   ViewChild,
   AfterViewInit,
+  ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,8 +46,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   filteredOptions: Observable<any> | null;
   filteredOptionsMobile: Observable<any> | null;
   searchVal: string;
-  @ViewChild('searchInput', { static: true }) input: any;
-  @ViewChild('searchInputOne', { static: true }) inputOne: any;
+  @ViewChild('searchInput', { static: false }) input: any;
+  @ViewChild('searchInputOne', { static: false }) inputOne: any;
   isCollapse1Show: boolean;
   isCollapse2Show: boolean;
   isCollapse3Show: boolean;
@@ -58,10 +60,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     private foodService: FoodService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef
   ) {
     this.isLoggedIn = false;
-    this.isHideHeader = true;
+    this.isHideHeader = false;
     this.filteredOptions = null;
     this.filteredOptionsMobile = null;
     this.searchVal = '';
@@ -96,50 +99,50 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.headerSubscription = this.authService.hideHeaderStatusChange.subscribe(
       (val) => {
         this.isHideHeader = val;
-        console.log(this.isHideHeader);
+        this.cd.detectChanges();
       }
     );
   }
 
   ngAfterViewInit() {
-    if (this.input) {
-      if ('nativeElement' in this.input && this.input.nativeElement) {
-        const searchCodes$ = fromEvent<any>(
-          this.input.nativeElement,
-          'keyup'
-        ).pipe(
-          map((event) => event.target.value),
-          debounceTime(400),
-          distinctUntilChanged(),
-          switchMap((search) => this.getItemByName(search))
-        );
+    if (
+      this.input &&
+      'nativeElement' in this.input &&
+      this.input.nativeElement
+    ) {
+      const searchCodes$ = fromEvent<any>(
+        this.input.nativeElement,
+        'keyup'
+      ).pipe(
+        map((event) => event.target.value),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((search) => this.getItemByName(search))
+      );
 
-        const initialCodes$ = this.getItemByName();
+      const initialCodes$ = this.getItemByName();
 
-        this.filteredOptions = concat(initialCodes$, searchCodes$);
-
-        this.filteredOptions.subscribe((data) => {
-          console.log(data);
-        });
-      }
+      this.filteredOptions = concat(initialCodes$, searchCodes$);
     }
 
-    if (this.inputOne) {
-      if ('nativeElement' in this.inputOne && this.inputOne.nativeElement) {
-        const searchItem$ = fromEvent<any>(
-          this.inputOne.nativeElement,
-          'keyup'
-        ).pipe(
-          map((event) => event.target.value),
-          debounceTime(400),
-          distinctUntilChanged(),
-          switchMap((search) => this.getItemByName(search))
-        );
+    if (
+      this.inputOne &&
+      'nativeElement' in this.inputOne &&
+      this.inputOne.nativeElement
+    ) {
+      const searchItem$ = fromEvent<any>(
+        this.inputOne.nativeElement,
+        'keyup'
+      ).pipe(
+        map((event) => event.target.value),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((search) => this.getItemByName(search))
+      );
 
-        const initialItem$ = this.getItemByName();
+      const initialItem$ = this.getItemByName();
 
-        this.filteredOptionsMobile = concat(initialItem$, searchItem$);
-      }
+      this.filteredOptionsMobile = concat(initialItem$, searchItem$);
     }
   }
 

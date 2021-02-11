@@ -255,7 +255,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   navigateToComponent(path: string) {
-    this.router.navigate(['/', 'foods']);
+    this.router.navigate(['/', path]);
   }
 
   loadRecentOrderedItems() {

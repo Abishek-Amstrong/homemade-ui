@@ -339,6 +339,21 @@ export class CartService {
       );
   }
 
+  addGuestCart(item: any): Observable<any> {
+    //do a put api request to add the items to cart
+    const options = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let userId = this.authService.getUserId();
+    let bodyJson = { details: item, userId: userId };
+    //console.log(JSON.stringify(bodyJson));
+    return this.http
+      .post(`${environment.apiUrl}/addtocart`, bodyJson, { headers: options })
+      .pipe(
+        tap((resp) => {
+          this.getCartCountAPIResp();
+        })
+      );
+  }
+
   checkItemExistsInCart(item: any): Observable<any> {
     let items: string[] = [];
     items.push(item.OrderItemId);
@@ -471,7 +486,7 @@ export class CartService {
     return data;
   }
 
-  verifyAndCapturePayment(rzDetails : any, orderId : string) : Observable<any> {
+  verifyAndCapturePayment(rzDetails: any, orderId: string): Observable<any> {
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
     let userId = this.authService.getUserId();
     let bodyJSON = {
@@ -492,35 +507,47 @@ export class CartService {
       );
   }
 
-  logErrorPayment(rzOrderId : string, rzPaymentId : string, orderId : string, error : any) : Observable<any>
-  {
+  logErrorPayment(
+    rzOrderId: string,
+    rzPaymentId: string,
+    orderId: string,
+    error: any
+  ): Observable<any> {
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
     let userId = this.authService.getUserId();
     let bodyJSON = {
-      rzPayOrderId : rzOrderId,
+      rzPayOrderId: rzOrderId,
       orderId: orderId,
       rzPayPaymentId: rzPaymentId,
       userId,
-      error : {
-        code : error.code,
-        description : error.description,
-        source : error.source,
-        step : error.step,
-        reason : error.reason
-      }
+      error: {
+        code: error.code,
+        description: error.description,
+        source: error.source,
+        step: error.step,
+        reason: error.reason,
+      },
     };
-    return this.http.post(`${environment.apiUrl}/errorpayment`,bodyJSON,{ headers: options});
+    return this.http.post(`${environment.apiUrl}/errorpayment`, bodyJSON, {
+      headers: options,
+    });
   }
 
-  checkCancelledPaymentStatus()
-  {
+  checkCancelledPaymentStatus() {
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
     let userId = this.authService.getUserId();
     let bodyJSON = {
-      userId
+      userId,
     };
-    return this.http.post(`${environment.apiUrl}/checkcancelledpaymentstatus`,bodyJSON ,{ headers: options})
-    .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
+    return this.http
+      .post(`${environment.apiUrl}/checkcancelledpaymentstatus`, bodyJSON, {
+        headers: options,
+      })
+      .pipe(
+        tap((resp) => {
+          this.getCartCountAPIResp();
+        })
+      );
   }
 
   handleError(errorObj: HttpErrorResponse): Observable<any> {

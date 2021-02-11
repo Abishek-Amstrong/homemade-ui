@@ -90,10 +90,7 @@ export class CartComponent implements OnInit {
   loadUserCart() {
     this.userCart = [];
     this.cartService.getProductsInUserCart().subscribe((response: any) => {
-      // console.log(JSON.stringify(response));
-      if (response == null || response == undefined || response.length == 0) {
-        this.toastr.success('Cart is Empty', 'Success!!');
-      } else {
+      if (response && response.length) {
         for (let item of response) {
           item.details = JSON.parse(item.details);
 
@@ -115,8 +112,8 @@ export class CartComponent implements OnInit {
             }
           }
         }
-        this.calculateTotal();
       }
+      this.calculateTotal();
     });
   }
 
@@ -242,18 +239,6 @@ export class CartComponent implements OnInit {
     }
   }
 
-  delProductInCart(cartId: string) {
-    this.cartService.deleteProductInCart(cartId).subscribe((data) => {
-      this.toastr.success('Item removed from cart', 'Success!!');
-      this.cartService.getCartCountAPIResp();
-      this.userCart = this.userCart.filter(
-        (item: any) => item.ItemCartId != cartId
-      );
-      this.calculateTotal();
-    });
-    return false;
-  }
-
   deleteItemInCart(cartId: string, ItemId: string) {
     if (this.user) {
       //update the changed products before deleting, so that while reload they aren't lost
@@ -268,7 +253,6 @@ export class CartComponent implements OnInit {
           .UpdateProductsInUserCart(this.userCart, updatedCarts)
           .subscribe(
             (resp: any) => {
-              //console.log(resp);
               //items are updated..proceed with delete and reload
               this.cartService.deleteItemInCart(cartId, ItemId).subscribe(
                 (data) => {

@@ -27,6 +27,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
+      timeOut: 500,
     }), // ToastrModule added
   ],
   providers: [ValidatorService],

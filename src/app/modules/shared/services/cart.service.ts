@@ -371,8 +371,8 @@ export class CartService {
   getRecentOrderedItems(): Observable<any> {
     let userId = this.authService.getUserId();
     return this.http
-      .get(`${environment.apiUrl}/recentorderapi/${userId}`)
-      .pipe(catchError((err) => this.handleError(err)));
+      .get(`${environment.apiUrl}/recentorderapi/${userId}`);
+      // .pipe(catchError((err) => this.handleError(err)));
   }
 
   updateAddItemsToExistingCart(item: any): Observable<any> {
@@ -521,6 +521,22 @@ export class CartService {
     };
     return this.http.post(`${environment.apiUrl}/checkcancelledpaymentstatus`,bodyJSON ,{ headers: options})
     .pipe( tap((resp) => { this.getCartCountAPIResp(); }) );
+  }
+
+  createInvoice(invoiceData : any) : Observable<any>
+  {
+    const options = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let userVal: any = this.authService.userValue;
+    let userName = userVal?.user.firstname;
+    invoiceData['customerName'] = userName;
+    console.log(invoiceData);
+    return this.http.post(`${environment.apiUrl}/invoice`,invoiceData,{ headers: options});
+  }
+
+  getOrderDetails(orderId : string) : Observable<any>
+  {
+    return this.http
+      .get(`${environment.apiUrl}/orderdetails/${orderId}`);
   }
 
   handleError(errorObj: HttpErrorResponse): Observable<any> {

@@ -19,6 +19,7 @@ import { CartService } from '../../shared/services/cart.service';
 import { ProfileService } from '../../shared/services/profile.service';
 import { WindowrefService } from '../../shared/services/windowref.service';
 import {} from 'googlemaps';
+import { handleError } from '../../shared/helpers/error-handler';
 
 export interface Item {
   ItemImageUrl: string;
@@ -29,6 +30,7 @@ export interface Item {
   ItemCartId: string;
   ItemItemId: string;
   ItemUserId: string;
+  ItemVendorId : string;
 }
 
 @Component({
@@ -401,50 +403,18 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       this.cartService
         .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total)
         .subscribe((resp: any) => {
-          //call RazorPay checkout
-          let options = this.cartService.getRazorPaymentData(this.userCart, this.total, resp.data.rzPayOrderId, resp.data.orderId);
-          options.handler = ((response: any, error: any) => {
-            options.response = response;
-            // console.log(response);
-            // console.log(options);
-            // verify payment signature & capture transaction
-            this.cartService.verifyAndCapturePayment(response, resp.data.orderId).subscribe((data:any)=>{
-              this.toastr.success('Order is placed', 'Success!!');
-              this.router.navigate(['/', 'cart', 'confirm']);
-            });
-          });
-          options.modal.ondismiss = (() => {
-            // handle the case when user closes the form while transaction is in progress
-            // this.cartService.checkCancelledPaymentStatus().subscribe((data:any)=>{
-            //   console.log(data);
-            // })
-            // console.log('Transaction cancelled.');
-          });
-
-          this.razorPay = new this.windowRef.NativeWindow.Razorpay(options);
-          this.razorPay.open();
-
-          this.razorPay.on('payment.failed',(response : any)=>{
-            // console.log(response.error.code);
-            // console.log(response.error.description);
-            // console.log(response.error.source);
-            // console.log(response.error.step);
-            // console.log(response.error.reason);
-            // console.log(response.error.metadata.order_id);
-            // console.log(response.error.metadata.payment_id);
-            this.cartService.logErrorPayment(response.error.metadata.order_id, response.error.metadata.payment_id,
-              resp.data.orderId, response.error).subscribe(
-              (data:any)=>{
-                // console.log('error payment logged');
-            });
-          });
+          console.log(resp);
+          this.razorPayCheckout(resp);
+        },
+        (err : any)=>{
+          this.toastr.error('The order wasnt confirmed.Please retry', 'Error!!');
         });
     }
   }
 
   loadUserCart() {
     this.cartService.getProductsInUserCart().subscribe((response: any) => {
-      //console.log(JSON.stringify(response));
+      console.log(JSON.stringify(response));
       if (response == null || response == undefined || response.length == 0) {
         this.userCart = [];
         //this.toastr.success('Cart is Empty',"Success!!");
@@ -461,6 +431,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
                 ItemUpdated: false,
                 ItemCartId: item.cartId,
                 ItemItemId: product.itemId,
+                ItemVendorId : product.vendorId,
                 ItemUserId: item.userUserId,
               };
               this.userCart.push(currItem);
@@ -569,4 +540,69 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
+  razorPayCheckout(resp : any)
+  {
+    let options = this.cartService.getRazorPaymentData(this.userCart, this.total, resp.data.rzPayOrderId, resp.data.orderId);
+    options.handler = ((response: any, error: any) => {
+      options.response = response;
+      // console.log(response);
+      // console.log(options);
+      this.verifyAndConfirmPayment(response,resp);
+    });
+    options.modal.ondismiss = (() => {
+      // handle the case when user closes the form while transaction is in progress
+      // this.cartService.checkCancelledPaymentStatus().subscribe((data:any)=>{
+      //   console.log(data);
+      // })
+      // console.log('Transaction cancelled.');
+    });
+
+    this.invokeRazorPay(options,resp);
+  }
+
+  invokeRazorPay(options : any,resp : any)
+  {
+    this.razorPay = new this.windowRef.NativeWindow.Razorpay(options);
+    this.razorPay.open();
+
+    this.razorPay.on('payment.failed', (response: any) => {
+      // console.log(response.error.code);
+      // console.log(response.error.description);
+      // console.log(response.error.source);
+      // console.log(response.error.step);
+      // console.log(response.error.reason);
+      // console.log(response.error.metadata.order_id);
+      // console.log(response.error.metadata.payment_id);
+      this.cartService.logErrorPayment(response.error.metadata.order_id, response.error.metadata.payment_id,
+        resp.data.orderId, response.error).subscribe(
+          (data: any) => {
+            // console.log('error payment logged');
+          });
+    });
+  }
+
+  verifyAndConfirmPayment(response : any,resp:any)
+  {
+    // verify payment signature & capture transaction
+    this.cartService.verifyAndCapturePayment(response, resp.data.orderId).subscribe((data: any) => {
+      //create Invoice
+      let invoiceData = {
+        amount:this.total,
+        invoice_date : new Date(),
+        orderId: resp.data.orderId,
+        VendorVendorId: this.userCart[0].ItemVendorId,
+      }
+      this.cartService.createInvoice(invoiceData).subscribe((invResp:any)=>{
+        this.router.navigate(['/', 'cart', 'confirm', resp.data.orderId]);
+      },
+      (err:any)=>{
+        handleError(err);
+      });
+    }, 
+    (err: any) => {
+      this.toastr.error('The order wasnt confirmed. Your payment will be refunded', 'Error!!');
+    });
+  }
+
 }

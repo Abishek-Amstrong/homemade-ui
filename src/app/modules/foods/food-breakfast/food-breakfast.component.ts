@@ -170,7 +170,7 @@ export class FoodBreakfastComponent implements OnInit {
               ItemImageUrl: item.imagePath,
               ItemName: item.itemname,
               ItemPrice: item.price,
-              ItemItemId: item.itemId,
+              ItemItemId: item.itemItemId,
               ItemVendorId: item.VendorVendorId,
             };
             this.bestSellers.push(currItem);

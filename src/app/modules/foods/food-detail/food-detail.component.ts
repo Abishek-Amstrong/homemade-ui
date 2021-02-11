@@ -238,4 +238,10 @@ export class FoodDetailComponent implements OnInit {
   navigateToChefDetail(chefId: string) {
     this.router.navigate(['/', 'foods', 'chef', chefId]);
   }
+
+  navToFoodDetail(itemId: string) {
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigate(['/', 'foods', 'detail', itemId]));
+  }
 }

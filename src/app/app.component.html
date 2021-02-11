@@ -40,9 +40,10 @@
                 <img src="assets/images/user.svg" alt="user">
               </a>
               <ul class="dropdown-menu" role="menu">
-                <li><a routerLink="/profile">Profile</a></li>
-                <li><a routerLink="/profile/myorders">My Orders</a></li>
-                <li><a href="/profile/favourites">Favourites</a></li>
+                <li><a routerLink="/profile" *ngIf="user">Profile</a></li>
+                <li><a routerLink="/profile/myorders" *ngIf="user">My Orders</a></li>
+                <li><a routerLink="/profile/favourites" *ngIf="user">Favourites</a></li>
+                <li><a routerLink="/auth" *ngIf="!user">Sign In</a></li>
                 <li><a routerLink="/profile/signout" *ngIf="user">Sign Out</a></li>
               </ul>
             </li>
@@ -201,7 +202,7 @@
         <div class="collapse dont-collapse-sm links" id="collapse_2" [ngClass]="{ 'show' : isCollapse2Show}">
           <ul>
             <li><a routerLink="/foods">Food</a></li>
-            <li><a routerLink="/foods">Sugar & Spices</a></li>
+            <li><a routerLink="/sugar-spice">Sugar & Spices</a></li>
             <li><a routerLink="/foods">Home Decor</a></li>
             <li><a routerLink="/foods">Fashion</a></li>
             <li><a routerLink="/foods">Plants & Planters</a></li>

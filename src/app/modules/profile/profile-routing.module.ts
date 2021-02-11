@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import { AuthGaurdService } from '../shared/services/auth.gaurd.service';
 import { ProfileComponent } from './profile/profile.component';
 import { MyaccountComponent } from './myaccount/myaccount.component';
 import { PersonaldetailsComponent } from './personaldetails/personaldetails.component';
@@ -16,13 +16,13 @@ const routes: Routes = [
     path: '',
     component: ProfileComponent,
     children: [
-      { path: 'myaccount', component: MyaccountComponent },
-      { path: 'personaldetails', component: PersonaldetailsComponent },
-      { path: 'addressbook', component: AddressbookComponent },
-      { path: 'myorders', component: MyordersComponent },
-      { path: 'changepassword', component: ChangepasswordComponent },
-      { path: 'signout', component: SignoutComponent },
-      { path: '', redirectTo: 'myaccount', pathMatch: 'full' },
+      { path: 'myaccount', component: MyaccountComponent, canActivate: [AuthGaurdService] },
+      { path: 'personaldetails', component: PersonaldetailsComponent, canActivate: [AuthGaurdService] },
+      { path: 'addressbook', component: AddressbookComponent, canActivate: [AuthGaurdService] },
+      { path: 'myorders', component: MyordersComponent, canActivate: [AuthGaurdService] },
+      { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGaurdService] },
+      { path: 'signout', component: SignoutComponent, canActivate: [AuthGaurdService] },
+      { path: '', redirectTo: 'myaccount', pathMatch: 'full', canActivate: [AuthGaurdService] },
     ],
   },
 ];

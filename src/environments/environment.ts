@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   apiUrl: 'https://homeade.herokuapp.com',
   // https://homeade.herokuapp.com
-  razorPayKeyId: 'rzp_test_jPDSffitEDPt9s',
+  razorPayKeyId: 'rzp_test_WoYRrTjZJHenTY',
 };
 
 /*

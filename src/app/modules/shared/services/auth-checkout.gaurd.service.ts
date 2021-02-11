@@ -17,7 +17,11 @@ export class AuthCheckoutGaurdService {
       sessionStorage.getItem('fromSession') as any
     );
 
-    if (isFromSession) {
+    const isSignInFromHome = JSON.parse(
+      sessionStorage.getItem('signInFromHome') as any
+    );
+
+    if (isFromSession || isSignInFromHome) {
       // authorised so return true
       return true;
     }

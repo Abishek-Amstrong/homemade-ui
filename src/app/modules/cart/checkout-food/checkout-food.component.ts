@@ -53,17 +53,17 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   mapAutoComplete: any;
   @ViewChild('deliveryLocation') deliveryInput: ElementRef | any;
   submitted: boolean;
-  allStateData : string[];
-  razorPay : any;
-  
+  allStateData: string[];
+  razorPay: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private router: Router,
     private profileService: ProfileService,
     private cartService: CartService,
-    private authService : AuthService,
-    private windowRef :  WindowrefService
+    private authService: AuthService,
+    private windowRef: WindowrefService
   ) {
     this.deliveryForm = new FormGroup({});
     this.selectedDay = '';
@@ -99,6 +99,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     this.loadUserCart();
     this.loadAddressDetails();
     this.calculateTotal();
+    this.authService.setHeaderDisplayStatus(false);
   }
 
   ngAfterViewInit() {
@@ -237,16 +238,11 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
   get today() {
     let date: Date = new Date();
-    if(this.selectedDay == 'Tomorrow')
-    {
+    if (this.selectedDay == 'Tomorrow') {
       date.setDate(date.getDate() + 1);
-    }
-    else if(this.selectedDay  == 'AfterTomorrow')
-    {
+    } else if (this.selectedDay == 'AfterTomorrow') {
       date.setDate(date.getDate() + 2);
-    }
-    else if(this.selectedDay == 'Overmorrow')
-    {
+    } else if (this.selectedDay == 'Overmorrow') {
       date.setDate(date.getDate() + 3);
     }
     return (
@@ -258,36 +254,34 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     );
   }
   get time() {
-    let strTime: string = '' ,ampm: string = '';
-    let hours: number = 0, minutes: number = 0;
-    if(this.selectedTime == '')
-    {
+    let strTime: string = '',
+      ampm: string = '';
+    let hours: number = 0,
+      minutes: number = 0;
+    if (this.selectedTime == '') {
       let date: Date = new Date();
       hours = date.getHours();
       minutes = date.getMinutes();
-      ampm  = hours >= 12 ? 'pm' : 'am';
+      ampm = hours >= 12 ? 'pm' : 'am';
       hours = hours % 12;
       hours = hours ? hours : 12; // the hour '0' should be '12'
-      strTime = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
-    }
-    else
-    {
+      strTime =
+        hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
+    } else {
       let arr = this.selectedTime.split(':');
       ampm = Number(arr[0]) >= 12 ? 'pm' : 'am';
       minutes = Number(arr[1]);
       hours = Number(arr[0]) % 12;
       hours = hours ? hours : 12; // the hour '0' should be '12'
-      strTime = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
-
+      strTime =
+        hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
     }
     return strTime;
   }
 
-  get userName()
-  {
-    if(this.authService.userValue)
-    {
-      let tokenDet : any =  this.authService.userValue;
+  get userName() {
+    if (this.authService.userValue) {
+      let tokenDet: any = this.authService.userValue;
       return tokenDet.user.firstname;
     }
     return '';
@@ -402,29 +396,36 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total)
         .subscribe((resp: any) => {
           //call RazorPay checkout
-          let options = this.cartService.getRazorPaymentData(this.userCart, this.total, resp.data.rzPayOrderId, resp.data.orderId);
-          options.handler = ((response: any, error: any) => {
+          let options = this.cartService.getRazorPaymentData(
+            this.userCart,
+            this.total,
+            resp.data.rzPayOrderId,
+            resp.data.orderId
+          );
+          options.handler = (response: any, error: any) => {
             options.response = response;
             // console.log(response);
             // console.log(options);
             // verify payment signature & capture transaction
-            this.cartService.verifyAndCapturePayment(response, resp.data.orderId).subscribe((data:any)=>{
-              this.toastr.success('Order is placed', 'Success!!');
-              this.router.navigate(['/', 'cart', 'confirm']);
-            });
-          });
-          options.modal.ondismiss = (() => {
+            this.cartService
+              .verifyAndCapturePayment(response, resp.data.orderId)
+              .subscribe((data: any) => {
+                this.toastr.success('Order is placed', 'Success!!');
+                this.router.navigate(['/', 'cart', 'confirm']);
+              });
+          };
+          options.modal.ondismiss = () => {
             // handle the case when user closes the form while transaction is in progress
             // this.cartService.checkCancelledPaymentStatus().subscribe((data:any)=>{
             //   console.log(data);
             // })
             // console.log('Transaction cancelled.');
-          });
+          };
 
           this.razorPay = new this.windowRef.NativeWindow.Razorpay(options);
           this.razorPay.open();
 
-          this.razorPay.on('payment.failed',(response : any)=>{
+          this.razorPay.on('payment.failed', (response: any) => {
             // console.log(response.error.code);
             // console.log(response.error.description);
             // console.log(response.error.source);
@@ -432,17 +433,23 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
             // console.log(response.error.reason);
             // console.log(response.error.metadata.order_id);
             // console.log(response.error.metadata.payment_id);
-            this.cartService.logErrorPayment(response.error.metadata.order_id, response.error.metadata.payment_id,
-              resp.data.orderId, response.error).subscribe(
-              (data:any)=>{
+            this.cartService
+              .logErrorPayment(
+                response.error.metadata.order_id,
+                response.error.metadata.payment_id,
+                resp.data.orderId,
+                response.error
+              )
+              .subscribe((data: any) => {
                 // console.log('error payment logged');
-            });
+              });
           });
         });
     }
   }
 
   loadUserCart() {
+    sessionStorage.setItem('fromSession', JSON.stringify(false));
     this.cartService.getProductsInUserCart().subscribe((response: any) => {
       //console.log(JSON.stringify(response));
       if (response == null || response == undefined || response.length == 0) {
@@ -488,15 +495,13 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     });
   }
 
-
   loadAddressDetails() {
-    this.profileService.getAllStateDetails().subscribe((data : any)=>{
-      if(data!=null && data != undefined)
-      {
-        data.forEach((element : string) => {
+    this.profileService.getAllStateDetails().subscribe((data: any) => {
+      if (data != null && data != undefined) {
+        data.forEach((element: string) => {
           this.allStateData.push(element);
         });
-      }    
+      }
     });
     this.profileService.getAddressDetails().subscribe(
       (resp: any) => {
@@ -504,7 +509,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         if (resp.length) {
           this.deliveryForm.patchValue({
             deliveryType: 'now',
-            fullName : this.userName,
+            fullName: this.userName,
             address: resp[0].address,
             city: resp[0].city,
             state: resp[0].state,
@@ -550,9 +555,9 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     }
   }
 
-  incProdQuantity(cartId: string,itemId : string, quantity: number) {
+  incProdQuantity(cartId: string, itemId: string, quantity: number) {
     for (let item of this.userCart) {
-      if (item.ItemCartId == cartId  && item.ItemItemId == itemId) {
+      if (item.ItemCartId == cartId && item.ItemItemId == itemId) {
         item.ItemQuantity += 1;
         item.ItemUpdated = true;
         this.calculateTotal();
@@ -560,9 +565,13 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     }
   }
 
-  decProdQuantity(cartId: string, itemId : string, quantity: number) {
+  decProdQuantity(cartId: string, itemId: string, quantity: number) {
     for (let item of this.userCart) {
-      if (item.ItemCartId == cartId && item.ItemItemId == itemId && item.ItemQuantity > 1) {
+      if (
+        item.ItemCartId == cartId &&
+        item.ItemItemId == itemId &&
+        item.ItemQuantity > 1
+      ) {
         item.ItemQuantity -= 1;
         item.ItemUpdated = true;
         this.calculateTotal();

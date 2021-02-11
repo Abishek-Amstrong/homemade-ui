@@ -327,4 +327,10 @@ export class SugarComponent implements OnInit {
         });
     }
   }
+
+  navigateToSubCategory(category: string) {
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+  }
 }

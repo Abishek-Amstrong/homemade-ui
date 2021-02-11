@@ -49,7 +49,8 @@
                         <div class="item_version_2">
                             <a href="javascript:void(0)" (click)="navigateToComponent(menu.path)">
                                 <figure>
-                                    <img [src]="menu.imgUrl" alt="" class="owl-lazy">
+                                    <img [src]="menu.imgUrl ? menu.imgUrl : 'assets/images/lazy-placeholder.png'" alt=""
+                                        class="owl-lazy">
                                     <div class="info">
                                         <h3>{{menu.label}}</h3>
                                     </div>
@@ -75,7 +76,8 @@
                     <div class="strip">
                         <figure>
                             <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"><img
-                                    [src]="item.ItemImageUrl" class="img-fluid lazy" alt=""></a>
+                                    [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                                    class="img-fluid lazy" alt=""></a>
                         </figure>
                         <a href="javascript:void(0)" class="strip_info" routerLink="/foods/detail/{{item.ItemItemId}}">
                             <div class="item_title">
@@ -101,8 +103,8 @@
                         <a href="javascript:void(0)" routerLink="/foods/detail/{{food.ItemItemId}}">
                             <div class="imgBox">
                                 <figure>
-                                    <img [src]="food.ItemImageUrl" alt="" class="lazy loaded img-fluid"
-                                        data-was-processed="true">
+                                    <img [src]="food.ItemImageUrl ? food.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                                        alt="" class="lazy loaded img-fluid" data-was-processed="true">
                                 </figure>
                             </div>
                             <div class="contentBox">

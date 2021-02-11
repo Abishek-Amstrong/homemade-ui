@@ -76,8 +76,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     sessionStorage.setItem('fromSession', JSON.stringify(false));
+    sessionStorage.setItem('signInFromHome', JSON.stringify(false));
     this.cartService.getCartItemCount().subscribe((val) => {
-      //console.log('Inside subscription : ' + val);
       this.cartItemCount = val;
     });
     this.authService.user.subscribe((x) => {
@@ -89,6 +89,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     // this.cartService.getCartCountAPIResp();
     if (!sessionStorage.getItem('cartData')) {
       sessionStorage.setItem('cartData', JSON.stringify([]));
+      this.cartService.updateGuestCart();
     }
 
     this.cartService.guestData.subscribe((val) => {
@@ -144,6 +145,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       this.filteredOptionsMobile = concat(initialItem$, searchItem$);
     }
+  }
+
+  redirectToAuth() {
+    sessionStorage.setItem('signInFromHome', JSON.stringify(true));
+    this.router.navigate(['/', 'auth']);
   }
 
   getItemByName(searchText = '') {
@@ -248,5 +254,12 @@ export class AppComponent implements OnInit, AfterViewInit {
           );
       }
     }
+  }
+
+  logOutUser() {
+    this.authService.logout();
+    this.authService.user.subscribe((x) => {
+      this.user = x;
+    });
   }
 }

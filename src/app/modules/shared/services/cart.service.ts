@@ -529,7 +529,7 @@ export class CartService {
     let userVal: any = this.authService.userValue;
     let userName = userVal?.user.firstname;
     invoiceData['customerName'] = userName;
-    console.log(invoiceData);
+    // console.log(invoiceData);
     return this.http.post(`${environment.apiUrl}/invoice`,invoiceData,{ headers: options});
   }
 

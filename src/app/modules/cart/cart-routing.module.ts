@@ -14,7 +14,7 @@ const routes: Routes = [
     canActivate: [AuthGaurdService],
   },
   {
-    path: 'confirm',
+    path: 'confirm/:id',
     component: OrderConfirmComponent,
     canActivate: [AuthGaurdService],
   },

@@ -16,13 +16,42 @@ const routes: Routes = [
     path: '',
     component: ProfileComponent,
     children: [
-      { path: 'myaccount', component: MyaccountComponent, canActivate: [AuthGaurdService] },
-      { path: 'personaldetails', component: PersonaldetailsComponent, canActivate: [AuthGaurdService] },
-      { path: 'addressbook', component: AddressbookComponent, canActivate: [AuthGaurdService] },
-      { path: 'myorders', component: MyordersComponent, canActivate: [AuthGaurdService] },
-      { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGaurdService] },
-      { path: 'signout', component: SignoutComponent, canActivate: [AuthGaurdService] },
-      { path: '', redirectTo: 'myaccount', pathMatch: 'full', canActivate: [AuthGaurdService] },
+      {
+        path: 'myaccount',
+        component: MyaccountComponent,
+        canActivate: [AuthGaurdService],
+      },
+      {
+        path: 'personaldetails',
+        component: PersonaldetailsComponent,
+        canActivate: [AuthGaurdService],
+      },
+      {
+        path: 'addressbook',
+        component: AddressbookComponent,
+        canActivate: [AuthGaurdService],
+      },
+      {
+        path: 'myorders',
+        component: MyordersComponent,
+        canActivate: [AuthGaurdService],
+      },
+      {
+        path: 'changepassword',
+        component: ChangepasswordComponent,
+        canActivate: [AuthGaurdService],
+      },
+      {
+        path: 'signout',
+        component: SignoutComponent,
+        canActivate: [AuthGaurdService],
+      },
+      {
+        path: '',
+        redirectTo: 'myaccount',
+        pathMatch: 'full',
+        canActivate: [AuthGaurdService],
+      },
     ],
   },
 ];

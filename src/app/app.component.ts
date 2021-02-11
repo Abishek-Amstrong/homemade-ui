@@ -257,6 +257,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   logOutUser() {
+    sessionStorage.setItem('signInFromHome', JSON.stringify(true));
     this.authService.logout();
     this.authService.user.subscribe((x) => {
       this.user = x;

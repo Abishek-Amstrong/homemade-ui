@@ -83,7 +83,7 @@ export class AuthComponent implements OnInit {
               const cartData = JSON.parse(
                 sessionStorage.getItem('cartData') as any
               );
-              console.log(cartData);
+
               if (cartData && cartData.length) {
                 this.cartService.addGuestCart(cartData).subscribe(
                   (result) => {
@@ -96,6 +96,8 @@ export class AuthComponent implements OnInit {
                 );
               }
             } else {
+              sessionStorage.setItem('signInFromHome', JSON.stringify(false));
+              this.authService.setHeaderDisplayStatus(false);
               this.router.navigate(['/', 'home']);
             }
           },
@@ -121,7 +123,7 @@ export class AuthComponent implements OnInit {
               const cartData = JSON.parse(
                 sessionStorage.getItem('cartData') as any
               );
-              console.log(cartData);
+
               if (cartData && cartData.length) {
                 this.cartService.addGuestCart(cartData).subscribe(
                   (result) => {
@@ -134,6 +136,8 @@ export class AuthComponent implements OnInit {
                 );
               }
             } else {
+              sessionStorage.setItem('signInFromHome', JSON.stringify(false));
+              this.authService.setHeaderDisplayStatus(false);
               this.router.navigate(['/', 'home']);
             }
           },

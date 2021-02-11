@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { ValidatorService } from '../shared/services/validator.service';
 import { ToastrService } from 'ngx-toastr';
+import { CartService } from '../shared/services/cart.service';
 
 @Component({
   selector: 'app-auth',
@@ -22,7 +23,8 @@ export class AuthComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private validator: ValidatorService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cartService: CartService
   ) {
     this.submitted = false;
     this.form = this.formBuilder.group({
@@ -54,6 +56,9 @@ export class AuthComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    const isFromSession: any = JSON.parse(
+      sessionStorage.getItem('fromSession') as any
+    );
     // stop here if form is invalid
     if (this.form.invalid) {
       Object.keys(this.form.controls).forEach((key) => {
@@ -74,9 +79,25 @@ export class AuthComponent implements OnInit {
 
             this.toastr.success('Login is successful', 'Success!');
             // get return url from query parameters or default to home page
-            const returnUrl =
-              this.route.snapshot.queryParams['returnUrl'] || '/';
-            this.router.navigateByUrl(returnUrl);
+            if (isFromSession) {
+              const cartData = JSON.parse(
+                sessionStorage.getItem('cartData') as any
+              );
+              console.log(cartData);
+              if (cartData && cartData.length) {
+                this.cartService.addGuestCart(cartData).subscribe(
+                  (result) => {
+                    this.router.navigate(['/', 'cart', 'checkout']);
+                    sessionStorage.setItem('cartData', JSON.stringify([]));
+                  },
+                  (err) => {
+                    console.log(err);
+                  }
+                );
+              }
+            } else {
+              this.router.navigate(['/', 'home']);
+            }
           },
           (error: any) => {
             // this.toasterService.error(handleError(error));
@@ -96,9 +117,25 @@ export class AuthComponent implements OnInit {
             }
             this.toastr.success('Login is successful', 'Success!');
             // get return url from query parameters or default to home page
-            const returnUrl =
-              this.route.snapshot.queryParams['returnUrl'] || '/';
-            this.router.navigateByUrl(returnUrl);
+            if (isFromSession) {
+              const cartData = JSON.parse(
+                sessionStorage.getItem('cartData') as any
+              );
+              console.log(cartData);
+              if (cartData && cartData.length) {
+                this.cartService.addGuestCart(cartData).subscribe(
+                  (result) => {
+                    this.router.navigate(['/', 'cart', 'checkout']);
+                    sessionStorage.setItem('cartData', JSON.stringify([]));
+                  },
+                  (err) => {
+                    console.log(err);
+                  }
+                );
+              }
+            } else {
+              this.router.navigate(['/', 'home']);
+            }
           },
           (error: any) => {
             // this.toasterService.error(handleError(error));

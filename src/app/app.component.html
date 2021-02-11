@@ -43,8 +43,8 @@
                 <li><a routerLink="/profile" *ngIf="user">Profile</a></li>
                 <li><a routerLink="/profile/myorders" *ngIf="user">My Orders</a></li>
                 <li><a routerLink="/profile/favourites" *ngIf="user">Favourites</a></li>
-                <li><a routerLink="/auth" *ngIf="!user">Sign In</a></li>
-                <li><a routerLink="/profile/signout" *ngIf="user">Sign Out</a></li>
+                <li><a href="javascript:void(0)" *ngIf="!user" (click)="redirectToAuth()">Sign In</a></li>
+                <li><a routerLink="/auth" *ngIf="user" (click)="logOutUser()">Sign Out</a></li>
               </ul>
             </li>
             <li *ngIf="user"><a routerLink="/cart" class="cart_bt"><img src="assets/images/cart.svg" alt="cart"><span
@@ -133,15 +133,15 @@
         </li>
         <!--./-->
         <li class="submenu">
-          <a routerLink="/HomeDecor" class="show-submenu">Home Decor</a>
+          <a routerLink="/home" class="show-submenu">Home Decor</a>
         </li>
         <!--./-->
         <li class="submenu">
-          <a routerLink="/Fashion" class="show-submenu">Fashion</a>
+          <a routerLink="/home" class="show-submenu">Fashion</a>
         </li>
         <!--./-->
         <li class="submenu">
-          <a routerLink="/Plants" class="show-submenu">Plants & Planters</a>
+          <a routerLink="/home" class="show-submenu">Plants & Planters</a>
         </li>
         <!--./-->
       </ul>

@@ -195,14 +195,21 @@ export class PlaceOrderComponent implements OnInit {
         : '';
       console.log(cart);
       const cartData = JSON.parse(cart);
-      cartData.push({
-        itemId: this.orderData.OrderItemId,
-        Name: this.orderData.OrderItemName,
-        quantity: this.orderData.OrderQuantity,
-        Price: this.orderData.OrderPrice,
-        imgUrl: this.orderData.OrderItemImgUrl,
-        vendorId: this.orderData.OrderVendorId,
-      });
+      const mainIndex = cartData.findIndex(
+        (cartObj: any) => cartObj.itemId === this.orderData.OrderItemId
+      );
+      if (mainIndex === -1) {
+        cartData.push({
+          itemId: this.orderData.OrderItemId,
+          Name: this.orderData.OrderItemName,
+          quantity: this.orderData.OrderQuantity,
+          Price: this.orderData.OrderPrice,
+          imgUrl: this.orderData.OrderItemImgUrl,
+          vendorId: this.orderData.OrderVendorId,
+        });
+      } else {
+        cartData[mainIndex].quantity += this.orderData.OrderQuantity;
+      }
       const selectedSimilar = this.orderData.OrderSimilarProducts.filter(
         (item) => item.ItemChecked
       );

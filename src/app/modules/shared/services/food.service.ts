@@ -156,9 +156,9 @@ export class FoodService {
     );
   }
 
-  getFoodItemsForHomePage(): Observable<any> {
+  getFoodItemsForHomePage(category: string): Observable<any> {
     return this.http
-      .get(`${environment.apiUrl}/food`)
+      .get(`${environment.apiUrl}/${category}`)
       .pipe(catchError((err) => this.handleError(err)));
   }
 

@@ -101,7 +101,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.headerSubscription = this.authService.hideHeaderStatusChange.subscribe(
       (val) => {
         this.isHideHeader = val;
-        console.log(val);
         this.cd.detectChanges();
       }
     );

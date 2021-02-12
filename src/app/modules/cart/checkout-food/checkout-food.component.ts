@@ -107,7 +107,12 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     const options = {
       componentRestrictions: { country: 'IN' },
-      fields: ['address_component'],
+      fields: [
+        'address_component',
+        'formatted_address',
+        'place_id',
+        'geometry',
+      ],
       radius: 8000,
       strictBounds: true,
       types: ['establishment'],
@@ -120,7 +125,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     mapAutoComplete.setFields(['address_component']);
     mapAutoComplete.addListener('place_changed', () => {
       const place = mapAutoComplete?.getPlace();
-      // console.log(place);
+      console.log(place);
 
       // Get each component of the address from the place details,
       // and then fill-in the corresponding field on the form.
@@ -132,7 +137,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
         for (const component of place.address_components) {
           const addressType = component.types;
-          // console.log(addressType);
+          console.log(addressType);
           if (
             addressType.indexOf('sublocality_level_2') !== -1 ||
             addressType.indexOf('sublocality_level_1') !== -1
@@ -152,16 +157,22 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         }
 
         this.deliveryForm.patchValue({
-          deliveryLocation: `${address}${address && city ? ', ' + city : city}${
-            (address || city) && state ? ', ' + state : state
-          }${(address || city || state) && pinCode ? ', ' + pinCode : pinCode}`,
-          address: address,
+          deliveryLocation: `${place.formatted_address}`,
+          address: place.formatted_address,
           city: city,
-          state: state,
+          state: this.retriveState(state),
           pinCode: pinCode,
         });
       }
     });
+  }
+
+  //map state with the selected text
+  retriveState(str: string) {
+    const selectedState = this.allStateData.filter((state) =>
+      state.toLowerCase().includes(str.toLowerCase())
+    );
+    return selectedState[0];
   }
 
   onLocationChange() {

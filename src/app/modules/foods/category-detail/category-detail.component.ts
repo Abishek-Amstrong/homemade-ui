@@ -148,9 +148,9 @@ export class CategoryDetailComponent implements OnInit {
   ngOnInit(): void {
     this.category = this.route.snapshot.paramMap.get('id');
     this.loadfoodDetails();
-    this.loadChefDetails();
+    // this.loadChefDetails();
     this.loadCuisineDetails();
-    this.getRecentAndBest();
+    // this.getRecentAndBest();
   }
 
   getRecentAndBest() {

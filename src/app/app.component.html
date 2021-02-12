@@ -22,10 +22,10 @@
                 (onSelectionChange)="navigateToDetailPage($event, item)" class="search-box__option">
                 <img class="search-box__img" aria-hidden
                   [src]="item.imagePath ? item.imagePath : 'assets/images/lazy-placeholder.png'" height="25">
-                <span *ngIf="item.type === 'item'">{{item.itemname | titlecase}} | </span>
+                <span *ngIf="item.type === 'item'">{{item.itemname | titlecase}}</span>
                 <span *ngIf="item.type === 'vendorname'">{{item.firstname | titlecase}}</span>
                 <span *ngIf="item.type === 'subcategoryname'">{{item.subcategoryName | titlecase}}</span>
-                <span *ngIf="item.type === 'item'">Price: {{item.price | currency: 'INR'}}</span>
+                <!-- <span *ngIf="item.type === 'item'">Price: {{item.price | currency: 'INR'}}</span> -->
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -132,17 +132,17 @@
           </ul>
         </li>
         <!--./-->
-        <li class="submenu">
+        <!-- <li class="submenu">
           <a routerLink="/home" class="show-submenu">Home Decor</a>
-        </li>
+        </li> -->
         <!--./-->
-        <li class="submenu">
+        <!-- <li class="submenu">
           <a routerLink="/home" class="show-submenu">Fashion</a>
-        </li>
+        </li> -->
         <!--./-->
-        <li class="submenu">
+        <!-- <li class="submenu">
           <a routerLink="/home" class="show-submenu">Plants & Planters</a>
-        </li>
+        </li> -->
         <!--./-->
       </ul>
     </nav>
@@ -165,10 +165,10 @@
                 (onSelectionChange)="navigateToDetailPage($event, item)" class="search-box__option">
                 <img class="search-box__img" aria-hidden
                   [src]="item.imagePath ? item.imagePath : 'assets/images/lazy-placeholder.png'" height="25">
-                <span *ngIf="item.type === 'item'">{{item.itemname | titlecase}} | </span>
+                <span *ngIf="item.type === 'item'">{{item.itemname | titlecase}}</span>
                 <span *ngIf="item.type === 'vendorname'">{{item.firstname | titlecase}}</span>
                 <span *ngIf="item.type === 'subcategoryname'">{{item.subcategoryName | titlecase}}</span>
-                <span *ngIf="item.type === 'item'">Price: {{item.price | currency: 'INR'}}</span>
+                <!-- <span *ngIf="item.type === 'item'">Price: {{item.price | currency: 'INR'}}</span> -->
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>

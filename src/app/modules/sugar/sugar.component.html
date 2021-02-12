@@ -274,7 +274,7 @@
                                 <div class="chefBox">
                                     <figure>
                                         <a href="javascript:void(0)"
-                                            routerLink="/foods/detail/{{cuisine.ItemItemId}}"><img
+                                            [routerLink]="['/foods/category-detail',cuisine.ItemName]"><img
                                                 [src]="cuisine.ItemImageUrl ? cuisine.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
                                                 class="img-fluid lazy" alt=""></a>
                                     </figure>

@@ -17,6 +17,7 @@ export class AuthGaurdService {
 
     if (user) {
       // authorised so return true
+      console.log('authorized');
       return true;
     }
 

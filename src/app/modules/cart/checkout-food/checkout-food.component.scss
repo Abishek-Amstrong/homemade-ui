@@ -348,3 +348,13 @@
 #map #infowindow-content {
   display: inline;
 }
+
+.changeLocation {
+  span {
+    position: absolute;
+    right: 1%;
+    bottom: 5%;
+    padding: 0.5rem;
+    background: white;
+  }
+}

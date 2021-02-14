@@ -1085,13 +1085,15 @@ a.menu_item {
   margin: 2px 3px 0 4px;
 }
 
-.profile-img
-{
-  .img-fluid
-  {
+.profile-img {
+  .img-fluid {
     max-height: 35vh;
     width: 250px;
     object-fit: cover;
     filter: brightness(0.9);
   }
+}
+
+.dish-name {
+  width: calc(100% - 60px);
 }

@@ -56,15 +56,15 @@ export interface Banner {
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChildren('owlAnimated') owlElements!: QueryList<ElementRef>;
-  // @ViewChildren('owlAnimated1') slide1!: QueryList<ElementRef>;
-  // @ViewChildren('owlAnimated2') slide2!: QueryList<ElementRef>;
   @ViewChildren('owlAnimatedBottom') owlElementsBottom!: QueryList<ElementRef>;
 
   menus: Menu[];
   recentOrderedData: Item[];
   foodData: Item[];
+  sugarSpiceData: Item[];
   topBanner: Banner[];
   bottomBanner: Banner[];
+  user: any;
 
   customOptions: OwlOptions = {
     items: 1,
@@ -178,6 +178,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     this.foodData = [];
 
+    this.sugarSpiceData = [];
+
     this.topBanner = [];
 
     this.bottomBanner = [];
@@ -186,8 +188,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.loadRecentOrderedItems();
     this.loadFoodDetails();
+    this.loadSugarDetails();
     this.loadTopBannerData();
     this.loadBottomBannerData();
+    this.authService.user.subscribe((x) => {
+      this.user = x;
+    });
   }
 
   ngAfterViewInit(): void {}
@@ -211,6 +217,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       } else if (
         currentIndex === 3 &&
         element.nativeElement.id == 'owlAnimated4'
+      ) {
+        this.renderer.addClass(element.nativeElement, 'is-transitioned');
+      } else if (
+        currentIndex === 4 &&
+        element.nativeElement.id == 'owlAnimated5'
       ) {
         this.renderer.addClass(element.nativeElement, 'is-transitioned');
       }
@@ -282,7 +293,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   loadFoodDetails() {
-    this.foodService.getFoodItemsForHomePage().subscribe((resp: any) => {
+    this.foodService.getFoodItemsForHomePage('food').subscribe((resp: any) => {
       //console.log('food : ' + JSON.stringify(resp));
       for (let item of resp) {
         if (item != null && item != undefined) {
@@ -297,6 +308,25 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  }
+
+  loadSugarDetails() {
+    this.foodService
+      .getFoodItemsForHomePage('sugerandspices')
+      .subscribe((resp: any) => {
+        for (let item of resp) {
+          if (item) {
+            let currItem = {
+              ItemImageUrl: item.imagePath,
+              ItemName: item.itemname,
+              ItemPrice: item.price,
+              ItemItemId: item.itemId,
+              ItemVendorId: item.VendorVendorId,
+            };
+            this.sugarSpiceData.push(currItem);
+          }
+        }
+      });
   }
 
   loadTopBannerData() {
@@ -322,6 +352,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
               bannerItem.bannerTypeName
             ) {
               bannerItem.bannerDetPageUrl = bannerItem.bannerTypeName;
+            } else if (
+              bannerItem.bannerType == 'food' &&
+              bannerItem.bannerTypeId
+            ) {
+              bannerItem.bannerDetPageUrl = bannerItem.bannerTypeId;
             }
             this.topBanner.push(bannerItem);
           });
@@ -391,6 +426,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         .then(() =>
           this.router.navigate(['/', 'foods', 'category-detail', category])
         );
+    } else if (type === 'food') {
+      this.router.navigate(['/', 'foods', 'detail', category]);
     }
   }
 }

@@ -77,6 +77,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     sessionStorage.setItem('fromSession', JSON.stringify(false));
     sessionStorage.setItem('signInFromHome', JSON.stringify(false));
+    this.authService.setHeaderDisplayStatus(false);
     this.cartService.getCartItemCount().subscribe((val) => {
       this.cartItemCount = val;
     });

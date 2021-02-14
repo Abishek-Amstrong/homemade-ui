@@ -35,11 +35,20 @@ export class OfferService {
       },
       {
         bannerurl: 'assets/images/slides/thali.jpg',
-        bannerTitle: 'Bahubhali Thali',
+        bannerTitle: 'Thali',
         bannerDesc: 'All types of specially Homemmade thalis',
         bannerCategory: 'cuisine',
         bannerDetCategoryname: '',
         bannerDetCategoryId: 'Thali',
+      },
+      {
+        bannerurl:
+          'https://res.cloudinary.com/pullkart/image/upload/v1612182086/ctghbim7msuzdhdxw4p0.jpg',
+        bannerTitle: 'Moong Dal (with Coconut)',
+        bannerDesc: 'All types of specially Homemmade Moong Dal (with Coconut)',
+        bannerCategory: 'food',
+        bannerDetCategoryname: '',
+        bannerDetCategoryId: '0031cacb-80bc-42f8-9e1c-1a22d285d53d',
       },
     ];
     let sampleObs = new Observable((observer) => {

@@ -12,26 +12,26 @@ import { handleError } from '../../shared/helpers/error-handler';
 export interface Item {
   ItemImageUrl: string;
   ItemName: string;
-  ItemPrice: Number;
-  ItemItemId: String;
+  ItemPrice: number;
+  ItemItemId: string;
   ItemVendorId: string;
 }
 
 export interface ItemDetail {
   ItemImageUrl: string;
   ItemName: string;
-  ItemUnit: String;
+  ItemUnit: string;
   ItemQuantity: number;
-  Itemkeywords: String;
+  Itemkeywords: string;
   ItemIsVeg: boolean;
   ItemIngrediants: {
-    value: String;
+    value: string;
     checked: boolean;
   }[];
-  ItemDesc: String;
+  ItemDesc: string;
   ItemPrice: number;
-  ItemSIze: String;
-  ItemItemId: String;
+  ItemSIze: string;
+  ItemItemId: string;
   ItemVendorId: string;
 }
 
@@ -41,19 +41,19 @@ export interface chef {
   lastname: string;
   chefImage: string;
   chefRating: number;
-  chefstatus: String;
-  chefDesc: String;
+  chefstatus: string;
+  chefDesc: string;
 }
 
 export interface Review {
-  reviewId: String;
+  reviewId: string;
   reviewRating: number;
-  reviewDesc: String;
-  rewviewTitle: String;
-  reviewUserImage: String;
-  reviewUserName: String;
-  reviewItemId: String;
-  reviewCreatedTime: Date;
+  reviewDesc: string;
+  rewviewTitle: string;
+  reviewUserImage: string;
+  reviewUserName: string;
+  reviewItemId: string;
+  reviewCreatedTime: any;
 }
 
 @Component({
@@ -237,5 +237,11 @@ export class FoodDetailComponent implements OnInit {
 
   navigateToChefDetail(chefId: string) {
     this.router.navigate(['/', 'foods', 'chef', chefId]);
+  }
+
+  navToFoodDetail(itemId: any) {
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigate(['/', 'foods', 'detail', itemId]));
   }
 }

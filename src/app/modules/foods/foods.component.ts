@@ -10,11 +10,6 @@ import { Router } from '@angular/router';
 export interface Item {
   ItemImageUrl: string;
   ItemName: string;
-  // ItemUnit : String,
-  // ItemQuantity : number,
-  // ItemIsVeg : boolean,
-  // ItemIngrediants : String[],
-  // ItemDesc : String,
   ItemPrice: number;
   ItemItemId: String;
   ItemVendorId: string;
@@ -43,6 +38,9 @@ export class FoodsComponent implements OnInit {
   mealData: Item[];
   desertsData: Item[];
   platterData: Item[];
+  healthyData: Item[];
+  regionalData: Item[];
+  biscuitsData: Item[];
   menus: any;
   chefData: chef[];
   categories: { imgUrl: string; label: string; component: string }[];
@@ -55,6 +53,9 @@ export class FoodsComponent implements OnInit {
   @ViewChild('desserts') desserts: any;
   @ViewChild('beverages') beverages: any;
   @ViewChild('platter') platter: any;
+  @ViewChild('healthy') healthy: any;
+  @ViewChild('regional') regional: any;
+  @ViewChild('biscuits') biscuits: any;
 
   customOptions: OwlOptions = {
     center: false,
@@ -158,6 +159,9 @@ export class FoodsComponent implements OnInit {
     this.mealData = [];
     this.desertsData = [];
     this.platterData = [];
+    this.healthyData = [];
+    this.regionalData = [];
+    this.biscuitsData = [];
     this.categories = [
       {
         imgUrl: 'assets/images/breakfast.jpg',
@@ -226,7 +230,6 @@ export class FoodsComponent implements OnInit {
 
   foodSubCategoryDetails() {
     this.foodService.getFoodPageDetails().subscribe((resp: any) => {
-      //console.log(resp);
       for (let item of resp.Breakfast) {
         if (item != null && item != undefined) {
           let currItem: Item = {
@@ -323,8 +326,8 @@ export class FoodsComponent implements OnInit {
           this.beveragesData.push(currItem);
         }
       }
-      for (let item of resp.Meal) {
-        if (item != null && item != undefined) {
+      for (let item of resp.Regional) {
+        if (item) {
           let currItem: Item = {
             ItemImageUrl: item.imagePath,
             ItemName: item.itemname,
@@ -332,7 +335,33 @@ export class FoodsComponent implements OnInit {
             ItemItemId: item.itemId,
             ItemVendorId: item.VendorVendorId,
           };
-          this.mealData.push(currItem);
+          this.regionalData.push(currItem);
+        }
+      }
+
+      for (let item of resp.Healthy) {
+        if (item) {
+          let currItem: Item = {
+            ItemImageUrl: item.imagePath,
+            ItemName: item.itemname,
+            ItemPrice: item.price,
+            ItemItemId: item.itemId,
+            ItemVendorId: item.VendorVendorId,
+          };
+          this.healthyData.push(currItem);
+        }
+      }
+
+      for (let item of resp.Biscuits) {
+        if (item) {
+          let currItem: Item = {
+            ItemImageUrl: item.imagePath,
+            ItemName: item.itemname,
+            ItemPrice: item.price,
+            ItemItemId: item.itemId,
+            ItemVendorId: item.VendorVendorId,
+          };
+          this.biscuitsData.push(currItem);
         }
       }
     });
@@ -367,17 +396,11 @@ export class FoodsComponent implements OnInit {
 
   loadCuisineDetails() {
     this.foodService.getCuisineNearUserLocation().subscribe((resp: any) => {
-      //console.log(resp);
       for (let item of resp) {
         if (item != null && item != undefined) {
           let currItem = {
             ItemImageUrl: item.imagePath,
             ItemName: item.itemname,
-            // ItemUnit : item.unit,
-            // ItemQuantity : 1,
-            // ItemIsVeg : item.isVeg,
-            // ItemIngrediants : item.ingredients !=null ? item.ingredients.split(',') : '',
-            // ItemDesc : item.desc,
             ItemPrice: item.price,
             ItemItemId: item.itemId,
             ItemVendorId: item.VendorVendorId,
@@ -422,8 +445,20 @@ export class FoodsComponent implements OnInit {
       case 'Platter':
         this.platter.nativeElement.scrollIntoView({ behavior: 'smooth' });
         break;
+
+      case 'Healthy':
+        this.healthy.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+
+      case 'Regional':
+        this.regional.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
+
+      case 'Biscuits':
+        this.biscuits.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        break;
       default:
-        this.platter.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        this.biscuits.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
   }
 

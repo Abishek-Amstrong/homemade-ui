@@ -163,32 +163,37 @@ export class FoodBreakfastComponent implements OnInit {
     recentAndBest.subscribe(
       ([recent, best]) => {
         this.bestSellers = [];
-        // console.log(recent, best);
-        if (best && best.length > 0) {
+        if (best && best.length) {
           for (let item of best) {
-            let currItem = {
-              ItemImageUrl: item.imagePath,
-              ItemName: item.itemname,
-              ItemPrice: item.price,
-              ItemItemId: item.itemId,
-              ItemVendorId: item.VendorVendorId,
-            };
-            this.bestSellers.push(currItem);
+            if (item) {
+              let currItem = {
+                ItemImageUrl: item.imagePath,
+                ItemName: item.itemname,
+                ItemPrice: item.price,
+                ItemItemId: item.itemItemId,
+                ItemVendorId: item.VendorVendorId,
+              };
+              this.bestSellers.push(currItem);
+            }
           }
         }
 
         if ('rows' in recent && recent.rows.length) {
           this.newlyAdded = [];
           const recentItems = recent.rows.map((val: any) => val.item);
-          for (let item of recentItems) {
-            let currItem = {
-              ItemImageUrl: item.imagePath,
-              ItemName: item.itemname,
-              ItemPrice: item.price,
-              ItemItemId: item.itemId,
-              ItemVendorId: item.VendorVendorId,
-            };
-            this.newlyAdded.push(currItem);
+          if (recentItems && recentItems.length) {
+            for (let item of recentItems) {
+              if (item) {
+                let currItem = {
+                  ItemImageUrl: item.imagePath,
+                  ItemName: item.itemname,
+                  ItemPrice: item.price,
+                  ItemItemId: item.itemId,
+                  ItemVendorId: item.VendorVendorId,
+                };
+                this.newlyAdded.push(currItem);
+              }
+            }
           }
         }
       },
@@ -202,16 +207,18 @@ export class FoodBreakfastComponent implements OnInit {
     this.foodService
       .getItemSubCategoryDetails('food', this.category)
       .subscribe((resp: any) => {
-        if (resp && resp.length > 0) {
+        if (resp && resp.length) {
           for (let item of resp) {
-            let currItem = {
-              ItemImageUrl: item.imagePath,
-              ItemName: item.itemname,
-              ItemPrice: item.price,
-              ItemItemId: item.itemId,
-              ItemVendorId: item.VendorVendorId,
-            };
-            this.foodData.push(currItem);
+            if (item) {
+              let currItem = {
+                ItemImageUrl: item.imagePath,
+                ItemName: item.itemname,
+                ItemPrice: item.price,
+                ItemItemId: item.itemId,
+                ItemVendorId: item.VendorVendorId,
+              };
+              this.foodData.push(currItem);
+            }
           }
         }
       });
@@ -219,16 +226,17 @@ export class FoodBreakfastComponent implements OnInit {
 
   loadChefDetails() {
     this.foodService.getChefsNearUserLocation().subscribe((resp: any) => {
-      // console.log(resp);
       for (let chef of resp) {
-        let chefItem = {
-          chefId: chef.vendorId,
-          firstname: chef.firstname,
-          lastname: chef.lastname,
-          chefImage: chef.imagePath,
-          chefRating: this.calculateRating(chef.reviews),
-        };
-        this.chefData.push(chefItem);
+        if (chef) {
+          let chefItem = {
+            chefId: chef.vendorId,
+            firstname: chef.firstname,
+            lastname: chef.lastname,
+            chefImage: chef.imagePath,
+            chefRating: this.calculateRating(chef.reviews),
+          };
+          this.chefData.push(chefItem);
+        }
       }
     });
   }

@@ -30,7 +30,7 @@ export interface Item {
   ItemCartId: string;
   ItemItemId: string;
   ItemUserId: string;
-  ItemVendorId : string;
+  ItemVendorId: string;
 }
 
 @Component({
@@ -105,15 +105,27 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    const options = {
+      componentRestrictions: { country: 'IN' },
+      fields: [
+        'address_component',
+        'formatted_address',
+        'place_id',
+        'geometry',
+      ],
+      radius: 8000,
+      strictBounds: true,
+      types: ['establishment'],
+    } as google.maps.places.AutocompleteOptions;
     const mapAutoComplete = new google.maps.places.Autocomplete(
       this.deliveryInput.nativeElement,
-      { types: ['geocode'] }
+      options
     );
 
     mapAutoComplete.setFields(['address_component']);
     mapAutoComplete.addListener('place_changed', () => {
       const place = mapAutoComplete?.getPlace();
-      //console.log(place);
+      console.log(place);
 
       // Get each component of the address from the place details,
       // and then fill-in the corresponding field on the form.
@@ -125,7 +137,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
         for (const component of place.address_components) {
           const addressType = component.types;
-          // console.log(addressType);
+          console.log(addressType);
           if (
             addressType.indexOf('sublocality_level_2') !== -1 ||
             addressType.indexOf('sublocality_level_1') !== -1
@@ -145,16 +157,22 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         }
 
         this.deliveryForm.patchValue({
-          deliveryLocation: `${address}${address && city ? ', ' + city : city}${
-            (address || city) && state ? ', ' + state : state
-          }${(address || city || state) && pinCode ? ', ' + pinCode : pinCode}`,
-          address: address,
+          deliveryLocation: `${place.formatted_address}`,
+          address: place.formatted_address,
           city: city,
-          state: state,
+          state: this.retriveState(state),
           pinCode: pinCode,
         });
       }
     });
+  }
+
+  //map state with the selected text
+  retriveState(str: string) {
+    const selectedState = this.allStateData.filter((state) =>
+      state.toLowerCase().includes(str.toLowerCase())
+    );
+    return selectedState[0];
   }
 
   onLocationChange() {
@@ -197,7 +215,6 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       script.onload = () => {
         const loadedGoogleModule = win.google;
         if (loadedGoogleModule && loadedGoogleModule.maps) {
-          console.log(loadedGoogleModule);
           resolve(loadedGoogleModule.maps);
         } else {
           reject('Google map SDK is not available!');
@@ -396,13 +413,18 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     } else {
       this.cartService
         .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total)
-        .subscribe((resp: any) => {
-          console.log(resp);
-          this.razorPayCheckout(resp);
-        },
-        (err : any)=>{
-          this.toastr.error('The order wasnt confirmed.Please retry', 'Error!!');
-        });
+        .subscribe(
+          (resp: any) => {
+            console.log(resp);
+            this.razorPayCheckout(resp);
+          },
+          (err: any) => {
+            this.toastr.error(
+              'The order wasnt confirmed.Please retry',
+              'Error!!'
+            );
+          }
+        );
     }
   }
 
@@ -426,7 +448,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
                 ItemUpdated: false,
                 ItemCartId: item.cartId,
                 ItemItemId: product.itemId,
-                ItemVendorId : product.vendorId,
+                ItemVendorId: product.vendorId,
                 ItemUserId: item.userUserId,
               };
               this.userCart.push(currItem);
@@ -538,28 +560,31 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     }
   }
 
-  razorPayCheckout(resp : any)
-  {
-    let options = this.cartService.getRazorPaymentData(this.userCart, this.total, resp.data.rzPayOrderId, resp.data.orderId);
-    options.handler = ((response: any, error: any) => {
+  razorPayCheckout(resp: any) {
+    let options = this.cartService.getRazorPaymentData(
+      this.userCart,
+      this.total,
+      resp.data.rzPayOrderId,
+      resp.data.orderId
+    );
+    options.handler = (response: any, error: any) => {
       options.response = response;
       // console.log(response);
       // console.log(options);
-      this.verifyAndConfirmPayment(response,resp);
-    });
-    options.modal.ondismiss = (() => {
+      this.verifyAndConfirmPayment(response, resp);
+    };
+    options.modal.ondismiss = () => {
       // handle the case when user closes the form while transaction is in progress
       // this.cartService.checkCancelledPaymentStatus().subscribe((data:any)=>{
       //   console.log(data);
       // })
       // console.log('Transaction cancelled.');
-    });
+    };
 
-    this.invokeRazorPay(options,resp);
+    this.invokeRazorPay(options, resp);
   }
 
-  invokeRazorPay(options : any,resp : any)
-  {
+  invokeRazorPay(options: any, resp: any) {
     this.razorPay = new this.windowRef.NativeWindow.Razorpay(options);
     this.razorPay.open();
 
@@ -571,35 +596,47 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       // console.log(response.error.reason);
       // console.log(response.error.metadata.order_id);
       // console.log(response.error.metadata.payment_id);
-      this.cartService.logErrorPayment(response.error.metadata.order_id, response.error.metadata.payment_id,
-        resp.data.orderId, response.error).subscribe(
-          (data: any) => {
-            // console.log('error payment logged');
-          });
+      this.cartService
+        .logErrorPayment(
+          response.error.metadata.order_id,
+          response.error.metadata.payment_id,
+          resp.data.orderId,
+          response.error
+        )
+        .subscribe((data: any) => {
+          // console.log('error payment logged');
+        });
     });
   }
 
-  verifyAndConfirmPayment(response : any,resp:any)
-  {
+  verifyAndConfirmPayment(response: any, resp: any) {
     // verify payment signature & capture transaction
-    this.cartService.verifyAndCapturePayment(response, resp.data.orderId).subscribe((data: any) => {
-      //create Invoice
-      let invoiceData = {
-        amount:this.total,
-        invoice_date : new Date(),
-        orderId: resp.data.orderId,
-        VendorVendorId: this.userCart[0].ItemVendorId,
-      }
-      this.cartService.createInvoice(invoiceData).subscribe((invResp:any)=>{
-        this.router.navigate(['/', 'cart', 'confirm', resp.data.orderId]);
-      },
-      (err:any)=>{
-        handleError(err);
-      });
-    }, 
-    (err: any) => {
-      this.toastr.error('The order wasnt confirmed. Your payment will be refunded', 'Error!!');
-    });
+    this.cartService
+      .verifyAndCapturePayment(response, resp.data.orderId)
+      .subscribe(
+        (data: any) => {
+          //create Invoice
+          let invoiceData = {
+            amount: this.total,
+            invoice_date: new Date(),
+            orderId: resp.data.orderId,
+            VendorVendorId: this.userCart[0].ItemVendorId,
+          };
+          this.cartService.createInvoice(invoiceData).subscribe(
+            (invResp: any) => {
+              this.router.navigate(['/', 'cart', 'confirm', resp.data.orderId]);
+            },
+            (err: any) => {
+              handleError(err);
+            }
+          );
+        },
+        (err: any) => {
+          this.toastr.error(
+            'The order wasnt confirmed. Your payment will be refunded',
+            'Error!!'
+          );
+        }
+      );
   }
-
 }

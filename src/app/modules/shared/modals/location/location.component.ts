@@ -39,7 +39,7 @@ export class LocationComponent implements OnInit {
         this.geocodeLatLng(geocoder);
 
         const options = {
-          // componentRestrictions: { country: 'us' },
+          componentRestrictions: { country: 'IN' },
           fields: ['formatted_address', 'geometry', 'name'],
           location: this.currentLocation,
           radius: 8000,

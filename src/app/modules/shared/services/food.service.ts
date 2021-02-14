@@ -25,7 +25,7 @@ export class FoodService {
     subCategory: string
   ): Observable<any> {
     return this.http
-      .get(`${environment.apiUrl}/itembysubcategoryName/${subCategory}/1`)
+      .get(`${environment.apiUrl}/itembysubcategoryName/${subCategory}`)
       .pipe(
         map((resp: any) => resp.rows),
         catchError((err) => this.handleError(err))

@@ -234,6 +234,7 @@ export class CartService {
       userId: this.authService.getUserId(),
       TotalPrice: totalPrice,
       itemList: itemList,
+      vendorId : cartItems[0].ItemVendorId,
       Address: {
         fullName: deliveryAddress.fullName,
         address: deliveryAddress.address,
@@ -257,6 +258,7 @@ export class CartService {
         Price: item.ItemPrice,
       });
     }
+
     const options = new HttpHeaders({ 'Content-Type': 'application/json' });
     // console.log(JSON.stringify(orderData));
     return this.http

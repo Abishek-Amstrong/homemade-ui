@@ -9,6 +9,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { concat, from, zip } from 'rxjs';
 import { handleError } from '../../shared/helpers/error-handler';
 
+import { Directive, ElementRef } from '@angular/core';
+
+@Directive({ selector: 'img' })
+export class LazyImgDirective {
+  constructor({ nativeElement }: ElementRef<HTMLImageElement>) {
+    const supports = 'loading' in HTMLImageElement.prototype;
+
+    if (supports) {
+      nativeElement.setAttribute('loading', 'lazy');
+    } else {
+      // fallback to IntersectionObserver
+    }
+  }
+}
+
 export interface Item {
   ItemImageUrl: string;
   ItemName: string;

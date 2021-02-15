@@ -8,6 +8,7 @@ import {
   ElementRef,
   ChangeDetectorRef,
 } from '@angular/core';
+import { Location } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -15,12 +16,13 @@ import { User } from './modules/shared/models/user';
 
 import { AuthService } from './modules/shared/services/auth.service';
 import { CartService } from './modules/shared/services/cart.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { LocationComponent } from './modules/shared/modals/location/location.component';
 import { concat, from, fromEvent, Observable } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   switchMap,
 } from 'rxjs/operators';
@@ -59,6 +61,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private foodService: FoodService,
     private router: Router,
+    private location: Location,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private cd: ChangeDetectorRef
@@ -72,6 +75,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.isCollapse2Show = false;
     this.isCollapse3Show = false;
     this.isCollapse4Show = false;
+    this.router.events.subscribe((event) => {
+      if(event instanceof NavigationStart && event.navigationTrigger == 'popstate')
+      {
+        this.router
+        .navigateByUrl('/', { skipLocationChange: true })
+        .then(() => this.router.navigate([decodeURIComponent(event.url)],{replaceUrl: true}));
+      }
+    });
   }
 
   ngOnInit() {
@@ -160,7 +171,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   navigateToCategory(category: string) {
     this.router
       .navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+      .then(() => this.router.navigate(['/', 'foods', 'category', category],{replaceUrl: true}));
   }
 
   @HostListener('window:scroll', []) onScroll(): void {
@@ -239,19 +250,19 @@ export class AppComponent implements OnInit, AfterViewInit {
               'foods',
               'category',
               option.subcategoryName,
-            ])
+            ],{replaceUrl: true})
           );
       } else if (option.type === 'vendorname') {
         this.router
           .navigateByUrl('/', { skipLocationChange: true })
           .then(() =>
-            this.router.navigate(['/', 'foods', 'chef', option.vendorId])
+            this.router.navigate(['/', 'foods', 'chef', option.vendorId],{replaceUrl: true})
           );
       } else if (option.type === 'item') {
         this.router
           .navigateByUrl('/', { skipLocationChange: true })
           .then(() =>
-            this.router.navigate(['/', 'foods', 'detail', option.itemId])
+            this.router.navigate(['/', 'foods', 'detail', option.itemId],{replaceUrl: true})
           );
       }
     }

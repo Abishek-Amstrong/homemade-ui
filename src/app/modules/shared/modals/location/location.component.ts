@@ -54,7 +54,7 @@ export class LocationComponent implements OnInit {
         mapAutoComplete.setFields(['address_component']);
         mapAutoComplete.addListener('place_changed', () => {
           const place = mapAutoComplete?.getPlace();
-          console.log(place);
+          // console.log(place);
 
           // and then fill-in the corresponding field on the form.
           if (place && place.address_components) {

@@ -242,6 +242,6 @@ export class FoodDetailComponent implements OnInit {
   navToFoodDetail(itemId: any) {
     this.router
       .navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigate(['/', 'foods', 'detail', itemId]));
+      .then(() => this.router.navigate(['/', 'foods', 'detail', itemId],{replaceUrl: true}));
   }
 }

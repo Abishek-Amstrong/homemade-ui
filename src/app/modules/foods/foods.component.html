@@ -51,28 +51,34 @@
                                             class="show-submenu" fragment="section5">Oriental</a>
                                     </li>
 
-                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Deserts')"
-                                            class="show-submenu" fragment="section6">Desserts</a>
+                                    
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Regional')"
+                                        class="show-submenu" fragment="section6">Regional</a>
                                     </li>
 
-                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Beverages')"
-                                            class="show-submenu" fragment="section7">Beverages</a></li>
-
-                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')"
-                                            class="show-submenu" fragment="section8">Platter</a>
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Snacks')"
+                                        class="show-submenu" fragment="section7">Snacks</a>
                                     </li>
 
                                     <li><a href="javascript:void(0)" (click)="navigateToCategory('Healthy')"
-                                            class="show-submenu" fragment="section9">Healthy</a>
+                                        class="show-submenu" fragment="section8">Healthy</a>
                                     </li>
 
-                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Regional')"
-                                            class="show-submenu" fragment="section10">Regional</a>
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Platter')"
+                                        class="show-submenu" fragment="section9">Platter</a>
                                     </li>
 
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Deserts')"
+                                            class="show-submenu" fragment="section10">Desserts</a>
+                                    </li>
+
+                                    <li><a href="javascript:void(0)" (click)="navigateToCategory('Beverages')"
+                                            class="show-submenu" fragment="section11">Beverages</a></li>
+
+                                    <!-- 
                                     <li><a href="javascript:void(0)" (click)="navigateToCategory('Biscuits')"
                                             class="show-submenu" fragment="section11">Biscuits</a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </div>
@@ -250,13 +256,13 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section6" #desserts>
+                    <div class="card type3" id="section6" #regional>
                         <div class="main_title">
-                            <h2>Desserts</h2>
-                            <a routerLink="/foods/category/Deserts">View All</a>
+                            <h2>Regional</h2>
+                            <a routerLink="/foods/category/Regional">View All</a>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of desertsData">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of regionalData">
                                 <div class="cardbody">
                                     <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
@@ -284,47 +290,14 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section7" #beverages>
+                    
+                    <div class="card type3" id="section7" #snacks>
                         <div class="main_title">
-                            <h2>Beverages</h2>
-                            <a routerLink="/foods/category/Beverages">View All</a>
+                            <h2>Snacks</h2>
+                            <a routerLink="/foods/category/Snacks">View All</a>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of beveragesData">
-                                <div class="cardbody">
-                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
-                                        <div class="imgBox">
-                                            <figure>
-                                                <img [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
-                                                    alt="" class="lazy loaded img-fluid" data-was-processed="true">
-                                            </figure>
-                                        </div>
-                                        <div class="contentBox">
-                                            <div class="pro_detials">
-                                                <h3>{{item.ItemName}}</h3>
-                                                <p class="price">Rs.{{item.ItemPrice}}</p>
-                                            </div>
-                                            <div class="prod_cta">
-                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                                                    (click)="orderNow($event, item)">Order Now</a>
-                                            </div>
-
-                                            <!-- <p class="availablity">{{item.availability}}</p> -->
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--./card ends-->
-
-                    <div class="card type3" id="section8" #platter>
-                        <div class="main_title">
-                            <h2>Platter</h2>
-                            <a routerLink="/foods/category/Platter">View All</a>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of platterData">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of snacksData">
                                 <div class="cardbody">
                                     <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
@@ -386,13 +359,13 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section8" #regional>
+                    <div class="card type3" id="section9" #platter>
                         <div class="main_title">
-                            <h2>Regional</h2>
-                            <a routerLink="/foods/category/Regional">View All</a>
+                            <h2>Platter</h2>
+                            <a routerLink="/foods/category/Platter">View All</a>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of regionalData">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of platterData">
                                 <div class="cardbody">
                                     <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
@@ -420,13 +393,13 @@
                     </div>
                     <!--./card ends-->
 
-                    <div class="card type3" id="section8" #biscuits>
+                    <div class="card type3" id="section10" #desserts>
                         <div class="main_title">
-                            <h2>Biscuits</h2>
-                            <a routerLink="/foods/category/Biscuits">View All</a>
+                            <h2>Desserts</h2>
+                            <a routerLink="/foods/category/Deserts">View All</a>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3" *ngFor="let item of biscuitsData">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of desertsData">
                                 <div class="cardbody">
                                     <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
                                         <div class="imgBox">
@@ -452,6 +425,72 @@
                             </div>
                         </div>
                     </div>
+                    <!--./card ends-->
+
+                    <div class="card type3" id="section11" #beverages>
+                        <div class="main_title">
+                            <h2>Beverages</h2>
+                            <a routerLink="/foods/category/Beverages">View All</a>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of beveragesData">
+                                <div class="cardbody">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                                                    alt="" class="lazy loaded img-fluid" data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, item)">Order Now</a>
+                                            </div>
+
+                                            <!-- <p class="availablity">{{item.availability}}</p> -->
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--./card ends-->
+                    <!-- 
+                    <div class="card type3" id="section8" #biscuits>
+                        <div class="main_title">
+                            <h2>Biscuits</h2>
+                            <a routerLink="/foods/category/Biscuits">View All</a>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-3" *ngFor="let item of biscuitsData">
+                                <div class="cardbody">
+                                    <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
+                                        <div class="imgBox">
+                                            <figure>
+                                                <img [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                                                    alt="" class="lazy loaded img-fluid" data-was-processed="true">
+                                            </figure>
+                                        </div>
+                                        <div class="contentBox">
+                                            <div class="pro_detials">
+                                                <h3>{{item.ItemName}}</h3>
+                                                <p class="price">Rs.{{item.ItemPrice}}</p>
+                                            </div>
+                                            <div class="prod_cta">
+                                                <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                                    (click)="orderNow($event, item)">Order Now</a>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
                     <!--./card ends-->
                 </div>
             </div>

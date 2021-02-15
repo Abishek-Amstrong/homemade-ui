@@ -137,9 +137,9 @@ export class PlaceOrderComponent implements OnInit {
 
   addToCart() {
     //check the items selected already exists in cart
-    console.log(this.orderData);
+    // console.log(this.orderData);
     const userId = this.authService.getUserId();
-    console.log(userId);
+    // console.log(userId);
     if (userId) {
       this.cartService
         .checkItemExistsInCart(this.orderData)
@@ -193,7 +193,7 @@ export class PlaceOrderComponent implements OnInit {
       const cart: any = sessionStorage.getItem('cartData')
         ? sessionStorage.getItem('cartData')
         : '';
-      console.log(cart);
+      // console.log(cart);
       const cartData = JSON.parse(cart);
       const mainIndex = cartData.findIndex(
         (cartObj: any) => cartObj.itemId === this.orderData.OrderItemId
@@ -230,7 +230,7 @@ export class PlaceOrderComponent implements OnInit {
           cartData[index].quantity += item.ItemQuantity;
         }
       });
-      console.log(cartData);
+      // console.log(cartData);
       sessionStorage.setItem('cartData', JSON.stringify(cartData));
       this.cartService.updateGuestCart();
       this.dialogRef.close();

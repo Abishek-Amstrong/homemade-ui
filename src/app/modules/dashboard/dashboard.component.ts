@@ -419,12 +419,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (type === 'subcategory') {
       this.router
         .navigateByUrl('/', { skipLocationChange: true })
-        .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+        .then(() => this.router.navigate(['/', 'foods', 'category', category],{replaceUrl: true}));
     } else if (type === 'cuisine') {
       this.router
         .navigateByUrl('/', { skipLocationChange: true })
         .then(() =>
-          this.router.navigate(['/', 'foods', 'category-detail', category])
+          this.router.navigate(['/', 'foods', 'category-detail', category],{replaceUrl: true})
         );
     } else if (type === 'food') {
       this.router.navigate(['/', 'foods', 'detail', category]);

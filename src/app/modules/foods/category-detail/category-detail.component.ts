@@ -276,7 +276,7 @@ export class CategoryDetailComponent implements OnInit {
     this.router
       .navigateByUrl('/', { skipLocationChange: true })
       .then(() =>
-        this.router.navigate(['/', 'foods', 'category-detail', name])
+        this.router.navigate(['/', 'foods', 'category-detail', name],{replaceUrl: true})
       );
   }
 }

@@ -465,8 +465,9 @@ export class FoodsComponent implements OnInit {
   }
 
   navigateToSubCategory(category: string) {
-    this.router
-      .navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigate(['/', 'foods', 'category', category],{replaceUrl: true}));
+    // this.router
+    //   .navigateByUrl('/', { skipLocationChange: true })
+    //   .then(() => this.router.navigate(['/', 'foods', 'category', category],{replaceUrl: true}));
+    this.router.navigate(['/', 'foods', 'category', category]);
   }
 }

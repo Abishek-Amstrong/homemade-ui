@@ -142,15 +142,15 @@ export class CategoryDetailComponent implements OnInit {
     this.bestSellers = [];
     this.newlyAdded = [];
     this.recommendations = [];
-    this.category = '';
+    this.category = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
-    this.category = this.route.snapshot.paramMap.get('id');
-    this.loadfoodDetails();
-    // this.loadChefDetails();
-    this.loadCuisineDetails();
-    // this.getRecentAndBest();
+    this.route.params.subscribe(routeParams => {
+      this.category = this.route.snapshot.paramMap.get('id');
+      this.loadfoodDetails();
+      this.loadCuisineDetails();
+    });
   }
 
   getRecentAndBest() {
@@ -273,10 +273,11 @@ export class CategoryDetailComponent implements OnInit {
   }
 
   navigateToCuisine(name: string) {
-    this.router
-      .navigateByUrl('/', { skipLocationChange: true })
-      .then(() =>
-        this.router.navigate(['/', 'foods', 'category-detail', name],{replaceUrl: true})
-      );
+    // this.router
+    //   .navigateByUrl('/', { skipLocationChange: true })
+    //   .then(() =>
+    //     this.router.navigate(['/', 'foods', 'category-detail', name],{replaceUrl: true})
+    //   );
+    this.router.navigate(['/', 'foods', 'category-detail', name]);
   }
 }

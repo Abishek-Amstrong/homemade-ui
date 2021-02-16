@@ -163,7 +163,9 @@ export class FoodBreakfastComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
       this.category = this.route.snapshot.paramMap.get('id');
-      // console.log(this.category);
+      this.foodData = [];
+      this.bestSellers = [];
+      this.newlyAdded = [];
       this.loadfoodDetails();
       this.getRecentAndBest();
     });

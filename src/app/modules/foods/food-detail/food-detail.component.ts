@@ -86,7 +86,7 @@ export class FoodDetailComponent implements OnInit {
     this.foodDetailData = {} as ItemDetail;
     this.vendorFoodData = [];
     this.reviewData = [];
-    this.itemId = '';
+    this.itemId = this.activatedRoute.snapshot.paramMap.get('id') || '';
     this.ratingAvg = 0;
     this.ratingCnt = [
       { rating: 1, count: 0, percent: 0 },
@@ -99,9 +99,12 @@ export class FoodDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.itemId = this.activatedRoute.snapshot.paramMap.get('id') || '';
-    this.loadFoodDetails();
-    this.loadReviewData();
+    this.activatedRoute.params.subscribe(routeParams => {
+      this.itemId = this.activatedRoute.snapshot.paramMap.get('id') || '';
+      this.loadFoodDetails();
+      this.loadReviewData();
+    });
+
   }
 
   loadFoodDetails() {
@@ -240,8 +243,9 @@ export class FoodDetailComponent implements OnInit {
   }
 
   navToFoodDetail(itemId: any) {
-    this.router
-      .navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigate(['/', 'foods', 'detail', itemId],{replaceUrl: true}));
+    // this.router
+    //   .navigateByUrl('/', { skipLocationChange: true })
+    //   .then(() => this.router.navigate(['/', 'foods', 'detail', itemId],{replaceUrl: true}));
+    this.router.navigate(['/', 'foods', 'detail', itemId]);
   }
 }

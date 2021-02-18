@@ -31,8 +31,11 @@
                                 ? foodDetailData.ItemQuantity : '')
                                 + ' ' + (foodDetailData.ItemUnit ? foodDetailData.ItemUnit : '')}})</span></h3>
                     </div>
-
-                    <div class="availablity">{{chefData.chefstatus}}</div>
+                    <div class="availablity">
+                        <span class="bold">Available From &nbsp;</span>  {{foodDetailData.ItemAvailableFrom ? (foodDetailData.ItemAvailableFrom | date: 'shortTime') : '&nbsp;' }} 
+                        <span class="bold">Till &nbsp;</span> {{foodDetailData.ItemAvailableTill ? (foodDetailData.ItemAvailableTill | date: 'shortTime') : '&nbsp;'}}
+                    </div>
+                    <div class="availablity">{{foodDetailData.ItemStatus}}</div>
 
                     <div class="btn_1_mobile">
                         <a href="javascript:void(0)" (click)="orderNow($event, foodDetailData)"

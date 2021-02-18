@@ -231,11 +231,11 @@ export class FoodBreakfastComponent implements OnInit {
           for (let item of resp) {
             if (item) {
               let currItem = {
-                ItemImageUrl: item.imagePath,
-                ItemName: item.itemname,
-                ItemPrice: item.price,
-                ItemItemId: item.itemId,
-                ItemVendorId: item.VendorVendorId,
+                ItemImageUrl: item.item.imagePath,
+                ItemName: item.item.itemname,
+                ItemPrice: item.item.price,
+                ItemItemId: item.item.itemId,
+                ItemVendorId: item.item.VendorVendorId,
               };
               this.foodData.push(currItem);
             }

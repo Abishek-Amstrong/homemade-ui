@@ -2,14 +2,23 @@
 @import "./../../../../assets/stylesheets/scss/variables";
 
 #register_bg {
-  background: #ccc url(../../../../assets/images/access_bg.jpg) center center
-    no-repeat fixed;
-  @include background-size(cover);
+  // background: #ccc url(../../../../assets/images/access_bg.jpg) center center
+  //   no-repeat fixed;
+  // @include background-size(cover);
   min-height: 100vh;
   width: 100%;
+  display: flex;
 }
 
 #register {
+  // @include box-shadow(3px 0 30px rgba(0, 0, 0, 0.2));
+  width: 430px;
+  margin: auto;
+
+  @include mobile {
+    width: 100%;
+    padding: 30px;
+  }
   figure {
     margin: 0;
     text-align: center;
@@ -21,23 +30,22 @@
       padding: 20px 30px;
     }
   }
-
-  @include box-shadow(3px 0 30px rgba(0, 0, 0, 0.2));
-  width: 430px;
-  padding: 30px 45px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  overflow-y: auto;
-  background-color: #fff;
-  min-height: 100vh;
-
-  @include mobile {
-    width: 100%;
-    padding: 30px;
-    @include box-shadow(none);
+  .login-title{
+    @include fontSize(20px);
+    font-weight: 600;
+    color: rgb(28, 27, 27);
+    letter-spacing: 0.2em;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 20px;
   }
-
+  .login-info{
+    @include fontSize(14px);
+    color: rgb(28, 27, 27);
+    letter-spacing: 0.2em;
+    text-align: center;
+    text-transform: inherit;
+  }
   form {
     margin-bottom: 30px;
     display: block;
@@ -79,6 +87,7 @@
 
 .access_social {
   margin-top: 40px;
+  text-transform: uppercase;
 
   @include mobile {
     margin-top: 30px;

@@ -69,12 +69,12 @@ export class FoodSouthindianComponent implements OnInit {
       1280: {
         nav: true,
         dots: false,
-        items: 5,
+        items: 6,
       },
       1440: {
         nav: true,
         dots: false,
-        items: 5,
+        items: 6,
       },
     },
   };
@@ -91,21 +91,20 @@ export class FoodSouthindianComponent implements OnInit {
     responsive: {
       0: {
         nav: false,
-        dots: false,
-        items: 2,
-        stagePadding: 50,
+        dots: true,
+        items: 1,
         margin: 15,
       },
       600: {
         nav: false,
-        dots: false,
-        items: 4,
+        dots: true,
+        items: 2,
         margin: 10,
       },
       768: {
         nav: false,
-        dots: false,
-        items: 4,
+        dots: true,
+        items: 3,
       },
       1024: {
         nav: true,

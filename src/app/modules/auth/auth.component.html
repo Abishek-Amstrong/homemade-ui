@@ -1,10 +1,12 @@
 <div id="register_bg">
     <div id="register">
         <aside>
-            <figure>
+            <!-- <figure>
                 <a href="javascript:void(0)" [routerLink]="['/home']"><img src="assets/images/logo.svg" width="160"
                         height="55" alt=""></a>
-            </figure>
+            </figure> -->
+            <h1 class="login-title">Login</h1>
+            <p class="login-info">Please enter your e-mail and password</p>
             <div class="access_social">
                 <a href="#0" class="social_bt facebook">Login with Facebook</a>
                 <a href="#0" class="social_bt google">Login with Google</a>
@@ -12,14 +14,14 @@
             <div class="divider"><span>Or</span></div>
             <form autocomplete="off" [formGroup]="form">
                 <div class="form-group">
+                    <input class="form-control" type="email" placeholder="Email" formControlName="email">
                     <p *ngIf="f.email!.errors?.required  && (f.email!.touched || f.email!.dirty)" class="error-msg">Please enter your email!!</p>
                     <p *ngIf="f.email!.errors?.InvalidEmail  && (f.email!.touched || f.email!.dirty)" class="error-msg">Please enter valid email!!</p>
-                    <input class="form-control" type="email" placeholder="Email" formControlName="email">
                 </div>
                 <div class="form-group">
-                    <p *ngIf="f.password!.errors?.required  && (f.password!.touched || f.password!.dirty)" class="error-msg">Please enter your password!!</p>
                     <input class="form-control" type="password" id="password" placeholder="Password"
                         formControlName="password">
+                    <p *ngIf="f.password!.errors?.required  && (f.password!.touched || f.password!.dirty)" class="error-msg">Please enter your password!!</p>
                 </div>
                 <div class="clearfix add_bottom_15">
                     <div class="checkboxes float-left">
@@ -33,8 +35,8 @@
                 </div>
                 <button type="submit" value="Login Now" class="btn_1 gradient full-width" (click)="onSubmit()">Login
                     Now!</button>
-                <div class="text-center mt-2"><small>Don't have an acccount? <strong><a href="javascript:void(0)"
-                                [routerLink]="['/auth/signup']">Sign Up</a></strong></small>
+                <div class="text-center mt-2">Don't have an acccount? <strong><a href="javascript:void(0)"
+                                [routerLink]="['/auth/signup']">Sign Up</a></strong>
                 </div>
             </form>
         </aside>

@@ -1,6 +1,3 @@
-@import "./../../../../../scss/mixin";
-@import "./../../../../../scss/variables";
-
 /*-------- 3.7 Sing In Modal --------*/
 #sign-in-dialog,
 #sign-up-dialog {
@@ -25,27 +22,30 @@
   width: 32px;
   height: 32px;
   line-height: 32px;
-
-  &:before {
-    font-size: 24px;
-    font-family: "ElegantIcons";
-    content: "\4d";
-  }
-
-  &:hover {
-    color: #fff;
-    background-color: #66676b;
-  }
 }
 
-.modal_header {
-  h3 {
-    padding: 0;
-    margin: 0;
-    @include fontSize(18px);
-    font-weight: 500;
-    text-transform: uppercase;
-  }
+#sign-in-dialog .mfp-close:before,
+#sign-up-dialog .mfp-close:before,
+#modal-dialog .mfp-close:before {
+  font-size: 24px;
+  font-family: "ElegantIcons";
+  content: "\4d";
+}
+
+#sign-in-dialog .mfp-close:hover,
+#sign-up-dialog .mfp-close:hover,
+#modal-dialog .mfp-close:hover {
+  color: #fff;
+  background-color: #66676b;
+}
+
+.modal_header h3 {
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  font-size: 1.125rem;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 #sign-in-dialog .form-group input.form-control,
@@ -55,7 +55,8 @@
 
 #sign-in-dialog .form-group > i,
 #sign-up-dialog .form-group > i {
-  @include fontSize(18px);
+  font-size: 18px;
+  font-size: 1.125rem;
   position: absolute;
   left: 12px;
   top: 33px;
@@ -64,10 +65,11 @@
   height: 25px;
   display: block;
   font-weight: 400 !important;
+}
 
-  &.icon_lock_alt {
-    top: 35px;
-  }
+#sign-in-dialog .form-group > i.icon_lock_alt,
+#sign-up-dialog .form-group > i.icon_lock_alt {
+  top: 35px;
 }
 
 .modal__close {
@@ -84,32 +86,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  .material-icons {
-    color: #666;
-    font-size: 1rem;
-  }
-
-  &:hover {
-    background-color: #66676b;
-    color: #fff;
-
-    .material-icons {
-      color: #fff;
-    }
-  }
 }
 
-.changeLocation {
-  span {
-    bottom: -70% !important;
-  }
+.modal__close .material-icons {
+  color: #666;
+  font-size: 1rem;
 }
 
-.changeLocation {
-  span {
-    position: absolute;
-    right: 2%;
-    bottom: 15%;
-  }
+.modal__close:hover {
+  background-color: #66676b;
+  color: #fff;
+}
+
+.modal__close:hover .material-icons {
+  color: #fff;
+}
+
+.changeLocation span {
+  bottom: -70% !important;
+}
+
+.changeLocation span {
+  position: absolute;
+  right: 2%;
+  bottom: 15%;
 }

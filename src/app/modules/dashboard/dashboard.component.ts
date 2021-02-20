@@ -100,26 +100,24 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     responsive: {
       0: {
         nav: false,
-        dots: false,
-        items: 2,
-        stagePadding: 50,
-        margin: 15,
+        dots: true,
+        items: 1,
       },
       600: {
         nav: false,
-        dots: false,
-        items: 4,
+        dots: true,
+        items: 2,
         margin: 10,
       },
       768: {
         nav: false,
-        dots: false,
-        items: 4,
+        dots: true,
+        items: 3,
       },
       1025: {
         nav: true,
         dots: false,
-        items: 5,
+        items: 4,
       },
       1340: {
         nav: true,
@@ -417,17 +415,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   navigateToCategory(category: string, type: string) {
     //console.log(category);
     if (type === 'subcategory') {
-      // this.router
-      //   .navigateByUrl('/', { skipLocationChange: true })
-      //   .then(() => this.router.navigate(['/', 'foods', 'category', category],{replaceUrl: true}));
-      this.router.navigate(['/', 'foods', 'category', category]);
+      this.router
+        .navigateByUrl('/', { skipLocationChange: true })
+        .then(() => this.router.navigate(['/', 'foods', 'category', category]));
     } else if (type === 'cuisine') {
-      // this.router
-      //   .navigateByUrl('/', { skipLocationChange: true })
-      //   .then(() =>
-      //     this.router.navigate(['/', 'foods', 'category-detail', category],{replaceUrl: true})
-      //   );
-      this.router.navigate(['/', 'foods', 'category-detail', category]);
+      this.router
+        .navigateByUrl('/', { skipLocationChange: true })
+        .then(() =>
+          this.router.navigate(['/', 'foods', 'category-detail', category])
+        );
     } else if (type === 'food') {
       this.router.navigate(['/', 'foods', 'detail', category]);
     }

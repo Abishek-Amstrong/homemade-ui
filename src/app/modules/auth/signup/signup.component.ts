@@ -32,9 +32,7 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.authService.setHeaderDisplayStatus(true);
-  }
+  ngOnInit(): void {}
 
   // convenience getter for easy access to form fields
   get f() {
@@ -77,10 +75,5 @@ export class SignupComponent implements OnInit {
       },
       (error: any) => {}
     );
-  }
-
-  ngOnDestroy()
-  {
-    this.authService.setHeaderDisplayStatus(false);
   }
 }

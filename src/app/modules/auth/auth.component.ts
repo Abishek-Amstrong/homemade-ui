@@ -5,6 +5,7 @@ import { AuthService } from '../shared/services/auth.service';
 import { ValidatorService } from '../shared/services/validator.service';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../shared/services/cart.service';
+import { LocationService } from '../shared/services/location.service'
 
 @Component({
   selector: 'app-auth',
@@ -24,7 +25,8 @@ export class AuthComponent implements OnInit {
     private authService: AuthService,
     private validator: ValidatorService,
     private toastr: ToastrService,
-    private cartService: CartService
+    private cartService: CartService,
+    private locationService : LocationService
   ) {
     this.submitted = false;
     this.form = this.formBuilder.group({
@@ -47,6 +49,7 @@ export class AuthComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.setHeaderDisplayStatus(true);
+    this.locationService.getCurrentLocationLatLong();
   }
 
   // convenience getter for easy access to form fields

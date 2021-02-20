@@ -46,10 +46,10 @@ export class SugarComponent implements OnInit {
 
   customOptions: OwlOptions = {
     center: false,
-    stagePadding: 0,
+    stagePadding: 50,
     items: 1,
     loop: false,
-    margin: 25,
+    margin: 15,
     dots: false,
     nav: true,
     lazyLoad: true,
@@ -57,12 +57,12 @@ export class SugarComponent implements OnInit {
     responsive: {
       0: {
         nav: false,
-        dots: true,
-        items: 1,
+        dots: false,
+        items: 2,
       },
       600: {
         nav: false,
-        dots: true,
+        dots: false,
         items: 2,
       },
       1025: {
@@ -96,20 +96,21 @@ export class SugarComponent implements OnInit {
     responsive: {
       0: {
         nav: false,
-        dots: true,
-        items: 1,
+        dots: false,
+        items: 2,
+        stagePadding: 50,
         margin: 15,
       },
       600: {
         nav: false,
-        dots: true,
-        items: 2,
+        dots: false,
+        items: 4,
         margin: 10,
       },
       768: {
         nav: false,
-        dots: true,
-        items: 3,
+        dots: false,
+        items: 4,
       },
       1024: {
         nav: true,

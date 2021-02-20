@@ -9,6 +9,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { concat, from, zip } from 'rxjs';
 import { handleError } from '../../shared/helpers/error-handler';
 
+import { Directive, ElementRef } from '@angular/core';
+
+@Directive({ selector: 'img' })
+export class LazyImgDirective {
+  constructor({ nativeElement }: ElementRef<HTMLImageElement>) {
+    const supports = 'loading' in HTMLImageElement.prototype;
+
+    if (supports) {
+      nativeElement.setAttribute('loading', 'lazy');
+    } else {
+      // fallback to IntersectionObserver
+    }
+  }
+}
+
 export interface Item {
   ItemImageUrl: string;
   ItemName: string;
@@ -73,12 +88,12 @@ export class FoodBreakfastComponent implements OnInit {
       1280: {
         nav: true,
         dots: false,
-        items: 6,
+        items: 5,
       },
       1440: {
         nav: true,
         dots: false,
-        items: 6,
+        items: 5,
       },
     },
   };
@@ -95,20 +110,21 @@ export class FoodBreakfastComponent implements OnInit {
     responsive: {
       0: {
         nav: false,
-        dots: true,
-        items: 1,
+        dots: false,
+        items: 2,
+        stagePadding: 50,
         margin: 15,
       },
       600: {
         nav: false,
-        dots: true,
-        items: 2,
+        dots: false,
+        items: 4,
         margin: 10,
       },
       768: {
         nav: false,
-        dots: true,
-        items: 3,
+        dots: false,
+        items: 4,
       },
       1024: {
         nav: true,
@@ -141,15 +157,20 @@ export class FoodBreakfastComponent implements OnInit {
     this.bestSellers = [];
     this.newlyAdded = [];
     this.recommendations = [];
-    this.category = '';
+    this.category = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
-    this.category = this.route.snapshot.paramMap.get('id');
-    this.loadfoodDetails();
+    this.route.params.subscribe(routeParams => {
+      this.category = this.route.snapshot.paramMap.get('id');
+      this.foodData = [];
+      this.bestSellers = [];
+      this.newlyAdded = [];
+      this.loadfoodDetails();
+      this.getRecentAndBest();
+    });
     this.loadChefDetails();
     this.loadCuisineDetails();
-    this.getRecentAndBest();
   }
 
   getRecentAndBest() {
@@ -210,11 +231,11 @@ export class FoodBreakfastComponent implements OnInit {
           for (let item of resp) {
             if (item) {
               let currItem = {
-                ItemImageUrl: item.imagePath,
-                ItemName: item.itemname,
-                ItemPrice: item.price,
-                ItemItemId: item.itemId,
-                ItemVendorId: item.VendorVendorId,
+                ItemImageUrl: item.item.imagePath,
+                ItemName: item.item.itemname,
+                ItemPrice: item.item.price,
+                ItemItemId: item.item.itemId,
+                ItemVendorId: item.item.VendorVendorId,
               };
               this.foodData.push(currItem);
             }

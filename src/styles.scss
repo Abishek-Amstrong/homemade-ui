@@ -1784,7 +1784,7 @@ header {
   background-color: $body-color;
   border-bottom: 1px solid $border-color-2;
   @include mobile {
-    padding: 18px;
+    padding: 12px 15px 12px 10px;
   }
   // @include tablet {
   //   padding: 0 30px;
@@ -1843,6 +1843,9 @@ header a.open_close {
   display: none;
   width: 32px;
   height: 32px;
+  .icon_close{
+    @include fontSize(24px);
+  }
 
   @include tablet {
     display: block;
@@ -2111,7 +2114,7 @@ header.black_nav .main-menu > ul > li {
     a.open_close {
       position: absolute;
       right: 15px;
-      top: 0;
+      top: 10px;
       left: inherit;
       color: #ffffff !important;
     }
@@ -2135,6 +2138,7 @@ header.black_nav .main-menu > ul > li {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @include fontSize(12px);
   }
 
   .main-menu li,
@@ -2178,6 +2182,9 @@ header.black_nav .main-menu > ul > li {
   .main-menu ul li.submenu ul li {
     border-bottom: 1px solid #3e3c3c;
     @include fontSize(13px);
+    &:last-child{
+      border-bottom: none;
+    }
   }
 
   /* Menu mobile 3rd level */
@@ -2221,7 +2228,7 @@ header.black_nav .main-menu > ul > li {
 
 @media only screen and (max-width: 480px) {
   .main-menu {
-    width: 100%;
+    width: 80%;
   }
 }
 
@@ -2776,7 +2783,7 @@ ul#top_menu {
   padding: 0 50px;
 
   @include mobile {
-    padding: 14px 18px;
+    padding: 4px 18px;
   }
   .mat-form-field{
     width: 100%;
@@ -2800,6 +2807,9 @@ ul#top_menu {
       left: 0;
       top: 1.5em;
       color: #6a6a6a;
+      @include mobile {
+        top: 0.7em;
+      }
     }
     .mat-form-field-label-wrapper{
       padding: 0;
@@ -2810,6 +2820,9 @@ ul#top_menu {
     .mat-form-field-infix{
       border: none;
       padding: 1.5rem 0 1.5rem 2rem;
+      @include mobile {
+        padding: 1rem 0 1rem 2rem;
+      }
       .mat-input-element{
         @include fontSize(16px);
         letter-spacing: 0.2em;
@@ -2820,12 +2833,20 @@ ul#top_menu {
       @include fontSize(16px);
       letter-spacing: 0.2em;
       text-transform: uppercase;
+      @include mobile {
+        top: 1.4em;
+      }
     }
     .mat-form-field-outline-gap{
       border: none;
     }
     .mat-form-field-outline-start, .mat-form-field-outline-end{
       border: none;
+    }
+    &.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label{
+      @include mobile {
+        top: 1.8em;
+      }
     }
   }
   h1 {
@@ -3225,7 +3246,7 @@ ul#top_menu.drop_user {
     text-transform: uppercase;
     color: rgb(28, 27, 27);
     @include tablet {
-      top: 0;
+      display: none;
     }
   }
 
@@ -3243,6 +3264,9 @@ ul#top_menu.drop_user {
     h2 {
       max-width: inherit;
       @include fontSize(24px);
+      @include mobile {
+        @include fontSize(18px);
+      }
     }
 
     p {
@@ -3262,6 +3286,14 @@ ul#top_menu.drop_user {
   }
 }
 
+.view-all-wrapper{
+  display: none;
+  @include tablet{
+    display: block;
+    padding: 15px;
+    text-align: center;
+  }
+}
 .intro_txt {
   .main_title {
     margin-bottom: 15px;
@@ -6920,6 +6952,10 @@ button {
       .location-icon{
         width: 24px;
         height: 24px;
+        @media only screen and (max-width: 991px) {
+          width: 20px;
+          height: 20px;
+        }
       }
       .search-icon{
         width: 21px;
@@ -6928,10 +6964,18 @@ button {
       .profile-icon{
         width: 20px;
         height: 20px;
+        @media only screen and (max-width: 991px) {
+          width: 17px;
+          height: 17px;
+        }
       }
       .cart-icon{
         width: 19px;
         height: 23px;
+        @media only screen and (max-width: 991px) {
+          width: 16px;
+          height: 20px;
+        }
       }
       &.dropdownMenu {
         position: relative;

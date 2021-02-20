@@ -95,7 +95,7 @@
         <div class="card type3" id="section1">
             <div class="main_title">
                 <h2>Food</h2>
-                <a routerLink="/foods">View All</a>
+                <a routerLink="/foods" class="view-all-link">View All</a>
             </div>
             <div class="row">
                 <div class="col-sm-6 col-lg-3" *ngFor="let food of foodData">
@@ -121,6 +121,9 @@
                     </div>
                 </div>
                 <!--./-->
+            </div>
+            <div class="view-all-wrapper">
+                <a routerLink="/foods" class="view-all-link">View All</a>
             </div>
         </div>
 
@@ -153,6 +156,9 @@
                     </div>
                 </div>
                 <!--./-->
+            </div>
+            <div class="view-all-wrapper">
+                <a routerLink="/sugar-spice" class="view-all-link">View All</a>
             </div>
         </div>
 

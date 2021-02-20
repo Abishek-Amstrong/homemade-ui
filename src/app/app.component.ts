@@ -16,6 +16,8 @@ import { User } from './modules/shared/models/user';
 
 import { AuthService } from './modules/shared/services/auth.service';
 import { CartService } from './modules/shared/services/cart.service';
+import { FoodService } from './modules/shared/services/food.service';
+import { LocationService } from './modules/shared/services/location.service';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { LocationComponent } from './modules/shared/modals/location/location.component';
 import { concat, from, fromEvent, Observable } from 'rxjs';
@@ -26,7 +28,6 @@ import {
   map,
   switchMap,
 } from 'rxjs/operators';
-import { FoodService } from './modules/shared/services/food.service';
 
 @Component({
   selector: 'app-root',
@@ -64,7 +65,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private location: Location,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private locationService : LocationService
   ) {
     this.isLoggedIn = false;
     this.isHideHeader = false;
@@ -75,15 +77,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.isCollapse2Show = false;
     this.isCollapse3Show = false;
     this.isCollapse4Show = false;
-    // this.router.events.subscribe((event) => {
-    //   if(event instanceof NavigationStart && event.navigationTrigger == 'popstate')
-    //   {
-    //     // console.log(decodeURIComponent(event.url));
-    //     this.router
-    //     .navigateByUrl('/', { skipLocationChange: true })
-    //     .then(() => this.router.navigate([decodeURIComponent(event.url)],{replaceUrl: true}));
-    //   }
-    // });
   }
 
   ngOnInit() {
@@ -93,6 +86,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.cartService.getCartItemCount().subscribe((val) => {
       this.cartItemCount = val;
     });
+    //set Noida as default location for all users
     this.authService.user.subscribe((x) => {
       this.user = x;
       if (x != null) {

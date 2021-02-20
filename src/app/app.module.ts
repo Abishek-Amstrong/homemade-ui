@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ValidatorService } from 'src/app/modules/shared/services/validator.service';
 import { AngularMaterialModule } from './modules/shared/angular-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LocationInterceptor } from './modules/shared/services/location-header-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       timeOut: 500,
     }), // ToastrModule added
   ],
-  providers: [ValidatorService],
+  providers: [ValidatorService, {
+    provide : HTTP_INTERCEPTORS, useClass : LocationInterceptor, multi :true
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

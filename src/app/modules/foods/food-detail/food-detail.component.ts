@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../../shared/services/cart.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { FoodService } from '../../shared/services/food.service';
 import { VendorService } from '../../shared/services/vendor.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -77,6 +78,7 @@ export class FoodDetailComponent implements OnInit {
   }[];
   chefData: chef;
   itemId: string;
+  user: any;
 
   constructor(
     private dialog: MatDialog,
@@ -85,7 +87,8 @@ export class FoodDetailComponent implements OnInit {
     private vendorService: VendorService,
     private foodService: FoodService,
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    private authService : AuthService
   ) {
     this.foodDetailData = {} as ItemDetail;
     this.vendorFoodData = [];
@@ -103,10 +106,15 @@ export class FoodDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //Reload page when param id changes
     this.activatedRoute.params.subscribe(routeParams => {
       this.itemId = this.activatedRoute.snapshot.paramMap.get('id') || '';
       this.loadFoodDetails();
       this.loadReviewData();
+    });
+    //user details to hide review for guest user
+    this.authService.user.subscribe((x) => {
+      this.user = x;
     });
 
   }

@@ -143,7 +143,7 @@ export class FoodService {
   }
 
   getChefsNearUserLocation(): Observable<any> {
-    let city = this.authService.userLocation;
+    let city = 'Noida';
     return this.http
       .get(`${environment.apiUrl}/chefnearyou/${city}`)
       .pipe(catchError((err) => this.handleError(err)));

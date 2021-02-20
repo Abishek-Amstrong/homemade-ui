@@ -86,7 +86,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.cartService.getCartItemCount().subscribe((val) => {
       this.cartItemCount = val;
     });
-    //set Noida as default location for all users
     this.authService.user.subscribe((x) => {
       this.user = x;
       if (x != null) {
@@ -204,15 +203,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   setLocation() {
+    var city = this.locationService.CurrentCity;
     const addDialogRef = this.dialog.open(LocationComponent, {
       width: this.getBrowserWidth(),
       disableClose: true,
       maxWidth: '90vw',
     });
     addDialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        let city = 'delhi';
-        this.authService.userLocation = city;
+      let newcity = this.locationService.CurrentCity;
+      if(city != newcity)
+      {
+        location.reload();
       }
     });
   }

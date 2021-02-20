@@ -198,7 +198,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-5">
+                            <div class="col-md-5" *ngIf="user">
                                 <div class="reviewBox">
                                     <a href="javascript:void(0)" class="btn_1 outline type_2"
                                         routerLink="/foods/leave-review/{{foodDetailData.ItemItemId}}/{{foodDetailData.ItemVendorId}}">Leave

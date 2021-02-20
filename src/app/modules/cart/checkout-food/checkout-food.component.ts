@@ -18,6 +18,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { CartService } from '../../shared/services/cart.service';
 import { ProfileService } from '../../shared/services/profile.service';
 import { WindowrefService } from '../../shared/services/windowref.service';
+import { LocationService } from '../../shared/services/location.service';
 import {} from 'googlemaps';
 import { handleError } from '../../shared/helpers/error-handler';
 
@@ -65,7 +66,8 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     private profileService: ProfileService,
     private cartService: CartService,
     private authService: AuthService,
-    private windowRef: WindowrefService
+    private windowRef: WindowrefService,
+    private locationService : LocationService
   ) {
     this.deliveryForm = new FormGroup({});
     this.selectedDay = '';
@@ -410,7 +412,12 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       Object.keys(this.deliveryForm.controls).forEach((key) => {
         this.deliveryForm.get(key)?.markAsDirty();
       });
-    } else {
+    } 
+    else if(this.locationService.CurrentCity != this.deliveryForm.get('city')?.value)
+    {
+      this.toastr.error('Please chage the location to match the delivery address','Error!!');
+    }
+    else {
       this.cartService
         .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total)
         .subscribe(

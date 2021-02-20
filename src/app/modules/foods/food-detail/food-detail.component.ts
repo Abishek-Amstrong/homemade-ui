@@ -33,10 +33,6 @@ export interface ItemDetail {
   ItemSIze: string;
   ItemItemId: string;
   ItemVendorId: string;
-  ItemStatus : string;
-  ItemAvailableFrom : Date;
-  ItemAvailableTill : Date;
-  ItemDateOfServcie : Date;
 }
 
 export interface chef {
@@ -90,7 +86,7 @@ export class FoodDetailComponent implements OnInit {
     this.foodDetailData = {} as ItemDetail;
     this.vendorFoodData = [];
     this.reviewData = [];
-    this.itemId = this.activatedRoute.snapshot.paramMap.get('id') || '';
+    this.itemId = '';
     this.ratingAvg = 0;
     this.ratingCnt = [
       { rating: 1, count: 0, percent: 0 },
@@ -103,12 +99,9 @@ export class FoodDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(routeParams => {
-      this.itemId = this.activatedRoute.snapshot.paramMap.get('id') || '';
-      this.loadFoodDetails();
-      this.loadReviewData();
-    });
-
+    this.itemId = this.activatedRoute.snapshot.paramMap.get('id') || '';
+    this.loadFoodDetails();
+    this.loadReviewData();
   }
 
   loadFoodDetails() {
@@ -141,10 +134,7 @@ export class FoodDetailComponent implements OnInit {
           }
         }
       }
-      this.foodDetailData.ItemAvailableFrom = resp.availabel_from;
-      this.foodDetailData.ItemAvailableTill = resp.availabel_to;
-      this.foodDetailData.ItemDateOfServcie = resp.dateofservice;
-      this.checkItemStatus();
+
       this.loadChefDetails(this.foodDetailData.ItemVendorId);
       this.loadOtherChefProducts(this.foodDetailData.ItemVendorId);
       // console.log( this.orderData);
@@ -250,31 +240,8 @@ export class FoodDetailComponent implements OnInit {
   }
 
   navToFoodDetail(itemId: any) {
-    // this.router
-    //   .navigateByUrl('/', { skipLocationChange: true })
-    //   .then(() => this.router.navigate(['/', 'foods', 'detail', itemId],{replaceUrl: true}));
-    this.router.navigate(['/', 'foods', 'detail', itemId]);
-  }
-
-  checkItemStatus()
-  {
-    let currTime = new Date();
-    let availableFromDT = new Date(this.foodDetailData.ItemDateOfServcie);
-    let From = new Date(this.foodDetailData.ItemAvailableFrom);
-    availableFromDT.setHours(From.getHours());
-    availableFromDT.setMinutes(From.getMinutes());
-    availableFromDT.setSeconds(From.getSeconds());
-    let availableToDT = new Date(this.foodDetailData.ItemDateOfServcie);
-    let Till = new Date(this.foodDetailData.ItemAvailableTill);
-    availableToDT.setHours(Till.getHours());
-    availableToDT.setMinutes(Till.getMinutes());
-    availableToDT.setSeconds(Till.getSeconds());
-    if(availableFromDT <= currTime && availableToDT >= currTime)
-    {
-      this.foodDetailData.ItemStatus = 'Active';
-    }
-    else{
-      this.foodDetailData.ItemStatus = 'INActive';
-    }
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigate(['/', 'foods', 'detail', itemId]));
   }
 }

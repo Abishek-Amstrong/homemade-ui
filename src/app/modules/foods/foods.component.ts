@@ -40,8 +40,7 @@ export class FoodsComponent implements OnInit {
   platterData: Item[];
   healthyData: Item[];
   regionalData: Item[];
-  snacksData: Item[];
-  // biscuitsData: Item[];
+  biscuitsData: Item[];
   menus: any;
   chefData: chef[];
   categories: { imgUrl: string; label: string; component: string }[];
@@ -56,14 +55,14 @@ export class FoodsComponent implements OnInit {
   @ViewChild('platter') platter: any;
   @ViewChild('healthy') healthy: any;
   @ViewChild('regional') regional: any;
-  @ViewChild('snacks') snacks: any;
+  @ViewChild('biscuits') biscuits: any;
 
   customOptions: OwlOptions = {
     center: false,
-    stagePadding: 50,
+    stagePadding: 0,
     items: 1,
     loop: false,
-    margin: 15,
+    margin: 25,
     dots: false,
     nav: true,
     lazyLoad: true,
@@ -71,12 +70,12 @@ export class FoodsComponent implements OnInit {
     responsive: {
       0: {
         nav: false,
-        dots: false,
-        items: 2,
+        dots: true,
+        items: 1,
       },
       600: {
         nav: false,
-        dots: false,
+        dots: true,
         items: 2,
       },
       1025: {
@@ -110,21 +109,20 @@ export class FoodsComponent implements OnInit {
     responsive: {
       0: {
         nav: false,
-        dots: false,
-        items: 2,
-        stagePadding: 50,
+        dots: true,
+        items: 1,
         margin: 15,
       },
       600: {
         nav: false,
-        dots: false,
-        items: 4,
+        dots: true,
+        items: 2,
         margin: 10,
       },
       768: {
         nav: false,
-        dots: false,
-        items: 4,
+        dots: true,
+        items: 3,
       },
       1024: {
         nav: true,
@@ -162,8 +160,7 @@ export class FoodsComponent implements OnInit {
     this.platterData = [];
     this.healthyData = [];
     this.regionalData = [];
-    this.snacksData = [];
-    // this.biscuitsData = [];
+    this.biscuitsData = [];
     this.categories = [
       {
         imgUrl: 'assets/images/breakfast.jpg',
@@ -181,34 +178,14 @@ export class FoodsComponent implements OnInit {
         component: 'South Indian',
       },
       {
-        imgUrl: 'assets/images/continental.jpg',
-        label: 'Continental',
-        component: 'Continental',
-      },
-      {
         imgUrl: 'assets/images/oriental.jpg',
         label: 'Oriental',
         component: 'Oriental',
       },
       {
-        imgUrl: 'assets/images/regional.jpg',
-        label: 'Regional',
-        component: 'Regional',
-      },
-      {
-        imgUrl: 'assets/images/biscuits.jpg',
-        label: 'Snacks',
-        component: 'Snacks',
-      },
-      {
-        imgUrl: 'assets/images/healthy.jpg',
-        label: 'Healthy',
-        component: 'Healthy',
-      },
-      {
-        imgUrl: 'assets/images/platters.jpg',
-        label: 'Platter',
-        component: 'Platter',
+        imgUrl: 'assets/images/continental.jpg',
+        label: 'Continental',
+        component: 'Continental',
       },
       {
         imgUrl: 'assets/images/desserts.jpg',
@@ -219,6 +196,26 @@ export class FoodsComponent implements OnInit {
         imgUrl: 'assets/images/beverages.jpg',
         label: 'Beverages',
         component: 'Beverages',
+      },
+      {
+        imgUrl: 'assets/images/platters.jpg',
+        label: 'Platter',
+        component: 'Platter',
+      },
+      {
+        imgUrl: 'assets/images/healthy.jpg',
+        label: 'Healthy',
+        component: 'Healthy',
+      },
+      {
+        imgUrl: 'assets/images/regional.jpg',
+        label: 'Regional',
+        component: 'Regional',
+      },
+      {
+        imgUrl: 'assets/images/biscuits.jpg',
+        label: 'Biscuits',
+        component: 'Biscuits',
       },
     ];
     this.cuisineData = [];
@@ -354,7 +351,7 @@ export class FoodsComponent implements OnInit {
         }
       }
 
-      for (let item of resp.Snacks) {
+      for (let item of resp.Biscuits) {
         if (item) {
           let currItem: Item = {
             ItemImageUrl: item.imagePath,
@@ -363,7 +360,7 @@ export class FoodsComponent implements OnInit {
             ItemItemId: item.itemId,
             ItemVendorId: item.VendorVendorId,
           };
-          this.snacksData.push(currItem);
+          this.biscuitsData.push(currItem);
         }
       }
     });
@@ -456,18 +453,17 @@ export class FoodsComponent implements OnInit {
         this.regional.nativeElement.scrollIntoView({ behavior: 'smooth' });
         break;
 
-      case 'Snacks':
-        this.snacks.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      case 'Biscuits':
+        this.biscuits.nativeElement.scrollIntoView({ behavior: 'smooth' });
         break;
       default:
-        this.snacks.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        this.biscuits.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
   }
 
   navigateToSubCategory(category: string) {
-    // this.router
-    //   .navigateByUrl('/', { skipLocationChange: true })
-    //   .then(() => this.router.navigate(['/', 'foods', 'category', category],{replaceUrl: true}));
-    this.router.navigate(['/', 'foods', 'category', category]);
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigate(['/', 'foods', 'category', category]));
   }
 }

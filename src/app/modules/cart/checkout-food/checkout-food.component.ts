@@ -125,7 +125,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     mapAutoComplete.setFields(['address_component']);
     mapAutoComplete.addListener('place_changed', () => {
       const place = mapAutoComplete?.getPlace();
-      // console.log(place);
+      console.log(place);
 
       // Get each component of the address from the place details,
       // and then fill-in the corresponding field on the form.
@@ -137,7 +137,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
         for (const component of place.address_components) {
           const addressType = component.types;
-          // console.log(addressType);
+          console.log(addressType);
           if (
             addressType.indexOf('sublocality_level_2') !== -1 ||
             addressType.indexOf('sublocality_level_1') !== -1
@@ -415,7 +415,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total)
         .subscribe(
           (resp: any) => {
-            // console.log(resp);
+            console.log(resp);
             this.razorPayCheckout(resp);
           },
           (err: any) => {
@@ -431,7 +431,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   loadUserCart() {
     sessionStorage.setItem('fromSession', JSON.stringify(false));
     this.cartService.getProductsInUserCart().subscribe((response: any) => {
-      // console.log(JSON.stringify(response));
+      console.log(JSON.stringify(response));
       if (response == null || response == undefined || response.length == 0) {
         this.userCart = [];
         //this.toastr.success('Cart is Empty',"Success!!");

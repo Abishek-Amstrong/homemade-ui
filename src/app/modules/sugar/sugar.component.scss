@@ -7,25 +7,21 @@
   margin-bottom: 35px;
 
   .item {
-    position: relative;
-    overflow: hidden;
-    height: 115px;
-    @include border-radius(5px);
     background-color: #ededed;
-
+    figure{
+      position: relative;
+      overflow: hidden;
+      height: 40vh;
+    }
     img {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      @include transform(translate(-50%, -50%) scale(1));
-      @include backface-visibility(hidden);
-      z-index: 1;
-      @include transition-default;
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
     }
 
-    &:hover img {
-      @include transform(translate(-50%, -50%) scale(1.1));
-    }
+    // &:hover img {
+    //   @include transform(translate(-50%, -50%) scale(1.1));
+    // }
 
     a {
       position: absolute;
@@ -42,8 +38,10 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        padding: 15px 15px 10px 15px;
+        padding: 15px 15px 30px 15px;
         @include fontSize(16px);
+        text-transform: uppercase;
+        text-align: center;
         margin: 0;
         font-weight: 500;
         color: #fff;
@@ -803,7 +801,6 @@ span.infobox_rate {
 .secondary_nav {
   width: 100%;
   background-color: #fff;
-  border-top: 1px solid $border-color-2;
   padding: 20px 0;
   position: relative;
   margin-bottom: 0;
@@ -846,17 +843,18 @@ span.infobox_rate {
 
     li {
       display: inline-block;
-      margin-right: 15px;
+      margin-right: 35px;
 
       a {
-        color: $body-text-color;
-        @include border-radius(20px);
-        @include rgba(bg, #000, 0.05);
-        padding: 5px 15px;
-
+        color: rgb(28, 27, 27);
+        border-bottom: 2px solid transparent;
+        text-transform: uppercase;
         &.active,
         &:hover {
-          color: $color-1;
+          @include fontSize(16px);
+          font-weight: 600;
+          color: #000;
+          border-bottom: 2px solid #000;
         }
 
         i {

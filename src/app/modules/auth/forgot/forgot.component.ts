@@ -11,11 +11,5 @@ export class ForgotComponent implements OnInit {
     this.authService.setHeaderDisplayStatus(true);
   }
 
-  ngOnInit(): void {
-    this.authService.setHeaderDisplayStatus(true);
-  }
-
-  ngOnDestroy(){
-    this.authService.setHeaderDisplayStatus(false);
-  }
+  ngOnInit(): void {}
 }

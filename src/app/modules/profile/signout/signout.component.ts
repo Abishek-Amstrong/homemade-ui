@@ -12,7 +12,6 @@ export class SignoutComponent implements OnInit {
   constructor(private router: Router,private authService : AuthService) { }
 
   ngOnInit(): void {
-    sessionStorage.setItem('signInFromHome', JSON.stringify(true));
     this.authService.logout();
   }
 

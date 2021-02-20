@@ -147,9 +147,4 @@ export class AuthComponent implements OnInit {
         );
     }
   }
-
-  ngOnDestroy()
-  {
-    this.authService.setHeaderDisplayStatus(false);
-  }
 }

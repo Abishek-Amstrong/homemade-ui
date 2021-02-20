@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { ValidatorService } from '../../shared/services/validator.service';
+import { LocationService } from '../../shared/services/location.service'
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -20,7 +21,8 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private validator: ValidatorService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private locationService : LocationService
   ) {
     this.submitted = false;
     this.form = this.formBuilder.group({
@@ -32,7 +34,10 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.setHeaderDisplayStatus(true);
+    this.locationService.getCurrentLocationLatLong();
+  }
 
   // convenience getter for easy access to form fields
   get f() {

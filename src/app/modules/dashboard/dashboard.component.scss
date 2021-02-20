@@ -97,9 +97,10 @@
     @include transform(scale(1));
   }
 }
-
+.banner-bottom{
+  margin-top: 30px;
+}
 .item_version_2 a {
-  @include border-radius(5px);
   overflow: hidden;
 
   .info {
@@ -121,7 +122,9 @@
 
     h3 {
       color: #fff;
-      @include fontSize(18px);
+      @include fontSize(18px);   
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
       margin: 0;
 
       @include mobile {
@@ -223,12 +226,33 @@
   @include fontSize(21px);
   h2,
   h3 {
-    @include fontSize(46px);
-    font-weight: 900;
+    @include fontSize(36px);
+    font-weight: 500;
     text-transform: uppercase;
+    letter-spacing: 0.2em;
     line-height: 1;
+    margin-bottom: 10px;
     @include mobile {
       @include fontSize(36px);
+    }
+  }
+  p{
+    @include fontSize(16px);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .btn_1{
+    min-width: 220px;
+    height: 50px;
+    line-height: 35px;
+    @include fontSize(14px);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 20px;
+    line-height: 30px;
+    &:hover{
+      background-color: #ffffff;
+      color: rgb(0, 0, 0);
     }
   }
   strong {
@@ -664,7 +688,7 @@
   }
 }
 
-::ng-deep .owl-dots {
+#carousel-home ::ng-deep .owl-dots {
   bottom: 80px;
   width: 100%;
   position: absolute;

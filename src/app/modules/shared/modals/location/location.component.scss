@@ -6,7 +6,6 @@
 #sign-up-dialog {
   background: #fff;
   padding: 30px;
-  padding-top: 0;
   text-align: left;
   min-height: 200px;
   max-width: 100%;
@@ -14,7 +13,6 @@
   margin: 0;
   position: relative;
   box-sizing: border-box;
-  @include border-radius(4px);
 }
 
 /* Popup close button*/
@@ -22,8 +20,6 @@
 #sign-up-dialog .mfp-close,
 #modal-dialog .mfp-close {
   color: #666;
-  background-color: #e4e4e4;
-  @include border-radius(50%);
   top: 12px;
   right: 20px;
   width: 32px;
@@ -43,22 +39,12 @@
 }
 
 .modal_header {
-  font-size: 18px;
-  width: calc(100% + 60px);
-  position: relative;
-  left: -30px;
-  top: 0;
-  @include border-radius(4px 4px);
-  display: inline-block;
-  background-color: #f6f6f6;
-  padding: 18px 20px 15px 20px;
-  margin-bottom: 30px;
-
   h3 {
     padding: 0;
     margin: 0;
     @include fontSize(18px);
     font-weight: 500;
+    text-transform: uppercase;
   }
 }
 

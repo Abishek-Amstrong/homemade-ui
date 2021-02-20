@@ -1,15 +1,6 @@
 @import "~src/assets/stylesheets/scss/variables";
 @import "~src/assets/stylesheets/scss/mixin";
 
-
-.checkout-form-wrapper{
-  letter-spacing: 0.1em;
-  h3{
-    font-weight: 600;
-    color: #1c1b1b;
-    margin-bottom: 20px;
-  }
-}
 .dropdown {
   border: 1px dotted $border-color-5;
   padding: 0;

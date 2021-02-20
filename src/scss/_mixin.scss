@@ -253,11 +253,6 @@ box-shadow: $val;
     @content;
   }
 }
-@mixin min-desktop { 
-  @media (min-width: #{$large-device-width}) {
-    @content;
-  }
-}
 @mixin tablet {
   @media (max-width: #{$medium-device-width}) {
     @content;

@@ -234,7 +234,7 @@ export class CartComponent implements OnInit {
     } else {
       sessionStorage.setItem('cartData', JSON.stringify(this.guestCartData));
       sessionStorage.setItem('fromSession', JSON.stringify(true));
-      this.authService.setHeaderDisplayStatus(true);
+      this.authService.setHeaderDisplayStatus(false);
       this.router.navigate(['/', 'auth']);
     }
   }

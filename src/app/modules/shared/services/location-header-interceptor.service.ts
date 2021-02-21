@@ -17,12 +17,17 @@ export class LocationInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-      if (this.locationService.CurrentLocation) {
+      if (this.locationService.CurrentLocation && this.locationService.CurrentCity) {
           // add content-type
+          let location = {
+            lat : this.locationService.CurrentLocation.lat,
+            lng : this.locationService.CurrentLocation.lng,
+            city : this.locationService.CurrentCity
+          };
           req = req.clone({
               setHeaders: {
                   'Content-Type': 'application/json',
-                  Location: JSON.stringify(this.locationService.CurrentLocation)
+                  Location: JSON.stringify(location)
               },
           });
       }

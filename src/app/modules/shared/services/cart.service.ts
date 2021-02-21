@@ -249,7 +249,7 @@ export class CartService {
       deliveryDay: deliveryAddress.deliveryDay,
       deliveryTime: deliveryAddress.deliveryTime,
       deliverypartner: deliveryQuote.partner,
-      deliveryprice: deliveryQuote.price,
+      deliveryprice: deliveryQuote.cost,
       deliverylocation : deliveryQuote.location
     };
 

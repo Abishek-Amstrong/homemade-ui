@@ -554,16 +554,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         this.deliveryQuote = {
           partner: resp.partner,
           cost: resp.price,
-          location : {
-            pickup : {
-              lat : resp.userlocation.lat,
-              lng :  resp.userlocation.lng,
-            },
-            drop : {
-              lat : resp.vendorLocation.lat,
-              lng : resp.vendorLocation.lat,
-            }
-          }
+          location : resp.location
         }
       },(err : any)=>{
         // console.log(err);

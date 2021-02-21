@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { VendorService } from '../../shared/services/vendor.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { PlaceOrderComponent } from '../place-order/place-order.component';
 import { handleError } from '../../shared/helpers/error-handler';
 
@@ -55,12 +56,14 @@ export class ChefDetailComponent implements OnInit {
   }[];
   vendorId: string;
   ratingCmt: string;
+  user:any;
 
   constructor(
     private vendor: VendorService,
     private dialog: MatDialog,
     private toastr: ToastrService,
     private vendorService: VendorService,
+    private authService : AuthService,
     private activatedRoute: ActivatedRoute
   ) {
     this.chef = {} as Chef;
@@ -84,6 +87,10 @@ export class ChefDetailComponent implements OnInit {
     this.loadVendorDetails();
     this.loadVendorMneuDetails();
     this.loadReviewData();
+    //hide review for guest user
+    this.authService.user.subscribe((x)=>{
+      this.user =x;
+    })
   }
 
   loadReviewData() {

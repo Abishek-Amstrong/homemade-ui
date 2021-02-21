@@ -9,6 +9,7 @@ import { throwError, Observable, forkJoin } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
+import { LocationService } from './location.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,8 @@ export class FoodService {
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private locationService : LocationService
   ) {}
 
   getItemSubCategoryDetails(
@@ -143,7 +145,7 @@ export class FoodService {
   }
 
   getChefsNearUserLocation(): Observable<any> {
-    let city = this.authService.userLocation;
+    let city = this.locationService.CurrentCity;
     return this.http
       .get(`${environment.apiUrl}/chefnearyou/${city}`)
       .pipe(catchError((err) => this.handleError(err)));

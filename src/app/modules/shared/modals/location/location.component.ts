@@ -35,7 +35,7 @@ export class LocationComponent implements OnInit {
 
       const options = {
         componentRestrictions: { country: 'IN' },
-        fields: ['formatted_address', 'geometry', 'name'],
+        fields: ['formatted_address', 'address_component', 'geometry', 'name'],
         location: this.locationService.CurrentLocation,
         radius: 8000,
         strictBounds: true,
@@ -51,7 +51,7 @@ export class LocationComponent implements OnInit {
       mapAutoComplete.addListener('place_changed', () => {
         const place = mapAutoComplete?.getPlace();
        
-
+        // console.log(JSON.stringify(place));
         // and then fill-in the corresponding field on the form.
         if (place && place.address_components) {
           let address = '';
@@ -71,6 +71,8 @@ export class LocationComponent implements OnInit {
                 : component.long_name;
             } else if (addressType.indexOf('locality') !== -1) {
               city = component.long_name;
+              this.locationService.CurrentCity = city;
+              console.log(city);
             } else if (
               addressType.indexOf('administrative_area_level_1') !== -1
             ) {
@@ -86,7 +88,7 @@ export class LocationComponent implements OnInit {
             lat : place.geometry.location.lat(),
             lng : place.geometry.location.lng()
           };
-          console.log(JSON.stringify( this.locationService.CurrentLocation));
+          // console.log(JSON.stringify( this.locationService.CurrentLocation));
         }
       });
     }
@@ -110,6 +112,31 @@ export class LocationComponent implements OnInit {
             if (status === 'OK') {
               if (results[0]) {
                 this.location = results[0].formatted_address;
+                let address = '';
+                let city = '';
+                let state = '';
+                let pinCode = '';
+
+                for (const component of results[0].address_components) {
+                  const addressType = component.types;
+                  if (
+                    addressType.indexOf('sublocality_level_2') !== -1 ||
+                    addressType.indexOf('sublocality_level_1') !== -1
+                  ) {
+                    address = address
+                      ? address + ', ' + component.long_name
+                      : component.long_name;
+                  } else if (addressType.indexOf('locality') !== -1) {
+                    city = component.long_name;
+                    this.locationService.CurrentCity = city;
+                  } else if (
+                    addressType.indexOf('administrative_area_level_1') !== -1
+                  ) {
+                    state = component.long_name;
+                  } else if (addressType.indexOf('postal_code') !== -1) {
+                    pinCode = component.long_name;
+                  }
+                }
               } else {
                 console.log('No results found');
               }
@@ -132,7 +159,31 @@ export class LocationComponent implements OnInit {
         if (status === 'OK') {
           if (results[0]) {
             this.location = results[0].formatted_address;
-            // console.log(results[0].formatted_address);
+            let address = '';
+            let city = '';
+            let state = '';
+            let pinCode = '';
+
+            for (const component of results[0].address_components) {
+              const addressType = component.types;
+              if (
+                addressType.indexOf('sublocality_level_2') !== -1 ||
+                addressType.indexOf('sublocality_level_1') !== -1
+              ) {
+                address = address
+                  ? address + ', ' + component.long_name
+                  : component.long_name;
+              } else if (addressType.indexOf('locality') !== -1) {
+                city = component.long_name;
+                this.locationService.CurrentCity = city;
+              } else if (
+                addressType.indexOf('administrative_area_level_1') !== -1
+              ) {
+                state = component.long_name;
+              } else if (addressType.indexOf('postal_code') !== -1) {
+                pinCode = component.long_name;
+              }
+            }
           } else {
             console.log('No results found');
           }

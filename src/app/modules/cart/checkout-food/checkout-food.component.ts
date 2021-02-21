@@ -440,10 +440,10 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         this.deliveryForm.get(key)?.markAsDirty();
       });
     } 
-    // else if(!this.IsValidDelivery)
-    // {
-    //   this.toastr.error('The delivery is not valid');
-    // }
+    else if(!this.IsValidDelivery)
+    {
+      this.toastr.error('The delivery is not valid');
+    }
     else {
       this.cartService
         .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total,this.deliveryQuote)

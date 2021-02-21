@@ -35,6 +35,21 @@ export interface Item {
   ItemVendorId: string;
 }
 
+export interface Quote{
+  partner: string;
+  cost: Number;
+  location : {
+    pickup : {
+      lat : Number;
+      lng : Number;
+    },
+    drop : {
+      lat : Number;
+      lng : Number;
+    }
+  };
+}
+
 @Component({
   selector: 'app-checkout-food',
   templateUrl: './checkout-food.component.html',
@@ -60,6 +75,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   allStateData: string[];
   razorPay: any;
   IsValidDelivery: boolean;
+  deliveryQuote : Quote;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -88,6 +104,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     this.submitted = false;
     this.allStateData = [];
     this.razorPay = null;
+    this.deliveryQuote = {} as any;
   }
 
   ngOnInit(): void {
@@ -423,13 +440,13 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         this.deliveryForm.get(key)?.markAsDirty();
       });
     } 
-    else if(!this.IsValidDelivery)
-    {
-      this.toastr.error('The delivery is not valid');
-    }
+    // else if(!this.IsValidDelivery)
+    // {
+    //   this.toastr.error('The delivery is not valid');
+    // }
     else {
       this.cartService
-        .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total)
+        .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total,this.deliveryQuote)
         .subscribe(
           (resp: any) => {
             // console.log(resp);
@@ -515,6 +532,8 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       this.subTotal += prod.ItemQuantity * prod.ItemPrice;
     }
     // this.discount = this.checkDiscount();
+    this.subTotalWthDiscount = this.subTotal - this.discount;
+    this.total = this.subTotalWthDiscount + this.deliveryCost;
   }
 
   checkDiscount(): number {
@@ -524,9 +543,28 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   getDeliveryCost() {
     if(this.userCart && this.userCart[0].ItemVendorId)
     {
+      this.deliveryCost = 0;
+      this.total = this.subTotalWthDiscount + this.deliveryCost;
+      this.deliveryQuote = {} as any;
+      this.IsValidDelivery = false;
       this.deliveryService.GetDeliveryCharges(this.userCart[0].ItemVendorId).subscribe((resp:any)=>{
         this.deliveryCost = resp.price;
+        this.total = this.subTotalWthDiscount + this.deliveryCost;
         this.IsValidDelivery = true;
+        this.deliveryQuote = {
+          partner: resp.partner,
+          cost: resp.price,
+          location : {
+            pickup : {
+              lat : resp.userlocation.lat,
+              lng :  resp.userlocation.lng,
+            },
+            drop : {
+              lat : resp.vendorLocation.lat,
+              lng : resp.vendorLocation.lat,
+            }
+          }
+        }
       },(err : any)=>{
         // console.log(err);
         this.IsValidDelivery = false;

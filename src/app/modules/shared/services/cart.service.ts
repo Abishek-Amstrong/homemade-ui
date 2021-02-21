@@ -201,7 +201,8 @@ export class CartService {
   placeCustomerOrder(
     deliveryAddress: any,
     cartItems: any,
-    totalPrice: number
+    totalPrice: number,
+    deliveryQuote: any
   ): Observable<any> {
     let itemList: {
       ItemId: String;
@@ -247,6 +248,9 @@ export class CartService {
       deliveryDate: dateString + 'T' + deliveryTime,
       deliveryDay: deliveryAddress.deliveryDay,
       deliveryTime: deliveryAddress.deliveryTime,
+      deliverypartner: deliveryQuote.partner,
+      deliveryprice: deliveryQuote.price,
+      deliverylocation : deliveryQuote.location
     };
 
     for (let item of cartItems) {

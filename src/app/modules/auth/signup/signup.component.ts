@@ -81,4 +81,9 @@ export class SignupComponent implements OnInit {
       (error: any) => {}
     );
   }
+
+  ngOnDestroy()
+  {
+    this.authService.setHeaderDisplayStatus(false);
+  }
 }

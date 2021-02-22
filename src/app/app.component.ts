@@ -8,6 +8,7 @@ import {
   ElementRef,
   ChangeDetectorRef,
 } from '@angular/core';
+import { Location } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -23,6 +24,7 @@ import { concat, from, fromEvent, Observable } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   switchMap,
 } from 'rxjs/operators';
@@ -60,6 +62,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private foodService: FoodService,
     private router: Router,
+    private location: Location,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private cd: ChangeDetectorRef,
@@ -160,9 +163,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   navigateToCategory(category: string) {
-    this.router
-      .navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+    // this.router
+    //   .navigateByUrl('/', { skipLocationChange: true })
+    //   .then(() => this.router.navigate(['/', 'foods', 'category', category],{replaceUrl: true}));
+    this.router.navigate(['/', 'foods', 'category', category]);
   }
 
   @HostListener('window:scroll', []) onScroll(): void {
@@ -235,28 +239,31 @@ export class AppComponent implements OnInit, AfterViewInit {
   navigateToDetailPage(event: any, option: any) {
     if (event.isUserInput) {
       if (option.type === 'subcategoryname') {
-        this.router
-          .navigateByUrl('/', { skipLocationChange: true })
-          .then(() =>
-            this.router.navigate([
-              '/',
-              'foods',
-              'category',
-              option.subcategoryName,
-            ])
-          );
+        // this.router
+        //   .navigateByUrl('/', { skipLocationChange: true })
+        //   .then(() =>
+        //     this.router.navigate([
+        //       '/',
+        //       'foods',
+        //       'category',
+        //       option.subcategoryName,
+        //     ],{replaceUrl: true})
+        //   );
+        this.router.navigate(['/','foods','category',option.subcategoryName]);
       } else if (option.type === 'vendorname') {
-        this.router
-          .navigateByUrl('/', { skipLocationChange: true })
-          .then(() =>
-            this.router.navigate(['/', 'foods', 'chef', option.vendorId])
-          );
+        // this.router
+        //   .navigateByUrl('/', { skipLocationChange: true })
+        //   .then(() =>
+        //     this.router.navigate(['/', 'foods', 'chef', option.vendorId],{replaceUrl: true})
+        //   );
+        this.router.navigate(['/', 'foods', 'chef', option.vendorId]);
       } else if (option.type === 'item') {
-        this.router
-          .navigateByUrl('/', { skipLocationChange: true })
-          .then(() =>
-            this.router.navigate(['/', 'foods', 'detail', option.itemId])
-          );
+        // this.router
+        //   .navigateByUrl('/', { skipLocationChange: true })
+        //   .then(() =>
+        //     this.router.navigate(['/', 'foods', 'detail', option.itemId],{replaceUrl: true})
+        //   );
+        this.router.navigate(['/', 'foods', 'detail', option.itemId],{replaceUrl: true});
       }
     }
   }

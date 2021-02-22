@@ -18,6 +18,8 @@ import { AuthService } from '../../shared/services/auth.service';
 import { CartService } from '../../shared/services/cart.service';
 import { ProfileService } from '../../shared/services/profile.service';
 import { WindowrefService } from '../../shared/services/windowref.service';
+import { LocationService } from '../../shared/services/location.service';
+import { DeliveryService } from '../../shared/services/delivery.service'
 import {} from 'googlemaps';
 import { handleError } from '../../shared/helpers/error-handler';
 
@@ -31,6 +33,21 @@ export interface Item {
   ItemItemId: string;
   ItemUserId: string;
   ItemVendorId: string;
+}
+
+export interface Quote{
+  partner: string;
+  cost: Number;
+  location : {
+    pickup : {
+      lat : Number;
+      lng : Number;
+    },
+    drop : {
+      lat : Number;
+      lng : Number;
+    }
+  };
 }
 
 @Component({
@@ -57,6 +74,8 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   submitted: boolean;
   allStateData: string[];
   razorPay: any;
+  IsValidDelivery: boolean;
+  deliveryQuote : Quote;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,7 +84,9 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     private profileService: ProfileService,
     private cartService: CartService,
     private authService: AuthService,
-    private windowRef: WindowrefService
+    private windowRef: WindowrefService,
+    private locationService : LocationService,
+    private deliveryService : DeliveryService
   ) {
     this.deliveryForm = new FormGroup({});
     this.selectedDay = '';
@@ -76,12 +97,14 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     this.discount = 0;
     this.total = 0;
     this.deliveryCost = 0;
+    this.IsValidDelivery = false;
     this.userCart = [];
     this.isScheduleNowSelected = true;
     this.googleRef = null;
     this.submitted = false;
     this.allStateData = [];
     this.razorPay = null;
+    this.deliveryQuote = {} as any;
   }
 
   ngOnInit(): void {
@@ -92,7 +115,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       deliveryTime: ['', [Validators.required, this.isTimeValid()]],
       fullName: ['', Validators.required],
       address: ['', Validators.required],
-      city: ['', Validators.required],
+      city: ['', [Validators.required, this.validateDeliveryLocation()]],
       state: ['', Validators.required],
       pinCode: ['', Validators.required],
     });
@@ -100,8 +123,14 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     //this.deliveryType?.setValue('now');
     this.loadUserCart();
     this.loadAddressDetails();
-    this.calculateTotal();
+    this.validateDeliveryLocation();
+    // this.calculateTotal();
     this.authService.setHeaderDisplayStatus(false);
+
+    //whenever user changes delivery location calculate delivery cost
+    this.deliveryForm.get("city")?.valueChanges.subscribe(x => {
+      this.validateAndGetDeliveryCharges();
+   })
   }
 
   ngAfterViewInit() {
@@ -410,9 +439,14 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       Object.keys(this.deliveryForm.controls).forEach((key) => {
         this.deliveryForm.get(key)?.markAsDirty();
       });
-    } else {
+    } 
+    else if(!this.IsValidDelivery)
+    {
+      this.toastr.error('The delivery is not valid');
+    }
+    else {
       this.cartService
-        .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total)
+        .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total,this.deliveryQuote)
         .subscribe(
           (resp: any) => {
             console.log(resp);
@@ -434,6 +468,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       console.log(JSON.stringify(response));
       if (response == null || response == undefined || response.length == 0) {
         this.userCart = [];
+        this.calculateTotal();
         //this.toastr.success('Cart is Empty',"Success!!");
       } else {
         for (let item of response) {
@@ -456,22 +491,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
           }
         }
         this.calculateTotal();
-        //console.log(this.userCart);
-        // this.cartService.getItemDetailsInBulk(this.userCart).subscribe((items:any) => {
-        //   for(let item of this.userCart)
-        //   {
-        //     for(let itemDetail of items)
-        //     {
-        //       if(item.ItemItemId != null && item.ItemItemId == itemDetail.itemId)
-        //       {
-        //         item.ItemImageUrl = itemDetail.imagePath;
-        //         item.ItemName = itemDetail.itemname;
-        //         item.ItemPrice = Number(itemDetail.price);
-        //       }
-        //     }
-        //   }
-        //   this.calculateTotal();
-        // });
+        this.getDeliveryCost();
       }
     });
   }
@@ -496,6 +516,10 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
             state: resp[0].state,
             pinCode: resp[0].zip,
           });
+          //after loading address validate the form
+          Object.keys(this.deliveryForm.controls).forEach((key) => {
+            this.deliveryForm.get(key)?.markAsDirty();
+          });
         }
       },
       (err) => console.log(err)
@@ -507,32 +531,36 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     for (let prod of this.userCart) {
       this.subTotal += prod.ItemQuantity * prod.ItemPrice;
     }
-    this.discount = this.checkDiscount();
-    this.subTotalWthDiscount =
-      this.subTotal - Math.floor(this.subTotal * this.discount);
-    this.deliveryCost = this.checkDeliveryCost();
+    // this.discount = this.checkDiscount();
+    this.subTotalWthDiscount = this.subTotal - this.discount;
     this.total = this.subTotalWthDiscount + this.deliveryCost;
   }
 
   checkDiscount(): number {
-    if (this.subTotal > 200) {
-      return 0;
-    } else {
-      return 0;
-    }
+    return 0;
   }
 
-  checkDeliveryCost(): number {
-    let totalProd: number = 0;
-    for (let currItem of this.userCart) {
-      totalProd += currItem.ItemQuantity;
-    }
-    if (totalProd > 10) {
-      return 10;
-    } else if (totalProd > 2) {
-      return 5;
-    } else {
-      return 0;
+  getDeliveryCost() {
+    if(this.userCart && this.userCart[0].ItemVendorId)
+    {
+      this.deliveryCost = 0;
+      this.total = this.subTotalWthDiscount + this.deliveryCost;
+      this.deliveryQuote = {} as any;
+      this.IsValidDelivery = false;
+      this.deliveryService.GetDeliveryCharges(this.userCart[0].ItemVendorId).subscribe((resp:any)=>{
+        this.deliveryCost = resp.price;
+        this.total = this.subTotalWthDiscount + this.deliveryCost;
+        this.IsValidDelivery = true;
+        this.deliveryQuote = {
+          partner: resp.partner,
+          cost: resp.price,
+          location : resp.location
+        }
+      },(err : any)=>{
+        // console.log(err);
+        this.IsValidDelivery = false;
+        this.toastr.error(err.error.message,'Error!!');
+      })
     }
   }
 
@@ -638,5 +666,28 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
           );
         }
       );
+  }
+
+  validateDeliveryLocation(): ValidatorFn {
+    return (control: AbstractControl): { [Key: string]: string } | null => {
+      let city = control.value;
+      if(this.locationService.CurrentCity != city)
+      {
+        return { location: city };
+      }
+      return null;
+    };
+  }
+
+  validateAndGetDeliveryCharges()
+  {
+    if(this.city?.valid)
+    {
+      this.getDeliveryCost();
+    }
+    else
+    {
+      this.IsValidDelivery = false;
+    }
   }
 }

@@ -24,7 +24,6 @@ export class AuthService {
   public user: Observable<User | null>;
   decodedToken: any;
   currentUser: string;
-  currentUserLocation: String;
   private hideHeader: boolean;
   hideHeaderStatusChange: Subject<boolean> = new Subject<boolean>();
   jwtHelper = new JwtHelperService();
@@ -42,7 +41,6 @@ export class AuthService {
     );
     this.user = this.userSubject.asObservable();
     this.currentUser = '';
-    this.currentUserLocation = 'delhi';
     this.hideHeader = true;
   }
 
@@ -57,14 +55,6 @@ export class AuthService {
 
   public get userValue(): User | null {
     return this.userSubject.value;
-  }
-
-  public get userLocation(): String {
-    return this.currentUserLocation;
-  }
-
-  public set userLocation(city: String) {
-    this.currentUserLocation = city;
   }
 
   private doLoginUser(username: string, tokens: Tokens) {

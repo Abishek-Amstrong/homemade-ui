@@ -49,7 +49,7 @@ export class SugarComponent implements OnInit {
     stagePadding: 0,
     items: 1,
     loop: false,
-    margin: 25,
+    margin: 15,
     dots: false,
     nav: true,
     lazyLoad: true,
@@ -98,6 +98,7 @@ export class SugarComponent implements OnInit {
         nav: false,
         dots: true,
         items: 1,
+        stagePadding: 0,
         margin: 15,
       },
       600: {
@@ -328,8 +329,9 @@ export class SugarComponent implements OnInit {
   }
 
   navigateToSubCategory(category: string) {
-    this.router
-      .navigateByUrl('/', { skipLocationChange: true })
-      .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+    // this.router
+    //   .navigateByUrl('/', { skipLocationChange: true })
+    //   .then(() => this.router.navigate(['/', 'foods', 'category', category],{replaceUrl: true}));
+    this.router.navigate(['/', 'foods', 'category', category]);
   }
 }

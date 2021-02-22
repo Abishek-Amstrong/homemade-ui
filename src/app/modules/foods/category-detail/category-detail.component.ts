@@ -46,7 +46,7 @@ export class CategoryDetailComponent implements OnInit {
 
   customOptions: OwlOptions = {
     center: false,
-    stagePadding: 50,
+    stagePadding: 0,
     items: 1,
     loop: false,
     margin: 15,
@@ -57,12 +57,12 @@ export class CategoryDetailComponent implements OnInit {
     responsive: {
       0: {
         nav: false,
-        dots: false,
-        items: 2,
+        dots: true,
+        items: 1,
       },
       600: {
         nav: false,
-        dots: false,
+        dots: true,
         items: 2,
       },
       1025: {
@@ -141,15 +141,15 @@ export class CategoryDetailComponent implements OnInit {
     this.bestSellers = [];
     this.newlyAdded = [];
     this.recommendations = [];
-    this.category = '';
+    this.category = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
-    this.category = this.route.snapshot.paramMap.get('id');
-    this.loadfoodDetails();
-    // this.loadChefDetails();
-    this.loadCuisineDetails();
-    // this.getRecentAndBest();
+    this.route.params.subscribe(routeParams => {
+      this.category = this.route.snapshot.paramMap.get('id');
+      this.loadfoodDetails();
+      this.loadCuisineDetails();
+    });
   }
 
   getRecentAndBest() {
@@ -272,10 +272,11 @@ export class CategoryDetailComponent implements OnInit {
   }
 
   navigateToCuisine(name: string) {
-    this.router
-      .navigateByUrl('/', { skipLocationChange: true })
-      .then(() =>
-        this.router.navigate(['/', 'foods', 'category-detail', name])
-      );
+    // this.router
+    //   .navigateByUrl('/', { skipLocationChange: true })
+    //   .then(() =>
+    //     this.router.navigate(['/', 'foods', 'category-detail', name],{replaceUrl: true})
+    //   );
+    this.router.navigate(['/', 'foods', 'category-detail', name]);
   }
 }

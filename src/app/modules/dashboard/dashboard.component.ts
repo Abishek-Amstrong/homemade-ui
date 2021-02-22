@@ -102,6 +102,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         nav: false,
         dots: true,
         items: 1,
+        margin: 15,
       },
       600: {
         nav: false,
@@ -415,15 +416,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   navigateToCategory(category: string, type: string) {
     //console.log(category);
     if (type === 'subcategory') {
-      this.router
-        .navigateByUrl('/', { skipLocationChange: true })
-        .then(() => this.router.navigate(['/', 'foods', 'category', category]));
+      // this.router
+      //   .navigateByUrl('/', { skipLocationChange: true })
+      //   .then(() => this.router.navigate(['/', 'foods', 'category', category],{replaceUrl: true}));
+      this.router.navigate(['/', 'foods', 'category', category]);
     } else if (type === 'cuisine') {
-      this.router
-        .navigateByUrl('/', { skipLocationChange: true })
-        .then(() =>
-          this.router.navigate(['/', 'foods', 'category-detail', category])
-        );
+      // this.router
+      //   .navigateByUrl('/', { skipLocationChange: true })
+      //   .then(() =>
+      //     this.router.navigate(['/', 'foods', 'category-detail', category],{replaceUrl: true})
+      //   );
+      this.router.navigate(['/', 'foods', 'category-detail', category]);
     } else if (type === 'food') {
       this.router.navigate(['/', 'foods', 'detail', category]);
     }

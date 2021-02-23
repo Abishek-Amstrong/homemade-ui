@@ -34,10 +34,10 @@ export interface ItemDetail {
   ItemSIze: string;
   ItemItemId: string;
   ItemVendorId: string;
-  ItemStatus : string;
-  ItemAvailableFrom : Date;
-  ItemAvailableTill : Date;
-  ItemDateOfServcie : Date;
+  ItemStatus: string;
+  ItemAvailableFrom: Date;
+  ItemAvailableTill: Date;
+  ItemDateOfServcie: Date;
 }
 
 export interface chef {
@@ -88,7 +88,7 @@ export class FoodDetailComponent implements OnInit {
     private foodService: FoodService,
     private cartService: CartService,
     private router: Router,
-    private authService : AuthService
+    private authService: AuthService
   ) {
     this.foodDetailData = {} as ItemDetail;
     this.vendorFoodData = [];
@@ -107,7 +107,7 @@ export class FoodDetailComponent implements OnInit {
 
   ngOnInit(): void {
     //Reload page when param id changes
-    this.activatedRoute.params.subscribe(routeParams => {
+    this.activatedRoute.params.subscribe((routeParams) => {
       this.itemId = this.activatedRoute.snapshot.paramMap.get('id') || '';
       this.loadFoodDetails();
       this.loadReviewData();
@@ -116,7 +116,6 @@ export class FoodDetailComponent implements OnInit {
     this.authService.user.subscribe((x) => {
       this.user = x;
     });
-
   }
 
   loadFoodDetails() {
@@ -264,8 +263,7 @@ export class FoodDetailComponent implements OnInit {
     this.router.navigate(['/', 'foods', 'detail', itemId]);
   }
 
-  checkItemStatus()
-  {
+  checkItemStatus() {
     let currTime = new Date();
     let availableFromDT = new Date(this.foodDetailData.ItemDateOfServcie);
     let From = new Date(this.foodDetailData.ItemAvailableFrom);
@@ -277,12 +275,49 @@ export class FoodDetailComponent implements OnInit {
     availableToDT.setHours(Till.getHours());
     availableToDT.setMinutes(Till.getMinutes());
     availableToDT.setSeconds(Till.getSeconds());
-    if(availableFromDT <= currTime && availableToDT >= currTime)
-    {
+    if (availableFromDT <= currTime && availableToDT >= currTime) {
       this.foodDetailData.ItemStatus = 'Active';
-    }
-    else{
+    } else {
       this.foodDetailData.ItemStatus = 'INActive';
+    }
+  }
+
+  // Transform Date val
+  transformDateVal(dateVal: any): string {
+    const value = new Date(dateVal);
+    if (!value) {
+      return '';
+    }
+    let months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return `${value.getDate()}${this.nth(value.getDate())} ${
+      months[value.getMonth()]
+    } ${value.getFullYear()}`;
+  }
+
+  nth(d: any) {
+    if (d > 3 && d < 21) return 'th';
+    switch (d % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
     }
   }
 }

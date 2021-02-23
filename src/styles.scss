@@ -1743,6 +1743,9 @@ a {
     text-decoration: none;
     outline: none;
   }
+  @include tablet{
+    color: #f78d78;
+  }
 }
 
 /*-------- 1.2 Structure --------*/
@@ -2759,6 +2762,9 @@ ul#top_menu {
 
         p{
           text-transform: uppercase;
+          @include mobile {
+            text-align: center;
+          }
         }
 
         a {
@@ -2796,7 +2802,7 @@ ul#top_menu {
   }
   
   .mat-form-field-prefix .mat-icon, .mat-form-field-suffix .mat-icon{
-    @include fontSize(32px);
+    @include fontSize(30px);
   }
   .mat-form-field-appearance-outline{
     .mat-form-field-wrapper{
@@ -2808,7 +2814,7 @@ ul#top_menu {
       top: 1.5em;
       color: #6a6a6a;
       @include mobile {
-        top: 0.7em;
+        top: 0.8em;
       }
     }
     .mat-form-field-label-wrapper{
@@ -3227,6 +3233,7 @@ ul#top_menu.drop_user {
     color: rgb(28, 27, 27);
     @include mobile {
       margin: 0 0 20px;
+      text-align: center;
     }
   }
 
@@ -3285,13 +3292,17 @@ ul#top_menu.drop_user {
     }
   }
 }
-
+.recent-view-wrapper{
+  padding: 30px 0;
+}
 .view-all-wrapper{
   display: none;
   @include tablet{
     display: block;
     padding: 15px;
     text-align: center;
+    border-bottom: 1px solid #e7e7e7;
+    margin-bottom: 20px;
   }
 }
 .intro_txt {
@@ -4132,6 +4143,9 @@ $arrow_color: $gray_light !default;
   text-transform: uppercase;
   margin-bottom: 40px;
   display: block;
+  @include mobile {
+    text-align: center;
+  }
 }
 .promo {
   // background: #e54750 url(./assets/images/pattern.svg) center center repeat;
@@ -4277,7 +4291,7 @@ $arrow_color: $gray_light !default;
 }
 
 .margin_detail_2 {
-  padding-top: 60px;
+  padding-top: 30px;
   padding-bottom: 0px;
 }
 
@@ -4561,8 +4575,8 @@ footer {
       @include fontSize(13px);
       cursor: pointer;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      margin: 0 -15px 0 -15px;
-      padding: 15px 15px 15px 15px;
+      margin: 0 -15px;
+      padding: 20px 15px;
       display: block;
 
       &:after {
@@ -4754,7 +4768,9 @@ ul.additional_links {
   li {
     display: inline-block;
     margin-right: 15px;
-
+    @include tablet {
+      line-height: 30px;
+    }
     &:first-child {
       margin-right: 20px;
     }
@@ -6086,7 +6102,9 @@ a.box_topic,
     box-sizing: border-box;
 
     @include tablet {
-      padding: 25px 10px 10px 10px;
+      padding: 25px 10px;
+      font-weight: bold;
+      text-align: center;
     }
 
     line-height: 1;
@@ -6207,11 +6225,9 @@ a.box_topic,
           font-weight: 500;
           margin-bottom: 8px;
           color: rgb(28, 27, 27);
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
           letter-spacing: 0.2em;
           text-transform: uppercase;
+          line-height: 2;
         }
         p.price {
           @include fontSize(12px);
@@ -6276,15 +6292,6 @@ a.box_topic,
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-
-    h3 {
-      font-size: 13px;
-      margin-bottom: 4px;
-      color: #444444;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
     p.price {
       font-size: 14px;
       font-weight: 600;
@@ -6297,6 +6304,12 @@ a.box_topic,
   .contentBox.type_2 {
     flex-direction: column;
     margin-bottom: 20px;
+  }
+}
+.chef_carousel {
+  width: 100%;
+  @include mobile {
+    padding-left: 15px;
   }
 }
 .cardTypeOne {
@@ -6395,6 +6408,9 @@ a.box_topic,
       width: 200px !important;
       height: 200px !important;
       margin: 0px auto;
+      @include mobile {
+        height: 140px !important;
+      }
     }
   }
   h3 {
@@ -6402,6 +6418,9 @@ a.box_topic,
     color: rgb(106, 106, 106);
     line-height: 20px;
     margin-bottom: 0;
+    @include mobile {
+      @include fontSize(14px);
+    }
   }
   .score {
     margin-top: 10px;
@@ -7278,7 +7297,7 @@ table {
 /*==================media queries===========================*/
 @media (max-width: 991px) {
   .margin_15_45 {
-    padding-top: 25px;
+    padding-top: 35px;
     padding-bottom: 25px;
   }
   .card-category .cardCatBox {
@@ -7286,9 +7305,6 @@ table {
   }
   .col-sm-5ths {
     width: 50%;
-  }
-  .secondary_nav {
-    // display: none;
   }
   .cardboxType3 {
     margin-top: 30px;

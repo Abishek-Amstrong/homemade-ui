@@ -151,7 +151,9 @@
 
 @media (max-width: 991px) {
   .item_version_2 a .info {
-    padding: 25px 10px 10px 10px;
+    padding: 25px 10px;
+    font-weight: bold;
+    text-align: center;
   }
 }
 
@@ -298,8 +300,8 @@
 @media (max-width: 767px) {
   .slide-text h2,
 .slide-text h3 {
-    font-size: 36px;
-    font-size: 2.25rem;
+    font-size: 28px;
+    font-size: 1.75rem;
   }
 }
 

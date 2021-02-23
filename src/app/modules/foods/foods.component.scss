@@ -72,7 +72,6 @@ a.btn_map {
   background: #ccc url(./../../../assets/images/map_bt_bg.png) center no-repeat;
   margin-bottom: 15px;
   height: 100px;
-  @include border-radius(3px);
   overflow: hidden;
 
   @include tablet {
@@ -85,7 +84,6 @@ a.btn_map {
     padding: 5px 10px;
     font-weight: 500;
     @include fontSize(13px);
-    @include border-radius(3px);
   }
 }
 
@@ -93,7 +91,6 @@ a.btn_filters {
   border: 1px solid $border-color-2;
   display: none;
   padding: 10px;
-  @include border-radius(3px);
   height: 42px;
 
   span {
@@ -417,7 +414,6 @@ a.address {
   padding: 0 27px 15px 15px;
   margin-bottom: 15px;
   border: 1px solid $border-color-2;
-  @include border-radius(3px);
 
   @include tablet {
     padding: 0 27px 0 10px;
@@ -475,9 +471,6 @@ a.address {
   -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3);
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
 }
 
 .rangeslider {
@@ -661,7 +654,6 @@ input[type="range"]:focus + .rangeslider .rangeslider__handle {
 .marker_info {
   width: 240px;
   height: 270px;
-  border-radius: 5px;
   text-align: left;
   background: #000;
   background: rgba(255, 255, 255, 1);
@@ -672,7 +664,6 @@ input[type="range"]:focus + .rangeslider .rangeslider__handle {
 
   img {
     display: block;
-    @include border-radius(5px 5px 0 0);
   }
 
   h3 {

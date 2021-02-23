@@ -32,10 +32,6 @@
   box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.08);
   background-color: #fff;
   padding: 15px;
-  -webkit-border-radius: 0 0 3px 3px;
-  -moz-border-radius: 0 0 3px 3px;
-  -ms-border-radius: 0 0 3px 3px;
-  border-radius: 0 0 3px 3px;
 }
 
 @media (max-width: 767px) {
@@ -49,10 +45,6 @@
   width: 100%;
   height: 40px;
   border: 2px solid #d2d8dd;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  border-radius: 3px;
   margin-bottom: 25px;
 }
 

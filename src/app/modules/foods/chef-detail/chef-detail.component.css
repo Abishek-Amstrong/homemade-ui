@@ -3,12 +3,9 @@
 /* Detail page */
 /*============================================================================================*/
 /*-------- Page head --------*/
-.food-detail {
-  margin-top: 60px;
-}
-
 .detail_page_head .title {
   float: left;
+  margin-bottom: 35px;
 }
 
 @media (max-width: 767px) {
@@ -677,16 +674,6 @@ a.menu_item:hover h3 {
   display: block;
 }
 
-.reviews .starTotal {
-  margin: 10px 0 0;
-}
-
-.reviews .ratingsTotal {
-  font-size: 12px;
-  font-size: 0.75rem;
-  margin-top: 10px;
-}
-
 .reviews .progress {
   margin-top: 5px;
   height: 5px;
@@ -697,18 +684,9 @@ a.menu_item:hover h3 {
   height: 5px;
 }
 
-.reviews .reviews_sum_details h5 {
-  font-size: 14px;
-  font-size: 0.875rem;
-  text-transform: none;
-  font-weight: 600;
-}
-
 .reviews .reviews_sum_details h6 {
   font-size: 14px;
   font-size: 0.875rem;
-  text-transform: none;
-  flex: 66px 0 0;
 }
 
 .reviews .reviews_sum_details strong {
@@ -737,6 +715,10 @@ a.menu_item:hover h3 {
   width: 50px;
   height: 50px;
   overflow: hidden;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
   display: inline-block;
   position: relative;
   margin-bottom: 10px;
@@ -774,17 +756,8 @@ a.menu_item:hover h3 {
 }
 
 .review_card .review_content h4 {
-  font-size: 14px;
-  font-size: 0.875rem;
-  text-transform: none;
-  margin-bottom: 20px;
-}
-
-.review_card .review_content .review-desc-sec {
-  font-size: 14px;
-  font-size: 0.875rem;
-  text-transform: capitalize;
-  letter-spacing: 0.1em;
+  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .review_card .review_content .rating {
@@ -806,7 +779,6 @@ a.menu_item:hover h3 {
   font-size: 0.8125rem;
   font-weight: 400;
   color: #444;
-  text-transform: none;
 }
 
 @media (max-width: 575px) {
@@ -821,16 +793,12 @@ a.menu_item:hover h3 {
     float: none;
     display: inline-block;
     margin-left: 10px;
-    text-transform: none;
   }
 }
 
 .review_card .review_content em {
   color: #999;
   float: right;
-  font-size: 12px;
-  font-size: 0.75rem;
-  font-style: normal;
 }
 
 @media (max-width: 575px) {
@@ -900,6 +868,10 @@ a.menu_item:hover h3 {
   width: 50px;
   height: 50px;
   overflow: hidden;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
   display: inline-block;
   position: relative;
   margin-bottom: 10px;
@@ -1187,52 +1159,27 @@ a.menu_item:hover h3 {
   right: 0;
 }
 
+.score .rating::after {
+  font-family: "ElegantIcons";
+  content: "\e033";
+  margin: 4px 3px 0 10px;
+  color: #ffffff;
+}
+
 .fill::after {
   font-family: "ElegantIcons";
   content: "";
-  font-size: 14px;
-  font-size: 0.875rem;
-  margin: 2px 2px 0;
+  font-size: 13px;
+  margin: 2px 3px 0 4px;
 }
 
-.rating-number {
-  font-weight: 600;
-  padding-right: 10px;
-}
-
-.food-img {
-  max-height: 70vh;
-  width: 100%;
+.profile-img .img-fluid {
+  max-height: 35vh;
+  width: 250px;
   object-fit: cover;
   filter: brightness(0.9);
 }
 
-@media only screen and (min-width: 1320) {
-  .food-img {
-    max-height: 50vh;
-  }
-}
-
-@media only screen and (max-width: 1280px) {
-  .food-img {
-    max-height: 45vh;
-  }
-}
-
-@media only screen and (max-width: 1024px) {
-  .food-img {
-    max-height: 40vh;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .food-img {
-    max-height: 40vh;
-  }
-}
-
-@media only screen and (max-width: 640px) {
-  .food-img {
-    max-height: 25vh;
-  }
+.dish-name {
+  width: calc(100% - 60px);
 }

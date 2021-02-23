@@ -66,10 +66,6 @@ a.btn_map {
   background: #ccc url(./../../../assets/images/map_bt_bg.png) center no-repeat;
   margin-bottom: 15px;
   height: 100px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  border-radius: 3px;
   overflow: hidden;
 }
 
@@ -86,20 +82,12 @@ a.btn_map span {
   font-weight: 500;
   font-size: 13px;
   font-size: 0.8125rem;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  border-radius: 3px;
 }
 
 a.btn_filters {
   border: 1px solid #ededed;
   display: none;
   padding: 10px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  border-radius: 3px;
   height: 42px;
 }
 
@@ -444,10 +432,6 @@ a.address:hover {
   padding: 0 27px 15px 15px;
   margin-bottom: 15px;
   border: 1px solid #ededed;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  border-radius: 3px;
 }
 
 @media (max-width: 991px) {
@@ -513,9 +497,6 @@ a.address:hover {
   -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3);
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
 }
 
 .rangeslider {
@@ -697,7 +678,6 @@ input[type="range"]:focus + .rangeslider .rangeslider__handle {
 .marker_info {
   width: 240px;
   height: 270px;
-  border-radius: 5px;
   text-align: left;
   background: #000;
   background: white;
@@ -709,10 +689,6 @@ input[type="range"]:focus + .rangeslider .rangeslider__handle {
 
 .marker_info img {
   display: block;
-  -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
-  -ms-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;
 }
 
 .marker_info h3 {

@@ -98,7 +98,7 @@ export class SugarComponent implements OnInit {
       0: {
         nav: false,
         dots: false,
-        items: 1,
+        items: 2,
         stagePadding: 30,
         margin: 15,
       },

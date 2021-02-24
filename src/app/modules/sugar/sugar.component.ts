@@ -46,7 +46,7 @@ export class SugarComponent implements OnInit {
 
   customOptions: OwlOptions = {
     center: false,
-    stagePadding: 0,
+    stagePadding: 50,
     items: 1,
     loop: false,
     margin: 15,
@@ -86,7 +86,7 @@ export class SugarComponent implements OnInit {
 
   customOptionsTwo: OwlOptions = {
     center: false,
-    stagePadding: 0,
+    stagePadding: 50,
     items: 1,
     loop: false,
     margin: 30,

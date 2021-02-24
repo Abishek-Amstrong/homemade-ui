@@ -15,10 +15,22 @@
   text-transform: uppercase;
 }
 
+@media (max-width: 767px) {
+  #modal-dialog .content h5 {
+    margin-bottom: 25px;
+  }
+}
+
 #modal-dialog .content ul {
   padding: 0;
   margin: 0 0 20px 0;
   list-style: none;
+}
+
+@media (max-width: 767px) {
+  #modal-dialog .content ul {
+    margin: 0;
+  }
 }
 
 #modal-dialog .content ul li span {
@@ -32,6 +44,12 @@
   box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.08);
   background-color: #fff;
   padding: 15px;
+}
+
+@media (max-width: 767px) {
+  #modal-dialog .footer {
+    padding-top: 0;
+  }
 }
 
 @media (max-width: 767px) {
@@ -143,4 +161,5 @@
   overflow: hidden;
   white-space: nowrap;
   font-style: normal;
+  letter-spacing: normal;
 }

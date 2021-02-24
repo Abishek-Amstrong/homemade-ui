@@ -1010,6 +1010,16 @@ a.menu_item:hover h3 {
   text-transform: uppercase;
 }
 
+@media (max-width: 767px) {
+  ::ng-deep .cdk-overlay-pane {
+    max-width: none !important;
+    width: 100%;
+  }
+  ::ng-deep .cdk-overlay-pane .mat-dialog-container {
+    border-radius: 0;
+  }
+}
+
 .dropdown.time a:after {
   content: "\0057";
 }

@@ -4499,11 +4499,17 @@ footer {
   margin-top: 70px;
   @include mobile {
     padding: 20px 20px 0;
+    margin: 0;
   }
 
   position: relative;
   .additional-footer-links{
     text-align: center;
+  }
+  .fix_mobile{
+    @include mobile{
+      padding-top: 0 !important;
+    }
   }
   hr {
     border-color: rgba(0, 0, 0, 0.05);
@@ -6395,6 +6401,9 @@ a.box_topic,
 }
 .productBox {
   padding-left: 50px;
+  @include tablet{
+    padding-left: 0;
+  }
   .product-details {
     h3.product-title {
       @include fontSize(18px);
@@ -6403,11 +6412,17 @@ a.box_topic,
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.2em;
+      @include mobile {
+        text-align: center;
+      }
     }
   }
   .rating {
     display: flex;
     max-height: 35px;
+    @include mobile {
+      justify-content: center;    
+    }
     .score {
       strong {
         padding: 0;
@@ -6418,6 +6433,14 @@ a.box_topic,
   }
   .availablity {
     margin: 10px 0;
+    @include mobile {
+      text-align: center;    
+    }
+  }
+  .chefDetails{
+    @include mobile {
+      text-align: center;    
+    }
   }
   .size {
     margin: 35px 0 15px;
@@ -6427,6 +6450,9 @@ a.box_topic,
   }
   .price {
     margin-top: 15px;
+    @include mobile {
+      text-align: center;    
+    }
     h3 {
       @include fontSize(16px);
       color: rgb(106, 106, 106);
@@ -6493,6 +6519,9 @@ a.box_topic,
         font-weight: 500;
         letter-spacing: 0.1em;
         margin: 0;
+        @include mobile {
+          margin-bottom: 1.25rem;
+        }
       }
     }
     .card-body {
@@ -6505,11 +6534,19 @@ a.box_topic,
         display: flex;
         justify-content: flex-start;
         margin-top: 5px;
+        @include mobile {
+          flex-direction: column;
+        }
         img {
           width: 60px;
           height: 60px;
           object-fit: cover;
           cursor: pointer;
+          @include mobile {
+            width: 120px;
+            height: 120px;
+            margin: auto;
+          }
         }
 
         .chefTitle {
@@ -6519,6 +6556,9 @@ a.box_topic,
             font-weight: 500;
             letter-spacing: 0.1em;
             margin-bottom: 5px;
+            @include mobile {
+              text-align: center;
+            }
           }
           .chef-details-sec{
             display: -webkit-box;
@@ -6604,6 +6644,9 @@ a.box_topic,
         width: 110px;
         height: 110px;
         overflow: hidden;
+        @include mobile{
+          height: 90px;
+        }
       }
     }
     .product-detail {
@@ -6618,6 +6661,9 @@ a.box_topic,
           @include fontSize(16px);
           line-height: 20px;
           text-transform: uppercase;
+          @include mobile{
+            @include fontSize(12px);
+          }
         }
       }
       .quantity {
@@ -6658,6 +6704,9 @@ a.box_topic,
           text-align: right;
           @include fontSize(16px);
           font-weight: 500;
+          @include mobile{
+            @include fontSize(12px);
+          }
         }
       }
       .remove {
@@ -6801,6 +6850,9 @@ button {
 .small-gutters {
   .btn_1 {
     margin: 20px 0;
+    @include mobile{
+      margin: 10px 0 0;
+    }
   }
 }
 .changeLocation {
@@ -7389,21 +7441,20 @@ table {
       margin-bottom: 20px;
       .item {
         width: auto;
-        float: left;
+        flex: 33% 0 0;
         overflow: hidden;
         .product-image {
           width: 100%;
         }
       }
       .product-detail {
-        float: left;
+        flex: 1;
         width: auto;
         display: flex;
         flex-direction: column;
         margin-left: 20px;
         .product-name {
           width: 100%;
-          max-width: 150px;
           margin-bottom: 10px;
           padding-right: 0;
           h3 {
@@ -7422,7 +7473,7 @@ table {
             width: 3.75rem;
           }
           .numbers-row {
-            width: 100px;
+            width: 80px;
             height: 32px;
             border: 1px solid #e4e4e4;
             margin-bottom: 16px;
@@ -7453,8 +7504,9 @@ table {
           }
           .remove {
             a {
-              font-size: 0.8rem;
-              color: #838383;
+              @include fontSize(10px);
+              text-decoration: underline;
+              color: rgb(106, 106, 106);
             }
           }
         }
@@ -7471,8 +7523,8 @@ table {
         width: 100%;
         tr {
           td {
-            padding: 5px 0;
-            letter-spacing: 0.6px;
+            padding: 10px 0;
+            letter-spacing: 0.15em;
             &:nth-child(odd) {
               text-align: left;
             }
@@ -7516,9 +7568,23 @@ table {
       }
     }
   }
+  .customer-review-wrapper{
+    h4{
+      text-align: center;
+    }
+    .reviewBox{
+      @include mobile {
+       text-align: center;
+       margin-top: 20px;
+      }
+    }
+  }
   .ratingAgg {
     margin-bottom: 20px;
     display: flex;
+    @include mobile {
+      justify-content: center;    
+    }
   }
   .starTotal {
     margin-left: 30px;

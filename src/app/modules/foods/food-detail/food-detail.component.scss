@@ -899,7 +899,15 @@ a.menu_item {
     }
   }
 }
-
+::ng-deep .cdk-overlay-pane{
+  @include mobile {
+    max-width: none !important;
+    width: 100%;
+    .mat-dialog-container{
+      border-radius: 0;
+    }   
+  }
+}
 .dropdown.time a:after {
   content: "\0057";
 }

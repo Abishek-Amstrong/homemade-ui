@@ -13,12 +13,18 @@
       margin-bottom: 15px;
       font-weight: 600;
       text-transform: uppercase;
+      @include mobile{
+        margin-bottom: 25px;
+      }
     }
 
     ul {
       padding: 0;
       margin: 0 0 20px 0;
       list-style: none;
+      @include mobile{
+        margin: 0;
+      }
 
       li span {
         float: right;
@@ -31,7 +37,9 @@
     @include box-shadow(0 -1px 4px 0 rgba(0, 0, 0, 0.08));
     background-color: #fff;
     padding: 15px;
-
+    @include mobile{
+      padding-top: 0;
+    }
     .mb-mobile {
       @include mobile {
         margin-bottom: 5px;
@@ -139,4 +147,5 @@
   overflow: hidden;
   white-space: nowrap;
   font-style: normal;
+  letter-spacing: normal;
 }

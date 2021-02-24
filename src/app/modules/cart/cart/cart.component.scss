@@ -6,6 +6,7 @@
   width: 100%;
   height: 40px;
   border: 2px solid $border-color-3;
+  @include border-radius(3px);
   margin-bottom: 25px;
 
   input {
@@ -60,11 +61,6 @@
 .product-image img {
   height: 100%;
   width: 100%;
+  border-radius: 4px;
   filter: brightness(0.9);
-}
-.cart-pageTitle h1{
-  @include mobile{
-    @include fontSize(20px);
-    text-align: center;
-  }
 }

@@ -10,7 +10,6 @@
     position: relative;
     overflow: hidden;
     height: 115px;
-    @include border-radius(5px);
     background-color: #ededed;
 
     img {
@@ -74,7 +73,6 @@ a.btn_map {
   background: #ccc url(../../../../assets/images/map_bt_bg.png) center no-repeat;
   margin-bottom: 15px;
   height: 100px;
-  @include border-radius(3px);
   overflow: hidden;
 
   @include tablet {
@@ -87,7 +85,6 @@ a.btn_map {
     padding: 5px 10px;
     font-weight: 500;
     @include fontSize(13px);
-    @include border-radius(3px);
   }
 }
 
@@ -95,7 +92,6 @@ a.btn_filters {
   border: 1px solid $border-color-2;
   display: none;
   padding: 10px;
-  @include border-radius(3px);
   height: 42px;
 
   span {
@@ -419,7 +415,6 @@ a.address {
   padding: 0 27px 15px 15px;
   margin-bottom: 15px;
   border: 1px solid $border-color-2;
-  @include border-radius(3px);
 
   @include tablet {
     padding: 0 27px 0 10px;
@@ -663,7 +658,6 @@ input[type="range"]:focus + .rangeslider .rangeslider__handle {
 .marker_info {
   width: 240px;
   height: 270px;
-  border-radius: 5px;
   text-align: left;
   background: #000;
   background: rgba(255, 255, 255, 1);
@@ -674,7 +668,6 @@ input[type="range"]:focus + .rangeslider .rangeslider__handle {
 
   img {
     display: block;
-    @include border-radius(5px 5px 0 0);
   }
 
   h3 {
@@ -850,7 +843,6 @@ span.infobox_rate {
 
       a {
         color: $body-text-color;
-        @include border-radius(20px);
         @include rgba(bg, #000, 0.05);
         padding: 5px 15px;
 
@@ -866,11 +858,6 @@ span.infobox_rate {
     }
   }
 }
-
-.chef_carousel {
-  width: 100%;
-}
-
 .hero {
   &__breakfast {
     background-position: center;

@@ -1,5 +1,5 @@
 <div class="chef">
-    <div class="container margin_detail_2">
+    <div class="container-fluid margin_detail_2 px-50">
         <div class="row">
             <div class="col-lg-8">
                 <div class="detail_page_head clearfix">
@@ -31,7 +31,7 @@
     <!-- /container -->
 
     <nav class="secondary_nav sticky_horizontal">
-        <div class="container">
+        <div class="container-fluid px-50">
             <ul id="secondary_nav">
                 <li><a class="list-group-item list-group-item-action" routerLink="/foods/chef/{{vendorId}}"
                         fragment="section-1">Starters</a></li>
@@ -46,7 +46,7 @@
     <!-- /secondary_nav -->
 
     <div class="bg_gray">
-        <div class="container margin_detail">
+        <div class="container-fluid margin_detail px-50">
             <div class="row">
                 <div class="col-lg-8 list_menu">
                     <section [id]="'section-' + [i + 1]" *ngFor="let item of menus; let i = index;">
@@ -109,9 +109,9 @@
     <!-- /bg_gray -->
 
     <!-- /container -->
-    <div class="container">
+    <div class="container-fluid px-50">
         <div class="row">
-            <section id="section-5" class="col-md-8 margin_30_40">
+            <section id="section-5" class="col-md-8 margin_30_40 customer-review-container">
                 <h4>Customer review & ratings</h4>
                 <div class="row add_bottom_30 d-flex align-items-center reviews">
                     <div class="col-md-3">

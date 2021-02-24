@@ -48,18 +48,19 @@ export class FoodNorthindianComponent implements OnInit {
     margin: 15,
     dots: false,
     nav: true,
-    lazyLoad: true,
+    //lazyLoad: true,
     navText: ["<i class='arrow_left'></i>", "<i class='arrow_right'></i>"],
     responsive: {
       0: {
         nav: false,
         dots: false,
-        items: 2,
+        items: 1,
+        stagePadding: 30,
       },
       600: {
         nav: false,
         dots: false,
-        items: 2,
+        items: 1,
       },
       1025: {
         nav: true,
@@ -69,43 +70,43 @@ export class FoodNorthindianComponent implements OnInit {
       1280: {
         nav: true,
         dots: false,
-        items: 5,
+        items: 6,
       },
       1440: {
         nav: true,
         dots: false,
-        items: 5,
+        items: 6,
       },
     },
   };
   customOptionsTwo: OwlOptions = {
     center: false,
-    stagePadding: 0,
+    stagePadding: 50,
     items: 1,
     loop: false,
     margin: 30,
     dots: false,
     nav: true,
-    lazyLoad: true,
+    //lazyLoad: true,
     navText: ["<i class='arrow_left'></i>", "<i class='arrow_right'></i>"],
     responsive: {
       0: {
         nav: false,
         dots: false,
         items: 2,
-        stagePadding: 50,
         margin: 15,
+        stagePadding: 30,
       },
       600: {
         nav: false,
         dots: false,
-        items: 4,
+        items: 2,
         margin: 10,
       },
       768: {
         nav: false,
-        dots: false,
-        items: 4,
+        dots: true,
+        items: 3,
       },
       1024: {
         nav: true,

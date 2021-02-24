@@ -5,27 +5,23 @@
 .nfood_carousel.listing,
 .decor_carousel.listing {
   margin-bottom: 35px;
-
+  
   .item {
-    position: relative;
-    overflow: hidden;
-    height: 115px;
-    @include border-radius(5px);
     background-color: #ededed;
-
+    figure{
+      position: relative;
+      overflow: hidden;
+      height: 40vh;
+    }
     img {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      @include transform(translate(-50%, -50%) scale(1));
-      @include backface-visibility(hidden);
-      z-index: 1;
-      @include transition-default;
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
     }
 
-    &:hover img {
-      @include transform(translate(-50%, -50%) scale(1.1));
-    }
+    // &:hover img {
+    //   @include transform(translate(-50%, -50%) scale(1.1));
+    // }
 
     a {
       position: absolute;
@@ -42,10 +38,12 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        padding: 15px 15px 10px 15px;
+        padding: 15px 15px 30px 15px;
         @include fontSize(16px);
+        text-transform: uppercase;
         margin: 0;
         font-weight: 500;
+        text-align: center;
         color: #fff;
         line-height: 1;
         background: -moz-linear-gradient(
@@ -74,7 +72,6 @@ a.btn_map {
   background: #ccc url(./../../../assets/images/map_bt_bg.png) center no-repeat;
   margin-bottom: 15px;
   height: 100px;
-  @include border-radius(3px);
   overflow: hidden;
 
   @include tablet {
@@ -87,7 +84,6 @@ a.btn_map {
     padding: 5px 10px;
     font-weight: 500;
     @include fontSize(13px);
-    @include border-radius(3px);
   }
 }
 
@@ -95,7 +91,6 @@ a.btn_filters {
   border: 1px solid $border-color-2;
   display: none;
   padding: 10px;
-  @include border-radius(3px);
   height: 42px;
 
   span {
@@ -419,7 +414,6 @@ a.address {
   padding: 0 27px 15px 15px;
   margin-bottom: 15px;
   border: 1px solid $border-color-2;
-  @include border-radius(3px);
 
   @include tablet {
     padding: 0 27px 0 10px;
@@ -477,9 +471,6 @@ a.address {
   -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.3);
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
 }
 
 .rangeslider {
@@ -663,7 +654,6 @@ input[type="range"]:focus + .rangeslider .rangeslider__handle {
 .marker_info {
   width: 240px;
   height: 270px;
-  border-radius: 5px;
   text-align: left;
   background: #000;
   background: rgba(255, 255, 255, 1);
@@ -674,7 +664,6 @@ input[type="range"]:focus + .rangeslider .rangeslider__handle {
 
   img {
     display: block;
-    @include border-radius(5px 5px 0 0);
   }
 
   h3 {
@@ -803,7 +792,6 @@ span.infobox_rate {
 .secondary_nav {
   width: 100%;
   background-color: #fff;
-  border-top: 1px solid $border-color-2;
   padding: 20px 0;
   position: relative;
   margin-bottom: 0;
@@ -846,17 +834,18 @@ span.infobox_rate {
 
     li {
       display: inline-block;
-      margin-right: 15px;
+      margin-right: 35px;
 
       a {
-        color: $body-text-color;
-        @include border-radius(20px);
-        @include rgba(bg, #000, 0.05);
-        padding: 5px 15px;
-
+        color: rgb(28, 27, 27);
+        border-bottom: 2px solid transparent;
+        text-transform: uppercase;
         &.active,
         &:hover {
-          color: $color-1;
+          @include fontSize(16px);
+          font-weight: 600;
+          color: #000;
+          border-bottom: 2px solid #000;
         }
 
         i {
@@ -867,6 +856,25 @@ span.infobox_rate {
   }
 }
 
-.chef_carousel {
-  width: 100%;
-}
+// .categories_carousel_in{  
+//   display: grid;
+//   grid-gap: 20px;
+//   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+//   grid-auto-rows: 20px;
+//   .category-page-banner-items{
+//     overflow: hidden;
+//     grid-row-end: span 15;
+//     figure{
+//       height: 100%;
+//       width: 100%;
+//     }
+//     .owl-lazy{
+//       width: 100%;
+//       height: 100%;
+//       object-fit: cover;
+//     }
+//     &#image0, &#image2{
+//       grid-row-end: span 20;
+//     }
+//   }
+// }

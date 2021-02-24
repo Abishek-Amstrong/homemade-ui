@@ -5,6 +5,9 @@
 @import "./../../../../assets/stylesheets/scss/mixin";
 
 /*-------- Page head --------*/
+.food-detail{
+  margin-top: 60px;
+}
 .detail_page_head {
   .title {
     float: left;
@@ -41,7 +44,6 @@
           line-height: 1;
           color: #777;
           @include fontSize(13px);
-          @include border-radius(3px);
 
           &:hover {
             color: $color-1;
@@ -88,7 +90,6 @@
       strong {
         @include fontSize(18px);
         background-color: #66cc66;
-        @include border-radius(5px 5px 5px 0);
         padding: 8px;
         line-height: 1.1;
         color: #fff;
@@ -121,7 +122,6 @@
     height: 100px;
     width: 32%;
     display: inline-block;
-    @include border-radius(5px);
     overflow: hidden;
 
     @include desktop {
@@ -169,12 +169,10 @@
 
 /*-------- Fixed Booking Panel--------*/
 .box_order {
-  @include border-radius(5px);
   background-color: #fafafa;
   // @include box-shadow (0px 0px 15px 0px rgba(0, 0, 0, 0.10));
 
   .head {
-    @include border-radius(5px 5px 0 0);
     text-align: center;
     border-bottom: 1px solid #ededed;
     padding: 17px 20px 12px 20px;
@@ -373,7 +371,6 @@
 
       a {
         color: $body-text-color;
-        @include border-radius(20px);
         @include rgba(bg, #000, 0.05);
         padding: 5px 15px;
 
@@ -404,13 +401,11 @@
 /*-------- Menu list --------*/
 .table_wrapper {
   background-color: #fff;
-  @include border-radius(5px);
   @include box-shadow(0px 22px 24px 0px rgba(46, 51, 51, 0.05));
 }
 
 a.menu_item {
   background-color: #fff;
-  @include border-radius(5px);
   display: block;
   position: relative;
   padding: 20px 95px 15px 20px;
@@ -442,7 +437,6 @@ a.menu_item {
     right: 15px;
     top: 15px;
     border: 1px solid #fff;
-    @include border-radius(3px);
 
     img {
       width: 70px;
@@ -501,7 +495,6 @@ a.menu_item {
       margin: 0;
       margin-right: 15px;
       border: 1px solid #fff;
-      @include border-radius(3px);
 
       img {
         width: 60px;
@@ -536,7 +529,6 @@ a.menu_item {
       background-color: #fff;
       min-width: 250px;
       margin-left: -105px;
-      @include border-radius(3px);
 
       @include tablet {
         margin-left: -205px;
@@ -583,7 +575,6 @@ a.menu_item {
   padding: 12px 12px 10px 40px;
   font-weight: 500;
   line-height: 1;
-  @include border-radius(5px);
   @include box-shadow(0px 0px 15px 0px rgba(0, 0, 0, 0.3));
   display: none;
 
@@ -603,12 +594,10 @@ a.menu_item {
     text-align: center;
     color: #242424;
     padding: 0;
-    @include border-radius(5px);
 
     @include tablet {
       margin-bottom: 15px;
     }
-
     strong {
       @include fontSize(42px);
       display: block;
@@ -621,7 +610,14 @@ a.menu_item {
       display: block;
     }
   }
-
+  
+  .starTotal{
+    margin: 10px 0 0;
+  }
+  .ratingsTotal{
+    @include fontSize(12px);
+    margin-top: 10px;
+  }
   .progress {
     margin-top: 5px;
     height: 5px;
@@ -633,8 +629,15 @@ a.menu_item {
   }
 
   .reviews_sum_details {
+    h5 {
+      @include fontSize(14px);
+      text-transform: none;
+      font-weight: 600
+    }
     h6 {
       @include fontSize(14px);
+      text-transform: none;
+      flex: 66px 0 0;
     }
 
     strong {
@@ -647,7 +650,6 @@ a.menu_item {
 .review_card {
   background-color: #fff;
   border: 1px solid $border-color-2;
-  @include border-radius(3px);
   padding: 25px 25px 10px 25px;
   margin-bottom: 30px;
 
@@ -662,7 +664,6 @@ a.menu_item {
       width: 50px;
       height: 50px;
       overflow: hidden;
-      @include border-radius(50%);
       display: inline-block;
       position: relative;
       margin-bottom: 10px;
@@ -693,9 +694,15 @@ a.menu_item {
 
   .review_content {
     h4 {
-      @include fontSize(18px);
+      @include fontSize(14px);
+      text-transform: none;
+      margin-bottom: 20px;
     }
-
+    .review-desc-sec{
+      @include fontSize(14px);
+      text-transform: capitalize;
+      letter-spacing: 0.1em;
+    }
     .rating {
       float: left;
       font-weight: 600;
@@ -711,6 +718,7 @@ a.menu_item {
         @include fontSize(13px);
         font-weight: 400;
         color: #444;
+        text-transform: none;
       }
 
       @include extra-small-mobile {
@@ -723,6 +731,7 @@ a.menu_item {
           float: none;
           display: inline-block;
           margin-left: 10px;
+          text-transform: none;
         }
       }
     }
@@ -730,6 +739,8 @@ a.menu_item {
     em {
       color: #999;
       float: right;
+      @include fontSize(12px);
+      font-style: normal;
 
       @include extra-small-mobile {
         float: none;
@@ -757,7 +768,6 @@ a.menu_item {
         a {
           background-color: #f0f0f0;
           padding: 7px 10px 5px 10px;
-          @include border-radius(3px);
           color: $body-text-color;
 
           &:hover {
@@ -794,7 +804,6 @@ a.menu_item {
         width: 50px;
         height: 50px;
         overflow: hidden;
-        @include border-radius(50%);
         display: inline-block;
         position: relative;
         margin-bottom: 10px;
@@ -890,7 +899,15 @@ a.menu_item {
     }
   }
 }
-
+::ng-deep .cdk-overlay-pane{
+  @include mobile {
+    max-width: none !important;
+    width: 100%;
+    .mat-dialog-container{
+      border-radius: 0;
+    }   
+  }
+}
 .dropdown.time a:after {
   content: "\0057";
 }
@@ -1000,7 +1017,6 @@ a.menu_item {
     @include box-shadow(0 -1px 4px 0 rgba(0, 0, 0, 0.08));
     background-color: #fff;
     padding: 15px;
-    @include border-radius(0 0 3px 3px);
 
     .mb-mobile {
       @include mobile {
@@ -1015,7 +1031,6 @@ a.menu_item {
   width: 100%;
   height: 40px;
   border: 2px solid $border-color-3;
-  @include border-radius(3px);
   margin-bottom: 25px;
 
   input {
@@ -1071,16 +1086,18 @@ a.menu_item {
 .fill::after {
   font-family: "ElegantIcons";
   content: "";
-  font-size: 13px;
-  margin: 2px 3px 0 4px;
+  @include fontSize(14px);
+  margin: 2px 2px 0;
 }
-
+.rating-number{
+  font-weight: 600;
+  padding-right: 10px;
+}
 .food-img {
-  max-height: 50vh;
+  max-height: 70vh;
   width: 100%;
   object-fit: cover;
   filter: brightness(0.9);
-  border-radius: 4px;
 }
 
 @media only screen and (min-width: 1320) {
@@ -1111,9 +1128,4 @@ a.menu_item {
   .food-img {
     max-height: 25vh;
   }
-}
-
-.bold
-{
-  font-weight: bold;
 }

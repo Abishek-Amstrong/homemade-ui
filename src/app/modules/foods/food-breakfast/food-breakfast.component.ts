@@ -67,14 +67,13 @@ export class FoodBreakfastComponent implements OnInit {
     margin: 15,
     dots: false,
     nav: true,
-    //lazyLoad: true,
+    lazyLoad: true,
     navText: ["<i class='arrow_left'></i>", "<i class='arrow_right'></i>"],
     responsive: {
       0: {
         nav: false,
         dots: false,
-        items: 1,
-        stagePadding: 30,
+        items: 2,
       },
       600: {
         nav: false,
@@ -100,32 +99,32 @@ export class FoodBreakfastComponent implements OnInit {
   };
   customOptionsTwo: OwlOptions = {
     center: false,
-    stagePadding: 50,
+    stagePadding: 0,
     items: 1,
     loop: false,
     margin: 30,
     dots: false,
     nav: true,
-    //lazyLoad: true,
+    lazyLoad: true,
     navText: ["<i class='arrow_left'></i>", "<i class='arrow_right'></i>"],
     responsive: {
       0: {
         nav: false,
         dots: false,
         items: 2,
+        stagePadding: 50,
         margin: 15,
-        stagePadding: 30,
       },
       600: {
         nav: false,
         dots: false,
-        items: 2,
+        items: 4,
         margin: 10,
       },
       768: {
         nav: false,
         dots: false,
-        items: 3,
+        items: 4,
       },
       1024: {
         nav: true,

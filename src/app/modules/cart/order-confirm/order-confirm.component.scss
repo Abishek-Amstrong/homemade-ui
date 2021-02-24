@@ -2,6 +2,7 @@
 @import "~src/assets/stylesheets/scss/mixin";
 
 .box_order_form {
+    @include border-radius(5px);
     margin-bottom: 25px;
     background-color: #fff;
     overflow: hidden;
@@ -60,6 +61,7 @@
     background-color: #eeeeee;
     padding: 15px 15px 10px 15px;
     margin-bottom: 20px;
+    @include border-radius(3px);
 
     label {
         display: inline-block;
@@ -255,6 +257,7 @@
 }
 
 a.social_bt {
+    @include border-radius(3px);
     text-align: center;
     color: #fff;
     min-width: 200px;
@@ -280,6 +283,7 @@ a.social_bt {
     text-align: center;
     @include fontSize(12px);
     padding: 5px 3px 3px 3px;
+    @include border-radius(3px);
 
     &.weakpass {
         border: 1px solid #FF9191;

@@ -1,5 +1,5 @@
 <div class="food-detail">
-  <div class="container px-50">
+  <div class="container margin_detail_2">
     <div class="row">
       <div class="col-lg-8">
         <figure>
@@ -17,7 +17,7 @@
 
           <div class="rating">
             <p class="score">
-              <span class="rating-number">{{ratingAvg}}</span>
+              {{ratingAvg}}
               <span class="fill" [ngStyle]="{'color':ratingAvg >= 1 ? '#242424' : '#f2f2f2'}"></span>
               <span class="fill" [ngStyle]="{'color':ratingAvg >= 2 ? '#242424' : '#f2f2f2'}"></span>
               <span class="fill" [ngStyle]="{'color':ratingAvg >= 3 ? '#242424' : '#f2f2f2'}"></span>
@@ -51,24 +51,32 @@
           </div>
 
           <div class="chefDetails">
+            <div role="tablist" class="accordion_2" id="accordion_group">
               <div class="card">
-                <div class="card-header">
+                <div class="card-header" role="tab">
                   <h5>
-                    Details about the meal
+                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" class="collapsed"><i
+                        class="indicator icon_plus"></i>Details about the
+                      meal</a>
                   </h5>
                 </div>
-                <div class="card-body">
-                  <p>{{foodDetailData.ItemDesc}}</p>
+                <div id="collapseOne" class="collapse" role="tabpanel" data-parent="#accordion_group" style="">
+                  <div class="card-body">
+                    <p>{{foodDetailData.ItemDesc}}</p>
+                  </div>
                 </div>
               </div>
               <!-- /card -->
 
               <div class="card">
-                <div class="card-header">
+                <div class="card-header" role="tab">
                   <h5>
-                    Meet our Chef
+                    <a data-toggle="collapse" href="#collapseTwo" aria-expanded="false" class="collapsed"><i
+                        class="indicator icon_plus"></i>Meet our Chef</a>
                   </h5>
                 </div>
+
+                <div id="collapseTwo" class="collapse" role="tabpanel" data-parent="#accordion_group" style="">
                   <div class="card-body">
                     <div class="chefInfo">
                       <img [src]="chefData.chefImage ? chefData.chefImage : 'assets/images/lazy-placeholder.png'"
@@ -83,8 +91,11 @@
                       </div>
                     </div>
                   </div>
+                </div>
               </div>
               <!-- /card -->
+
+            </div>
           </div>
         </div>
       </div>
@@ -93,9 +104,9 @@
   </div>
 
   <!-- /container -->
-  <div class="container px-50">
+  <div class="container">
     <div class="row">
-      <section id="section-5" class="col-md-8 margin_30_40 customer-review-wrapper">
+      <section id="section-5" class="col-md-8 margin_30_40">
         <h4>Customer review & ratings</h4>
         <div class="row add_bottom_30 d-flex align-items-center reviews">
           <div class="col-md-3">
@@ -123,7 +134,7 @@
               <div class="col-md-7">
                 <div class="d-flex reviewList">
                   <h6>5 stars</h6>
-                  <div class="col-xl-8 col-lg-9 col-8">
+                  <div class="col-xl-8 col-lg-9 col-9">
                     <div class="progress">
                       <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[4].percent"
                         attr.aria-valuenow="{{this.ratingCnt[4].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -134,7 +145,7 @@
 
                 <div class="d-flex reviewList">
                   <h6>4 stars</h6>
-                  <div class="col-xl-8 col-lg-9 col-8">
+                  <div class="col-xl-8 col-lg-9 col-9">
                     <div class="progress">
                       <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[3].percent"
                         attr.aria-valuenow="{{this.ratingCnt[3].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -145,7 +156,7 @@
 
                 <div class="d-flex reviewList">
                   <h6>3 stars</h6>
-                  <div class="col-xl-8 col-lg-9 col-8">
+                  <div class="col-xl-8 col-lg-9 col-9">
                     <div class="progress">
                       <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[2].percent"
                         attr.aria-valuenow="{{this.ratingCnt[2].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -156,7 +167,7 @@
 
                 <div class="d-flex reviewList">
                   <h6>2 stars</h6>
-                  <div class="col-xl-8 col-lg-9 col-8">
+                  <div class="col-xl-8 col-lg-9 col-9">
                     <div class="progress">
                       <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[1].percent"
                         attr.aria-valuenow="{{this.ratingCnt[1].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -167,7 +178,7 @@
 
                 <div class="d-flex reviewList">
                   <h6>1 stars</h6>
-                  <div class="col-xl-8 col-lg-9 col-8">
+                  <div class="col-xl-8 col-lg-9 col-9">
                     <div class="progress">
                       <div class="progress-bar" role="progressbar" [style.width.%]="this.ratingCnt[0].percent"
                         attr.aria-valuenow="{{this.ratingCnt[0].percent}}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -216,40 +227,43 @@
       </section>
     </div>
     <!-- /container -->
-  </div>
 
-  <div class="container-fluid px-50">
-      <div class="card type3" id="section5">
-        <div class="main_title">
-          <h2>More food of this Chef</h2>
-        </div>
-        <div class="row">
-          <div class="col-sm-6 col-lg-3" *ngFor="let item of vendorFoodData">
-            <div class="cardbody">
-              <a href="javascript:void(0)" (click)="navToFoodDetail(item.ItemItemId)">
-                <div class="imgBox">
-                  <figure>
-                    <img [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'" alt=""
-                      class="lazy loaded img-fluid" data-was-processed="true">
-                  </figure>
-                </div>
-                <div class="contentBox">
-                  <div class="pro_detials">
-                    <h3>{{item.ItemName}}</h3>
-                    <p class="price">Rs.{{item.ItemPrice}}</p>
-                  </div>
-                  <div class="prod_cta">
-                    <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
-                      (click)="orderNow($event, item)">Order Now</a>
-                  </div>
+    <div class="container">
+      <div class="row">
 
-                  <!-- <p class="availablity">{{item.availability}}</p> -->
-                </div>
-              </a>
+        <div class="card type3" id="section5">
+          <div class="main_title">
+            <h2>More food of this Chef</h2>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-lg-3" *ngFor="let item of vendorFoodData">
+              <div class="cardbody">
+                <a href="javascript:void(0)" (click)="navToFoodDetail(item.ItemItemId)">
+                  <div class="imgBox">
+                    <figure>
+                      <img [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'" alt=""
+                        class="lazy loaded img-fluid" data-was-processed="true">
+                    </figure>
+                  </div>
+                  <div class="contentBox">
+                    <div class="pro_detials">
+                      <h3>{{item.ItemName}}</h3>
+                      <p class="price">Rs.{{item.ItemPrice}}</p>
+                    </div>
+                    <div class="prod_cta">
+                      <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                        (click)="orderNow($event, item)">Order Now</a>
+                    </div>
+
+                    <!-- <p class="availablity">{{item.availability}}</p> -->
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
         </div>
+        <!--./card ends-->
       </div>
-      <!--./card ends-->
+    </div>
   </div>
 </div>

@@ -36,7 +36,7 @@
     </div>
     <!--/carousel-->
 
-    <div class="container-fluid margin_15_45 px-50">
+    <div class="container margin_15_45">
         <div class="main_title center">
             <h2>Discover unique homemade items</h2>
         </div>
@@ -45,7 +45,7 @@
         <div class="categories_carousel">
             <owl-carousel-o [options]="customOptionsTwo">
                 <ng-container *ngFor="let menu of menus; let i = index;">
-                    <ng-template carouselSlide class="slide" [id]="'image' + i">
+                    <ng-template carouselSlide class="slide" [id]="'image' + i" *ngIf="i<2">
                         <div class="item_version_2">
                             <a href="javascript:void(0)" (click)="navigateToComponent(menu.path)">
                                 <figure>
@@ -58,26 +58,31 @@
                             </a>
                         </div>
                     </ng-template>
+                    <ng-template carouselSlide class="slide" [id]="'image' + i" *ngIf="i>=2">
+                        <div class="item_version_2">
+                            &nbsp;
+                        </div>
+                    </ng-template>
                 </ng-container>
             </owl-carousel-o>
         </div>
     </div>
     <!-- /container -->
 
-    <div class="bg_gray categoriesBox recent-view-wrapper" *ngIf="user">
-        <div class="container-fluid px-50">
+    <div class="bg_gray categoriesBox margin_15_15" *ngIf="user">
+        <div class="container">
             <div class="main_title">
+
                 <h2>Recent Viewed</h2>
             </div>
+
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2" *ngFor="let item of recentOrderedData">
                     <div class="strip">
                         <figure>
-                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}">
-                                <img
+                            <a href="javascript:void(0)" routerLink="/foods/detail/{{item.ItemItemId}}"><img
                                     [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
-                                    class="img-fluid lazy" alt="">
-                            </a>
+                                    class="img-fluid lazy" alt=""></a>
                         </figure>
                         <a href="javascript:void(0)" class="strip_info" routerLink="/foods/detail/{{item.ItemItemId}}">
                             <div class="item_title">
@@ -91,11 +96,11 @@
         </div>
     </div>
 
-    <div class="container-fluid px-50">
+    <div class="container">
         <div class="card type3" id="section1">
             <div class="main_title">
                 <h2>Food</h2>
-                <a routerLink="/foods" class="view-all-link">View All</a>
+                <a routerLink="/foods">View All</a>
             </div>
             <div class="row">
                 <div class="col-sm-6 col-lg-3" *ngFor="let food of foodData">
@@ -121,9 +126,6 @@
                     </div>
                 </div>
                 <!--./-->
-            </div>
-            <div class="view-all-wrapper">
-                <a routerLink="/foods" class="view-all-link">View All</a>
             </div>
         </div>
 
@@ -157,13 +159,10 @@
                 </div>
                 <!--./-->
             </div>
-            <div class="view-all-wrapper">
-                <a routerLink="/sugar-spice" class="view-all-link">View All</a>
-            </div>
         </div>
 
         <!-- /banner -->
-        <div id="carousel-home" class="banner-bottom">
+        <div id="carousel-home">
             <owl-carousel-o [options]="customOptions" (translated)="onSlideTransition($event)"
                 (initialized)="onCarouselInitialized($event)">
                 <ng-template carouselSlide class="slide" id="{{ 'img' + (i+1)}}"

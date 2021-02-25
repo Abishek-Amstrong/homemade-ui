@@ -213,7 +213,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   {
     this.locationService.locationSubject.subscribe((val : any)=>{
       this.deliveryErrorMsg = '';
-      this.validateAndGetDeliveryCharges();
+      this.getDeliveryCost();
       this.city!.updateValueAndValidity();
     })
   }
@@ -692,17 +692,5 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       }
       return null;
     };
-  }
-
-  validateAndGetDeliveryCharges()
-  {
-    if(this.city?.valid)
-    {
-      this.getDeliveryCost();
-    }
-    else
-    {
-      this.IsValidDelivery = false;
-    }
   }
 }

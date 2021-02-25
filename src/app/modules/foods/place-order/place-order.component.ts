@@ -165,6 +165,7 @@ export class PlaceOrderComponent implements OnInit {
                 data: {
                   message:
                     'Item exists in cart!! Do you want to proceed and modify the existing order ?',
+                  isConfirm: true
                 },
               }
             );

@@ -270,9 +270,11 @@
                     <ul class="clearfix">
                         <li>Subtotal<span>{{subTotal > 0 ? (subTotal | currency:'INR') : ''}}</span></li>
                         <!-- <li>Discount<span>{{discount > 0 ? (discount | percent) : ''}}</span></li> -->
-                        <li>Delivery/Shipping Charge<span>{{deliveryCost > 0 ? (deliveryCost | currency:'INR') : ''}}</span></li>
+                        <li>Delivery/Shipping Charge<span>{{deliveryCost > 0 ? (deliveryCost | currency:'INR') : ''}}</span>
+                            <span *ngIf='deliveryErrorMsg' class="err-msg">{{deliveryErrorMsg}}</span></li>
                         <li class="total">Total<span>{{(subTotal - discount + deliveryCost) > 0 ? ((subTotal - discount + deliveryCost) | currency:'INR') : ''}}</span></li>
                     </ul>
+                   
                 </div>
             </div>
             <!-- /box_booking -->

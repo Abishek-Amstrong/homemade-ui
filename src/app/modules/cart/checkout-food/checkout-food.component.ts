@@ -76,6 +76,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   razorPay: any;
   IsValidDelivery: boolean;
   deliveryQuote : Quote;
+  deliveryErrorMsg: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -105,6 +106,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     this.allStateData = [];
     this.razorPay = null;
     this.deliveryQuote = {} as any;
+    this.deliveryErrorMsg = '';
   }
 
   ngOnInit(): void {
@@ -119,6 +121,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       state: ['', Validators.required],
       pinCode: ['', Validators.required],
     });
+    this.onProfileLocationChange();
     this.onDeliveryFormValueChanges();
     //this.deliveryType?.setValue('now');
     this.loadUserCart();
@@ -126,11 +129,6 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     this.validateDeliveryLocation();
     // this.calculateTotal();
     this.authService.setHeaderDisplayStatus(false);
-
-    //whenever user changes delivery location calculate delivery cost
-    this.deliveryForm.get("city")?.valueChanges.subscribe(x => {
-      this.validateAndGetDeliveryCharges();
-   })
   }
 
   ngAfterViewInit() {
@@ -208,6 +206,16 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     this.deliveryForm.patchValue({
       deliveryLocation: '',
     });
+  }
+
+  //when user changes the location in header widget validate delivery city and delivery charges
+  onProfileLocationChange()
+  {
+    this.locationService.locationSubject.subscribe((val : any)=>{
+      this.deliveryErrorMsg = '';
+      this.validateAndGetDeliveryCharges();
+      this.city!.updateValueAndValidity();
+    })
   }
 
   geolocate() {
@@ -352,6 +360,10 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         // this.deliveryTime?.setValue(currHour);
       }
     });
+    //whenever user changes delivery location calculate delivery cost
+    // this.city!.valueChanges.subscribe(x => {
+    //   this.validateAndGetDeliveryCharges();
+    // });
   }
 
   isTimeValid(): ValidatorFn {
@@ -445,6 +457,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       this.toastr.error('The delivery is not valid');
     }
     else {
+      //confirm delivery charges one final time before checkout
       this.cartService
         .placeCustomerOrder(this.deliveryForm.value, this.userCart, this.total,this.deliveryQuote)
         .subscribe(
@@ -559,6 +572,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       },(err : any)=>{
         // console.log(err);
         this.IsValidDelivery = false;
+        this.deliveryErrorMsg = err.error.message;
         this.toastr.error(err.error.message,'Error!!');
       })
     }
@@ -668,6 +682,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       );
   }
 
+  //check if the city selected for delivery matches the city in the set user lcoation
   validateDeliveryLocation(): ValidatorFn {
     return (control: AbstractControl): { [Key: string]: string } | null => {
       let city = control.value;

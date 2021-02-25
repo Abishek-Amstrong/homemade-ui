@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import {} from 'googlemaps';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
+  public locationSubject : BehaviorSubject<any>;
   constructor() {
     // this.locationService.currentLocation = { lat: 28.535517, lng: 77.391029 };
+    this.locationSubject = new BehaviorSubject<any>(this.CurrentLocation);
    }
 
   async getCurrentLocationLatLong() {
@@ -44,6 +47,7 @@ export class LocationService {
   public set CurrentLocation(location : any)
   {
     sessionStorage.setItem('Location', JSON.stringify(location));
+    this.locationSubject.next(location);
   }
 
   public get CurrentCity() : string

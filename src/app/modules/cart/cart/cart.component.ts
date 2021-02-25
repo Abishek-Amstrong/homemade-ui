@@ -1,11 +1,16 @@
 import { BoundElementProperty } from '@angular/compiler';
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { handleError } from '../../shared/helpers/error-handler';
 import { AuthService } from '../../shared/services/auth.service';
-
+import { ConfirmationDialogComponent } from '../../shared/modals/confirmation-dialog/confirmation-dialog.component';
 import { CartService } from '../../shared/services/cart.service';
 
 export interface Item {
@@ -41,7 +46,8 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private router: Router,
     private toastr: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private confirmdialog: MatDialog,
   ) {
     this.subTotal = 0;
     this.subTotalWthDiscount = 0;
@@ -195,7 +201,16 @@ export class CartComponent implements OnInit {
 
   updateProductsInCart(ischeckout: boolean) {
     if (!this.isSameVendor() && ischeckout) {
-      this.toastr.error('Please checkout items from one vendor', 'Error!!');
+      // this.toastr.error('Please checkout items from one vendor', 'Error!!');
+      const confirmdialogRef = this.confirmdialog.open(
+        ConfirmationDialogComponent,
+        {
+          data: {
+            message: 'Please, checkout items from one vendor !!',
+            isConfirm : false
+          },
+        }
+      );
       return;
     }
 

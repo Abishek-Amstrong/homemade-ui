@@ -45,7 +45,7 @@
         <div class="categories_carousel">
             <owl-carousel-o [options]="customOptionsTwo">
                 <ng-container *ngFor="let menu of menus; let i = index;">
-                    <ng-template carouselSlide class="slide" [id]="'image' + i" *ngIf="i<2">
+                    <ng-template carouselSlide class="slide" [id]="'image' + i">
                         <div class="item_version_2">
                             <a href="javascript:void(0)" (click)="navigateToComponent(menu.path)">
                                 <figure>
@@ -56,11 +56,6 @@
                                     </div>
                                 </figure>
                             </a>
-                        </div>
-                    </ng-template>
-                    <ng-template carouselSlide class="slide" [id]="'image' + i" *ngIf="i>=2">
-                        <div class="item_version_2">
-                            &nbsp;
                         </div>
                     </ng-template>
                 </ng-container>
@@ -129,7 +124,7 @@
             </div>
         </div>
 
-        <div class="card type3" id="section1">
+        <div class="card type3" id="section2">
             <div class="main_title">
                 <h2>Sugar & Spices</h2>
                 <a routerLink="/sugar-spice">View All</a>
@@ -152,6 +147,38 @@
                                 <div class="prod_cta">
                                     <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
                                         (click)="orderNow($event, food)">Order Now</a>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--./-->
+            </div>
+        </div>
+
+        <div class="card type3" id="section3">
+            <div class="main_title">
+                <h2>Home Decor</h2>
+                <a routerLink="/home-decor">View All</a>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-3" *ngFor="let item of homeDecorData">
+                    <div class="cardbody">
+                        <a href="javascript:void(0)" routerLink="/items/detail/{{item.ItemItemId}}">
+                            <div class="imgBox">
+                                <figure>
+                                    <img [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                                        alt="" class="lazy loaded img-fluid" data-was-processed="true">
+                                </figure>
+                            </div>
+                            <div class="contentBox">
+                                <div class="pro_detials">
+                                    <h3>{{item.ItemName}}</h3>
+                                    <p class="price">Rs.{{item.ItemPrice}}</p>
+                                </div>
+                                <div class="prod_cta">
+                                    <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                        (click)="orderNow($event, item)">Order Now</a>
                                 </div>
                             </div>
                         </a>
@@ -198,6 +225,70 @@
                     </div>
                 </ng-template>
             </owl-carousel-o>
+        </div>
+
+        <div class="card type3" id="section4">
+            <div class="main_title">
+                <h2>Fashion</h2>
+                <a routerLink="/fashion">View All</a>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-3" *ngFor="let item of fashionData">
+                    <div class="cardbody">
+                        <a href="javascript:void(0)" routerLink="/items/detail/{{item.ItemItemId}}">
+                            <div class="imgBox">
+                                <figure>
+                                    <img [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                                        alt="" class="lazy loaded img-fluid" data-was-processed="true">
+                                </figure>
+                            </div>
+                            <div class="contentBox">
+                                <div class="pro_detials">
+                                    <h3>{{item.ItemName}}</h3>
+                                    <p class="price">Rs.{{item.ItemPrice}}</p>
+                                </div>
+                                <div class="prod_cta">
+                                    <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                        (click)="orderNow($event, item)">Order Now</a>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--./-->
+            </div>
+        </div>
+
+        <div class="card type3" id="section5">
+            <div class="main_title">
+                <h2>Plants & Planters</h2>
+                <a routerLink="/plants-planters">View All</a>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-lg-3" *ngFor="let item of plantsAndPlantersData">
+                    <div class="cardbody">
+                        <a href="javascript:void(0)" routerLink="/items/detail/{{item.ItemItemId}}">
+                            <div class="imgBox">
+                                <figure>
+                                    <img [src]="item.ItemImageUrl ? item.ItemImageUrl : 'assets/images/lazy-placeholder.png'"
+                                        alt="" class="lazy loaded img-fluid" data-was-processed="true">
+                                </figure>
+                            </div>
+                            <div class="contentBox">
+                                <div class="pro_detials">
+                                    <h3>{{item.ItemName}}</h3>
+                                    <p class="price">Rs.{{item.ItemPrice}}</p>
+                                </div>
+                                <div class="prod_cta">
+                                    <a class="btn_1 outline type_3 modal_dialog" href="javascript:void(0)"
+                                        (click)="orderNow($event, item)">Order Now</a>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!--./-->
+            </div>
         </div>
 
     </div>

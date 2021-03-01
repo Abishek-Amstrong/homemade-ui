@@ -17,6 +17,7 @@ import { AuthService } from '../shared/services/auth.service';
 import { CartService } from '../shared/services/cart.service';
 import { FoodService } from '../shared/services/food.service';
 import { OfferService } from '../shared/services/offer.service';
+import { ItemService } from '../shared/services/item.service'
 import { handleError } from '../shared/helpers/error-handler';
 
 export interface Menu {
@@ -62,6 +63,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   recentOrderedData: Item[];
   foodData: Item[];
   sugarSpiceData: Item[];
+  homeDecorData: Item[];
+  fashionData: Item[];
+  plantsAndPlantersData: Item[];
   topBanner: Banner[];
   bottomBanner: Banner[];
   user: any;
@@ -142,7 +146,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private cartService: CartService,
     private foodService: FoodService,
-    private offerService: OfferService
+    private offerService: OfferService,
+    private itemService : ItemService
   ) {
     this.authService.setHeaderDisplayStatus(false);
     this.cartService.getCartCountAPIResp();
@@ -170,18 +175,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       {
         imgUrl: 'assets/images/home_cat_bath&beauty.jpg',
         label: 'Plants & Planters',
-        path: 'plants',
+        path: 'plants-planters',
       },
     ];
 
     this.recentOrderedData = [];
-
     this.foodData = [];
-
     this.sugarSpiceData = [];
+    this.homeDecorData = [];
+    this.fashionData = [];
+    this.plantsAndPlantersData = [];
 
     this.topBanner = [];
-
     this.bottomBanner = [];
   }
 
@@ -189,6 +194,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.loadRecentOrderedItems();
     this.loadFoodDetails();
     this.loadSugarDetails();
+    this.loadHomeDecorDetails();
+    this.loadFashionDetails();
+    this.loadPlantsAndPlantersetails();
     this.loadTopBannerData();
     this.loadBottomBannerData();
     this.authService.user.subscribe((x) => {
@@ -327,6 +335,69 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           }
         }
       });
+  }
+
+  loadHomeDecorDetails(){
+    this.itemService
+    .getHomeDecorItemsForHomepage()
+    .subscribe((resp: any) => {
+      for (let item of resp) {
+        if (item) {
+          let currItem = {
+            ItemImageUrl: item.imagePath,
+            ItemName: item.itemname,
+            ItemPrice: item.price,
+            ItemItemId: item.itemId,
+            ItemVendorId: item.VendorVendorId,
+          };
+          this.homeDecorData.push(currItem);
+        }
+      }
+    },(err:any)=>{
+      handleError(err);
+    });
+  }
+
+  loadFashionDetails(){
+    this.itemService
+    .getFashionItemsForHomepage()
+    .subscribe((resp: any) => {
+      for (let item of resp) {
+        if (item) {
+          let currItem = {
+            ItemImageUrl: item.imagePath,
+            ItemName: item.itemname,
+            ItemPrice: item.price,
+            ItemItemId: item.itemId,
+            ItemVendorId: item.VendorVendorId,
+          };
+          this.fashionData.push(currItem);
+        }
+      }
+    },(err:any)=>{
+      handleError(err);
+    });
+  }
+
+  loadPlantsAndPlantersetails(){
+    this.itemService
+    .getPlantAndPlanterItemsForHomePage()
+    .subscribe((resp: any) => {
+      for (let item of resp) {
+        if (item) {
+          let currItem = {
+            ItemImageUrl: item.imagePath,
+            ItemName: item.itemname,
+            ItemPrice: item.price,
+            ItemItemId: item.itemId,
+            ItemVendorId: item.VendorVendorId,
+          };
+          this.plantsAndPlantersData.push(currItem);
+        }
+      }
+    },(err:any)=>{
+      handleError(err);
+    });
   }
 
   loadTopBannerData() {

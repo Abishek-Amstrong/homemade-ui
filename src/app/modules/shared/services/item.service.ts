@@ -35,4 +35,9 @@ export class ItemService {
   {
     return this.http.get(`${environment.apiUrl}/plantsandplanters`);
   }
+
+  getHomeDecorPageDetails() : Observable<any>
+  {
+    return this.http.get(`${environment.apiUrl}/homedecorpage`);
+  }
 }

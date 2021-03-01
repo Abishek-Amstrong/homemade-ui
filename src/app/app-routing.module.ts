@@ -39,6 +39,21 @@ const routes: Routes = [
       import('./modules/foods/foods.module').then((m) => m.FoodsModule),
   },
   {
+    path: 'home-decor',
+    loadChildren: () =>
+      import('./modules/home-decor/home-decor.module').then((m)=>m.HomeDecorModule),
+  },
+  {
+    path: 'fashion',
+    loadChildren: () =>
+      import('./modules/fashion/fashion.module').then((m)=>m.FashionModule),
+  },
+  {
+    path: 'plants-planters',
+    loadChildren: () =>
+      import('./modules/plants-planters/plants-planters.module').then((m)=>m.PlantsPlantersModule),
+  },
+  {
     path: 'terms-condition',
     loadChildren: () =>
       import('./modules/terms-and-condition/terms-and-condition.module').then(

@@ -132,17 +132,53 @@
           </ul>
         </li>
         <!--./-->
-        <!-- <li class="submenu">
-          <a routerLink="/home" class="show-submenu">Home Decor</a>
-        </li> -->
+        <li class="submenu">
+          <a routerLink="/home-decor" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Home Decor</a>
+          <ul [ngClass]="{show_normal : is_show_normal}">
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Decor')" class="show-submenu">Decor</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Home Furnishing')" class="show-submenu">Home Furnishing</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Arts & Crafts')" class="show-submenu">Arts & Crafts</a>
+            </li>
+          </ul>
+        </li>
         <!--./-->
-        <!-- <li class="submenu">
-          <a routerLink="/home" class="show-submenu">Fashion</a>
-        </li> -->
+        <li class="submenu">
+          <a routerLink="/Fashion" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Fashion</a>
+          <ul [ngClass]="{show_normal : is_show_normal}">
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Accessories')" class="show-submenu">Accessories</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Jewellery')" class="show-submenu">Jewellery</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Bags')" class="show-submenu">Bags</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Babywear')" class="show-submenu">Babywear</a>
+            </li>
+          </ul>
+        </li>
         <!--./-->
-        <!-- <li class="submenu">
-          <a routerLink="/home" class="show-submenu">Plants & Planters</a>
-        </li> -->
+        <li class="submenu">
+          <a routerLink="/Plants-Planters" class="show-submenu" (click)="expandCollapseSandwichSubMenu()">Plants & Planters</a>
+          <ul [ngClass]="{show_normal : is_show_normal}">
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Medicinal Plants')" class="show-submenu">Medicinal Plants</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Air Purifying Plants')" class="show-submenu">Air Purifying Plants</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Decorative Plants')" class="show-submenu">Decorative Plants</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Seasonal Plants')" class="show-submenu">Seasonal Plants</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Herbs')" class="show-submenu">Herbs</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Indoor Plants')" class="show-submenu">Indoor Plants</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Outdoor Plants')" class="show-submenu">Outdoor Plants</a>
+            </li>
+            <li><a href="javascript:void(0)" (click)="navigateToCategory('Planters')" class="show-submenu">Planters</a>
+            </li>
+          </ul>
+        </li>
         <!--./-->
       </ul>
     </nav>

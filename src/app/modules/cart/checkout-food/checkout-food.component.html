@@ -227,7 +227,7 @@
             <div class="box_order">
                 <div class="box-mobile dHide">
                     <div class="summary-link"><a (click)="expandOrderSummary()">View Order Summary</a></div>
-                    <div class="price">&#8377; 650</div>
+                    <div class="price">{{(subTotal - discount + deliveryCost) > 0 ? ((subTotal - discount + deliveryCost) | currency:'INR') : ''}}</div>
                 </div>
                 <div class="main" [ngClass]="{full : displayOrderSummary}">
                     <ul>

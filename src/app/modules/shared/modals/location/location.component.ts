@@ -6,7 +6,10 @@ import {
   ElementRef,
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {} from 'googlemaps';
+import { } from 'googlemaps';
+import { logging } from 'protractor';
+import { last } from 'rxjs/operators';
+import { handleError } from '../../helpers/error-handler';
 import { LocationService } from '../../services/location.service';
 
 @Component({
@@ -16,23 +19,24 @@ import { LocationService } from '../../services/location.service';
 })
 export class LocationComponent implements OnInit {
   location: string;
+  geocoder: google.maps.Geocoder;
   @ViewChild('deliveryLocation') deliveryInput: ElementRef | any;
 
   constructor(
     public dialogRef: MatDialogRef<LocationComponent>,
     @Inject(MAT_DIALOG_DATA) public projectData: any,
-    private locationService : LocationService
+    private locationService: LocationService
   ) {
     this.location = '';
+    this.geocoder = new google.maps.Geocoder();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getUserLocation();
+  }
 
   ngAfterViewInit() {
-    const geocoder = new google.maps.Geocoder();
     if (navigator.geolocation) {
-      this.geocodeLatLng(geocoder);
-
       const options = {
         componentRestrictions: { country: 'IN' },
         fields: ['formatted_address', 'address_component', 'geometry', 'name'],
@@ -50,52 +54,22 @@ export class LocationComponent implements OnInit {
       mapAutoComplete.setFields(['address_component']);
       mapAutoComplete.addListener('place_changed', () => {
         const place = mapAutoComplete?.getPlace();
-       
-        // console.log(JSON.stringify(place));
-        // and then fill-in the corresponding field on the form.
-        if (place && place.address_components) {
-          let address = '';
-          let city = '';
-          let state = '';
-          let pinCode = '';
 
-          for (const component of place.address_components) {
-            const addressType = component.types;
-            // console.log(addressType);
-            if (
-              addressType.indexOf('sublocality_level_2') !== -1 ||
-              addressType.indexOf('sublocality_level_1') !== -1
-            ) {
-              address = address
-                ? address + ', ' + component.long_name
-                : component.long_name;
-            } else if (addressType.indexOf('locality') !== -1) {
-              city = component.long_name;
-              this.locationService.CurrentCity = city;
-              // console.log(city);
-            } else if (
-              addressType.indexOf('administrative_area_level_1') !== -1
-            ) {
-              state = component.long_name;
-            } else if (addressType.indexOf('postal_code') !== -1) {
-              pinCode = component.long_name;
-            }
-          }
-        }
-        if(place && place.geometry)
-        {
+        if (place && place.geometry) {
           this.locationService.CurrentLocation = {
-            lat : place.geometry.location.lat(),
-            lng : place.geometry.location.lng()
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
           };
-          // console.log(JSON.stringify( this.locationService.CurrentLocation));
         }
+        if (place && place.address_components && place.formatted_address) {
+          this.formatAddressComponents(place.address_components, place.formatted_address);
+        }
+
       });
     }
   }
 
   getCurrentLocation() {
-    const geocoder = new google.maps.Geocoder();
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.locationService.CurrentLocation = {
@@ -103,7 +77,7 @@ export class LocationComponent implements OnInit {
           lng: position.coords.longitude,
         };
 
-        geocoder.geocode(
+        this.geocoder.geocode(
           { location: this.locationService.CurrentLocation },
           (
             results: google.maps.GeocoderResult[],
@@ -111,32 +85,7 @@ export class LocationComponent implements OnInit {
           ) => {
             if (status === 'OK') {
               if (results[0]) {
-                this.location = results[0].formatted_address;
-                let address = '';
-                let city = '';
-                let state = '';
-                let pinCode = '';
-
-                for (const component of results[0].address_components) {
-                  const addressType = component.types;
-                  if (
-                    addressType.indexOf('sublocality_level_2') !== -1 ||
-                    addressType.indexOf('sublocality_level_1') !== -1
-                  ) {
-                    address = address
-                      ? address + ', ' + component.long_name
-                      : component.long_name;
-                  } else if (addressType.indexOf('locality') !== -1) {
-                    city = component.long_name;
-                    this.locationService.CurrentCity = city;
-                  } else if (
-                    addressType.indexOf('administrative_area_level_1') !== -1
-                  ) {
-                    state = component.long_name;
-                  } else if (addressType.indexOf('postal_code') !== -1) {
-                    pinCode = component.long_name;
-                  }
-                }
+                this.formatAddressComponents(results[0].address_components, results[0].formatted_address);
               } else {
                 console.log('No results found');
               }
@@ -149,59 +98,56 @@ export class LocationComponent implements OnInit {
     }
   }
 
-  geocodeLatLng(geocoder: google.maps.Geocoder) {
-    geocoder.geocode(
-      { location: this.locationService.CurrentLocation },
-      (
-        results: google.maps.GeocoderResult[],
-        status: google.maps.GeocoderStatus
-      ) => {
-        if (status === 'OK') {
-          if (results[0]) {
-            this.location = results[0].formatted_address;
-            let address = '';
-            let city = '';
-            let state = '';
-            let pinCode = '';
-
-            for (const component of results[0].address_components) {
-              const addressType = component.types;
-              if (
-                addressType.indexOf('sublocality_level_2') !== -1 ||
-                addressType.indexOf('sublocality_level_1') !== -1
-              ) {
-                address = address
-                  ? address + ', ' + component.long_name
-                  : component.long_name;
-              } else if (addressType.indexOf('locality') !== -1) {
-                city = component.long_name;
-                this.locationService.CurrentCity = city;
-              } else if (
-                addressType.indexOf('administrative_area_level_1') !== -1
-              ) {
-                state = component.long_name;
-              } else if (addressType.indexOf('postal_code') !== -1) {
-                pinCode = component.long_name;
-              }
-            }
-          } else {
-            console.log('No results found');
-          }
-        } else {
-          console.log('Geocoder failed due to: ' + status);
-        }
+  getUserLocation() {
+    this.locationService.getUserLocation().subscribe((resp: any) => {
+      if (resp.data.Address) {
+        let address = JSON.parse(resp.data.Address);
+        this.locationService.CurrentAddress = address;
+        this.locationService.CurrentCity = address.city;
+        this.location = address.formattedAddress;
       }
-    );
+      if (resp.data.lat && resp.data.long) {
+        this.locationService.CurrentLocation = { lat: resp.data.lat, lng: resp.data.long };
+      }
+    })
   }
 
-  geolocate() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-      });
+  formatAddressComponents(address_components: any, formatted_address : any) {
+    console.log(JSON.stringify(address_components));
+    let address = '';
+    let city = '';
+    let state = '';
+    let pinCode = '';
+    for (const component of address_components) {
+      const addressType = component.types;
+      if (
+        addressType.indexOf('sublocality_level_2') !== -1 ||
+        addressType.indexOf('sublocality_level_1') !== -1
+      ) {
+        address = address
+          ? address + ', ' + component.long_name
+          : component.long_name;
+      } else if (addressType.indexOf('locality') !== -1) {
+        city = component.long_name;
+      } else if (
+        addressType.indexOf('administrative_area_level_1') !== -1
+      ) {
+        state = component.long_name;
+      } else if (addressType.indexOf('postal_code') !== -1) {
+        pinCode = component.long_name;
+      }
     }
+
+    this.locationService.CurrentAddress = {
+      formattedAddress: formatted_address,
+      address: address,
+      city: city,
+      state: state,
+      zip: pinCode
+    };
+    this.locationService.CurrentCity = city;
+    this.location = formatted_address;
+
+    this.locationService.updateUserLocation().subscribe((resp) => { }, (err) => { handleError(err) });
   }
 }

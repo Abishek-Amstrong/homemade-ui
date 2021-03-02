@@ -72,7 +72,7 @@ export class LocationComponent implements OnInit {
             } else if (addressType.indexOf('locality') !== -1) {
               city = component.long_name;
               this.locationService.CurrentCity = city;
-              console.log(city);
+              // console.log(city);
             } else if (
               addressType.indexOf('administrative_area_level_1') !== -1
             ) {

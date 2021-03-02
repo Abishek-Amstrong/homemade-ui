@@ -12,8 +12,9 @@ export class OrderConfirmComponent implements OnInit {
   orderAddress : any;
   orderData : any;
   orderId: string;
-  constructor(private cartService : CartService,
-    private activatedRoute: ActivatedRoute) 
+  constructor( private router: Router,
+    private cartService : CartService,
+    private activatedRoute: ActivatedRoute ) 
   {
     this.orderId = this.activatedRoute.snapshot.paramMap.get('id') || '';
   }
@@ -29,6 +30,9 @@ export class OrderConfirmComponent implements OnInit {
       // console.log(JSON.stringify(data));
       this.orderData = data;
       this.orderAddress = JSON.parse(data.address);
+      setTimeout(()=>{
+        this.router.navigate(['/']);
+      },3000)
     },
     (err:any)=>{
       handleError(err);

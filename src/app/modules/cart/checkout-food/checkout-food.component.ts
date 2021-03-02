@@ -129,6 +129,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     this.validateDeliveryLocation();
     // this.calculateTotal();
     this.authService.setHeaderDisplayStatus(false);
+    this.loadUserSelectedLocation();
   }
 
   ngAfterViewInit() {
@@ -187,19 +188,38 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
           deliveryLocation: `${place.formatted_address}`,
           address: place.formatted_address,
           city: city,
-          state: this.retriveState(state),
           pinCode: pinCode,
         });
+        this.retriveState(state);
       }
     });
   }
 
   //map state with the selected text
   retriveState(str: string) {
-    const selectedState = this.allStateData.filter((state) =>
-      state.toLowerCase().includes(str.toLowerCase())
-    );
-    return selectedState[0];
+    if (this.allStateData.length > 0) {
+      const selectedState = this.allStateData.filter((state) =>
+        state.toLowerCase().includes(str.toLowerCase())
+      );
+      this.deliveryForm.patchValue({
+        state: selectedState[0]
+      });
+    }
+    else {
+      this.profileService.getAllStateDetails().subscribe((data: any) => {
+        if (data != null && data != undefined) {
+          data.forEach((element: string) => {
+            this.allStateData.push(element);
+          });
+          const selectedState = this.allStateData.filter((state) =>
+            state.toLowerCase().includes(str.toLowerCase())
+          );
+          this.deliveryForm.patchValue({
+            state: selectedState[0]
+          });
+        }
+      });
+    }
   }
 
   onLocationChange() {
@@ -510,13 +530,13 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   }
 
   loadAddressDetails() {
-    this.profileService.getAllStateDetails().subscribe((data: any) => {
-      if (data != null && data != undefined) {
-        data.forEach((element: string) => {
-          this.allStateData.push(element);
-        });
-      }
-    });
+    // this.profileService.getAllStateDetails().subscribe((data: any) => {
+    //   if (data != null && data != undefined) {
+    //     data.forEach((element: string) => {
+    //       this.allStateData.push(element);
+    //     });
+    //   }
+    // });
     this.profileService.getAddressDetails().subscribe(
       (resp: any) => {
         // /console.log(resp);
@@ -524,10 +544,10 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
           this.deliveryForm.patchValue({
             deliveryType: 'now',
             fullName: this.userName,
-            address: resp[0].address,
-            city: resp[0].city,
-            state: resp[0].state,
-            pinCode: resp[0].zip,
+            // address: resp[0].address,
+            // city: resp[0].city,
+            // state: resp[0].state,
+            // pinCode: resp[0].zip,
           });
           //after loading address validate the form
           Object.keys(this.deliveryForm.controls).forEach((key) => {
@@ -692,5 +712,60 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       }
       return null;
     };
+  }
+
+  //assign the user selected location as delivery address
+  loadUserSelectedLocation() {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode(
+      { location: this.locationService.CurrentLocation },
+      (
+        results: google.maps.GeocoderResult[],
+        status: google.maps.GeocoderStatus
+      ) => {
+        if (status === 'OK') {
+          if (results[0]) {
+            let location = results[0].formatted_address;
+            let address = '';
+            let city = '';
+            let state = '';
+            let pinCode = '';
+
+            for (const component of results[0].address_components) {
+              const addressType = component.types;
+              if (
+                addressType.indexOf('sublocality_level_2') !== -1 ||
+                addressType.indexOf('sublocality_level_1') !== -1
+              ) {
+                address = address
+                  ? address + ', ' + component.long_name
+                  : component.long_name;
+              } else if (addressType.indexOf('locality') !== -1) {
+                city = component.long_name;
+              } else if (
+                addressType.indexOf('administrative_area_level_1') !== -1
+              ) {
+                state = component.long_name;
+              } else if (addressType.indexOf('postal_code') !== -1) {
+                pinCode = component.long_name;
+              }
+            }
+            //assign the reverse geocoded location as delivery address
+            this.deliveryForm.patchValue({
+              deliveryLocation: location,
+              address: location,
+              city: city,
+              pinCode: pinCode,
+            });
+            this.retriveState(state);
+            
+          } else {
+            console.log('No results found');
+          }
+        } else {
+          console.log('Geocoder failed due to: ' + status);
+        }
+      }
+    );
   }
 }

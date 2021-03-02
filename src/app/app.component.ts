@@ -203,7 +203,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   setLocation() {
-    var city = this.locationService.CurrentCity;
+    let city = this.locationService.CurrentCity;
+    let locationLat = this.locationService.CurrentLocation.lat;
+    let locationLng = this.locationService.CurrentLocation.lng;
     const addDialogRef = this.dialog.open(LocationComponent, {
       width: this.getBrowserWidth(),
       disableClose: true,
@@ -211,7 +213,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
     addDialogRef.afterClosed().subscribe((result) => {
       let newcity = this.locationService.CurrentCity;
-      if(city != newcity)
+      let newLocationLat = this.locationService.CurrentLocation.lat;
+      let newlocationLng = this.locationService.CurrentLocation.lng;
+      if(city != newcity || locationLat != newLocationLat || locationLng != newlocationLng)
       {
         location.reload();
       }

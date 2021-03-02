@@ -109,4 +109,9 @@ export class LocationService {
     );
   }
 
+  getGeoCodeAddress(location: any) {
+    let geocodeaddress: any;
+    
+  }
+
 }

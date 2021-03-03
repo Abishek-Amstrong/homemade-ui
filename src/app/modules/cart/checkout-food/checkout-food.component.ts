@@ -112,8 +112,8 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.deliveryForm = this.formBuilder.group({
       deliveryLocation: '',
-      deliveryType: ['', Validators.required],
-      deliveryDay: ['', Validators.required],
+      deliveryType: ['now', Validators.required],
+      deliveryDay: ['Today', Validators.required],
       deliveryTime: ['', [Validators.required, this.isTimeValid()]],
       fullName: ['', Validators.required],
       address: ['', Validators.required],
@@ -121,6 +121,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
       state: ['', Validators.required],
       pinCode: ['', Validators.required],
     });
+    this.selectedDay = 'Today';
     this.onProfileLocationChange();
     this.onDeliveryFormValueChanges();
     //this.deliveryType?.setValue('now');
@@ -542,7 +543,6 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         // /console.log(resp);
         if (resp.length) {
           this.deliveryForm.patchValue({
-            deliveryType: 'now',
             fullName: this.userName,
             // address: resp[0].address,
             // city: resp[0].city,
@@ -574,7 +574,7 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   }
 
   getDeliveryCost() {
-    if(this.userCart && this.userCart[0].ItemVendorId)
+    if(this.userCart[0] && this.userCart[0].ItemVendorId)
     {
       this.deliveryCost = 0;
       this.total = this.subTotalWthDiscount + this.deliveryCost;
@@ -716,56 +716,22 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
   //assign the user selected location as delivery address
   loadUserSelectedLocation() {
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode(
-      { location: this.locationService.CurrentLocation },
-      (
-        results: google.maps.GeocoderResult[],
-        status: google.maps.GeocoderStatus
-      ) => {
-        if (status === 'OK') {
-          if (results[0]) {
-            let location = results[0].formatted_address;
-            let address = '';
-            let city = '';
-            let state = '';
-            let pinCode = '';
-
-            for (const component of results[0].address_components) {
-              const addressType = component.types;
-              if (
-                addressType.indexOf('sublocality_level_2') !== -1 ||
-                addressType.indexOf('sublocality_level_1') !== -1
-              ) {
-                address = address
-                  ? address + ', ' + component.long_name
-                  : component.long_name;
-              } else if (addressType.indexOf('locality') !== -1) {
-                city = component.long_name;
-              } else if (
-                addressType.indexOf('administrative_area_level_1') !== -1
-              ) {
-                state = component.long_name;
-              } else if (addressType.indexOf('postal_code') !== -1) {
-                pinCode = component.long_name;
-              }
-            }
-            //assign the reverse geocoded location as delivery address
-            this.deliveryForm.patchValue({
-              deliveryLocation: location,
-              address: location,
-              city: city,
-              pinCode: pinCode,
-            });
-            this.retriveState(state);
-            
-          } else {
-            console.log('No results found');
-          }
-        } else {
-          console.log('Geocoder failed due to: ' + status);
-        }
+    this.locationService.getUserLocation().subscribe((resp: any) => {
+      if (resp.data.Address) {
+        let address = JSON.parse(resp.data.Address);
+        this.locationService.CurrentAddress = address;
+        this.locationService.CurrentCity = address.city;
+        this.deliveryForm.patchValue({
+          deliveryLocation: this.locationService.CurrentAddress?.formattedAddress,
+          address: this.locationService.CurrentAddress?.formattedAddress,
+          city: this.locationService.CurrentAddress?.city,
+          pinCode: this.locationService.CurrentAddress?.zip
+        });
+        this.retriveState(this.locationService.CurrentAddress?.state);
       }
-    );
+      if (resp.data.lat && resp.data.long) {
+        this.locationService.CurrentLocation = { lat: Number(resp.data.lat), lng: Number(resp.data.long) };
+      }
+    });
   }
 }

@@ -54,15 +54,14 @@ export class LocationComponent implements OnInit {
       mapAutoComplete.setFields(['address_component']);
       mapAutoComplete.addListener('place_changed', () => {
         const place = mapAutoComplete?.getPlace();
-
         if (place && place.geometry) {
           this.locationService.CurrentLocation = {
             lat: place.geometry.location.lat(),
             lng: place.geometry.location.lng()
           };
         }
-        if (place && place.address_components && place.formatted_address) {
-          this.formatAddressComponents(place.address_components, place.formatted_address);
+        if (place && place.address_components && place.formatted_address && place.name) {
+          this.formatAddressComponents(place.address_components, place.formatted_address, place.name);
         }
 
       });
@@ -107,13 +106,12 @@ export class LocationComponent implements OnInit {
         this.location = address.formattedAddress;
       }
       if (resp.data.lat && resp.data.long) {
-        this.locationService.CurrentLocation = { lat: resp.data.lat, lng: resp.data.long };
+        this.locationService.CurrentLocation = { lat: Number(resp.data.lat), lng: Number(resp.data.long) };
       }
     })
   }
 
-  formatAddressComponents(address_components: any, formatted_address : any) {
-    console.log(JSON.stringify(address_components));
+  formatAddressComponents(address_components: any, formatted_address: string, name: string = '') {
     let address = '';
     let city = '';
     let state = '';
@@ -138,15 +136,19 @@ export class LocationComponent implements OnInit {
       }
     }
 
+    this.updateUserLocation(name, formatted_address, address, city, state, pinCode);
+  }
+
+  updateUserLocation(name: string, formatted_address: string, address: string, city: string, state: string, pinCode: string) {
     this.locationService.CurrentAddress = {
-      formattedAddress: formatted_address,
+      formattedAddress: name == '' ? formatted_address : `${name}, ${formatted_address}`,
       address: address,
       city: city,
       state: state,
       zip: pinCode
     };
     this.locationService.CurrentCity = city;
-    this.location = formatted_address;
+    this.location = name == '' ? formatted_address : `${name}, ${formatted_address}`;
 
     this.locationService.updateUserLocation().subscribe((resp) => { }, (err) => { handleError(err) });
   }

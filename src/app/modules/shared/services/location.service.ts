@@ -1,15 +1,26 @@
 import { Injectable } from '@angular/core';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import {} from 'googlemaps';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class LocationService {
   public locationSubject : BehaviorSubject<any>;
-  constructor() {
+  private address : any;
+  constructor(private http: HttpClient,
+              private authservice : AuthService) {
     // this.locationService.currentLocation = { lat: 28.535517, lng: 77.391029 };
     this.locationSubject = new BehaviorSubject<any>(this.CurrentLocation);
+    this.address = {} as any;
    }
 
   async getCurrentLocationLatLong() {
@@ -65,6 +76,16 @@ export class LocationService {
     sessionStorage.setItem('City',city);
   }
 
+  public get CurrentAddress() :any
+  {
+    return this.address;
+  }
+
+  public set CurrentAddress(address : any)
+  {
+    this.address = address;
+  }
+
   geocodeLatLng(geocoder: google.maps.Geocoder) {
     geocoder.geocode(
       { location: this.CurrentLocation },
@@ -109,9 +130,23 @@ export class LocationService {
     );
   }
 
-  getGeoCodeAddress(location: any) {
-    let geocodeaddress: any;
-    
+  getUserLocation()
+  {
+    let userId = this.authservice.getUserId();
+    return this.http.get(`${environment.apiUrl}/userlocation/${userId}`);
   }
 
+  updateUserLocation() : Observable<any>
+  {
+    let userId = this.authservice.getUserId();
+    let lat = this.CurrentLocation.lat;
+    let lng = this.CurrentLocation.lng;
+    let address = this.CurrentAddress;
+    return this.http.put(`${environment.apiUrl}/userlocation`, {
+      userId,
+      lat,
+      lng,
+      address
+    });
+  }
 }

@@ -6,7 +6,7 @@
     <form name="location-form">
         <div class="form-group changeLocation">
             <input type="text" class="form-control" placeholder="Enter street name, area etc..." [(ngModel)]="location"
-                (onfocus)="geolocate()" #deliveryLocation name="location">
+                #deliveryLocation name="location">
             <span><a href="javascript:void(0)" title="Change Location" (click)="getCurrentLocation()">Get current
                     location</a></span>
         </div>

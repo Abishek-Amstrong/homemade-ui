@@ -498,12 +498,13 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
 
   loadUserCart() {
     sessionStorage.setItem('fromSession', JSON.stringify(false));
+    this.userCart = [];
     this.cartService.getProductsInUserCart().subscribe((response: any) => {
       // console.log(JSON.stringify(response));
       if (response == null || response == undefined || response.length == 0) {
-        this.userCart = [];
         this.calculateTotal();
-        //this.toastr.success('Cart is Empty',"Success!!");
+        this.IsValidDelivery = false;
+        this.toastr.error('Please add items in cart to checkout',"Error!!");
       } else {
         for (let item of response) {
           item.details = JSON.parse(item.details);
@@ -538,25 +539,25 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
     //     });
     //   }
     // });
-    this.profileService.getAddressDetails().subscribe(
-      (resp: any) => {
-        // /console.log(resp);
-        if (resp.length) {
-          this.deliveryForm.patchValue({
-            fullName: this.userName,
-            // address: resp[0].address,
-            // city: resp[0].city,
-            // state: resp[0].state,
-            // pinCode: resp[0].zip,
-          });
-          //after loading address validate the form
-          Object.keys(this.deliveryForm.controls).forEach((key) => {
-            this.deliveryForm.get(key)?.markAsDirty();
-          });
-        }
-      },
-      (err) => console.log(err)
-    );
+    // this.profileService.getAddressDetails().subscribe(
+    //   (resp: any) => {
+    //     // /console.log(resp);
+    //     if (resp.length) {
+    //       this.deliveryForm.patchValue({
+    //         fullName: this.userName,
+    //         // address: resp[0].address,
+    //         // city: resp[0].city,
+    //         // state: resp[0].state,
+    //         // pinCode: resp[0].zip,
+    //       });
+    //       //after loading address validate the form
+    //       Object.keys(this.deliveryForm.controls).forEach((key) => {
+    //         this.deliveryForm.get(key)?.markAsDirty();
+    //       });
+    //     }
+    //   },
+    //   (err) => console.log(err)
+    // );
   }
 
   calculateTotal() {
@@ -618,7 +619,20 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         item.ItemQuantity -= 1;
         item.ItemUpdated = true;
         this.calculateTotal();
+        break;
       }
+      else if( 
+        item.ItemCartId == cartId &&
+        item.ItemItemId == itemId &&
+        item.ItemQuantity == 1)
+        {
+          item.ItemQuantity -= 1;
+          item.ItemUpdated = true;
+          this.cartService.deleteItemInCart(cartId, itemId).subscribe((data : any)=>{
+            this.loadUserCart();
+          });
+          break;
+        }
     }
   }
 
@@ -721,7 +735,9 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
         let address = JSON.parse(resp.data.Address);
         this.locationService.CurrentAddress = address;
         this.locationService.CurrentCity = address.city;
+        let userVal: any = this.authService.userValue;
         this.deliveryForm.patchValue({
+          fullName: userVal?.user.firstname,
           deliveryLocation: this.locationService.CurrentAddress?.formattedAddress,
           address: this.locationService.CurrentAddress?.formattedAddress,
           city: this.locationService.CurrentAddress?.city,

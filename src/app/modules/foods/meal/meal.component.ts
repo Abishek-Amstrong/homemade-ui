@@ -214,6 +214,7 @@ export class MealComponent implements OnInit {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
       data: { component: 'breakfast-component', data: food },
+      height: '300px'
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return false;

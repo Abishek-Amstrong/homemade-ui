@@ -215,6 +215,7 @@ export class FoodSouthindianComponent implements OnInit {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
       data: { component: 'southindian-component', data: food },
+      height: '300px'
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return false;

@@ -17,24 +17,13 @@
                     <span class="checkmark"></span>
                 </label>
             </li>
-            <!-- <li>
-                <label class="container_radio">Large<span>+ $5.30</span>
-                    <input type="radio" value="option2" name="options_1">
-                    <span class="checkmark"></span>
-                </label>
-            </li>
-            <li>
-                <label class="container_radio">Extra Large<span>+ $8.30</span>
-                    <input type="radio" value="option3" name="options_1">
-                    <span class="checkmark"></span>
-                </label>
-            </li> -->
         </ul>
         <h5  *ngIf="orderData.OrderSimilarProducts != null &&  orderData.OrderSimilarProducts.length > 0">Similar Vendor Products</h5>
         <ul class="clearfix"  *ngIf="orderData.OrderSimilarProducts != null &&  orderData.OrderSimilarProducts.length > 0">
             <li class ="simProducts" *ngFor="let product of orderData.OrderSimilarProducts;let i = index">
-                <label class="container_check"  matTooltip="{{product.ItemName}}"><p class="prodName">{{product.ItemName}}</p>
-                    <span>+ {{product.ItemPrice | currency:'INR'}}</span>
+                <label class="container_check"  matTooltip="{{product.ItemName}}">
+                    <p class="prodName">{{product.ItemName}}</p>
+                    <span class="simProdPrice">+ {{product.ItemPrice | currency:'INR'}}</span>
                     <input type="checkbox" name="ingredients" [value]="product.ItemItemId" [(ngModel)]="product.ItemChecked">
                     <span class="checkmark"></span>
                 </label>
@@ -44,18 +33,6 @@
                     <div class="dec button_inc"  (click)="decSimProdQuantity(product.ItemItemId)">-</div>
                 </span>
             </li>
-            <!-- <li>
-                <label class="container_check">Extra Peppers<span>+ $2.50</span>
-                    <input type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </li>
-            <li>
-                <label class="container_check">Extra Ham<span>+ $4.30</span>
-                    <input type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </li> -->
         </ul>
     </div>
     <div class="footer">
@@ -64,7 +41,7 @@
                 <a href="javascript:void(0)" type="reset" class="btn_1 gradient full-width" (click)="addToCart()">Add to cart</a>
             </div>
             <div class="col-md-6">
-                <a type="reset" class="btn_1 outline full-width" style="margin-top: 20px;" href="javascript:void(0)"
+                <a type="reset" class="btn_1 outline full-width cancel" style="margin-top: 20px;" href="javascript:void(0)"
                     (click)="dialogRef.close()">Cancel</a>
             </div>
         </div>

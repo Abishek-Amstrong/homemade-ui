@@ -410,7 +410,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
       data: { component: 'dashboard-component', data: food },
-      height : '600px'
+      height : '300px'
     });
     dialogRef.afterClosed().subscribe((result) => {});
   }

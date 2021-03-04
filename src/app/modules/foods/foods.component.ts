@@ -417,7 +417,7 @@ export class FoodsComponent implements OnInit {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
       data: { component: 'foodpage-component', data: food },
-      height: '300px'
+      height: '290px'
     });
     dialogRef.afterClosed().subscribe((result) => {});
   }

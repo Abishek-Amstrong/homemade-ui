@@ -108,7 +108,7 @@ export class PlaceOrderComponent implements OnInit {
       }
       if(this.orderData.OrderSimilarProducts.length > 0 )
       {
-        let size  = (300 + (50 * this.orderData.OrderSimilarProducts.length)) + 'px';
+        let size  = (300 + (60 * this.orderData.OrderSimilarProducts.length)) + 'px';
         this.dialogRef.updateSize(undefined,size)
       }
     });

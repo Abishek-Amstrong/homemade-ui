@@ -220,6 +220,7 @@ export class ChefDetailComponent implements OnInit {
     event.stopPropagation();
     const dialogRef = this.dialog.open(PlaceOrderComponent, {
       data: { component: 'food-detail-component', data: food },
+      height: '290px'
     });
     dialogRef.afterClosed().subscribe((result) => {});
     return false;

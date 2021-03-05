@@ -78,12 +78,22 @@ export class LocationService {
 
   public get CurrentAddress() :any
   {
-    return this.address;
+    if(!sessionStorage.getItem('Address'))
+    {
+      sessionStorage.setItem('Address',JSON.stringify({
+        formattedAddress: 'Bhangel, Sector - 106, Noida, Uttar Pradesh',
+        address: 'Bhangel, Sector - 106, Noida, Uttar Pradesh',
+        city: 'Noida',
+        state: 'Uttar Pradesh',
+        zip: '201304'
+      }));
+    }
+    return JSON.parse(sessionStorage.getItem('Address') as any);
   }
 
   public set CurrentAddress(address : any)
   {
-    this.address = address;
+    sessionStorage.setItem('Address',JSON.stringify(address));
   }
 
   geocodeLatLng(geocoder: google.maps.Geocoder) {

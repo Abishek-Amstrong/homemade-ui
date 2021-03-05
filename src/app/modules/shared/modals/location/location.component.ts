@@ -98,17 +98,21 @@ export class LocationComponent implements OnInit {
   }
 
   getUserLocation() {
-    this.locationService.getUserLocation().subscribe((resp: any) => {
-      if (resp.data.Address) {
-        let address = JSON.parse(resp.data.Address);
-        this.locationService.CurrentAddress = address;
-        this.locationService.CurrentCity = address.city;
-        this.location = address.formattedAddress;
-      }
-      if (resp.data.lat && resp.data.long) {
-        this.locationService.CurrentLocation = { lat: Number(resp.data.lat), lng: Number(resp.data.long) };
-      }
-    })
+    if (localStorage.getItem('userId')) {
+      this.locationService.getUserLocation().subscribe((resp: any) => {
+        if (resp.data.Address && resp.data.lat && resp.data.long) {
+          let address = JSON.parse(resp.data.Address);
+          this.locationService.CurrentAddress = address;
+          this.locationService.CurrentCity = address.city;
+          this.locationService.CurrentLocation = { lat: Number(resp.data.lat), lng: Number(resp.data.long) };
+          this.location = this.locationService.CurrentAddress.formattedAddress;
+        }
+      });
+    }
+    else{
+      this.location = this.locationService.CurrentAddress.formattedAddress;
+    }
+
   }
 
   formatAddressComponents(address_components: any, formatted_address: string, name: string = '') {
@@ -149,7 +153,8 @@ export class LocationComponent implements OnInit {
     };
     this.locationService.CurrentCity = city;
     this.location = name == '' ? formatted_address : `${name}, ${formatted_address}`;
-
-    this.locationService.updateUserLocation().subscribe((resp) => { }, (err) => { handleError(err) });
+    if (localStorage.getItem('userId')) {
+      this.locationService.updateUserLocation().subscribe((resp) => { }, (err) => { handleError(err) });
+    }
   }
 }

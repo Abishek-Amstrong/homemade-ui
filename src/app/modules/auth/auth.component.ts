@@ -6,6 +6,7 @@ import { ValidatorService } from '../shared/services/validator.service';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from '../shared/services/cart.service';
 import { LocationService } from '../shared/services/location.service'
+import { handleError } from '../shared/helpers/error-handler';
 
 @Component({
   selector: 'app-auth',
@@ -103,6 +104,23 @@ export class AuthComponent implements OnInit {
               this.authService.setHeaderDisplayStatus(false);
               this.router.navigate(['/', 'home']);
             }
+
+            //if the guest has has changed the lcoation, store it in db
+            if (this.locationService.CurrentLocation.lat != 28.535517 || this.locationService.CurrentLocation.lng != 77.391029) {
+              this.locationService.updateUserLocation().subscribe((resp) => {
+              }, (err) => { handleError(err) });
+            }
+            else {
+              //get the users last location
+              this.locationService.getUserLocation().subscribe((resp: any) => {
+                if (resp.data.Address && resp.data.lat && resp.data.long) {
+                  let address = JSON.parse(resp.data.Address);
+                  this.locationService.CurrentAddress = address;
+                  this.locationService.CurrentCity = address.city;
+                  this.locationService.CurrentLocation = { lat: Number(resp.data.lat), lng: Number(resp.data.long) };
+                }
+              });
+            }
           },
           (error: any) => {
             // this.toasterService.error(handleError(error));
@@ -142,6 +160,23 @@ export class AuthComponent implements OnInit {
               sessionStorage.setItem('signInFromHome', JSON.stringify(false));
               this.authService.setHeaderDisplayStatus(false);
               this.router.navigate(['/', 'home']);
+            }
+
+            //if the guest has has changed the lcoation, store it in db
+            if (this.locationService.CurrentLocation.lat != 28.535517 || this.locationService.CurrentLocation.lng != 77.391029) {
+              this.locationService.updateUserLocation().subscribe((resp) => {
+              }, (err) => { handleError(err) });
+            }
+            else {
+              //get the users last location
+              this.locationService.getUserLocation().subscribe((resp: any) => {
+                if (resp.data.Address && resp.data.lat && resp.data.long) {
+                  let address = JSON.parse(resp.data.Address);
+                  this.locationService.CurrentAddress = address;
+                  this.locationService.CurrentCity = address.city;
+                  this.locationService.CurrentLocation = { lat: Number(resp.data.lat), lng: Number(resp.data.long) };
+                }
+              });
             }
           },
           (error: any) => {

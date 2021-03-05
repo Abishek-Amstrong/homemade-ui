@@ -731,10 +731,11 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
   //assign the user selected location as delivery address
   loadUserSelectedLocation() {
     this.locationService.getUserLocation().subscribe((resp: any) => {
-      if (resp.data.Address) {
+      if (resp.data.Address && resp.data.lat && resp.data.long) {
         let address = JSON.parse(resp.data.Address);
         this.locationService.CurrentAddress = address;
         this.locationService.CurrentCity = address.city;
+        this.locationService.CurrentLocation = { lat: Number(resp.data.lat), lng: Number(resp.data.long) };
         let userVal: any = this.authService.userValue;
         this.deliveryForm.patchValue({
           fullName: userVal?.user.firstname,
@@ -744,9 +745,6 @@ export class CheckoutFoodComponent implements OnInit, AfterViewInit {
           pinCode: this.locationService.CurrentAddress?.zip
         });
         this.retriveState(this.locationService.CurrentAddress?.state);
-      }
-      if (resp.data.lat && resp.data.long) {
-        this.locationService.CurrentLocation = { lat: Number(resp.data.lat), lng: Number(resp.data.long) };
       }
     });
   }
